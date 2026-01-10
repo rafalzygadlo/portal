@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -14,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('words', function (Blueprint $table) 
-        {
+        Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->string('name_pl');
-            $table->string('name_de');
-            $table->string('name_en');
-            $table->text('example');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('title');
+            $table->text('content');
+            $table->string('image_path')->nullable();
             $table->timestamps();
-
         });
     }
 
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employes');
+        Schema::dropIfExists('articles');
     }
 };

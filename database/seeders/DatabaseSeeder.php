@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
 
 
         \App\Models\User::factory()->count(100)->create();
-        \App\Models\Employee::factory()->count(100)->create();
 
-
-
+        \App\Models\Article::factory()->count(100)->create([
+            'user_id' => fn() => \App\Models\User::inRandomOrder()->first()->id
+        ]);
     }
 }

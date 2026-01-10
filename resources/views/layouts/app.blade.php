@@ -11,7 +11,7 @@
 
     <!-- CSS Files -->
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/font/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
     @livewireStyles
@@ -58,12 +58,17 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi bi-person-circle"></i>
-
+                                    <i class="bi bi-person-circle"></i>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <div class="dropdown-divider"></div>
+                                     <a class="dropdown-item" href="{{ route('logout') }}"> {{ __('logout.link') }}</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+
                                 </div>
                             </li>
                         @endif
@@ -72,16 +77,21 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="container-fluid py-4">
         {{$slot}}
         </main>
 
   <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-top  pb-3 mb-3">
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Polityka prywatności</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+      <li class="nav-item">
+        <a href="{{ route('page', ['page' => 'privacy'] ) }}" class="nav-link px-2 text-muted"><small>{{ __('global.privacy') }}</small></a>
+    </li>
+      <li class="nav-item">
+        <a href="{{ route('page', ['page' => 'faq']) }}" class="nav-link px-2 text-muted"><small>{{ __('global.faq') }}</small></a>
+    </li>
+      <li class="nav-item">
+        <a href="{{ route('page', ['page' => 'terms'] ) }}" class="nav-link px-2 text-muted"><small>{{ __('global.terms') }}</small></a>
+    </li>
     </ul>
 
   </footer>
