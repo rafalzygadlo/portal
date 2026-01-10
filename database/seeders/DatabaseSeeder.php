@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(CategorySeeder::class);
+        //$this->call(CategorySeeder::class);
 
          \App\Models\User::create([
             'first_name' => 'demo',
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->count(100)->create();
 
-        \App\Models\Article::factory()->count(100)->create([
+        \App\Models\Article\Article::factory()->count(100)->create([
             'user_id' => fn() => \App\Models\User::inRandomOrder()->first()->id
         ]);
     }

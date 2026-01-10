@@ -14,7 +14,7 @@ class Main extends Component
                 $query->where('slug', 'spam');
             })
             ->latest()
-            ->take(6)
+            ->take(11)
             ->get();
 
         $topArticles = Article::with('user')->withCount('votes')

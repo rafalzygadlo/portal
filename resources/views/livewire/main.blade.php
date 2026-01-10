@@ -31,44 +31,53 @@
         </div>
 
         <div class="row mt-5">
-            <div class="col-lg-9">
+            <div class="col-lg-12">
                 <h2 class="mb-4 pb-2 border-bottom">Najnowsze artykuły</h2>
                 
+                <div class="row">
                 @forelse($latestArticles as $article)
-                    <div class="card mb-4 border-0">
-                        @if($article->image_path)
-                            <a href="{{ route('article.show', $article) }}">
-                                <img src="{{ asset('storage/' . $article->image_path) }}" class="card-img-top" alt="{{ $article->title }}" style="height: 200px; object-fit: cover;">
-                            </a>
-                        @endif
-                        <div class="card-body">
-                            <h3 class="card-title">
-                                <span class="text-muted me-2">#{{ $article->rank }}</span>
-                                <a href="{{ route('article.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
-                            </h3>
-                            <p class="card-text text-muted small">
-                                <i class="bi bi-person"></i> {{ $article->user->first_name ?? 'Anonim' }} | 
-                                <i class="bi bi-calendar"></i> {{ $article->created_at->format('d.m.Y H:i') }}
-                            </p>
-                            <p class="card-text">{{ \Illuminate\Support\Str::limit($article->content, 150) }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <livewire:article.vote :article="$article" :key="'vote-'.$article->id" />
+                    @php
+                        $colClass = 'col-12';
+                        if ($loop->iteration > 1 && $loop->iteration <= 5) {
+                            $colClass = 'col-md-6';
+                        } elseif ($loop->iteration > 5) {
+                            $colClass = 'col-md-4';
+                        }
+                    @endphp
+                    <div class="{{ $colClass }} mb-4">
+                        <div class="card border-0 h-100 shadow-sm">
+                            @if($article->image_path)
+                                <a href="{{ route('article.show', $article) }}">
+                                    <img src="{{ asset('storage/' . $article->image_path) }}" class="card-img-top" alt="{{ $article->title }}" style="height: 200px; object-fit: cover;">
+                                </a>
+                            @endif
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="card-title h5">
+                                    <span class="text-muted me-2">#{{ $article->rank }}</span>
+                                    <a href="{{ route('article.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
+                                </h3>
+                                <p class="card-text text-muted small">
+                                    <i class="bi bi-person"></i> {{ $article->user->first_name ?? 'Anonim' }} | 
+                                    <i class="bi bi-calendar"></i> {{ $article->created_at->format('d.m.Y H:i') }}
+                                </p>
+                                <p class="card-text flex-grow-1">{{ \Illuminate\Support\Str::limit($article->content, $loop->first ? 250 : 100) }}</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <livewire:article.vote :article="$article" :key="'vote-'.$article->id" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <div class="text-center py-5 text-muted bg-light rounded-3">
+                    <div class="col-12 text-center py-5 text-muted bg-light rounded-3">
                         <i class="bi bi-journal-text display-4"></i>
                         <p class="mt-3 fs-5">Bądź pierwszy! Dodaj artykuł o Bolesławcu.</p>
                     </div>
                 @endforelse
+                </div>
             </div>
 
-            <div class="col-lg-3">
-                <div class="card border-0">
-                    <div class="card-header">
-                        <h4 class="mb-0 fs-5"><i class="bi bi-trophy"></i> Top 10</h4>
-                    </div>
+            <div class="col-lg-12">
+                <h2 class="mb-0 pb-4 border-bottom">Top 10</h2>
                     <ul class="list-group list-group-flush">
                         @forelse($topArticles as $index => $article)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
