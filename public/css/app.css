@@ -1,0 +1,75 @@
+.footer
+{
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    font-size: 10px;
+    background-color: #65f5f5;
+    min-height: 30px;
+    line-height: 30px;
+}
+
+.nounderline {
+    text-decoration: none !important
+  }
+
+  /* public/css/custom-styles.css */
+
+  /* --- Reset zaokrągleń dla kanciastych elementów --- */
+  .btn,
+  .form-control,
+  .form-select,
+  .card,
+  .modal-content,
+  .alert,
+  .list-group-item {
+      border-radius: 0 !important;
+  }
+
+  /* --- Zmiana kolorystyki przycisków na czarno-białą --- */
+
+  /* Przycisk podstawowy (primary) - czarne tło, biały tekst */
+  .btn-primary {
+      background-color: #000000 !important;
+      border-color: #000000 !important;
+      color: #ffffff !important;
+  }
+
+  .btn-primary:hover,
+  .btn-primary:focus,
+  .btn-primary:active {
+      background-color: #333333 !important; /* Ciemnoszary przy najechaniu */
+      border-color: #333333 !important;
+  }
+
+  /* Przycisk "outline" - czarna ramka i tekst, przezroczyste tło */
+  .btn-outline-primary {
+      color: #000000 !important;
+      border-color: #000000 !important;
+  }
+
+  .btn-outline-primary:hover,
+  .btn-outline-primary:focus,
+  .btn-outline-primary:active {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+  }
+
+  /* --- Dostosowanie kontrolek formularzy --- */
+  .form-control:focus,
+  .form-select:focus {
+      border-color: #555555 !important;
+      box-shadow: 0 0 0 0.25rem rgba(85, 85, 85, 0.25) !important; /* Cień przy zaznaczeniu */
+  }
+
+  /* --- Dostosowanie linków --- */
+  a, .link-primary {
+      color: #000000 !important;
+      text-decoration: none;
+  }
+
+  a:hover, .link-primary:hover {
+      color: #444444 !important;
+      text-decoration: underline;
+  }
+
