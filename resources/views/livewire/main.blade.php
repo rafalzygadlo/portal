@@ -2,14 +2,13 @@
     <div class="container-fluid">
         <div class="mb-4">
             <div class="container-fluid py-3">
-                <h2 class="fw-bold">Bolesławiec - Twórz z nami portal miasta!</h2>
-                <p class="col-md-10 fs-4 mt-3">
+                <h3 class="fw-bold">Bolesławiec - Twórz z nami portal miasta!</h3>
+                <p class="col-md-12 fs-10 mt-1">
                     Masz ciekawe informacje, zdjęcia lub opinię o wydarzeniach w Bolesławcu?
                     Napisz artykuł i podziel się nim z mieszkańcami.
                 </p>
                 
-                <div class="alert alert-success1 d-inline-flex align-items-center mt-3" role="alert">
-                    <i class="bi bi-trophy-fill fs-2 me-3"></i>
+                <p class="col-md-12 fs-10">
                     <div>
                         <h4 class="alert-heading fw-bold mb-1">Wygraj 100 PLN!</h4>
                         <p class="mb-0">Co tydzień autor najlepszego artykułu otrzymuje nagrodę pieniężną.</p>
@@ -32,7 +31,7 @@
         </div>
 
         <div class="row mt-5">
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <h2 class="mb-4 pb-2 border-bottom">Najnowsze artykuły</h2>
                 
                 @forelse($latestArticles as $article)
@@ -44,6 +43,7 @@
                         @endif
                         <div class="card-body">
                             <h3 class="card-title">
+                                <span class="text-muted me-2">#{{ $article->rank }}</span>
                                 <a href="{{ route('article.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
                             </h3>
                             <p class="card-text text-muted small">
@@ -64,10 +64,10 @@
                 @endforelse
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="card border-0">
-                    <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0 fs-5"><i class="bi bi-trophy"></i> Top 10 Tygodnia</h4>
+                    <div class="card-header">
+                        <h4 class="mb-0 fs-5"><i class="bi bi-trophy"></i> Top 10</h4>
                     </div>
                     <ul class="list-group list-group-flush">
                         @forelse($topArticles as $index => $article)

@@ -17,7 +17,7 @@
 
                         <form wire:submit.prevent="login">
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" wire:model="email" placeholder="name@example.com">
+                                <input type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" id="email" wire:model="email" placeholder="name@example.com">
                                 <label for="email">Adres e-mail</label>
                                 @error('email') <div class="invalid-feedback text-start">{{ $message }}</div> @enderror
                             </div>

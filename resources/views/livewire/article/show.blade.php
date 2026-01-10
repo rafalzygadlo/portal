@@ -21,6 +21,9 @@
                             <i class="bi bi-person-circle me-1"></i> {{ $article->user->first_name ?? 'Autor nieznany' }}
                             <span class="mx-2">&bull;</span>
                             <i class="bi bi-calendar3 me-1"></i> {{ $article->created_at->format('d.m.Y H:i') }}
+                            @if($article->category)
+                                <span class="badge bg-secondary ms-2">{{ $article->category->name }}</span>
+                            @endif
                         </div>
                         <div>
                             <livewire:article.vote :article="$article" :key="'vote-single-'.$article->id" />
@@ -29,6 +32,10 @@
 
                     <div class="article-content fs-5 lh-lg">
                         {!! nl2br(e($article->content)) !!}
+                    </div>
+
+                    <div class="mt-5 pt-3 border-top">
+                        <livewire:article.report :article="$article" />
                     </div>
                 </div>
                 <div class="card-footer bg-white p-4 border-top-0">

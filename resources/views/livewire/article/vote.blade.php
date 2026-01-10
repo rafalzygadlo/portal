@@ -1,5 +1,5 @@
 <div class="d-inline-block">
-    <button wire:click="vote" class="btn {{ $hasVoted ? 'btn-primary' : 'btn-outline-primary' }}">
+    <button wire:click="vote" class="btn {{ $hasVoted ? 'btn-primary' : 'btn-outline-primary' }}" {{ $isAuthor ? 'disabled' : '' }}>
         <i class="bi bi-hand-thumbs-up{{ $hasVoted ? '-fill' : '' }}"></i> 
         Głosuj
         <span class="badge bg-white text-dark ms-2">{{ $votesCount }}</span>

@@ -53,4 +53,5 @@ Route::get('/login/verify/{email}', function (Request $request, $email) {
 
 Route::middleware('auth')->group(function () {
     Route::get('/articles/create', \App\Livewire\Article\Form::class)->name('article.create');
+    //Route::get('/admin/reports', \App\Livewire\Admin\ReportedArticles::class)->name('admin.reports');
 });

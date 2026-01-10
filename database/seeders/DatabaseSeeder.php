@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(CategorySeeder::class);
+
          \App\Models\User::create([
             'first_name' => 'demo',
             'last_name' => 'demo',

@@ -18,7 +18,8 @@ class Vote extends Component
         $this->articleId = $article->id;
         $this->votesCount = $article->votes()->count();
         
-        if (Auth::check()) {
+        if (Auth::check()) 
+        {
             $this->hasVoted = $article->votes()->where('user_id', Auth::id())->exists();
             $this->isAuthor = Auth::id() === $article->user_id;
         }
@@ -26,17 +27,20 @@ class Vote extends Component
 
     public function vote()
     {
-        if (!Auth::check()) {
+        if (!Auth::check()) 
+        {
             return redirect()->route('login');
         }
 
         $article = Article::findOrFail($this->articleId);
 
-        if ($article->user_id === Auth::id()) {
+        if ($article->user_id === Auth::id()) 
+        {
             return;
         }
 
-        if ($this->hasVoted) {
+        if ($this->hasVoted) 
+        {
             $article->votes()->where('user_id', Auth::id())->delete();
             $this->hasVoted = false;
             $this->votesCount--;
