@@ -11,29 +11,25 @@
                     <p class="col-md-12">
                         Masz ciekawe informacje, zdjęcia lub opinię o wydarzeniach w Bolesławcu?
                         Napisz artykuł i podziel się nim z mieszkańcami.
+                        Wygraj <b>100 PLN</b>
+                        Co miesiac autor najlepszego artykułu otrzymuje nagrodę pieniężną.
                     </p>
+                </div>
                     
-                    <div class="col-md-12">
-                        <div>
-                            <h5 class="fw-bold">Wygraj 100 PLN!</h5>
-                            <p class="mb-0">Co tydzień autor najlepszego artykułu otrzymuje nagrodę pieniężną.</p>
-                        </div>
-                    </div>
-
-                    <div class="mt-4">
+                <div class="mt-0">
                         @auth
                             <a href="{{ route('article.create') }}">
                                 <i class="bi bi-pencil-square"></i> Dodaj artykuł
                             </a>
                         @else
-                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg px-4 me-md-2">Zaloguj się, aby pisać</a>
+                            <a href="{{ route('login') }}">Zaloguj się, aby pisać</a>
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="btn btn-outline-primary btn-lg px-4">Zarejestruj się</a>
+                                <a href="{{ route('register') }}">Zarejestruj się</a>
                             @endif
                         @endauth
                     </div>
                 </div>
-            </div>
+            
         
 
         <div class="row mt-5">
