@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('article_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->enum('type', ['up', 'down'])->default('up');
             $table->timestamps();
             
             $table->unique(['article_id', 'user_id']);
+            $table->index(['article_id', 'type']);
         });
     }
 

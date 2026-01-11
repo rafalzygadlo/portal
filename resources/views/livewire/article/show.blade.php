@@ -18,7 +18,12 @@
                     
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
                         <div class="text-muted">
-                            <i class="bi bi-person-circle me-1"></i> {{ $article->user->first_name ?? 'Autor nieznany' }}
+                            <i class="bi bi-person-circle me-1"></i> 
+                            @if($article->user)
+                                <a href="{{ route('user.profile', $article->user) }}" class="text-decoration-none text-muted">{{ $article->user->first_name }}</a>
+                            @else
+                                Autor nieznany
+                            @endif
                             <span class="mx-2">&bull;</span>
                             <i class="bi bi-calendar3 me-1"></i> {{ $article->created_at->format('d.m.Y H:i') }}
                             @if($article->category)

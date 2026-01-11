@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -49,23 +50,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
-    /**
-     * Relacja określająca, że użytkownik należy do firmy.
-     */
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
 
     /**
-     * Scope filtrujący zapytanie tylko do użytkowników
-     * z firmy aktualnie zalogowanego użytkownika.
+     * Głosy oddane przez użytkownika na artykuły.
      */
-    public function scopeForCurrentCompany(Builder $query): void
+    public function articleVotes(): HasMany
     {
-        if (Auth::check() && Auth::user()->company_id)
-        {
-            $query->where('company_id', Auth::user()->company_id);
-        }
+        return $this->hasMany(Vote::class);
     }
 }

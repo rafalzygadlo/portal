@@ -40,6 +40,21 @@ class Article extends Model
         return $this->hasMany(Vote::class);
     }
 
+    public function upvotes()
+    {
+        return $this->hasMany(Vote::class)->where('type', 'up');
+    }
+
+    public function downvotes()
+    {
+        return $this->hasMany(Vote::class)->where('type', 'down');
+    }
+
+    public function getScoreAttribute()
+    {
+        return $this->upvotes()->count() - $this->downvotes()->count();
+    }
+
     public function getRankAttribute()
     {
         $voteCount = $this->votes()->count();

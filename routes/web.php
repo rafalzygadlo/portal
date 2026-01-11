@@ -25,6 +25,9 @@ Route::get('/article/{article}', \App\Livewire\Article\Show::class)->name('artic
 Route::get('/page/{page}', \App\Livewire\Page::class)
     ->where('page', 'privacy|terms|faq')->name('page');
 
+Route::get('/profile/{user}', App\Livewire\Profile::class)->name('user.profile');
+
+
 Route::get('/login',App\Livewire\Login::class)->name('login')->middleware('guest');
 Route::post('/login',[App\Livewire\Login::class,'login']);
 Route::get('/logout',[App\Livewire\Login::class,'logout'])->name('logout');

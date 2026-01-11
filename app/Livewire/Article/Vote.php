@@ -10,22 +10,23 @@ class Vote extends Component
 {
     public $articleId;
     public $votesCount;
-    public $hasVoted = false;
+    public $userVote = null; // 'up', 'down', or null
     public $isAuthor = false;
 
     public function mount($article)
     {
         $this->articleId = $article->id;
-        $this->votesCount = $article->votes()->count();
+        $this->votesCount = $article->score;
         
         if (Auth::check()) 
         {
-            $this->hasVoted = $article->votes()->where('user_id', Auth::id())->exists();
+            $vote = $article->votes()->where('user_id', Auth::id())->first();
+            $this->userVote = $vote ? $vote->type : null;
             $this->isAuthor = Auth::id() === $article->user_id;
         }
     }
 
-    public function vote()
+    public function vote($type)
     {
         if (!Auth::check()) 
         {
@@ -39,16 +40,25 @@ class Vote extends Component
             return;
         }
 
-        if ($this->hasVoted) 
+        $existingVote = $article->votes()->where('user_id', Auth::id())->first();
+
+        if ($existingVote) 
         {
-            $article->votes()->where('user_id', Auth::id())->delete();
-            $this->hasVoted = false;
-            $this->votesCount--;
+            if ($existingVote->type === $type) {
+                // Toggle off if clicking the same vote
+                $existingVote->delete();
+                $this->userVote = null;
+            } else {
+                // Change vote type
+                $existingVote->update(['type' => $type]);
+                $this->userVote = $type;
+            }
         } else {
-            $article->votes()->create(['user_id' => Auth::id()]);
-            $this->hasVoted = true;
-            $this->votesCount++;
+            $article->votes()->create(['user_id' => Auth::id(), 'type' => $type]);
+            $this->userVote = $type;
         }
+        
+        $this->votesCount = $article->score;
     }
 
     public function render()
