@@ -41,6 +41,7 @@
       background-color: #333333 !important; /* Ciemnoszary przy najechaniu */
       border-color: #333333 !important;
   }
+  
 
   /* Przycisk "outline" - czarna ramka i tekst, przezroczyste tło */
   .btn-outline-primary {

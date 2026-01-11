@@ -24,25 +24,62 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        // Tworzymy więcej użytkowników, aby mieć unikalne głosy dla jednego artykułu
-        $users = \App\Models\User::factory()->count(200)->create();
+        // Create more users to have unique votes for a single article
+        $this->command->info('Creating users...');
+        $this->command->getOutput()->progressStart(1200);
 
-        $articles = \App\Models\Article\Article::factory()->count(20)->create([
+        $usersData = [];
+        $password = bcrypt('password'); // Calculate hash once to speed up
+        $now = now();
+
+        for ($i = 0; $i < 1200; $i++) {
+            $usersData[] = \App\Models\User::factory()->raw([
+                'password' => $password,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+            $this->command->getOutput()->progressAdvance();
+        }
+
+        foreach (array_chunk($usersData, 1000) as $chunk) {
+            \App\Models\User::insert($chunk);
+        }
+        $this->command->getOutput()->progressFinish();
+        $users = \App\Models\User::all();
+
+        $articles = \App\Models\Article\Article::factory()->count(220)->create([
             'user_id' => fn() => $users->random()->id
         ]);
 
-        // Dodajemy losowe głosy (kciuki w górę i w dół) do wszystkich artykułów
-        foreach ($articles as $article) {
-            // Losujemy liczbę głosów dla danego artykułu (np. od 5 do 50)
-            $voters = $users->random(rand(5, 50));
+        $this->command->info('Generating votes...');
+        $this->command->getOutput()->progressStart($articles->count());
 
-            foreach ($voters as $voter) {
-                \App\Models\Article\Vote::factory()->create([
+        $votes = [];
+        $now = now();
+
+        // Add random votes (thumbs up and down) to all articles
+        foreach ($articles as $article) 
+        {
+            // Randomize the number of votes for a given article (e.g. from 5 to 50)
+            $voters = $users->random(rand(5, 250));
+
+            foreach ($voters as $voter) 
+            {
+                $votes[] = [
                     'article_id' => $article->id,
                     'user_id' => $voter->id,
-                    // Nie wymuszamy 'value', więc fabryka wylosuje 1 lub -1
-                ]);
+                    'value' => rand(0, 1) ? 1 : -1,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
             }
+            $this->command->getOutput()->progressAdvance();
         }
+
+        foreach (array_chunk($votes, 10000) as $chunk) {
+            \App\Models\Article\Vote::insert($chunk);
+        }
+
+        $this->command->getOutput()->progressFinish();
     }
 }

@@ -56,8 +56,8 @@ class Article extends Model
             return 0;
         }
 
-        // (Łapki w górę - Łapki w dół) / Ilość głosów
-        return round($this->votes()->sum('value') / $totalVotes, 2);
+        // (Upvotes - Downvotes) / Total votes
+        return $this->votes()->sum('value');
     }
 
     public function getRankAttribute()

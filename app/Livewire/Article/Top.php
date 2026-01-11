@@ -9,12 +9,13 @@ class Top extends Component
 {
     public function render()
     {
-        $topArticles = Article::with('user')->withCount('votes')
+        $topArticles = Article::with('user')->withSum('votes', 'value')
             ->whereDoesntHave('category', function ($query) {
                 $query->where('slug', 'spam');
             })
             ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->orderByDesc('votes_count')
+            ->having('votes_sum_value', '>', 100)
+            ->orderByDesc('votes_sum_value')
             ->take(10)
             ->get();
 
