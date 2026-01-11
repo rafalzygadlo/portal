@@ -19,9 +19,9 @@ class Profile extends Component
     {
         $articles = Article::where('user_id', $this->user->id)
             ->withCount(['votes as upvotes_count' => function ($query) {
-                $query->where('type', 'up');
+                $query->where('value', 1);
             }, 'votes as downvotes_count' => function ($query) {
-                $query->where('type', 'down');
+                $query->where('value', -1);
             }])
             ->latest()
             ->get();

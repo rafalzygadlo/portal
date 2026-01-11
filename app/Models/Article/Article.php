@@ -34,25 +34,30 @@ class Article extends Model
     {
         return $this->hasMany(Report::class);
     }
-
     public function votes()
     {
         return $this->hasMany(Vote::class);
-    }
-
+    }   
     public function upvotes()
     {
-        return $this->hasMany(Vote::class)->where('type', 'up');
+        return $this->hasMany(Vote::class)->where('value', 1);
     }
 
     public function downvotes()
     {
-        return $this->hasMany(Vote::class)->where('type', 'down');
+        return $this->hasMany(Vote::class)->where('value', -1);
     }
 
-    public function getScoreAttribute()
+    public function getScore()
     {
-        return $this->upvotes()->count() - $this->downvotes()->count();
+        $totalVotes = $this->votes()->count();
+
+        if ($totalVotes === 0) {
+            return 0;
+        }
+
+        // (Łapki w górę - Łapki w dół) / Ilość głosów
+        return round($this->votes()->sum('value') / $totalVotes, 2);
     }
 
     public function getRankAttribute()

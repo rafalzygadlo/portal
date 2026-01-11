@@ -24,10 +24,25 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        \App\Models\User::factory()->count(10)->create();
+        // Tworzymy więcej użytkowników, aby mieć unikalne głosy dla jednego artykułu
+        $users = \App\Models\User::factory()->count(200)->create();
 
-        \App\Models\Article\Article::factory()->count(20)->create([
-            'user_id' => fn() => \App\Models\User::inRandomOrder()->first()->id
+        $articles = \App\Models\Article\Article::factory()->count(20)->create([
+            'user_id' => fn() => $users->random()->id
         ]);
+
+        // Dodajemy losowe głosy (kciuki w górę i w dół) do wszystkich artykułów
+        foreach ($articles as $article) {
+            // Losujemy liczbę głosów dla danego artykułu (np. od 5 do 50)
+            $voters = $users->random(rand(5, 50));
+
+            foreach ($voters as $voter) {
+                \App\Models\Article\Vote::factory()->create([
+                    'article_id' => $article->id,
+                    'user_id' => $voter->id,
+                    // Nie wymuszamy 'value', więc fabryka wylosuje 1 lub -1
+                ]);
+            }
+        }
     }
 }

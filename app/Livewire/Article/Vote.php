@@ -18,13 +18,12 @@ class Vote extends Component
     {
         $this->article = $article;
         $this->articleId = $article->id;
-        $this->votesCount = $article->score;
+        $this->votesCount = $article->getScore();
         
         if (Auth::check()) 
         {
             $vote = $article->votes()->where('user_id', Auth::id())->first();
-            dd($vote);
-            $this->userVote = $vote ? $vote->type : null;
+            $this->userVote = $vote ? ($vote->value === 1 ? 'up' : 'down') : null;
             $this->isAuthor = Auth::id() === $article->user_id;
         }
     }
@@ -44,30 +43,30 @@ class Vote extends Component
             return;
         }
 
+        $value = $type === 'up' ? 1 : -1;
         $existingVote = $article->votes()->where('user_id', Auth::id())->first();
 
         if ($existingVote) 
         {
-            if ($existingVote->type === $type) 
+            if ($existingVote->value === $value) 
             {
                 // Toggle off if clicking the same vote
                 $existingVote->delete();
                 $this->userVote = null;
             } else {
                 // Change vote type
-                $existingVote->update(['type' => $type]);
+                $existingVote->update(['value' => $value]);
                 $this->userVote = $type;
             }
         } 
         else 
         {
-             //       dd ($type);
-            $article->votes()->create(['user_id' => Auth::id(), 'type' => $type]);
+             
+            $article->votes()->create(['user_id' => Auth::id(), 'value' => $value]);
             $this->userVote = $type;
         }
         
-        $this->article->refresh();
-        $this->votesCount = $this->article->score;
+        $this->votesCount = $article->getScore();
     }
 
     public function render()

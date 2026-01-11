@@ -10,5 +10,9 @@ class Vote extends Model
     use HasFactory;
 
     protected $table = 'article_votes';
-    protected $fillable = ['user_id', 'article_id'];
+    protected $fillable = [
+        'user_id', 
+        'article_id',
+        'value'
+        ];
 }

@@ -27,7 +27,7 @@
                         <a href="{{ route('article.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
                     </h3>
                     <p class="card-text text-muted small">
-                            @if($article->user)
+                    @if($article->user)
                         <i class="bi bi-person"></i><a href="{{ route('user.profile', $article->user) }}" class="text-decoration-none text-muted">{{ $article->user->first_name }}</a>
                     @else
                         Autor nieznany
@@ -38,11 +38,9 @@
                     
 
                     <div class="d-flex  align-items-right mt-auto">
-                        <i class="bi bi-hand-thumbs-up"> </i>{{ $article->upvotes->count() }}
-                        <i class="bi bi-hand-thumbs-down"> </i>{{ $article->downvotes->count() }}
-                        <button class="btn btn-sm btn-outline-secondary border-0 ms-2" onclick="if (navigator.share) { navigator.share({ title: {!! json_encode($article->title) !!}, url: '{{ route('article.show', $article) }}' }); } else { navigator.clipboard.writeText('{{ route('article.show', $article) }}'); alert('Link skopiowany do schowka!'); }">
-                            <i class="bi bi-share"></i> Udostępnij
-                        </button>
+                       <div>
+                            <livewire:article.vote :article="$article" :key="'vote-single-'.$article->id" />
+                        </div>
                     </div>
                 </div>
             </div>

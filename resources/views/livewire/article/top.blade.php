@@ -9,7 +9,7 @@
                         {{ $article->title }}
                     </a>
                 </div>
-                <span class="badge bg-primary rounded-pill">{{ $article->votes_count }}</span>
+                <span class="badge bg-primary rounded-pill">{{ $article->getScore() }}</span>
             </li>
         @empty
             <li class="list-group-item text-muted text-center py-3">Brak artykułów w tym tygodniu.</li>
