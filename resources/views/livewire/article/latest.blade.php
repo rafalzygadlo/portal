@@ -47,7 +47,7 @@
 
                             <div class="mt-auto">
                                 <div>
-                                    <livewire:article.vote :model="$article" /> 
+                                    <livewire:article.vote :model="$article" :key="'vote-single-'.$article->id" />
                                  </div> 
                             </div>
 

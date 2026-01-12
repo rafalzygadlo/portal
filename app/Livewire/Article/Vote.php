@@ -73,7 +73,7 @@ class Vote extends Component
             session()->flash('message', 'Gratulacje! Ten pomysł zdobył wystarczające poparcie i przeszedł do planowanych!');
         }
 
-        //$this->dispatch('article-voted');
+        $this->dispatch('article-voted');
     }
 
     public function render()
