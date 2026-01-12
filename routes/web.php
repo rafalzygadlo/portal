@@ -19,19 +19,30 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::get('/',App\Livewire\Main::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/articles/create', \App\Livewire\Article\Form::class)->name('article.create');
+    Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create');
+    //Route::get('/admin/reports', \App\Livewire\Admin\ReportedArticles::class)->name('admin.reports');
+});
+
+
+Route::get('/',App\Livewire\Main::class)->name('main.index');
 Route::get('/article/{article}', \App\Livewire\Article\Show::class)->name('article.show');
+
+// Business routes
+Route::get('/business', \App\Livewire\Business\Index::class)->name('business.index');
+Route::get('/business/{business:slug}', \App\Livewire\Business\Show::class)->name('business.show');
 
 Route::get('/page/{page}', \App\Livewire\Page::class)
     ->where('page', 'privacy|terms|faq')->name('page');
 
 Route::get('/profile/{user}', App\Livewire\Profile::class)->name('user.profile');
+Route::get('/todo', App\Livewire\Todo::class)->name('todo.index');
 
 
 Route::get('/login',App\Livewire\Login::class)->name('login')->middleware('guest');
 Route::post('/login',[App\Livewire\Login::class,'login']);
 Route::get('/logout',[App\Livewire\Login::class,'logout'])->name('logout');
-Route::get('/todo', App\Livewire\Board::class)->name('todo.index');
 
 
 Route::get('/login/verify/{email}', function (Request $request, $email) {
@@ -56,7 +67,3 @@ Route::get('/login/verify/{email}', function (Request $request, $email) {
 
 // 
 
-Route::middleware('auth')->group(function () {
-    Route::get('/articles/create', \App\Livewire\Article\Form::class)->name('article.create');
-    //Route::get('/admin/reports', \App\Livewire\Admin\ReportedArticles::class)->name('admin.reports');
-});

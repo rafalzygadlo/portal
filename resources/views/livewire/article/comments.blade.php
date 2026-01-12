@@ -5,6 +5,10 @@
         <div class="card mb-4 shadow-sm border-0">
             <div class="card-body">
                 <form wire:submit.prevent="postComment">
+                    <div style="display: none;">
+                        <label for="honey_pot">Don't fill this out if you're human:</label>
+                        <input type="text" id="honey_pot" name="honey_pot" wire:model="honey_pot" autocomplete="off">
+                    </div>
                     @if($replyToId && isset($replyingTo))
                         <div class="alert alert-info py-2 px-3 mb-3 d-flex justify-content-between align-items-center">
                             <small class="mb-0">Odpowiadasz: <span class="fst-italic">"{{ \Illuminate\Support\Str::limit($replyingTo->content, 40) }}"</span></small>

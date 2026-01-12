@@ -7,6 +7,7 @@ use App\Models\Article\Article;
 use App\Models\Article\Category;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use Illuminate\Validation\ValidationException;
 
 class Form extends Component
 {
@@ -17,6 +18,7 @@ class Form extends Component
     public $photo;
     public $category_id;
     public $mode = 'edit';
+    public $honey_pot;
 
     protected $rules = [
         'title' => 'required|min:5|max:255',
@@ -24,6 +26,16 @@ class Form extends Component
         'photo' => 'nullable|image|max:2048', // Maksymalnie 2MB
         //'category_id' => 'exists:article_categories,id',
     ];
+
+    private function containsForbiddenWords($text) {
+        $forbiddenWords = ['kurwa', 'cholera', 'chuj', 'pierdol'];
+        foreach ($forbiddenWords as $word) {
+            if (stripos($text, $word) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     
     public function preview()
@@ -46,7 +58,16 @@ class Form extends Component
 
     public function save()
     {
+        if(!empty($this->honey_pot)) {
+            return null;
+        }
         $this->validate();
+
+        if ($this->containsForbiddenWords($this->title) || $this->containsForbiddenWords($this->content)) {
+            throw ValidationException::withMessages([
+                'content' => 'Treść zawiera niedozwolone słowa.',
+            ]);
+        }
 
         $imagePath = null;
         if ($this->photo) {

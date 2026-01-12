@@ -3,10 +3,10 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Todo;
+use App\Models\Todo as TodoModel;
 use Illuminate\Support\Facades\Auth;
 
-class Board extends Component
+class Todo extends Component
 {
     public $title;
     public $description;
@@ -24,7 +24,7 @@ class Board extends Component
             return redirect()->route('login');
         }
 
-        Todo::create([
+        TodoModel::create([
             'user_id' => Auth::id(),
             'title' => $this->title,
             'description' => $this->description,
@@ -37,8 +37,8 @@ class Board extends Component
 
     public function render()
     {
-        return view('livewire.board', [
-            'todos' => Todo::with('user')->withCount('comments')->latest()->get()
+        return view('livewire.todo', [
+            'todos' => TodoModel::with('user')->withCount('comments')->latest()->get()
         ]);
     }
 }

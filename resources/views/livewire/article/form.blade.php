@@ -1,10 +1,10 @@
-<div class="container py-5">
+<div>
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div class="card border-1 shadow">
                 <div class="card-header bg-white">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="mb-0">Napisz nowy artykuł</h2>
+                       Napisz nowy artykuł
                         <ul class="nav nav-pills card-header-pills">
                             <li class="nav-item">
                                 <a class="nav-link {{ $mode === 'edit' ? 'active' : 'text-dark' }}" href="#" wire:click.prevent="edit"><i class="bi bi-pencil"></i> Edycja</a>
@@ -17,6 +17,10 @@
                 </div>
                 <div class="card-body p-4">
                     <form wire:submit.prevent="save">
+                        <div style="display: none;">
+                            <label for="honey_pot">Don't fill this out if you're human:</label>
+                            <input type="text" id="honey_pot" name="honey_pot" wire:model="honey_pot" autocomplete="off">
+                        </div>
                         @if ($mode === 'edit')
                         <div>
                         <div class="mb-3">

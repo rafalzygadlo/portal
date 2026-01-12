@@ -30,6 +30,15 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('main.index') }}">{{ __('main.index') }}</a>
+                        </li>     
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('todo.index') }}">{{ __('todo.index') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('business.index') }}">{{ __('business.index') }}</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -61,6 +70,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('user.profile', Auth::user()) }}"> {{ __('profile.link') }}</a>
                                 <div class="dropdown-divider"></div>
                                      <a class="dropdown-item" href="{{ route('logout') }}"> {{ __('logout.link') }}</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

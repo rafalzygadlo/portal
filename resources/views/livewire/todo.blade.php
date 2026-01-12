@@ -1,10 +1,10 @@
-<div class="container py-5">
-    <h2 class="mb-4 border-bottom pb-2">Lista życzeń / Pomysły</h2>
+<div>
+    <h1 class="mb-4 border-bottom pb-2">Lista życzeń / Pomysły</h1>
     
     <div class="row">
         <!-- Formularz dodawania -->
         <div class="col-md-4 mb-4">
-            <div class="card shadow-sm border-0 sticky-top" style="top: 20px; z-index: 1;">
+            <div class="card shadow-sm border-0 sticky-top">
                 <div class="card-body">
                     <h5 class="card-title mb-3 fw-bold"><i class="bi bi-lightbulb"></i> Zgłoś pomysł</h5>
                     @auth
