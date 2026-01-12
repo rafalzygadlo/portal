@@ -66,7 +66,8 @@ class DatabaseSeeder extends Seeder
             foreach ($voters as $voter) 
             {
                 $votes[] = [
-                    'article_id' => $article->id,
+                    'votable_type' => 'article',
+                    'votable_id' => $article->id,
                     'user_id' => $voter->id,
                     'value' => rand(0, 1) ? 1 : -1,
                     'created_at' => $now,

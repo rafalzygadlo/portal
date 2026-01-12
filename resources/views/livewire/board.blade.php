@@ -50,7 +50,9 @@
                             <i class="bi bi-person"></i> {{ $todo->user->first_name }} &bull; {{ $todo->created_at->format('d.m.Y') }}
                         </p>
                         <p class="card-text">{{ $todo->description }}</p>
-                        
+                         <div class="mb-2">
+                            <livewire:article.vote :model="$todo" :key="'vote-todo-'.$todo->id" />
+                        </div>
                         <div class="border-top pt-2 mt-3">
                             <button class="btn btn-sm btn-link text-decoration-none ps-0" @click="showComments = !showComments">
                                 <i class="bi bi-chat-left-text"></i> Komentarze ({{ $todo->comments_count }}) <i class="bi" :class="showComments ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
@@ -66,13 +68,4 @@
         </div>
     </div>
 </div>
-                        </p>
-                        <p class="card-text">{{ $todo->description }}</p>
-                        
-                        <div class="mb-2">
-                            <livewire:article.vote :model="$todo" :key="'vote-todo-'.$todo->id" />
-                        </div>
-
-                        <div class="border-top pt-2 mt-3">
-                            <button class="btn btn-sm btn-link text-decoration-none ps-0" @click="showComments = !showComments">
-                                <i class="bi bi-chat-left-text"></i> Komentarze ({{ $todo->comments_count }}) <i class="bi" :class="showComments ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+                      

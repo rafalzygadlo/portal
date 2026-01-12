@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('article_votes', function (Blueprint $table) {
+        Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('article_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->morphs('voteable');
             $table->tinyInteger('value');
             $table->timestamps();
             
-            $table->unique(['article_id', 'user_id']);
-            $table->index(['article_id', 'value']);
+            $table->unique(['voteable_id', 'voteable_type', 'user_id']);
+            $table->index(['voteable_id', 'voteable_type', 'value']);
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article_votes');
+        Schema::dropIfExists('votes');
     }
 };

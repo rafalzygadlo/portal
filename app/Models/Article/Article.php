@@ -8,7 +8,7 @@ use App\Models\Article\Report;
 use App\Models\Article\Category;
 use App\Models\User;
 use App\Models\Comment;
-
+use App\Models\Vote;
 
 class Article extends Model
 {
@@ -38,7 +38,8 @@ class Article extends Model
     }
     public function votes()
     {
-        return $this->hasMany(Vote::class);
+        //return $this->hasMany(Vote::class);
+        return $this->morphMany(Vote::class, 'voteable');
     }   
     public function comments()
     {
@@ -46,13 +47,15 @@ class Article extends Model
     }   
     public function upvotes()
     {
-        return $this->hasMany(Vote::class)->where('value', 1);
+        return $this->morphMany(Vote::class, 'voteable')->where('value', 1);
     }
 
     public function downvotes()
     {
-        return $this->hasMany(Vote::class)->where('value', -1);
+        return $this->morphMany(Vote::class, 'voteable')->where('value', -1);
     }
+
+     
 
     public function getScore()
     {

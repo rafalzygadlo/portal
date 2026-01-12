@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Article;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,10 +9,15 @@ class Vote extends Model
 {
     use HasFactory;
 
-    protected $table = 'article_votes';
     protected $fillable = [
         'user_id', 
-        'article_id',
-        'value'
+        'voteable_id',
+        'voteable_type',
+        'value',
         ];
+
+    public function voteable()
+    {
+        return $this->morphTo();
+    }
 }

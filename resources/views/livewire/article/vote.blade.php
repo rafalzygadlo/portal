@@ -12,7 +12,7 @@
         </button>
     </div>
     @if($isAuthor)  
-        <span class="badge rounded-pill bg-primary">Twój artykuł</span>
+        <span class="badge rounded-pill bg-primary">Autor nie ocenia</span>
     @endif 
 
 </div>
