@@ -1,5 +1,5 @@
 <div class="col-lg-12">
-    <h2 class="mb-0 pb-4 border-bottom">Top 10</h2>
+    <h2 class="mt-2 border-bottom">Top 10</h2>
     <ul class="list-group list-group-flush">
         @forelse($topArticles as $index => $article)
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -12,7 +12,7 @@
                 <span class="badge bg-primary rounded-pill">{{ $article->getScore() }}</span>
             </li>
         @empty
-            <li class="list-group-item text-muted text-center py-3">Brak artykułów w tym tygodniu.</li>
+            <li class="list-group-item text-muted text-center py-3">Brak artykułów w tym miesiącu.</li>
         @endforelse
     </ul>
 </div>

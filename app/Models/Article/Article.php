@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Article\Report;
 use App\Models\Article\Category;
 use App\Models\User;
+use App\Models\Comment;
+
 
 class Article extends Model
 {
@@ -38,6 +40,10 @@ class Article extends Model
     {
         return $this->hasMany(Vote::class);
     }   
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }   
     public function upvotes()
     {
         return $this->hasMany(Vote::class)->where('value', 1);
@@ -60,11 +66,5 @@ class Article extends Model
         return $this->votes()->sum('value');
     }
 
-    public function getRankAttribute()
-    {
-        $voteCount = $this->votes()->count();
-        return self::withCount('votes')->pluck('votes_count')->filter(function ($count) use ($voteCount) {
-            return $count > $voteCount;
-        })->count() + 1;
-    }
+   
 }

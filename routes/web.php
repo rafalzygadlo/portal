@@ -31,6 +31,8 @@ Route::get('/profile/{user}', App\Livewire\Profile::class)->name('user.profile')
 Route::get('/login',App\Livewire\Login::class)->name('login')->middleware('guest');
 Route::post('/login',[App\Livewire\Login::class,'login']);
 Route::get('/logout',[App\Livewire\Login::class,'logout'])->name('logout');
+Route::get('/todo', App\Livewire\Board::class)->name('todo.index');
+
 
 Route::get('/login/verify/{email}', function (Request $request, $email) {
     if (! $request->hasValidSignature()) 

@@ -13,8 +13,8 @@ class Top extends Component
             ->whereDoesntHave('category', function ($query) {
                 $query->where('slug', 'spam');
             })
-            ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->having('votes_sum_value', '>', 100)
+            ->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])
+            ->having('votes_sum_value', '>', 10)
             ->orderByDesc('votes_sum_value')
             ->take(10)
             ->get();

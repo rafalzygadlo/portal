@@ -16,6 +16,7 @@ class Form extends Component
     public $content;
     public $photo;
     public $category_id;
+    public $mode = 'edit';
 
     protected $rules = [
         'title' => 'required|min:5|max:255',
@@ -23,6 +24,25 @@ class Form extends Component
         'photo' => 'nullable|image|max:2048', // Maksymalnie 2MB
         //'category_id' => 'exists:article_categories,id',
     ];
+
+    
+    public function preview()
+    {
+        // Opcjonalnie: walidacja przed pokazaniem podglądu
+        $this->validate([
+            'title' => 'required|min:5',
+            'content' => 'required|min:10',
+            
+        ]);
+    
+        $this->mode = 'preview';
+    }
+    
+    public function edit()
+    {
+        $this->mode = 'edit';
+    }
+    
 
     public function save()
     {

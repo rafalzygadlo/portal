@@ -1,3 +1,4 @@
+
 <div class="d-inline-flex align-items-center gap-1">
     <div class="btn-group" role="group">
         <button wire:click="vote('up')" class="btn btn-sm {{ $userVote === 'up' ? 'btn-success' : 'btn-outline-success' }}" {{ $isAuthor ? 'disabled' : '' }} title="Dobre">

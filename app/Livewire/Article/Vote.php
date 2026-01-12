@@ -67,6 +67,7 @@ class Vote extends Component
         }
         
         $this->votesCount = $article->getScore();
+        $this->dispatch('article-voted');
     }
 
     public function render()

@@ -9,7 +9,7 @@
                 </div>
                 <h3 class="fw-bold">{{ $user->first_name }} {{ $user->last_name }}</h3>
                 <p class="text-muted">Dołączył: {{ $user->created_at->format('d.m.Y') }}</p>
-                
+                <p class="text-muted">Email: {{ $user->email }}</p>
                 <div class="d-flex justify-content-center gap-4 mt-3">
                     <div class="text-center">
                         <h4 class="fw-bold mb-0">{{ $articles->count() }}</h4>
