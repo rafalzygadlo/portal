@@ -19,6 +19,19 @@
                         </div>
 
                         <div class="mb-3">
+                            <label class="form-label">Kategorie</label>
+                            <div>
+                                @foreach($allCategories as $category)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="category-{{ $category->id }}" value="{{ $category->id }}" wire:model="categories">
+                                        <label class="form-check-label" for="category-{{ $category->id }}">{{ $category->name }}</label>
+                                    </div>
+                                @endforeach
+                            </div>
+                            @error('categories') <div class="text-danger mt-1">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="mb-3">
                             <label for="description" class="form-label">Opis</label>
                             <textarea class="form-control @error('description') is-invalid @enderror" id="description" rows="5" wire:model.defer="description"></textarea>
                             @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror

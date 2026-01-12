@@ -10,6 +10,19 @@
         </div>
     @endif
 
+    <div class="mb-4">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link {{ is_null($category) ? 'active' : '' }}" href="#" wire:click.prevent="filterByCategory(null)">Wszystkie</a>
+            </li>
+            @foreach($categories as $cat)
+            <li class="nav-item">
+                <a class="nav-link {{ $category === $cat->slug ? 'active' : '' }}" href="#" wire:click.prevent="filterByCategory('{{ $cat->slug }}')">{{ $cat->name }}</a>
+            </li>
+            @endforeach
+        </ul>
+    </div>
+
     <div class="list-group">
         @forelse ($businesses as $business)
             <a href="{{ route('business.show', $business->slug) }}" class="list-group-item list-group-item-action">
@@ -29,7 +42,7 @@
             </a>
         @empty
             <div class="alert alert-secondary">
-                Brak firm w katalogu. Bądź pierwszy i <a href="{{ route('business.create') }}">dodaj swoją</a>!
+                Brak firm w tej kategorii.
             </div>
         @endforelse
     </div>

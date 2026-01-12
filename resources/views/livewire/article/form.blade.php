@@ -28,16 +28,17 @@
                             <input type="text" class="form-control form-control-lg @error('title') is-invalid @enderror" id="title" wire:model="title" placeholder="Np. Wydarzenie na rynku w Bolesławcu">
                             @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
-                        {{--
                         <div class="mb-3">
-                            <label for="category" class="form-label">Kategoria</label>
-                            <select class="form-select form-select-lg @error('category_id') is-invalid @enderror" id="category" wire:model="category_id">
-                                <option value="">Wybierz kategorię</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <label class="form-label">Kategorie</label>
+                            <div>
+                                @foreach($allCategories as $category)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="category-{{ $category->id }}" value="{{ $category->id }}" wire:model="categories">
+                                        <label class="form-check-label" for="category-{{ $category->id }}">{{ $category->name }}</label>
+                                    </div>
                                 @endforeach
-                            </select>
-                            @error('category_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                            @error('categories') <div class="text-danger mt-1">{{ $message }}</div> @enderror
                         </div>
                         
                         <div class="mb-3">
@@ -49,7 +50,6 @@
                                 <img src="{{ $photo->temporaryUrl() }}" class="img-fluid mt-2" style="max-height: 200px;" alt="Podgląd zdjęcia">
                             @endif
                         </div>
-                        --}}
                         <div class="mb-4">
                             <label for="content" class="form-label">Treść</label>
                             <textarea class="form-control form-control-lg @error('content') is-invalid @enderror" id="content" wire:model="content" rows="10" placeholder="Opisz szczegóły..."></textarea>

@@ -3,6 +3,7 @@
 namespace App\Livewire\Business;
 
 use App\Models\Business;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -14,6 +15,7 @@ class Create extends Component
     public string $description = '';
     public string $phone = '';
     public string $website = '';
+    public array $categories = [];
 
     protected array $rules = [
         'name' => 'required|min:3|max:255',
@@ -21,13 +23,14 @@ class Create extends Component
         'description' => 'required|min:10',
         'phone' => 'nullable|max:20',
         'website' => 'nullable|url|max:255',
+        'categories' => 'required|array|min:1',
     ];
 
     public function save()
     {
         $this->validate();
 
-        Business::create([
+        $business = Business::create([
             'user_id' => Auth::id(),
             'name' => $this->name,
             'slug' => Str::slug($this->name),
@@ -37,6 +40,8 @@ class Create extends Component
             'website' => $this->website,
         ]);
 
+        $business->categories()->sync($this->categories);
+
         session()->flash('status', 'Dziękujemy za dodanie firmy. Pojawi się ona w katalogu po zatwierdzeniu przez administratora.');
 
         return $this->redirect('/business');
@@ -44,6 +49,8 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.business.create');
+        return view('livewire.business.create', [
+            'allCategories' => Category::all()
+        ]);
     }
 }

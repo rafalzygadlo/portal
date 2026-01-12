@@ -4,7 +4,7 @@ namespace App\Livewire\Article;
 
 use Livewire\Component;
 use App\Models\Article\Article;
-use App\Models\Article\Category;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\ValidationException;
@@ -16,7 +16,7 @@ class Form extends Component
     public $title;
     public $content;
     public $photo;
-    public $category_id;
+    public $categories = [];
     public $mode = 'edit';
     public $honey_pot;
 
@@ -24,7 +24,7 @@ class Form extends Component
         'title' => 'required|min:5|max:255',
         'content' => 'required|min:10',
         'photo' => 'nullable|image|max:2048', // Maksymalnie 2MB
-        //'category_id' => 'exists:article_categories,id',
+        'categories' => 'required|array|min:1',
     ];
 
     private function containsForbiddenWords($text) {
@@ -74,13 +74,14 @@ class Form extends Component
             $imagePath = $this->photo->store('articles', 'public');
         }
 
-        Article::create([
+        $article = Article::create([
             'user_id' => Auth::id(),
-            'category_id' => $this->category_id,
             'title' => $this->title,
             'content' => $this->content,
             'image_path' => $imagePath,
         ]);
+
+        $article->categories()->sync($this->categories);
 
         return redirect()->to('/')->with('status', 'Artykuł został dodany i czeka na publikację!');
     }
@@ -88,7 +89,7 @@ class Form extends Component
     public function render()
     {
         return view('livewire.article.form', [
-            'categories' => Category::where('slug', '!=', 'spam')->get()
+            'allCategories' => Category::where('slug', '!=', 'spam')->get()
         ]);
     }
 }

@@ -36,4 +36,12 @@ class Business extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * The categories that belong to the business.
+     */
+    public function categories()
+    {
+        return $this->morphToMany(\App\Models\Category::class, 'categorizable');
+    }
 }

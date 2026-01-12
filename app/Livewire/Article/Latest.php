@@ -20,9 +20,9 @@ class Latest extends Component
     public function render()
     {
            $query = Article::with('user')
-            ->whereDoesntHave('category', function ($query) {
-                $query->where('slug', 'spam');
-            })
+            //->whereDoesntHave('category', function ($query) {
+            //    $query->where('slug', 'spam');
+            //})
             ->withSum('votes', 'value');
 
             if ($this->sort === 'popular') {

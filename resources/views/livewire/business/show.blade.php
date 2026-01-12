@@ -6,6 +6,14 @@
         </div>
         <div class="card-body">
             <p><strong>Adres:</strong> {{ $business->address }}</p>
+
+            @if($business->categories->isNotEmpty())
+                <p><strong>Kategorie:</strong>
+                    @foreach($business->categories as $category)
+                        <span class="badge bg-secondary">{{ $category->name }}</span>
+                    @endforeach
+                </p>
+            @endif
             
             @if($business->phone)
                 <p><strong>Telefon:</strong> {{ $business->phone }}</p>
