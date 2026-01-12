@@ -11,7 +11,7 @@ class Vote extends Component
 {
     public $model;
     public $votesCount;
-    public $userVote = null; // 'up', 'down', or null
+    public $userVote = null; 
     public $isAuthor = false;
 
     public function mount(Model $model)

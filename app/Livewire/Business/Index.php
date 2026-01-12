@@ -12,7 +12,7 @@ class Index extends Component
 
     public function render()
     {
-        $businesses = Business::where('is_approved', true)
+        $businesses = Business::where('is_approved', false)
             ->latest()
             ->paginate(10);
 
