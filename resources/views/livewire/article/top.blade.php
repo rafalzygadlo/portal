@@ -1,4 +1,4 @@
-<div class="col-lg-12">
+<div class="col-lg-12 sticky-top">
     <h2 class="mt-2 border-bottom">Top 10</h2>
     <ul class="list-group list-group-flush">
         @forelse($topArticles as $index => $article)
