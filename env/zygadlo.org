@@ -1,0 +1,11 @@
+#!/bin/bash
+cd ..
+
+#ssh srv65954@h29.seohost.pl -p 57185
+rsync -avz \
+  --exclude='.git/' \
+  --exclude='.github' \
+  --exclude='.env/' \
+  --exclude='.env' \
+  ./ lokalny_folder/ \
+  twój_użytkownik@adres_serwera:/ścieżka/do/projektu
