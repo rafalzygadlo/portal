@@ -24,14 +24,21 @@
             $userVote = $userVote ?? null;
 
             $articleDay = $article->created_at->format('Y-m-d');
+            
+            $label = match (true) {
+                $article->created_at->isToday() => 'Dziś',
+                $article->created_at->isYesterday() => 'Wczoraj',
+                default => $article->created_at->translatedFormat('l, d F Y'),
+            };
             @endphp
 
             @if ($articleDay !== $currentDay)
-            <div class="my-4 text-center">
-                <hr>
-                <span class="badge bg-light text-dark px-30 py-2">
-                    {{ $article->created_at->translatedFormat('d F Y') }}
-                </span>
+            <div class="d-flex align-items-center my-4">
+                <div class="flex-grow-1 border-top"></div>
+                    <div class="px-3 text-muted small fw-semibold">
+                        {{ $label }}
+                    </div>
+                <div class="flex-grow-1 border-top"></div>
             </div>
 
             @php
@@ -83,9 +90,8 @@
             @endforelse
 
     </div>
-    <div class="d-flex justify-content-center mt-3">
-        
-            <a class="btn btn-primary" wire:click.prevent="more">Pokaż więcej artykułów</a>
-        
+    
+    <div class="d-flex justify-content-center mt-3">   
+        <a class="btn btn-primary" wire:click.prevent="more">Pokaż więcej artykułów</a>
     </div>
 </div>

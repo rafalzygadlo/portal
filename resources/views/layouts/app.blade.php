@@ -85,8 +85,31 @@
                 </div>
             </div>
         </nav>
+<style>
+.lw-loader {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.85);
+    z-index: 9999;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lw-box {
+    text-align: center;
+    color: #333;
+}
+</style>
         <main class="container-fluid py-4">
+           <div wire:loading class="lw-loader">
+                <div class="lw-box">
+                    <div class="spinner-border" role="status"></div>
+                <div class="mt-2">Ładowanie strony…</div>
+            </div>
+            </div>
+
         {{$slot}}
         </main>
 

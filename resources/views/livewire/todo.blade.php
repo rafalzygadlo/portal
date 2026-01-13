@@ -1,5 +1,5 @@
 <div>
-    <h1 class="mb-4 border-bottom pb-2">Lista życzeń / Pomysły</h1>
+    <h2 class="mb-4 border-bottom pb-2">Lista życzeń / Pomysły</h2>
     
     <div class="row">
         <!-- Formularz dodawania -->

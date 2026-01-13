@@ -1,6 +1,6 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Katalog firm</h1>
+        <h2>Katalog firm</h2>
         <a href="{{ route('business.create') }}" class="btn btn-primary">Dodaj swoją firmę</a>
     </div>
 

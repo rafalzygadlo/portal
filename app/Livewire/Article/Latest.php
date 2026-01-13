@@ -38,7 +38,7 @@ class Latest extends Component
             }
 
             $latestArticles = $query->latest()
-            ->paginate(12 * $this->page);
+            ->paginate(20 * $this->page);
 
         return view('livewire.article.latest', [
             'latestArticles' => $latestArticles,
