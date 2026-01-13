@@ -5,6 +5,7 @@
                 <div class="card-header bg-white">Dodaj nową firmę</div>
 
                 <div class="card-body">
+
                     <form wire:submit.prevent="save">
                         <div class="mb-3">
                             <label for="name" class="form-label">Nazwa firmy</label>
@@ -20,14 +21,18 @@
 
                         <div class="mb-3">
                             <label class="form-label">Kategorie</label>
-                            <div>
+                            search :{{ $this->search }}
+                            <input type="text" class="form-control mb-2" placeholder="Szukaj kategorii..." wire:model.live="search" />
+                            <div style="max-height: 200px; overflow-y:auto;" class="border rounded p-2">
                                 @foreach($allCategories as $category)
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="category-{{ $category->id }}" value="{{ $category->id }}" wire:model="categories">
-                                        <label class="form-check-label" for="category-{{ $category->id }}">{{ $category->name }}</label>
-                                    </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" wire:model="categories" value="{{ $category->id }}" id="cat{{ $category->id }}">
+                                    <label class="form-check-label" for="cat{{ $category->id }}">{{ $category->name }}</label>
+                                </div>
                                 @endforeach
                             </div>
+
+
                             @error('categories') <div class="text-danger mt-1">{{ $message }}</div> @enderror
                         </div>
 
@@ -49,9 +54,9 @@
                             @error('website') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
-                         <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-end">
                             <a href="/" class="btn btn-outline-secondary me-2">Anuluj</a>
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> 
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
                                 <span wire:loading.remove>Dodaj firmę</span>
                                 <span wire:loading>Zapisywanie...</span>
                             </button>

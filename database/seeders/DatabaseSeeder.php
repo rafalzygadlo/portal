@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Business;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,25 +16,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //$this->call(CategorySeeder::class);
-
-         \App\Models\User::create([
-            'first_name' => 'demo',
-            'last_name' => 'demo',
-            'email' => 'demo@example.com',
-            'password' => bcrypt('demo')
-        ]);
-
+        $this->call(CategorySeeder::class);
+        //$this->call(BusinessSeeder::class);
 
         // Create more users to have unique votes for a single article
         $this->command->info('Creating users...');
         $this->command->getOutput()->progressStart(1200);
 
         $usersData = [];
+        $usersCount = 9999;
         $password = bcrypt('password'); // Calculate hash once to speed up
         $now = now();
 
-        for ($i = 0; $i < 1200; $i++) {
+        for ($i = 0; $i < $usersCount ; $i++) {
             $usersData[] = \App\Models\User::factory()->raw([
                 'password' => $password,
                 'created_at' => $now,
@@ -41,19 +37,27 @@ class DatabaseSeeder extends Seeder
             $this->command->getOutput()->progressAdvance();
         }
 
-        foreach (array_chunk($usersData, 1000) as $chunk) {
+        foreach (array_chunk($usersData, $usersCount) as $chunk) 
+        {
             \App\Models\User::insert($chunk);
         }
+        
         $this->command->getOutput()->progressFinish();
+        
+        //Articles 
+        $this->command->info('Generating articles...');        
+        $articlesCount = 9999;
+        $this->command->getOutput()->progressStart($articlesCount);
+        
         $users = \App\Models\User::all();
-
-        $articles = \App\Models\Article\Article::factory()->count(220)->create([
+        $articles = \App\Models\Article\Article::factory()->count($articlesCount)->create
+        ([
             'user_id' => fn() => $users->random()->id
+            
         ]);
-
-        $this->command->info('Generating votes...');
-        $this->command->getOutput()->progressStart($articles->count());
-
+              
+        //Votes 
+        $this->command->info('Generating votes...');        
         $votes = [];
         $now = now();
 
@@ -66,8 +70,8 @@ class DatabaseSeeder extends Seeder
             foreach ($voters as $voter) 
             {
                 $votes[] = [
-                    'votable_type' => 'article',
-                    'votable_id' => $article->id,
+                    'voteable_type' => 'App\\Models\\Article\\Article',
+                    'voteable_id' => $article->id,
                     'user_id' => $voter->id,
                     'value' => rand(0, 1) ? 1 : -1,
                     'created_at' => $now,
@@ -78,9 +82,13 @@ class DatabaseSeeder extends Seeder
         }
 
         foreach (array_chunk($votes, 10000) as $chunk) {
-            \App\Models\Article\Vote::insert($chunk);
+            \App\Models\Vote::insert($chunk);
         }
+        
 
         $this->command->getOutput()->progressFinish();
+
+
+
     }
 }

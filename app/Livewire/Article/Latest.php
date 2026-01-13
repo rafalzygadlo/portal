@@ -8,14 +8,22 @@ use Illuminate\Support\Facades\Auth;
 
 class Latest extends Component
 {
+    protected string $paginationTheme = 'bootstrap';
     public $sort = 'newest';
 
+    public $page = 1;
     protected $listeners = ['article-voted' => '$refresh'];
 
     public function setSort($sort)
     {
         $this->sort = $sort;
     }
+
+    public function more()
+    {
+        $this->page++;
+    }
+
 
     public function render()
     {
@@ -30,8 +38,7 @@ class Latest extends Component
             }
 
             $latestArticles = $query->latest()
-            ->take(11)
-            ->get();
+            ->paginate(12 * $this->page);
 
         return view('livewire.article.latest', [
             'latestArticles' => $latestArticles,

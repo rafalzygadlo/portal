@@ -21,8 +21,8 @@ class Index extends Component
 
     public function render()
     {
-        $businesses = Business::where('is_approved', true)
-            ->when($this->category, function ($query) {
+        $businesses = Business::
+            when($this->category, function ($query) {
                 $query->whereHas('categories', function ($q) {
                     $q->where('slug', $this->category);
                 });

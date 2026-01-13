@@ -16,6 +16,8 @@ class Create extends Component
     public string $phone = '';
     public string $website = '';
     public array $categories = [];
+    public string $search = '';
+
 
     protected array $rules = [
         'name' => 'required|min:3|max:255',
@@ -49,8 +51,13 @@ class Create extends Component
 
     public function render()
     {
+        $categories = Category::where('name', 'like', '%'.$this->search.'%')
+                ->where('type', 'article')
+                ->orderBy('name')
+                ->get();
+        
         return view('livewire.business.create', [
-            'allCategories' => Category::all()
+            'allCategories' => $categories
         ]);
     }
 }
