@@ -21,7 +21,6 @@ return new class extends Migration
             $table->timestamps();
             
             $table->unique(['voteable_id', 'voteable_type', 'user_id']);
-            $table->index(['voteable_id', 'voteable_type', 'value']);
         });
     }
 

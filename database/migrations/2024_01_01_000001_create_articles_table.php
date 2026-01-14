@@ -20,6 +20,9 @@ return new class extends Migration
             $table->text('content');
             $table->string('image_path')->nullable();
             $table->timestamps();
+
+            $table->index('title');
+            $table->fullText('content');
         });
     }
 
