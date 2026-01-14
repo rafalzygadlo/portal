@@ -35,7 +35,7 @@
             @if ($articleDay !== $currentDay)
             <div class="d-flex align-items-center my-4">
                 <div class="flex-grow-1 border-top"></div>
-                    <div class="px-3 text-muted small fw-semibold">
+                    <div class="badge rounded-pill bg-primary px-3 fw-semibold">
                         {{ $label }}
                     </div>
                 <div class="flex-grow-1 border-top"></div>
