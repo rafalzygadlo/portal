@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
         
         //Articles 
         $this->command->info('Generating articles...');        
-        $articlesCount = 9999;
+        $articlesCount = 100;
         $this->command->getOutput()->progressStart($articlesCount);
         
         $users = \App\Models\User::all();
@@ -57,7 +57,8 @@ class DatabaseSeeder extends Seeder
         ]);
               
         //Votes 
-        $this->command->info('Generating votes...');        
+        $this->command->info('Generating votes...'); 
+        $this->command->getOutput()->progressStart($articlesCount);       
         $votes = [];
         $now = now();
 
@@ -65,7 +66,7 @@ class DatabaseSeeder extends Seeder
         foreach ($articles as $article) 
         {
             // Randomize the number of votes for a given article (e.g. from 5 to 50)
-            $voters = $users->random(rand(5, 250));
+            $voters = $users->random(rand(5, 450));
 
             foreach ($voters as $voter) 
             {
@@ -81,7 +82,7 @@ class DatabaseSeeder extends Seeder
             $this->command->getOutput()->progressAdvance();
         }
 
-        foreach (array_chunk($votes, 10000) as $chunk) {
+        foreach (array_chunk($votes, 9999) as $chunk) {
             \App\Models\Vote::insert($chunk);
         }
         
