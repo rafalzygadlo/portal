@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Business;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::disableQueryLog();
+
         $this->call(CategorySeeder::class);
-        $this->call(AnnouncementCategorySeeder::class);
         //$this->call(BusinessSeeder::class);
 
         // Create more users to have unique votes for a single article
