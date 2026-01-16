@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(CategorySeeder::class);
+        $this->call(AnnouncementCategorySeeder::class);
         //$this->call(BusinessSeeder::class);
 
         // Create more users to have unique votes for a single article

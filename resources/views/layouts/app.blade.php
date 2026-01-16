@@ -29,6 +29,8 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                     <div wire:loading >Ładowanie strony…</div>
+          <span wire:loading>Zapisywanie...</span>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('main.index') }}">{{ __('main.index') }}</a>
@@ -38,6 +40,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('business.index') }}">{{ __('business.index') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('announcements.index') }}">{{ __('announcements.index') }}</a>
                         </li>
                     </ul>
 
@@ -103,12 +108,7 @@
 }
 </style>
         <main class="container-fluid py-4">
-           <div wire:loading class="lw-loader">
-                <div class="lw-box">
-                    <div class="spinner-border" role="status"></div>
-                <div class="mt-2">Ładowanie strony…</div>
-            </div>
-            </div>
+           
 
         {{$slot}}
         </main>

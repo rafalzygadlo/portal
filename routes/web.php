@@ -39,6 +39,12 @@ Route::get('/page/{page}', \App\Livewire\Page::class)
 Route::get('/profile/{user}', App\Livewire\Profile::class)->name('user.profile');
 Route::get('/todo', App\Livewire\Todo::class)->name('todo.index');
 
+// Announcements
+Route::get('/announcements', \App\Livewire\Announcement\Index::class)->name('announcements.index');
+Route::get('/announcements/create', \App\Livewire\Announcement\Create::class)->name('announcements.create')->middleware('auth');
+Route::get('/announcements/{announcement}', \App\Livewire\Announcement\Show::class)->name('announcements.show');
+
+
 
 Route::get('/login',App\Livewire\Login::class)->name('login')->middleware('guest');
 Route::post('/login',[App\Livewire\Login::class,'login']);
