@@ -18,34 +18,12 @@ class DatabaseSeeder extends Seeder
     {
         DB::disableQueryLog();
 
+        $this->call(UserSeeder::class);
         $this->call(CategorySeeder::class);
-        //$this->call(BusinessSeeder::class);
+        $this->call(BusinessSeeder::class);
+        $this->call(AnnouncementCategorySeeder::class);
+        $this->call(AnnouncementSeeder::class);
 
-        // Create more users to have unique votes for a single article
-        $this->command->info('Creating users...');
-        $this->command->getOutput()->progressStart(1200);
-
-        $usersData = [];
-        $usersCount = 9999;
-        $password = bcrypt('password'); // Calculate hash once to speed up
-        $now = now();
-
-        for ($i = 0; $i < $usersCount ; $i++) {
-            $usersData[] = \App\Models\User::factory()->raw([
-                'password' => $password,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ]);
-            $this->command->getOutput()->progressAdvance();
-        }
-
-        foreach (array_chunk($usersData, $usersCount) as $chunk) 
-        {
-            \App\Models\User::insert($chunk);
-        }
-        
-        $this->command->getOutput()->progressFinish();
-        
         //Articles 
         $this->command->info('Generating articles...');        
         $articlesCount = 100;
@@ -68,7 +46,7 @@ class DatabaseSeeder extends Seeder
         foreach ($articles as $article) 
         {
             // Randomize the number of votes for a given article (e.g. from 5 to 50)
-            $voters = $users->random(rand(5, 450));
+            $voters = $users->random(rand(5, 90));
 
             foreach ($voters as $voter) 
             {
@@ -90,8 +68,5 @@ class DatabaseSeeder extends Seeder
         
 
         $this->command->getOutput()->progressFinish();
-
-
-
     }
 }

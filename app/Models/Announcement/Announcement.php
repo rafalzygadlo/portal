@@ -16,6 +16,8 @@ class Announcement extends Model
         'announcement_category_id',
         'title',
         'content',
+        'price',
+        'salary',
     ];
 
     public function user()
@@ -26,5 +28,10 @@ class Announcement extends Model
     public function category()
     {
         return $this->belongsTo(AnnouncementCategory::class, 'announcement_category_id');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(AnnouncementPhoto::class);
     }
 }

@@ -15,11 +15,11 @@ class UserSeeder extends Seeder
     public function run()
     {
         $this->command->info('Creating users...');
-        $usersCount = 100000;
+        $usersCount = 100;
         $this->command->getOutput()->progressStart($usersCount);
 
         $usersData = [];
-        $chunkSize = 1000;
+        $chunkSize = 100;
         $password = bcrypt('password');
         $now = now();
 

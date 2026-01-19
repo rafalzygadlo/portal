@@ -52,7 +52,7 @@ class Create extends Component
     public function render()
     {
         $categories = Category::where('name', 'like', '%'.$this->search.'%')
-                ->where('type', 'article')
+                ->where('type', 'business')
                 ->orderBy('name')
                 ->get();
         
