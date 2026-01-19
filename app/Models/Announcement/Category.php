@@ -5,7 +5,7 @@ namespace App\Models\Announcement;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AnnouncementCategory extends Model
+class Category extends Model
 {
     use HasFactory;
 

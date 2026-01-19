@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Article;
+namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -78,7 +78,7 @@ class Comments extends Component
             ->latest()
             ->get();
 
-        return view('livewire.article.comments', [
+        return view('livewire.comments', [
             'comments' => $comments,
             'replyingTo' => $this->replyToId ? Comment::find($this->replyToId) : null,
         ]);

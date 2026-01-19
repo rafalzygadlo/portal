@@ -5,11 +5,12 @@ namespace App\Models\Announcement;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\Announcement\AnnouncementCategory;
+use App\Models\Announcement\Category;
+use App\Traits\Voteable;
 
 class Announcement extends Model
 {
-    use HasFactory;
+    use HasFactory, Voteable;
 
     protected $fillable = [
         'user_id',
@@ -25,6 +26,6 @@ class Announcement extends Model
 
     public function category()
     {
-        return $this->belongsTo(AnnouncementCategory::class, 'announcement_category_id');
+        return $this->belongsTo(Category::class, 'announcement_category_id');
     }
 }

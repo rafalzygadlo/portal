@@ -42,7 +42,7 @@
                     <div class="mb-2 pt-3 border-top">
                         <livewire:article.report :article="$article" />
                     </div>
-                    <livewire:article.comments :model="$article" />
+                    <livewire:comments :model="$article" />
                 </div>
                 <div class="card-footer1 bg-white p-0 border-top-0">
                      <a href="/" class="btn btn-outline-primary">

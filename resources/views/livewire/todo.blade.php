@@ -60,7 +60,7 @@
                         </div>
                         
                         <div x-show="showComments" style="display: none;" class="mt-3 border-top pt-3">
-                            <livewire:article.comments :model="$todo" :key="'todo-comments-'.$todo->id" />
+                            <livewire:comments :model="$todo" :key="'todo-comments-'.$todo->id" />
                         </div>
                     </div>
                 </div>

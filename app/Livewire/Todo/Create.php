@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Todo;
 
-use Livewire\Component;
-use App\Models\Todo as TodoModel;
+use App\Models\Todo;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
-class Todo extends Component
+class Create extends Component
 {
     public $title;
     public $description;
@@ -24,21 +24,18 @@ class Todo extends Component
             return redirect()->route('login');
         }
 
-        TodoModel::create([
+        Todo::create([
             'user_id' => Auth::id(),
             'title' => $this->title,
             'description' => $this->description,
             'status' => 'pending',
         ]);
 
-        $this->reset(['title', 'description']);
-        session()->flash('message', 'Twój pomysł został dodany!');
+        return redirect()->route('todo.index')->with('message', 'Twój pomysł został dodany!');
     }
 
     public function render()
     {
-        return view('livewire.todo', [
-            'todos' => TodoModel::with('user')->withCount('comments')->latest()->get()
-        ]);
+        return view('livewire.todo.create');
     }
 }

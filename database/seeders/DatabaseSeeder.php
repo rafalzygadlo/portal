@@ -92,6 +92,7 @@ class DatabaseSeeder extends Seeder
         $this->command->getOutput()->progressFinish();
 
 
-
+        $this->call(AnnouncementSeeder::class);
+        $this->call(PollSeeder::class);
     }
 }

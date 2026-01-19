@@ -19,30 +19,34 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::middleware('auth')->group(function () {
-    Route::get('/articles/create', \App\Livewire\Article\Form::class)->name('article.create');
-    Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create');
-    //Route::get('/admin/reports', \App\Livewire\Admin\ReportedArticles::class)->name('admin.reports');
-});
-
-
+// Article routes
 Route::get('/',App\Livewire\Main::class)->name('main.index');
+Route::get('/articles/create', \App\Livewire\Article\Form::class)->name('article.create')->middleware('auth');
 Route::get('/article/{article}', \App\Livewire\Article\Show::class)->name('article.show');
 
 // Business routes
 Route::get('/business', \App\Livewire\Business\Index::class)->name('business.index');
+Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create')->middleware('auth');
 Route::get('/business/{business:slug}', \App\Livewire\Business\Show::class)->name('business.show');
 
 Route::get('/page/{page}', \App\Livewire\Page::class)
     ->where('page', 'privacy|terms|faq')->name('page');
 
 Route::get('/profile/{user}', App\Livewire\Profile::class)->name('user.profile');
-Route::get('/todo', App\Livewire\Todo::class)->name('todo.index');
+// Todo routes
+Route::get('/todo', App\Livewire\Todo\Index::class)->name('todo.index');
+Route::get('/todo/create', App\Livewire\Todo\Create::class)->name('todo.create')->middleware('auth');
+Route::get('/todo/{todo}', App\Livewire\Todo\Show::class)->name('todo.show');
 
 // Announcements
 Route::get('/announcements', \App\Livewire\Announcement\Index::class)->name('announcements.index');
 Route::get('/announcements/create', \App\Livewire\Announcement\Create::class)->name('announcements.create')->middleware('auth');
 Route::get('/announcements/{announcement}', \App\Livewire\Announcement\Show::class)->name('announcements.show');
+
+// Polls
+Route::get('/polls', \App\Livewire\Poll\Index::class)->name('polls.index');
+Route::get('/polls/create', \App\Livewire\Poll\Create::class)->name('polls.create')->middleware('auth');
+Route::get('/polls/{poll}', \App\Livewire\Poll\Show::class)->name('polls.show');
 
 
 
