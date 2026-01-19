@@ -2,30 +2,36 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Announcement\Announcement;
+use App\Models\Announcement\Category;
 use App\Models\User;
-use App\Models\Announcement\AnnouncementCategory;
+use Illuminate\Database\Seeder;
 
 class AnnouncementSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
         $users = User::all();
-        $categories = AnnouncementCategory::all();
-
-        if ($users->isEmpty() || $categories->isEmpty()) {
-            $this->command->info('Cannot seed announcements without users and categories.');
-            return;
+        if ($users->isEmpty()) {
+            $users = User::factory()->count(10)->create();
+        }
+        
+        $categories = Category::all();
+        if ($categories->isEmpty()) {
+            $this->call(AnnouncementCategorySeeder::class);
+            $categories = Category::all();
         }
 
         Announcement::factory()
-            ->count(20)
-            ->for($users->random())
-            ->for($categories->random())
-            ->create();
+            ->count(100)
+            ->create([
+                'user_id' => fn() => $users->random()->id,
+                'announcement_category_id' => fn() => $categories->random()->id,
+            ]);
     }
 }

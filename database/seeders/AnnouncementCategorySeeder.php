@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use App\Models\Announcement\AnnouncementCategory;
+use App\Models\Announcement\Category;
 
 class AnnouncementCategorySeeder extends Seeder
 {
@@ -26,7 +26,7 @@ class AnnouncementCategorySeeder extends Seeder
         ];
 
         foreach ($categories as $categoryName) {
-            AnnouncementCategory::firstOrCreate(
+            Category::firstOrCreate(
                 ['slug' => Str::slug($categoryName)],
                 ['name' => $categoryName]
             );

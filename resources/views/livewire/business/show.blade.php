@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h1>{{ $business->name }}</h1>
-            <livewire:business.vote :business="$business" :key="$business->id" />
+            <livewire:article.vote :model="$business" :key="$business->id" />
         </div>
         <div class="card-body">
             <p><strong>Adres:</strong> {{ $business->address }}</p>

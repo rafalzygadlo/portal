@@ -18,52 +18,30 @@ class Article extends Model
         protected $fillable = [
 
             'user_id',
-
             'title',
-
             'content',
-
             'image_path',
 
         ];
 
-    
-
         public function user()
-
         {
-
             return $this->belongsTo(User::class);
-
         }
 
-    
 
         public function reports()
-
         {
-
             return $this->hasMany(Report::class);
-
         }
-
-    
 
         public function comments()
-
         {
-
             return $this->morphMany(Comment::class, 'commentable');
-
         }
 
-    
-
         public function categories()
-
         {
-
             return $this->morphToMany(\App\Models\Category::class, 'categorizable');
-
         }
 }

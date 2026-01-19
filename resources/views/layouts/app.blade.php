@@ -44,6 +44,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('announcements.index') }}">{{ __('announcements.index') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('polls.index') }}">{{ __('polls.index') }}</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
