@@ -14,6 +14,25 @@ class BusinessSeeder extends Seeder
      */
     public function run()
     {
-        Business::factory()->count(10)->create();
+        // Disable query log to save memory on long running commands
+        \Illuminate\Support\Facades\DB::disableQueryLog();
+
+        $this->command->info('Generating businesses...');
+        $businessesCount = 200;
+        $this->command->getOutput()->progressStart($businessesCount);
+
+        $now = now();
+
+        for ($i = 0; $i < $businessesCount; $i++) {
+            Business::factory()->create([
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+            $this->command->getOutput()->progressAdvance(1);
+        }
+
+        $this->command->getOutput()->progressFinish();
     }
 }
+
+

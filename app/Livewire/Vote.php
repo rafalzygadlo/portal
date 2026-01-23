@@ -5,7 +5,7 @@ namespace App\Livewire\Article;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use App\Events\VoteCreated;
+use App\Models\Todo;
 
 class Vote extends Component
 {
@@ -55,8 +55,6 @@ class Vote extends Component
                 // Change vote type
                 $existingVote->update(['value' => $value]);
                 $this->userVote = $type;
-                // Dispatch event for notification
-                VoteCreated::dispatch(Auth::user(), $this->model, $value);
             }
         } 
         else 
@@ -64,8 +62,6 @@ class Vote extends Component
              
             $this->model->votes()->create(['user_id' => Auth::id(), 'value' => $value]);
             $this->userVote = $type;
-            // Dispatch event for notification
-            VoteCreated::dispatch(Auth::user(), $this->model, $value);
         }
         
         $this->votesCount = $this->model->getScore();

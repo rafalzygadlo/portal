@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Poll;
-use App\Models\PollOption;
+use App\Models\Poll\Poll;
+use App\Models\Poll\PollOption;
+use Database\Factories\Poll\PollFactory;
 use Illuminate\Database\Seeder;
 
 class PollSeeder extends Seeder
@@ -15,13 +16,29 @@ class PollSeeder extends Seeder
      */
     public function run()
     {
-        Poll::factory()
-            ->count(100)
-            ->create()
-            ->each(function ($poll) {
-                PollOption::factory()->count(rand(2, 5))->create([
-                    'poll_id' => $poll->id,
-                ]);
-            });
+        // Disable query log to save memory on long running commands
+        \Illuminate\Support\Facades\DB::disableQueryLog();
+
+        $this->command->info('Generating polls...');
+        $pollsCount = 100;
+        $this->command->getOutput()->progressStart($pollsCount);
+
+        $now = now();
+
+        for ($i = 0; $i < $pollsCount; $i++) {
+            $poll = Poll::factory()->create([
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+
+            // Create poll options
+            PollOption::factory()->count(rand(2, 5))->create([
+                'poll_id' => $poll->id,
+            ]);
+
+            $this->command->getOutput()->progressAdvance(1);
+        }
+
+        $this->command->getOutput()->progressFinish();
     }
 }

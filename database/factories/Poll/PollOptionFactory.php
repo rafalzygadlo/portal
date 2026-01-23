@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Poll;
 
-use App\Models\Poll;
-use App\Models\PollOption;
+use App\Models\Poll\Poll;
+use App\Models\Poll\PollOption;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

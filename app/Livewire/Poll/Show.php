@@ -33,7 +33,7 @@ class Show extends Component
 
         $userVote = Vote::where('user_id', Auth::id())
             ->whereIn('voteable_id', $this->poll->options->pluck('id'))
-            ->where('voteable_type', \App\Models\PollOption::class)
+            ->where('voteable_type', \App\Models\Pool\PollOption::class)
             ->first();
 
         if ($userVote) {
@@ -43,7 +43,7 @@ class Show extends Component
         Vote::create([
             'user_id' => Auth::id(),
             'voteable_id' => $this->selectedOptionId,
-            'voteable_type' => \App\Models\PollOption::class,
+            'voteable_type' => \App\Models\Poll\PollOption::class,
             'value' => 1,
         ]);
         

@@ -13,10 +13,12 @@ class ArticleSeeder extends Seeder
      */
     public function run()
     {
-        $this->command->info('Generating articles...');
         $articlesCount = 10000;
         $chunkSize = 100;
+
+        $this->command->info('Generating articles...');
         $this->command->getOutput()->progressStart($articlesCount);
+
 
         // Fetch a larger sample of users to be authors
         $users = \App\Models\User::limit(1000)->get();

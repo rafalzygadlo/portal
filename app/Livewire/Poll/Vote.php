@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Article;
+namespace App\Livewire\Poll;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -55,7 +55,6 @@ class Vote extends Component
                 // Change vote type
                 $existingVote->update(['value' => $value]);
                 $this->userVote = $type;
-                // Dispatch event for notification
                 VoteCreated::dispatch(Auth::user(), $this->model, $value);
             }
         } 
@@ -64,17 +63,16 @@ class Vote extends Component
              
             $this->model->votes()->create(['user_id' => Auth::id(), 'value' => $value]);
             $this->userVote = $type;
-            // Dispatch event for notification
             VoteCreated::dispatch(Auth::user(), $this->model, $value);
         }
         
         $this->votesCount = $this->model->getScore();
 
-        $this->dispatch('article-voted');
+        $this->dispatch('poll-voted');
     }
 
     public function render()
     {
-        return view('livewire.article.vote');
+        return view('livewire.poll.vote');
     }
 }

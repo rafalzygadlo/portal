@@ -51,6 +51,13 @@
                     </a>
                 </div>
             </div>
+
+            <hr class="my-4">
+
+            <div class="comments-section">
+                <h3>Komentarze</h3>
+                <livewire:comments :model="$poll" />
+            </div>
         </div>
     </div>
 </div>

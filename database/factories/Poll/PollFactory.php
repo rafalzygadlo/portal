@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Poll;
 
-use App\Models\Poll;
+use App\Models\Poll\Poll;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

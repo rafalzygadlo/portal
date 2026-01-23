@@ -29,4 +29,12 @@ class Poll extends Model
     {
         return $this->hasMany(PollOption::class);
     }
+
+    /**
+     * Get all comments for the poll.
+     */
+    public function comments()
+    {
+        return $this->morphMany(\App\Models\Comment::class, 'commentable');
+    }
 }

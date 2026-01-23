@@ -31,4 +31,11 @@
             Dodano: {{ $business->created_at->format('d.m.Y') }} przez {{ $business->user->first_name }}
         </div>
     </div>
+
+    <hr class="my-4">
+
+    <div class="comments-section">
+        <h3>Komentarze</h3>
+        <livewire:comments :model="$business" />
+    </div>
 </div>

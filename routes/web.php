@@ -38,7 +38,12 @@ Route::get('/todo', App\Livewire\Todo\Index::class)->name('todo.index');
 Route::get('/todo/create', App\Livewire\Todo\Create::class)->name('todo.create')->middleware('auth');
 Route::get('/todo/{todo}', App\Livewire\Todo\Show::class)->name('todo.show');
 
-// Announcements
+// Offers
+Route::get('/offers', \App\Livewire\Offer\Index::class)->name('offers.index');
+Route::get('/offers/create', \App\Livewire\Offer\Create::class)->name('offers.create')->middleware('auth');
+Route::get('/offers/{offer}', \App\Livewire\Offer\Show::class)->name('offers.show');
+
+// Announcements (deprecated - replaced by Offers)
 Route::get('/announcements', \App\Livewire\Announcement\Index::class)->name('announcements.index');
 Route::get('/announcements/create', \App\Livewire\Announcement\Create::class)->name('announcements.create')->middleware('auth');
 Route::get('/announcements/{announcement}', \App\Livewire\Announcement\Show::class)->name('announcements.show');

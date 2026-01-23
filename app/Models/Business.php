@@ -44,4 +44,12 @@ class Business extends Model
     {
         return $this->morphToMany(\App\Models\Category::class, 'categorizable');
     }
+
+    /**
+     * Get all comments for the business.
+     */
+    public function comments()
+    {
+        return $this->morphMany(\App\Models\Comment::class, 'commentable');
+    }
 }

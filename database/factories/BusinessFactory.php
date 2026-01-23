@@ -23,7 +23,8 @@ class BusinessFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->company;
+        static $counter = 0;
+        $name = $this->faker->company . ' ' . ++$counter;
         return [
             'user_id' => User::factory(),
             'name' => $name,
@@ -34,7 +35,6 @@ class BusinessFactory extends Factory
             'website' => $this->faker->url,
             'latitude' => $this->faker->latitude,
             'longitude' => $this->faker->longitude,
-            'is_approved' => $this->faker->boolean,
         ];
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
+use App\Events\CommentCreated;
 
 class Comments extends Component
 {
@@ -52,11 +53,13 @@ class Comments extends Component
             return redirect()->route('login');
         }
 
-        $this->model->comments()->create([
+        $comment = $this->model->comments()->create([
             'user_id' => Auth::id(),
             'parent_id' => $this->replyToId,
             'content' => $this->content,
         ]);
+
+        CommentCreated::dispatch(Auth::user(), $this->model, $comment->content);
 
         $this->content = '';
         $this->replyToId = null;

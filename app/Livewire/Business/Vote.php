@@ -2,66 +2,77 @@
 
 namespace App\Livewire\Business;
 
-use App\Models\Business;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use App\Events\VoteCreated;
 
 class Vote extends Component
 {
-    public Business $business;
-    public int $score;
-    public ?int $userVote = null;
+    public $model;
+    public $votesCount;
+    public $userVote = null; 
+    public $isAuthor = false;
 
-    public function mount(Business $business)
+    public function mount(Model $model)
     {
-        $this->business = $business;
-        $this->score = $this->business->getScore();
-        $this->updateUserVote();
+        $this->model = $model;
+        $this->votesCount = $model->getScore();
+        
+        if (Auth::check()) 
+        {
+            $vote = $model->votes()->where('user_id', Auth::id())->first();
+            $this->userVote = $vote ? ($vote->value === 1 ? 'up' : 'down') : null;
+            // Sprawdzamy czy user_id istnieje w modelu (niektóre modele mogą nie mieć autora)
+            $this->isAuthor = isset($model->user_id) && Auth::id() === $model->user_id;
+        }
+    }
+
+    public function vote($type)
+    {
+
+        if (!Auth::check()) 
+        {
+            return redirect()->route('login');
+        }
+
+        if (isset($this->model->user_id) && $this->model->user_id === Auth::id()) 
+        {
+            return;
+        }
+
+        $value = $type === 'up' ? 1 : -1;
+        $existingVote = $this->model->votes()->where('user_id', Auth::id())->first();
+
+        if ($existingVote) 
+        {
+            if ($existingVote->value === $value) 
+            {
+                // Toggle off if clicking the same vote
+                $existingVote->delete();
+                $this->userVote = null;
+            } else {
+                // Change vote type
+                $existingVote->update(['value' => $value]);
+                $this->userVote = $type;
+                VoteCreated::dispatch(Auth::user(), $this->model, $value);
+            }
+        } 
+        else 
+        {
+             
+            $this->model->votes()->create(['user_id' => Auth::id(), 'value' => $value]);
+            $this->userVote = $type;
+            VoteCreated::dispatch(Auth::user(), $this->model, $value);
+        }
+        
+        $this->votesCount = $this->model->getScore();
+
+        $this->dispatch('business-voted');
     }
 
     public function render()
     {
         return view('livewire.business.vote');
-    }
-
-    public function upvote()
-    {
-        if (!Auth::check()) {
-            return $this->redirect(route('login'));
-        }
-
-        $this->toggleVote(1);
-    }
-
-    public function downvote()
-    {
-        if (!Auth::check()) {
-            return $this->redirect(route('login'));
-        }
-
-        $this->toggleVote(-1);
-    }
-
-    private function toggleVote(int $value)
-    {
-        // Jeśli użytkownik już tak zagłosował, usuń głos (ustaw na 0)
-        if ($this->userVote === $value) {
-            $this->business->votes()->where('user_id', Auth::id())->delete();
-        } else {
-            // W przeciwnym razie, utwórz lub zaktualizuj głos
-            $this->business->votes()->updateOrCreate(
-                ['user_id' => Auth::id()],
-                ['value' => $value]
-            );
-        }
-        
-        $this->score = $this->business->getScore();
-        $this->updateUserVote();
-    }
-
-    private function updateUserVote(): void
-    {
-        $vote = $this->business->votes()->where('user_id', Auth::id())->first();
-        $this->userVote = $vote ? (int)$vote->value : null;
     }
 }
