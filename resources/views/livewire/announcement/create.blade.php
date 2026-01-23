@@ -15,7 +15,7 @@
 
                         <div class="mb-3">
                             <label for="announcement_category_id" class="form-label">Kategoria</label>
-                            <select class="form-control @error('announcement_category_id') is-invalid @enderror" id="announcement_category_id" wire:model.defer="announcement_category_id">
+                            <select class="form-control @error('announcement_category_id') is-invalid @enderror" id="announcement_category_id" wire:model.live="announcement_category_id">
                                 <option value="0">Wybierz kategorię...</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -23,6 +23,41 @@
                             </select>
                             @error('announcement_category_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
+
+                        @if($category_slug === 'praca')
+                            <div class="mb-3">
+                                <label for="salary" class="form-label">Wynagrodzenie</label>
+                                <input type="text" class="form-control @error('salary') is-invalid @enderror" id="salary" wire:model.defer="salary">
+                                @error('salary') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                        @endif
+
+                        @if($category_slug === 'motoryzacja')
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Cena</label>
+                                <input type="number" step="0.01" class="form-control @error('price') is-invalid @enderror" id="price" wire:model.defer="price">
+                                @error('price') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="photos" class="form-label">Galeria</label>
+                                <input type="file" class="form-control @error('photos.*') is-invalid @enderror" id="photos" wire:model="photos" multiple>
+                                @error('photos.*') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                            
+                            @if ($photos)
+                                <div class="mb-3">
+                                    Zdjęcia:
+                                    <div class="row">
+                                    @foreach ($photos as $photo)
+                                        <div class="col-3">
+                                            <img src="{{ $photo->temporaryUrl() }}" class="img-fluid">
+                                        </div>
+                                    @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        @endif
 
                         <div class="mb-3">
                             <label for="content" class="form-label">Treść</label>
