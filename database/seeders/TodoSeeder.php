@@ -18,8 +18,8 @@ class TodoSeeder extends Seeder
         \Illuminate\Support\Facades\DB::disableQueryLog();
 
         $this->command->info('Generating todos...');
-        $todosCount = 500;
-        $chunkSize = 100;
+        $todosCount = 20;
+        $chunkSize = 10;
         $this->command->getOutput()->progressStart($todosCount);
 
         $todosData = [];

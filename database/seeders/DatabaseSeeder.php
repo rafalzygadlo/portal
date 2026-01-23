@@ -114,8 +114,7 @@ class DatabaseSeeder extends Seeder
     private function seedVotesForModel($modelClass, $users, $modelName)
     {
         $this->command->info("Generating votes for {$modelName}...");
-        $items = $modelClass::all();
-        $itemsCount = $items->count();
+        $itemsCount = $modelClass::count();
         
         if ($itemsCount === 0) {
             $this->command->warn("No {$modelName} found to seed votes");
@@ -123,38 +122,41 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->command->getOutput()->progressStart($itemsCount);
-        $votes = [];
         $now = now();
-        $voteChunkSize = 5000;
-        $userIds = $users->pluck('id');
+        $voteChunkSize = 50;
+        $userIds = $users->pluck('id')->toArray();
+        $votes = [];
 
-        foreach ($items as $item) {
-            // Randomize the number of votes for each item
-            $numVotes = rand(5, min(450, $userIds->count()));
-            $voterIds = $userIds->random($numVotes);
+        // Process items in chunks to avoid loading all at once
+        $modelClass::chunk(100, function ($items) use (&$votes, &$voteChunkSize, $now, $modelClass, $userIds) {
+            foreach ($items as $item) {
+                // Randomize the number of votes for each item (reduced from 450 to 100)
+                $numVotes = rand(5, min(100, count($userIds)));
+                $voterIds = array_rand($userIds, $numVotes);
 
-            // Ensure voterIds is a collection for consistent processing
-            if (!$voterIds instanceof \Illuminate\Support\Collection) {
-                $voterIds = collect([$voterIds]);
-            }
-
-            foreach ($voterIds as $voterId) {
-                $votes[] = [
-                    'voteable_type' => (string)$modelClass,
-                    'voteable_id' => $item->id,
-                    'user_id' => $voterId,
-                    'value' => rand(0, 1) ? 1 : -1,
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ];
-
-                if (count($votes) >= $voteChunkSize) {
-                    \App\Models\Vote::insert($votes);
-                    $votes = [];
+                // Ensure voterIds is an array
+                if (!is_array($voterIds)) {
+                    $voterIds = [$voterIds];
                 }
+
+                foreach ($voterIds as $index) {
+                    $votes[] = [
+                        'voteable_type' => (string)$modelClass,
+                        'voteable_id' => $item->id,
+                        'user_id' => $userIds[$index],
+                        'value' => rand(0, 1) ? 1 : -1,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+
+                    if (count($votes) >= $voteChunkSize) {
+                        \App\Models\Vote::insert($votes);
+                        $votes = [];
+                    }
+                }
+                $this->command->getOutput()->progressAdvance();
             }
-            $this->command->getOutput()->progressAdvance();
-        }
+        });
 
         if (!empty($votes)) {
             \App\Models\Vote::insert($votes);
@@ -169,8 +171,7 @@ class DatabaseSeeder extends Seeder
     private function seedVotesForPollOptions($users)
     {
         $this->command->info('Generating votes for poll options...');
-        $pollOptions = \App\Models\Poll\PollOption::all();
-        $pollOptionsCount = $pollOptions->count();
+        $pollOptionsCount = \App\Models\Poll\PollOption::count();
         
         if ($pollOptionsCount === 0) {
             $this->command->warn('No poll options found to seed votes');
@@ -178,38 +179,41 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->command->getOutput()->progressStart($pollOptionsCount);
-        $votes = [];
         $now = now();
         $voteChunkSize = 5000;
-        $userIds = $users->pluck('id');
+        $userIds = $users->pluck('id')->toArray();
+        $votes = [];
 
-        foreach ($pollOptions as $option) {
-            // Randomize the number of votes for each option
-            $numVotes = rand(5, min(450, $userIds->count()));
-            $voterIds = $userIds->random($numVotes);
-
-            // Ensure voterIds is a collection for consistent processing
-            if (!$voterIds instanceof \Illuminate\Support\Collection) {
-                $voterIds = collect([$voterIds]);
-            }
-
-            foreach ($voterIds as $voterId) {
-                $votes[] = [
-                    'voteable_type' => 'App\\Models\\Poll\\PollOption',
-                    'voteable_id' => $option->id,
-                    'user_id' => $voterId,
-                    'value' => 1, // Poll options typically only get upvotes
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ];
-
-                if (count($votes) >= $voteChunkSize) {
-                    \App\Models\Vote::insert($votes);
-                    $votes = [];
+        // Process poll options in chunks to avoid loading all at once
+        \App\Models\Poll\PollOption::chunk(100, function ($pollOptions) use (&$votes, &$voteChunkSize, $now, $userIds) {
+            foreach ($pollOptions as $option) {
+                // Randomize the number of votes for each option (reduced from 450 to 100)
+                $numVotes = rand(5, min(100, count($userIds)));
+                $voterIds = array_rand($userIds, $numVotes);
+                
+                // Ensure voterIds is an array
+                if (!is_array($voterIds)) {
+                    $voterIds = [$voterIds];
                 }
+
+                foreach ($voterIds as $index) {
+                    $votes[] = [
+                        'voteable_type' => 'App\\Models\\Poll\\PollOption',
+                        'voteable_id' => $option->id,
+                        'user_id' => $userIds[$index],
+                        'value' => 1, // Poll options typically only get upvotes
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+
+                    if (count($votes) >= $voteChunkSize) {
+                        \App\Models\Vote::insert($votes);
+                        $votes = [];
+                    }
+                }
+                $this->command->getOutput()->progressAdvance();
             }
-            $this->command->getOutput()->progressAdvance();
-        }
+        });
 
         if (!empty($votes)) {
             \App\Models\Vote::insert($votes);

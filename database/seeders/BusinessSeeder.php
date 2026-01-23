@@ -18,7 +18,7 @@ class BusinessSeeder extends Seeder
         \Illuminate\Support\Facades\DB::disableQueryLog();
 
         $this->command->info('Generating businesses...');
-        $businessesCount = 200;
+        $businessesCount = 20;
         $this->command->getOutput()->progressStart($businessesCount);
 
         $now = now();
