@@ -4,7 +4,6 @@ namespace App\Livewire\Poll;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use App\Events\VoteCreated;
 
 class Vote extends Component
@@ -14,17 +13,17 @@ class Vote extends Component
     public $userVote = null; 
     public $isAuthor = false;
 
-    public function mount(Model $model)
+    public function mount()
     {
-        $this->model = $model;
-        $this->votesCount = $model->getScore();
+        // Model is already available as $this->model from Livewire property binding
+        $this->votesCount = $this->model->getScore();
         
         if (Auth::check()) 
         {
-            $vote = $model->votes()->where('user_id', Auth::id())->first();
+            $vote = $this->model->votes()->where('user_id', Auth::id())->first();
             $this->userVote = $vote ? ($vote->value === 1 ? 'up' : 'down') : null;
             // Sprawdzamy czy user_id istnieje w modelu (niektóre modele mogą nie mieć autora)
-            $this->isAuthor = isset($model->user_id) && Auth::id() === $model->user_id;
+            $this->isAuthor = isset($this->model->user_id) && Auth::id() === $this->model->user_id;
         }
     }
 

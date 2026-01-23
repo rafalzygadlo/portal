@@ -5,7 +5,6 @@ namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
 use App\Events\CommentCreated;
 
@@ -30,9 +29,9 @@ class Comments extends Component
         return false;
     }
 
-    public function mount(Model $model)
+    public function mount()
     {
-        $this->model = $model;
+        // Model is already available as $this->model from Livewire property binding
     }
 
     public function postComment()

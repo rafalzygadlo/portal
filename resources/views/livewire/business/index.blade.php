@@ -33,10 +33,10 @@
                             <small>{{ $business->created_at->diffForHumans() }}</small>
                         </div>
                         <p class="mb-1">{{ Str::limit($business->description, 150) }}</p>
-                        <small>{{ $business->address }}</small>
+                        <small>{{ $business->address1 }}</small>
                     </div>
                     <div class="ms-4">
-                        <livewire:business.vote :business="$business" :key="$business->id" />
+                        <livewire:business.vote :model="$business" :key="$business->id" />
                     </div>
                 </div>
             </a>

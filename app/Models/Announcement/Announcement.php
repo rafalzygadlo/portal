@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Announcement\Category;
 use App\Traits\Voteable;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Announcement extends Model implements HasMedia
+class Announcement extends Model
 {
-    use HasFactory, Voteable, InteractsWithMedia;
+    use HasFactory, Voteable;
 
     protected $fillable = [
         'user_id',
