@@ -26,7 +26,7 @@ class TodoFactory extends Factory
             'user_id' => User::factory(),
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraphs(2, true),
-            'status' => $this->faker->randomElement(['pending', 'in_progress', 'completed']),
+            'status' => $this->faker->randomElement(['pending', 'planned', 'completed']),
         ];
     }
 }

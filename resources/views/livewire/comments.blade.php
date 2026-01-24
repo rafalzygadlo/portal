@@ -35,50 +35,10 @@
 
     <div class="comments-list">
         @forelse($comments as $comment)
-            <div class="card mb-3 border-0 bg-light">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div class="fw-bold">
-                            <i class="bi bi-person-circle text-secondary"></i> {{ $comment->user->first_name ?? 'Użytkownik' }}
-                        </div>
-                        <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
-                    </div>
-                    <p class="mb-1">{{ $comment->content }}</p>
-                    
-                    <div class="d-flex gap-3 mt-2">
-                        @auth
-                            <button wire:click="$set('replyToId', {{ $comment->id }})" class="btn btn-link text-primary btn-sm p-0 text-decoration-none">
-                                <i class="bi bi-reply"></i> Odpowiedz
-                            </button>
-                        @endauth
-
-                        @if(Auth::id() === $comment->user_id)
-                            <button wire:click="delete({{ $comment->id }})" class="btn btn-link text-danger btn-sm p-0 text-decoration-none" onclick="confirm('Czy na pewno usunąć?') || event.stopImmediatePropagation()">
-                                Usuń
-                            </button>
-                        @endif
-                    </div>
-                </div>
-            </div>
+            <x-livewire.components.comment-item :comment="$comment" />
 
             @foreach($comment->replies as $reply)
-                <div class="card mb-3 border-0 ms-5" style="background-color: #f8f9fa;">
-                    <div class="card-body py-2">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <div class="fw-bold small">
-                                <i class="bi bi-arrow-return-right text-secondary me-1"></i> {{ $reply->user->first_name ?? 'Użytkownik' }}
-                            </div>
-                            <small class="text-muted" style="font-size: 0.8rem;">{{ $reply->created_at->diffForHumans() }}</small>
-                        </div>
-                        <p class="mb-1 small">{{ $reply->content }}</p>
-                        
-                        @if(Auth::id() === $reply->user_id)
-                            <button wire:click="delete({{ $reply->id }})" class="btn btn-link text-danger btn-sm p-0 text-decoration-none" style="font-size: 0.8rem;" onclick="confirm('Czy na pewno usunąć?') || event.stopImmediatePropagation()">
-                                Usuń
-                            </button>
-                        @endif
-                    </div>
-                </div>
+                <x-livewire.components.comment-item :comment="$reply" :isReply="true" />
             @endforeach
         @empty
             <p class="text-muted text-center">Brak komentarzy. Bądź pierwszy!</p>
