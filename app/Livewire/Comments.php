@@ -8,6 +8,8 @@ use App\Models\Comment;
 use Illuminate\Validation\ValidationException;
 use App\Events\CommentCreated;
 
+use App\Rules\Profanity;
+
 class Comments extends Component
 {
     public $model;
@@ -15,23 +17,11 @@ class Comments extends Component
     public $replyToId = null;
     public $honey_pot;
 
-    protected $rules = [
-        'content' => 'required|min:3|max:500',
-    ];
-
-    private function containsForbiddenWords($text) {
-        $forbiddenWords = ['kurwa', 'cholera', 'chuj', 'pierdol'];
-        foreach ($forbiddenWords as $word) {
-            if (stripos($text, $word) !== false) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function mount()
+    protected function rules()
     {
-        // Model is already available as $this->model from Livewire property binding
+        return [
+            'content' => ['required', 'min:3', 'max:500', new Profanity],
+        ];
     }
 
     public function postComment()
@@ -41,12 +31,6 @@ class Comments extends Component
         }
 
         $this->validate();
-
-        if ($this->containsForbiddenWords($this->content)) {
-            throw ValidationException::withMessages([
-                'content' => 'Komentarz zawiera niedozwolone słowa.',
-            ]);
-        }
 
         if (!Auth::check()) {
             return redirect()->route('login');
@@ -66,10 +50,9 @@ class Comments extends Component
 
     public function delete($commentId)
     {
-        $comment = Comment::find($commentId);
-        if ($comment && $comment->user_id === Auth::id()) {
-            $comment->delete();
-        }
+        $comment = Comment::findOrFail($commentId);
+        $this->authorize('delete', $comment);
+        $comment->delete();
     }
 
     public function render()

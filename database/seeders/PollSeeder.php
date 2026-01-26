@@ -20,7 +20,7 @@ class PollSeeder extends Seeder
         \Illuminate\Support\Facades\DB::disableQueryLog();
 
         $this->command->info('Generating polls...');
-        $pollsCount = 100;
+        $pollsCount = 20;
         $this->command->getOutput()->progressStart($pollsCount);
 
         $now = now();
