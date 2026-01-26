@@ -16,7 +16,7 @@ class Vote extends Component
     public function mount()
     {
         // Model is already available as $this->model from Livewire property binding
-        $this->votesCount = $this->model->getScore();
+        //$this->votesCount = $this->model->getScore();
         
         if (Auth::check()) 
         {

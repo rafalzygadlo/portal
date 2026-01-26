@@ -21,7 +21,7 @@ trait Voteable
         return $this->morphMany(Vote::class, 'voteable')->where('value', -1);
     }
 
-    public function getScoreAttribute()
+    public function getScore()
     {
         // Sprawdź, czy suma głosów została już załadowana (eager loaded)
         if (isset($this->votes_sum_value)) {

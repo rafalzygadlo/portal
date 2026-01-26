@@ -6,7 +6,7 @@
                 <h1 class="text-4xl font-bold mb-2">{{ $business->name }}</h1>
                 <p class="text-blue-100">{{ $business->description }}</p>
             </div>
-            <livewire:article.vote :model="$business" :key="$business->id" />
+            
         </div>
 
         <!-- Informacje kontaktowe -->
