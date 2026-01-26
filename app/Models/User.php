@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -27,7 +28,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'avatar',
         'password',
-        // 'marketing', // Odkomentuj i dodaj, jeśli masz taką kolumnę w bazie
+        'user_type',
+        'current_business_id',
+        'subdomain',
     ];
 
     /**
@@ -65,5 +68,58 @@ class User extends Authenticatable implements MustVerifyEmail
     public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
+    }
+
+    /**
+     * Biznesy, którymi zarządza użytkownik.
+     */
+    public function ownedBusinesses(): HasMany
+    {
+        return $this->hasMany(Business::class);
+    }
+
+    /**
+     * Biznesy, w których użytkownik pracuje.
+     */
+    public function employeeBusinesses(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Business::class,
+            'business_employees',
+            'user_id',
+            'business_id'
+        )->withPivot('role', 'is_active')->withTimestamps();
+    }
+
+    /**
+     * Aktualnie wybrany biznes.
+     */
+    public function currentBusiness(): BelongsTo
+    {
+        return $this->belongsTo(Business::class, 'current_business_id');
+    }
+
+    /**
+     * Rezerwacje użytkownika.
+     */
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    /**
+     * Sprawdź, czy użytkownik jest właścicielem biznesu.
+     */
+    public function isBusinessOwner(Business $business): bool
+    {
+        return $this->id === $business->user_id;
+    }
+
+    /**
+     * Sprawdź, czy użytkownik pracuje w biznesie.
+     */
+    public function worksBusiness(Business $business): bool
+    {
+        return $this->employeeBusinesses()->where('business_id', $business->id)->exists();
     }
 }
