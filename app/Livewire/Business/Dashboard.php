@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Business;
 
 use App\Models\Business;
 use App\Models\ReservationService;
@@ -10,7 +10,7 @@ use Livewire\WithPagination;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class BusinessDashboard extends Component
+class Dashboard extends Component
 {
     use WithPagination;
 
@@ -129,9 +129,9 @@ class BusinessDashboard extends Component
             ->latest()
             ->paginate(10);
 
-        return view('livewire.business-dashboard', [
+        return view('livewire.business.dashboard', [
             'services' => $this->business->services()->orderBy('sort_order')->get(),
             'reservations' => $reservations,
-        ]);
+        ])->layout('layouts.business', ['business' => $this->business]);
     }
 }

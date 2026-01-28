@@ -21,8 +21,13 @@ use Illuminate\Support\Str;
 
 // Subdomeny - Strony biznesu i rezerwacje
 Route::domain('{subdomain}.localhost')->group(function () {
-    Route::get('/', \App\Livewire\Business\PublicPage::class)->name('business.public');
-    Route::get('/book', \App\Livewire\Business\BookingPage::class)->name('business.booking');
+    Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
+    Route::get('/booking', \App\Livewire\Business\Booking::class)->name('business.booking');
+    
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/dashboard/business/{business}/reservations', \App\Livewire\Business\Dashboard::class)->name('dashboard.business')->can('update,business');
+    });
+
 });
 
 
@@ -35,12 +40,8 @@ Route::get('/article/{article}', \App\Livewire\Article\Show::class)->name('artic
 Route::get('/business', \App\Livewire\Business\Index::class)->name('business.index');
 Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create')->middleware('auth');
 Route::get('/business/{business:slug}', \App\Livewire\Business\Show::class)->name('business.show');
-Route::get('/business/{business:slug}/page', \App\Livewire\Business\Page::class)->name('business.page');
 
-// Business Dashboard (chronione)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard/business/{business}/reservations', \App\Livewire\BusinessDashboard::class)->name('dashboard.business')->can('update,business');
-});
+
 
 
 Route::get('/page/{page}', \App\Livewire\Page::class)

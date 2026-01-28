@@ -35,10 +35,10 @@
 
     <div class="comments-list">
         @forelse($comments as $comment)
-            <x-livewire.components.comment-item :comment="$comment" />
+            <x-comment-item :comment="$comment" />
 
             @foreach($comment->replies as $reply)
-                <x-livewire.comment-item2 :comment="$reply" :isReply="true" />
+                <x-comment-item :comment="$reply" :isReply="true" />
             @endforeach
         @empty
             <p class="text-muted text-center">Brak komentarzy. Bądź pierwszy!</p>

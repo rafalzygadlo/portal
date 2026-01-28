@@ -5,11 +5,12 @@ services:
     image: nginx:latest
     build: './nginx/'
     ports:
-      - "80:80"
+      - "443:443"
     depends_on:
       - php
     volumes:
       - ./nginx:/etc/nginx/conf.d
+      - ./nginx/certs:/etc/nginx/certs
       - ./..:/var/www/html
     restart: unless-stopped
 

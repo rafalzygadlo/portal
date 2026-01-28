@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Business;
 
 use App\Models\Business;
 use App\Models\Reservation;
@@ -10,7 +10,7 @@ use Livewire\Attributes\Computed;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
-class BookingWidget extends Component
+class Booking extends Component
 {
     public Business $business;
     public string $selectedServiceId = '';
@@ -25,18 +25,21 @@ class BookingWidget extends Component
     public Collection $services;
     public Carbon $weekStart;
 
+    
     #[Computed]
     public function selectedService()
     {
         return $this->selectedServiceId ? ReservationService::find($this->selectedServiceId) : null;
     }
 
-    public function mount(Business $business)
+    public function mount($subdomain)
     {
-        $this->business = $business;
-        $this->services = $business->services()->where('is_active', true)->get();
+        $this->business = Business::where('subdomain', $subdomain)->firstOrFail();
+        $this->services = $this->business->services()->where('is_active', true)->get();
         $this->weekStart = now()->addDay()->startOfWeek();
         $this->selectedDate = $this->weekStart->format('Y-m-d');
+        $this->weekDays = [];
+        $this->weekSlots = [];
         $this->loadWeekSlots();
     }
 
@@ -185,9 +188,9 @@ class BookingWidget extends Component
 
     public function render()
     {
-        return view('livewire.booking-widget', [
-            'services' => $this->business->services()->where('is_active', true)->get(),
+        return view('livewire.business.booking', [
+            'services' => $this->services,
             'selectedService' => $this->selectedService,
-        ]);
+        ])->layout('layouts.business',['business' => $this->business]);
     }
 }

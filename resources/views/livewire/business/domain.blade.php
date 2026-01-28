@@ -50,7 +50,7 @@
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold">Dostępne usługi</h2>
                 @if($business->subdomain)
-                    <a href="http://{{ $business->subdomain }}.localhost/book" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium">
+                    <a href="https://{{ $business->subdomain }}.localhost/booking" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium">
                         Zarezerwuj termin
                     </a>
                 @endif
@@ -71,7 +71,7 @@
                         </div>
 
                         @if($business->subdomain)
-                            <a href="http://{{ $business->subdomain }}.localhost/book" class="block w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-medium py-2 px-4 rounded text-center">
+                            <a href="https://{{ $business->subdomain }}.localhost/booking" class="block w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-medium py-2 px-4 rounded text-center">
                                 Zarezerwuj
                             </a>
                         @endif
