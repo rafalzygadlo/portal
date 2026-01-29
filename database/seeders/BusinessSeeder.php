@@ -24,10 +24,11 @@ class BusinessSeeder extends Seeder
             ['name' => 'Atelier Odzieżowe', 'services' => ['Szycie na miarę', 'Alteracje', 'Naprawy']],
             ['name' => 'Nauka Jazdy Pro', 'services' => ['Prawo jazdy kat. B', 'Prawo jazdy kat. A', 'Kurs odnowienia']],
             ['name' => 'Studio Fotografii', 'services' => ['Sesja portretowa', 'Sesja eventowa', 'Fotografia produktów']],
+            ['name' => 'Studio Masazu', 'services' => ['Sesja portretowa', 'Sesja eventowa', 'Fotografia produktów']],
         ];
 
         // Utworz właścicieli biznesów
-        $owners = User::factory(10)->create();
+        $owners = User::factory(11)->create();
 
         foreach ($businessTypes as $index => $businessData) {
             $owner = $owners[$index];

@@ -47,5 +47,7 @@
         @endforelse
     </div>
 
-    
+      <div class="mt-4">
+        {{ $businesses->links() }}
+    </div>
 </div>
