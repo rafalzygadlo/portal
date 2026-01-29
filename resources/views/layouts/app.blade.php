@@ -16,7 +16,7 @@
     @livewireStyles
 
 </head>
-<body >
+<body class="bg-light">
     <div>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container-fluid">
@@ -93,27 +93,9 @@
                 </div>
             </div>
         </nav>
-<style>
-.lw-loader {
-    position: fixed;
-    inset: 0;
-    background: rgba(255,255,255,0.85);
-    z-index: 9999;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.lw-box {
-    text-align: center;
-    color: #333;
-}
-</style>
-        <main class="container-fluid py-4">
-           
-
-        {{$slot}}
+        <main class="container-fluid py-5">
+            {{$slot}}
         </main>
 
   <footer class="py-3 my-4">

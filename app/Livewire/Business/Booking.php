@@ -24,6 +24,7 @@ class Booking extends Component
     public array $weekSlots = [];
     public Collection $services;
     public Carbon $weekStart;
+    public int $step = 1;
 
     
     #[Computed]
@@ -41,6 +42,58 @@ class Booking extends Component
         $this->weekDays = [];
         $this->weekSlots = [];
         $this->loadWeekSlots();
+    }
+
+    public function nextStep()
+    {
+        $this->validateStep($this->step);
+        if ($this->step < 4) {
+            $this->step++;
+        }
+    }
+
+    public function previousStep()
+    {
+        if ($this->step > 1) {
+            $this->step--;
+        }
+    }
+
+    public function goToStep($step)
+    {
+        if ($step > $this->step) {
+            for ($i = $this->step; $i < $step; $i++) {
+                $this->validateStep($i);
+            }
+        }
+        $this->step = $step;
+    }
+
+    protected function validateStep($step)
+    {
+        if ($step == 1) {
+            $this->validate(['selectedServiceId' => 'required']);
+        } elseif ($step == 2) {
+            $this->validate([
+                'selectedDate' => 'required|date',
+                'selectedTime' => 'required'
+            ]);
+        } elseif ($step == 3) {
+            $this->validate([
+                'clientName' => 'required|string|min:3',
+                'clientEmail' => 'required|email',
+            ]);
+        }
+    }
+
+    public function selectService($serviceId)
+    {
+        $this->selectedServiceId = $serviceId;
+        $this->selectedTime = '';
+        $this->loadWeekSlots();
+        if ($serviceId) {
+            $this->nextStep();
+        }
     }
 
     public function updatedSelectedDate($value)

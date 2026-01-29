@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html  lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zarezerwuj - {{ $business->name }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+     <!-- CSS Files -->
+    <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-icons.css') }}" rel="stylesheet">
     @livewireStyles
 </head>
-<body class="bg-gray-50">
+<body class="bg-light">
     <nav class="bg-white shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="container py-4 d-flex justify-content-between align-items-center">
             <div>
-                <a href="/" class="text-gray-600 hover:text-gray-900"></a>
-                <h1 class="text-xl font-bold">{{ $business->name }}</h1>
+                <a href="/" class="text-muted"></a>
+                <h1 class="h5 fw-bold">{{ $business->name }}</h1>
             </div>
         </div>
            <ul class="navbar-nav ms-auto">
@@ -58,7 +61,7 @@
         
     </nav>
 
-    <div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="container py-5">
         {{ $slot }}
     </div>
 
