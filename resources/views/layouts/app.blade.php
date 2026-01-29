@@ -29,8 +29,6 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                     <div wire:loading >Ładowanie strony…</div>
-          <span wire:loading>Zapisywanie...</span>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('main.index') }}">{{ __('main.index') }}</a>
@@ -68,9 +66,7 @@
                             @endif
                         @else
                         <li class="nav-item">
-
-                                
-
+                                <livewire:notifications />
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -80,7 +76,7 @@
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('user.profile', Auth::user()) }}"> {{ __('profile.link') }}</a>
                                 <div class="dropdown-divider"></div>
-                                     <a class="dropdown-item" href="{{ route('logout') }}"> {{ __('logout.link') }}</a>
+                                     <a class="dropdown-item" href="{{ route('logout') }}"> {{ __('global.logout') }}</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>

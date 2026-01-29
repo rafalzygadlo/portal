@@ -23,9 +23,54 @@
                     </div>
                 </div>
             </div>
-        </div>
 
+            @if(Auth::id() === $user->id)
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-3">Szybkie akcje</h5>
+                        <div class="d-grid gap-2">
+                            <a href="{{ route('business.create') }}" class="btn btn-outline-primary text-start">
+                                <i class="bi bi-briefcase me-2"></i> Załóż nowy biznes
+                            </a>
+                            <a href="{{ route('article.create') }}" class="btn btn-outline-primary text-start">
+                                <i class="bi bi-pencil-square me-2"></i> Napisz artykuł
+                            </a>
+                            <a href="{{ route('todo.create') }}" class="btn btn-outline-primary text-start">
+                                <i class="bi bi-lightbulb me-2"></i> Zgłoś pomysł
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
         <div class="col-md-8">
+            <h4 class="mb-4 pb-2 border-bottom">Biznesy użytkownika</h4>
+            <div class="row mb-5">
+                    @forelse($user->ownedBusinesses as $business)
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">{{ $business->name }}</h5>
+                                    <p class="card-text text-muted small mb-3">{{ \Illuminate\Support\Str::limit($business->description, 60) }}</p>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('business.domain', ['subdomain' => $business->subdomain]) }}" class="btn btn-sm btn-outline-secondary" target="_blank">
+                                            <i class="bi bi-globe"></i> Strona
+                                        </a>
+                                        @if(Auth::id() === $user->id)
+                                            <a href="{{ route('dashboard.business', ['subdomain' => $business->subdomain, 'business' => $business->id]) }}" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-speedometer2"></i> Dashboard
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+
+                <div class="alert alert-light text-center">Ten użytkownik nie napisał jeszcze żadnych artykułów.</div>
+            @endforelse
+                </div>
+
             <h4 class="mb-4 pb-2 border-bottom">Artykuły użytkownika</h4>
             
             @forelse($articles as $article)

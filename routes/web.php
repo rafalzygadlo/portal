@@ -42,8 +42,6 @@ Route::get('/business/create', \App\Livewire\Business\Create::class)->name('busi
 Route::get('/business/{business:slug}', \App\Livewire\Business\Show::class)->name('business.show');
 
 
-
-
 Route::get('/page/{page}', \App\Livewire\Page::class)
     ->where('page', 'privacy|terms|faq')->name('page');
 
@@ -68,11 +66,13 @@ Route::get('/polls', \App\Livewire\Poll\Index::class)->name('polls.index');
 Route::get('/polls/create', \App\Livewire\Poll\Create::class)->name('polls.create')->middleware('auth');
 Route::get('/polls/{poll}', \App\Livewire\Poll\Show::class)->name('polls.show');
 
-
+Route::get('/notify',App\Livewire\Notifications::class)->name('notifications.index')->middleware('auth');
 
 Route::get('/login',App\Livewire\Login::class)->name('login')->middleware('guest');
 Route::post('/login',[App\Livewire\Login::class,'login']);
 Route::get('/logout',[App\Livewire\Login::class,'logout'])->name('logout');
+
+
 
 
 Route::get('/login/verify/{email}', function (Request $request, $email) {

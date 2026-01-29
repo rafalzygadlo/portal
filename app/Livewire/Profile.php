@@ -13,6 +13,7 @@ class Profile extends Component
     public function mount(User $user)
     {
         $this->user = $user;
+        $this->user->load('ownedBusinesses');
     }
 
     public function render()

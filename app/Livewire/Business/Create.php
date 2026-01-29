@@ -26,6 +26,7 @@ class Create extends Component
         'phone' => 'nullable|max:20',
         'website' => 'nullable|url|max:255',
         'categories' => 'required|array|min:1',
+        //'subdomain' => 'min:3|max:50|alpha_dash|unique:businesses,subdomain',
     ];
 
     public function save()
@@ -40,6 +41,7 @@ class Create extends Component
             'description' => $this->description,
             'phone' => $this->phone,
             'website' => $this->website,
+            'subdomain' => Str::slug($this->name),
         ]);
 
         $business->categories()->sync($this->categories);

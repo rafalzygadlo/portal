@@ -48,7 +48,7 @@
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('user.profile', Auth::user()) }}"> {{ __('profile.link') }}</a>
                                 <div class="dropdown-divider"></div>
-                                     <a class="dropdown-item" href="{{ route('logout') }}"> {{ __('logout.link') }}</a>
+                                     <a class="dropdown-item" href="{{ route('logout') }}"> {{ __('logout') }}</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>

@@ -1,12 +1,12 @@
 <div class="dropdown">
-    <button class="btn btn-outline-secondary position-relative" type="button" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-bell"></i>
+    <a class="nav-link position-relative" href="#" role="button" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-bell-fill"></i>
         @if($unreadCount > 0)
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 {{ $unreadCount }}
             </span>
         @endif
-    </button>
+    </a>
 
     <div class="dropdown-menu dropdown-menu-end" style="width: 350px; max-height: 500px; overflow-y: auto;" aria-labelledby="notificationsDropdown">
         <h6 class="dropdown-header">
