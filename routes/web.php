@@ -22,7 +22,7 @@ use Illuminate\Support\Str;
 // Subdomeny - Strony biznesu i rezerwacje
 Route::domain('{subdomain}.localhost')->group(function () {
     Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
-    Route::get('/booking', \App\Livewire\Business\Booking::class)->name('business.booking');
+    Route::get('/booking', \App\Livewire\Business\Booking\Step1::class)->name('business.booking');
     
     //Route::middleware(['auth'])->group(function () {
         //Route::get('/dashboard/{business}/reservations', \App\Livewire\Business\Dashboard::class)->name('dashboard.business')->can('update,business');

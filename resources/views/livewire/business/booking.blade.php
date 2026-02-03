@@ -26,52 +26,42 @@
                     @endforeach
                 </div>
             </div>
-
-            <style>
-                .service-card {
-                    cursor: pointer;
-                    border: 2px solid #e9ecef;
-                    transition: all 0.2s ease-in-out;
-                }
-                .service-card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    border-color: var(--bs-primary);
-                }
-                .service-card.active {
-                    border-color: var(--bs-primary);
-                    background-color: #f0f8ff;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                }
-            </style>
             <form wire:submit="book">
                 @if ($step == 1)
-                    <livewire:business.booking.step1 
-                        :services="$services" 
-                        :selectedServiceId="$selectedServiceId"
-                    />
+                    <div wire:key="step-1">
+                        <livewire:business.booking.step1 
+                            :services="$services" 
+                            :selectedServiceId="$selectedServiceId"
+                        />
+                    </div>
                 @elseif ($step == 2)
-                    <livewire:business.booking.step2 
-                        :business="$business"
-                        :selectedServiceId="$selectedServiceId"
-                        :selectedDate="$selectedDate"
-                        :selectedTime="$selectedTime"
-                    />
+                    <div wire:key="step-2">
+                        <livewire:business.booking.step2 
+                            :business="$business"
+                            :selectedServiceId="$selectedServiceId"
+                            :selectedDate="$selectedDate"
+                            :selectedTime="$selectedTime"
+                        />
+                    </div>
                 @elseif ($step == 3)
-                    <livewire:business.booking.step3 
-                        wire:model:clientName.live="clientName"
-                        wire:model:clientEmail.live="clientEmail"
-                        wire:model:clientPhone.live="clientPhone"
-                        wire:model:notes.live="notes"
-                    />
+                    <div wire:key="step-3">
+                        <livewire:business.booking.step3 
+                            wire:model:name.defer="clientName"
+                            wire:model:email.defer="clientEmail"
+                            wire:model:phone.defer="clientPhone"
+                            wire:model:notesValue.defer="notes"
+                        />
+                    </div>
                 @elseif ($step == 4)
-                    <livewire:business.booking.step4 
-                        :selectedService="$this->selectedService"
-                        :selectedDate="$selectedDate"
-                        :selectedTime="$selectedTime"
-                        :clientName="$clientName"
-                        :clientEmail="$clientEmail"
-                    />
+                    <div wire:key="step-4">
+                        <livewire:business.booking.step4 
+                            :selectedService="$this->selectedService"
+                            :selectedDate="$selectedDate"
+                            :selectedTime="$selectedTime"
+                            :clientName="$clientName"
+                            :clientEmail="$clientEmail"
+                        />
+                    </div>
                 @endif
 
                 <!-- Przyciski nawigacyjne -->

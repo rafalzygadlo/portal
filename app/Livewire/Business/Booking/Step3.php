@@ -8,11 +8,14 @@ use Livewire\Attributes\Modelable;
 class Step3 extends Component
 {
     #[Modelable]
-    public string $clientName = '';
+    public string $name = '';
+
     #[Modelable]
-    public string $clientEmail = '';
+    public string $email = '';
+
     #[Modelable]
-    public string $clientPhone = '';
+    public string $phone = '';
+
     #[Modelable]
     public string $notes = '';
 

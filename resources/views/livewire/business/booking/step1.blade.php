@@ -30,4 +30,27 @@
     @error('selectedServiceId')
         <div class="text-danger small mt-2 d-block">{{ $message }}</div>
     @enderror
+    <div class="d-flex justify-content-between mt-4">
+        <button type="button" wire:click="nextStep" class="btn btn-primary">
+            Dalej
+        </button>
+                    
+    </div>
+       <style>
+                .service-card {
+                    cursor: pointer;
+                    border: 2px solid #e9ecef;
+                    transition: all 0.2s ease-in-out;
+                }
+                .service-card:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    border-color: var(--bs-primary);
+                }
+                .service-card.active {
+                    border-color: var(--bs-primary);
+                    background-color: #f0f8ff;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                }
+            </style>
 </div>

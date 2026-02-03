@@ -40,7 +40,7 @@ class Booking extends Component
     public function serviceSelected($serviceId)
     {
         $this->selectedServiceId = $serviceId;
-        $this->selectedTime = '';
+        
         if ($serviceId) {
             $this->nextStep();
         }
@@ -53,9 +53,9 @@ class Booking extends Component
         $this->selectedTime = $time;
     }
 
+    
     public function nextStep()
     {
-        
         $this->validateStep($this->step);
 
         if ($this->step < 4) {
@@ -97,8 +97,7 @@ class Booking extends Component
         
         if ($step == 3) 
         {
-            
-            $this->validate([
+          $this->validate([
                 'clientName' => 'required|string|min:3',
                 'clientEmail' => 'required|email',
             ]);
