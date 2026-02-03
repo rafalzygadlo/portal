@@ -45,138 +45,34 @@
                 }
             </style>
             <form wire:submit="book">
-                <!-- Krok 1: Wybór usługi -->
-                <div @if($step != 1) style="display: none;" @endif wire:key="step1">
-                    <h3 class="fw-semibold mb-3 h5">Wybierz usługę</h3>
-                    <div class="row g-3">
-                        @forelse ($services as $service)
-                            <div class="col-md-6">
-                                <div 
-                                    class="service-card p-3 rounded h-100 d-flex flex-column {{ $selectedServiceId == $service->id ? 'active' : '' }}"
-                                    wire:click="selectService('{{ $service->id }}')"
-                                >
-                                    <div class="d-flex align-items-center">
-                                        <i class="bi bi-gem fs-2 text-primary me-3"></i>
-                                        <div>
-                                            <h6 class="fw-bold mb-0">{{ $service->name }}</h6>
-                                            <small class="text-muted">{{ $service->duration_minutes }} min</small>
-                                        </div>
-                                    </div>
-                                     @if ($service->price)
-                                        <div class="mt-auto text-end fs-5 fw-bold pt-2">
-                                            {{ number_format($service->price, 2) }} zł
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @empty
-                            <div class="col-12">
-                                <div class="alert alert-secondary">Brak dostępnych usług do rezerwacji.</div>
-                            </div>
-                        @endforelse
-                    </div>
-                    @error('selectedServiceId')
-                        <div class="text-danger small mt-2 d-block">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Krok 2: Kalendarz tygodniowy -->
-                <div @if($step != 2) style="display: none;" @endif wire:key="step2">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <button type="button" wire:click="previousWeek" class="btn btn-outline-secondary">←</button>
-                        <h3 class="h5 fw-semibold mb-0">
-                            {{ $weekStart->format('d.m.Y') }} - {{ $weekStart->copy()->addDays(6)->format('d.m.Y') }}
-                        </h3>
-                        <button type="button" wire:click="nextWeek" class="btn btn-outline-secondary">→</button>
-                    </div>
-
-                    <div class="row row-cols-7 g-2 mb-4">
-                         @forelse ($weekDays ?? [] as $dateKey => $day)
-                        <div class="col">
-                            <div class="border rounded p-2 bg-light h-100">
-                                <div class="fw-semibold text-center mb-2 small">
-                                    <div class="text-muted">{{ substr($day['dayName'], 0, 3) }}</div>
-                                    <div class="h6 mb-0">{{ $day['formatted'] }}</div>
-                                </div>
-
-                                @if (empty($weekSlots[$dateKey]))
-                                    <div class="text-center text-muted small p-3">
-                                        Zamknięte
-                                    </div>
-                                @else
-                                    <div class="d-grid gap-1" style="max-height: 18rem; overflow-y: auto;">
-                                        @foreach ($weekSlots[$dateKey] as $slot)
-                                            <button 
-                                                type="button"
-                                                wire:click="selectSlot('{{ $slot['fullDateTime'] }}')"
-                                                class="btn btn-sm
-                                                    @if ($slot['available'])
-                                                        @if ($selectedDate === $dateKey && $selectedTime === $slot['time'])
-                                                            btn-primary
-                                                        @else
-                                                            btn-outline-success
-                                                        @endif
-                                                    @else
-                                                        btn-outline-danger disabled
-                                                    @endif
-                                                "
-                                                @if (!$slot['available']) disabled @endif
-                                            >
-                                                {{ $slot['time'] }}
-                                            </button>
-                                        @endforeach
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12 text-center text-muted p-4">
-                            Ładowanie...
-                        </div>
-                    @endforelse
-                    </div>
-
-                    @error('selectedDate') <div class="text-danger small mt-2 d-block">{{ $message }}</div> @enderror
-                    @error('selectedTime') <div class="text-danger small mt-2 d-block">{{ $message }}</div> @enderror
-                </div>
-
-                <!-- Krok 3: Dane klienta -->
-                <div @if($step != 3) style="display: none;" @endif wire:key="step3">
-                    <h3 class="fw-semibold mb-3 h5">Twoje dane</h3>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Imię i Nazwisko</label>
-                            <input type="text" wire:model="clientName" class="form-control @error('clientName') is-invalid @enderror">
-                            @error('clientName') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Email</label>
-                            <input type="email" wire:model="clientEmail" class="form-control @error('clientEmail') is-invalid @enderror">
-                            @error('clientEmail') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Telefon (opcjonalnie)</label>
-                            <input type="tel" wire:model="clientPhone" class="form-control">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Notatki (opcjonalnie)</label>
-                            <textarea wire:model="notes" rows="3" class="form-control"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Krok 4: Podsumowanie -->
-                <div @if($step != 4) style="display: none;" @endif wire:key="step4">
-                    <h3 class="fw-semibold mb-3 h5">Podsumowanie rezerwacji</h3>
-                    @if($this->selectedService)
-                        <div class="alert alert-light">
-                            <p><strong>Usługa:</strong> {{ $this->selectedService->name }} ({{ $this->selectedService->duration_minutes }} min)</p>
-                            <p><strong>Termin:</strong> {{ \Carbon\Carbon::parse($selectedDate)->format('l, d.m.Y') }} o <strong>{{ $selectedTime }}</strong></p>
-                            <p><strong>Imię i nazwisko:</strong> {{ $clientName }}</p>
-                            <p class="mb-0"><strong>Email:</strong> {{ $clientEmail }}</p>
-                        </div>
-                    @endif
-                </div>
+                @if ($step == 1)
+                    <livewire:business.booking.step1 
+                        :services="$services" 
+                        :selectedServiceId="$selectedServiceId"
+                    />
+                @elseif ($step == 2)
+                    <livewire:business.booking.step2 
+                        :business="$business"
+                        :selectedServiceId="$selectedServiceId"
+                        :selectedDate="$selectedDate"
+                        :selectedTime="$selectedTime"
+                    />
+                @elseif ($step == 3)
+                    <livewire:business.booking.step3 
+                        wire:model:clientName.live="clientName"
+                        wire:model:clientEmail.live="clientEmail"
+                        wire:model:clientPhone.live="clientPhone"
+                        wire:model:notes.live="notes"
+                    />
+                @elseif ($step == 4)
+                    <livewire:business.booking.step4 
+                        :selectedService="$this->selectedService"
+                        :selectedDate="$selectedDate"
+                        :selectedTime="$selectedTime"
+                        :clientName="$clientName"
+                        :clientEmail="$clientEmail"
+                    />
+                @endif
 
                 <!-- Przyciski nawigacyjne -->
                 <div class="d-flex justify-content-between mt-4">

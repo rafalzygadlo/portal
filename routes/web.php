@@ -24,9 +24,10 @@ Route::domain('{subdomain}.localhost')->group(function () {
     Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
     Route::get('/booking', \App\Livewire\Business\Booking::class)->name('business.booking');
     
-    Route::middleware(['auth'])->group(function () {
-        Route::get('/dashboard/business/{business}/reservations', \App\Livewire\Business\Dashboard::class)->name('dashboard.business')->can('update,business');
-    });
+    //Route::middleware(['auth'])->group(function () {
+        //Route::get('/dashboard/{business}/reservations', \App\Livewire\Business\Dashboard::class)->name('dashboard.business')->can('update,business');
+        Route::get('/dashboard', \App\Livewire\Business\Dashboard::class)->name('dashboard.business'); //->can('update,business');
+    //});
 
 });
 

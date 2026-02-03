@@ -12,6 +12,7 @@ class Domain extends Component
     public function mount($subdomain)
     {
         $this->business = Business::where('subdomain', $subdomain)->firstOrFail();
+        
     }
 
     public function render()
@@ -19,7 +20,7 @@ class Domain extends Component
         return view('livewire.business.domain', [
             'services' => $this->business->services()->where('is_active', true)->get(),
             'isOwner' => auth()->check() && auth()->user()->id === $this->business->user_id,
-            'business' => $this->business
+            'business' => $this->business->name,
         ])->layout('layouts.business', [
             'business' => $this->business,
         ]);
