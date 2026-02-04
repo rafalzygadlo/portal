@@ -9,7 +9,7 @@
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('todo.index') }}" class="text-decoration-none">Pomysły</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('todos.index') }}" class="text-decoration-none">Pomysły</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($todo->title, 30) }}</li>
                 </ol>
             </nav>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="card-footer1 bg-white p-0 border-top-0 pt-4 mt-4">
-                     <a href="{{ route('todo.index') }}" class="btn btn-outline-primary">
+                     <a href="{{ route('todos.index') }}" class="btn btn-outline-primary">
                         <i class="bi bi-arrow-left"></i> Wróć do listy
                     </a>
                 </div>

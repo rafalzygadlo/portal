@@ -1,9 +1,7 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Pomysły</h2>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTodoModal">
-            Dodaj pomysł
-        </button>
+        <a href="{{ route('todos.create') }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Dodaj pomysł</a>
     </div>
 
     @if (session('message'))
@@ -25,7 +23,7 @@
                             <span>Autor: {{ $todo->user->first_name }} {{ $todo->user->last_name }}</span>
                             <span>Komentarze: {{ $todo->comments_count }}</span>
                         </div>
-                        <a href="{{ route('todo.show', $todo->id) }}" class="stretched-link"></a>
+                        <a href="{{ route('todos.show', $todo->id) }}" class="stretched-link"></a>
                     </div>
                 </div>
             </div>
@@ -41,19 +39,3 @@
     <div class="mt-4">
         {{ $todos->links() }}
     </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="createTodoModal" tabindex="-1" aria-labelledby="createTodoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createTodoModalLabel">Dodaj nowy pomysł</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <livewire:todo.create />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

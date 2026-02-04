@@ -1,9 +1,7 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Katalog firm</h2>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createBusinessModal">
-            Dodaj swoją firmę
-        </button>
+        <a href="{{ route('business.create') }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Dodaj swoją firmę</a>
     </div>
 
     @if (session('status'))
@@ -57,7 +55,4 @@
       <div class="mt-4">
         {{ $businesses->links() }}
     </div>
-
-    <!-- Modal -->
-    <x-modals.business.create />
 </div>

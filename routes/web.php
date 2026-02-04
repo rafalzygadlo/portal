@@ -24,10 +24,10 @@ Route::domain('{subdomain}.localhost')->group(function () {
     Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
     Route::get('/booking', \App\Livewire\Business\Booking\Step1::class)->name('business.booking');
     
-    //Route::middleware(['auth'])->group(function () {
-        //Route::get('/dashboard/{business}/reservations', \App\Livewire\Business\Dashboard::class)->name('dashboard.business')->can('update,business');
-        Route::get('/dashboard', \App\Livewire\Business\Dashboard::class)->name('dashboard.business'); //->can('update,business');
-    //});
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/dashboard/{business}/reservations', \App\Livewire\Business\Dashboard::class)->name('dashboard.business')->can('update,business');
+        
+    });
 
 });
 
@@ -48,9 +48,9 @@ Route::get('/page/{page}', \App\Livewire\Page::class)
 
 Route::get('/profile/{user}', App\Livewire\Profile::class)->name('user.profile');
 // Todo routes
-Route::get('/todo', App\Livewire\Todo\Index::class)->name('todo.index');
-Route::get('/todo/create', App\Livewire\Todo\Create::class)->name('todo.create')->middleware('auth');
-Route::get('/todo/{todo}', App\Livewire\Todo\Show::class)->name('todo.show');
+Route::get('/todos', App\Livewire\Todo\Index::class)->name('todos.index');
+Route::get('/todos/create', App\Livewire\Todo\Create::class)->name('todos.create')->middleware('auth');
+Route::get('/todos/{todo}', App\Livewire\Todo\Show::class)->name('todos.show');
 
 // Offers
 Route::get('/offers', \App\Livewire\Offer\Index::class)->name('offers.index');

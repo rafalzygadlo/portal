@@ -5,7 +5,6 @@ namespace App\Livewire\Todo;
 use App\Models\Todo;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-
 class Create extends Component
 {
     public $title;
@@ -31,7 +30,7 @@ class Create extends Component
             'status' => 'pending',
         ]);
 
-        return redirect()->route('todo.index')->with('message', 'Twój pomysł został dodany!');
+        return redirect()->route('todos.index')->with('message', 'Twój pomysł został dodany!');
     }
 
     public function render()
