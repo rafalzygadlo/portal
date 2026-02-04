@@ -13,7 +13,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.todo.index', [
-            'todos' => Todo::with('user')->withCount('comments')->latest()->paginate(5)
+            'todos' => Todo::with('user')->withCount('comments')->latest()->paginate(9)
         ]);
     }
 }

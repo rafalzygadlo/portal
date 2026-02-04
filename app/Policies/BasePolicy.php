@@ -16,6 +16,7 @@ class BasePolicy
      */
     public function before(User $user, mixed $ability): bool
     {
+        return true;
         return $user->is_admin;
     }
 }

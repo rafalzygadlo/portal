@@ -12,7 +12,7 @@
     <!-- CSS Files -->
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/bootstrap-icons.css') }}" rel="stylesheet">
-    
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     @livewireStyles
 
 </head>
@@ -112,6 +112,7 @@
 </div>
 
     @livewireScripts
+    @livewire('wire-elements-modal')
     <script src="{{ asset('/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>

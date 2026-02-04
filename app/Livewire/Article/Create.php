@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\ValidationException;
 
-class Form extends Component
+class Create extends Component
 {
     use WithFileUploads;
 
@@ -88,7 +88,7 @@ class Form extends Component
 
     public function render()
     {
-        return view('livewire.article.form', [
+        return view('livewire.article.create', [
             'allCategories' => Category::where('slug', '!=', 'spam')->get()
         ]);
     }

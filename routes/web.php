@@ -34,7 +34,7 @@ Route::domain('{subdomain}.localhost')->group(function () {
 
 // Article routes
 Route::get('/',App\Livewire\Main::class)->name('main.index');
-Route::get('/articles/create', \App\Livewire\Article\Form::class)->name('article.create')->middleware('auth');
+Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('article.create')->middleware('auth');
 Route::get('/article/{article}', \App\Livewire\Article\Show::class)->name('article.show');
 
 // Business routes

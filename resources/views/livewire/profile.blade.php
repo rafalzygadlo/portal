@@ -29,13 +29,14 @@
                     <div class="card-body">
                         <h5 class="card-title fw-bold mb-3">Szybkie akcje</h5>
                         <div class="d-grid gap-2">
-                            <a href="{{ route('business.create') }}" class="btn btn-outline-primary text-start">
+                             
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#createBusinessModal" class="btn btn-outline-primary text-start">
                                 <i class="bi bi-briefcase me-2"></i> Załóż nowy biznes
                             </a>
                             <a href="{{ route('article.create') }}" class="btn btn-outline-primary text-start">
                                 <i class="bi bi-pencil-square me-2"></i> Napisz artykuł
                             </a>
-                            <a href="{{ route('todo.create') }}" class="btn btn-outline-primary text-start">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#createTodoModal" class="btn btn-outline-primary text-start">
                                 <i class="bi bi-lightbulb me-2"></i> Zgłoś pomysł
                             </a>
                         </div>

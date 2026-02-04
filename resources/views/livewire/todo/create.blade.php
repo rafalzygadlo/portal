@@ -1,11 +1,8 @@
 <div>
     <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card border-1 shadow">
-                <div class="card-header bg-white">Dodaj nowy pomysł</div>
-
-                <div class="card-body">
-
+        <div class="col-md-0">
+            
+            
                     <form wire:submit.prevent="save">
                         <div class="mb-3">
                             <label for="title" class="form-label">Tytuł</label>
@@ -27,8 +24,8 @@
                             </button>
                         </div>
                     </form>
-                </div>
-            </div>
+                
+            
         </div>
     </div>
 </div>

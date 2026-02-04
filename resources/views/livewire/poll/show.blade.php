@@ -16,7 +16,13 @@
             @endif
 
             <div class="card border-0 overflow-hidden">
-                <div class="card-body p-0 p-md-0">
+                <div class="card-body">
+                    @php
+                        $votedOption = $poll->options->first(function($option) {
+                            return $option->votes->contains('user_id', auth()->id());
+                        });
+                    @endphp
+
                     <h1 class="fw-bold mb-3">{{ $poll->question }}</h1>
 
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
@@ -35,17 +41,24 @@
                     <div class="poll-options fs-5">
                         @foreach ($poll->options as $option)
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="pollOption" id="option-{{ $option->id }}" value="{{ $option->id }}" wire:model.live="selectedOptionId">
-                                <label class="form-check-label" for="option-{{ $option->id }}">
+                                <input class="form-check-input" type="radio" name="pollOption" id="option-{{ $option->id }}" value="{{ $option->id }}" wire:model.live="selectedOptionId" @if($votedOption) disabled @endif @if($votedOption && $votedOption->id == $option->id) checked @endif>
+                                <label class="form-check-label {{ $votedOption && $votedOption->id == $option->id ? 'fw-bold' : '' }}" for="option-{{ $option->id }}">
                                     {{ $option->name }}
                                 </label>
                                 <span class="text-muted">({{ $option->votes->count() }} głosów)</span>
+                                @if($votedOption && $votedOption->id == $option->id)
+                                    <span class="badge bg-dark ms-2">Twój głos</span>
+                                @endif
                             </div>
                         @endforeach
                     </div>
                 </div>
-                <div class="card-footer1 bg-white p-0 border-top-0 mt-4">
-                    <button class="btn btn-primary" wire:click="vote" @if(!$selectedOptionId) disabled @endif>Głosuj</button>
+                <div class="card-footer bg-white border-top-0 mt-4">
+                    @if($votedOption)
+                        <button class="btn btn-secondary" disabled>Już zagłosowałeś</button>
+                    @else
+                        <button class="btn btn-primary" wire:click="vote" @if(!$selectedOptionId) disabled @endif>Głosuj</button>
+                    @endif
                     <a href="{{ route('polls.index') }}" class="btn btn-outline-primary ms-2">
                         <i class="bi bi-arrow-left"></i> Wróć do listy
                     </a>

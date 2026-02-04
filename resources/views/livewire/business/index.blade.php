@@ -1,7 +1,9 @@
-<div>
+<div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Katalog firm</h2>
-        <a href="{{ route('business.create') }}" class="btn btn-primary">Dodaj swoją firmę</a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createBusinessModal">
+            Dodaj swoją firmę
+        </button>
     </div>
 
     @if (session('status'))
@@ -23,26 +25,31 @@
         </ul>
     </div>
 
-    <div class="list-group">
+    <div class="row">
         @forelse ($businesses as $business)
-            <a href="{{ route('business.show', $business->slug) }}" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{ $business->name }}</h5>
-                            <small>{{ $business->created_at->diffForHumans() }}</small>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">{{ $business->name }}</h5>
+                            <small class="text-muted text-nowrap ms-2">{{ $business->created_at->diffForHumans() }}</small>
                         </div>
-                        <p class="mb-1">{{ Str::limit($business->description, 150) }}</p>
-                        <small>{{ $business->address1 }}</small>
-                    </div>
-                    <div class="ms-4">
-                        <livewire:business.vote :model="$business" :key="$business->id" />
+                        <p class="card-text text-muted small mb-3">{{ Str::limit($business->description, 100) }}</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-end">
+                            <small class="text-muted">{{ $business->address1 }}</small>
+                            <div style="position: relative; z-index: 2;">
+                                <livewire:business.vote :model="$business" :key="$business->id" />
+                            </div>
+                        </div>
+                        <a href="{{ route('business.show', $business->slug) }}" class="stretched-link"></a>
                     </div>
                 </div>
-            </a>
+            </div>
         @empty
-            <div class="alert alert-secondary">
-                Brak firm w tej kategorii.
+            <div class="col-12">
+                <div class="alert alert-secondary">
+                    Brak firm w tej kategorii.
+                </div>
             </div>
         @endforelse
     </div>
@@ -50,4 +57,7 @@
       <div class="mt-4">
         {{ $businesses->links() }}
     </div>
+
+    <!-- Modal -->
+    <x-modals.business.create />
 </div>
