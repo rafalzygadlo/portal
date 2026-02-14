@@ -94,7 +94,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Aktualnie wybrany biznes.
      */
-    public function currentBusiness(): BelongsTo
+    public function currentBusiness_old(): BelongsTo
     {
         return $this->belongsTo(Business::class, 'current_business_id');
     }

@@ -31,16 +31,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('main.index') }}">{{ __('main.index') }}</a>
-                        </li>     
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('todos.index') }}">{{ __('todos.index') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('business.index') }}">{{ __('business.index') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('announcements.index') }}">{{ __('announcements.index') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('polls.index') }}">{{ __('polls.index') }}</a>
@@ -112,7 +106,6 @@
 </div>
 
     @livewireScripts
-    @livewire('wire-elements-modal')
     <script src="{{ asset('/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>

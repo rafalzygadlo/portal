@@ -53,17 +53,14 @@ class BusinessSeeder extends Seeder
                     'sat' => ['open' => '10:00', 'close' => '16:00', 'closed' => false],
                     'sun' => ['closed' => true],
                 ],
-                'booking_slot_duration' => 30,
-                'is_approved' => true,
+                'booking_slot_duration' => 30
             ]);
 
             // Uaktualnij owner's current_business_id
-            $owner->update(['current_business_id' => $business->id, 'user_type' => 'business_owner']);
+            //$owner->update(['current_business_id' => $business->id, 'user_type' => 'business_owner']);
 
             // Dodaj pracowników
-            $employees = User::factory(3)->create([
-                'user_type' => 'employee',
-            ]);
+            $employees = User::factory(3)->create();
 
             $employeeIds = $employees->pluck('id')->toArray();
 

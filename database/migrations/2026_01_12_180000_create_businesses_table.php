@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('website')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
+            $table->string('subdomain')->nullable()->unique();
+            $table->json('business_hours')->nullable(); // {'mon': {'open': '09:00', 'close': '17:00'}, ...}
+            $table->integer('booking_slot_duration')->default(30); // w minutach
             $table->timestamps();
         });
     }

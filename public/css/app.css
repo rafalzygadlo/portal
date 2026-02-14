@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 body {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #ffffff;
-    color: #000000;
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
 }
 
 .footer
@@ -10,8 +12,8 @@ body {
     position: absolute;
     width: 100%;
     font-size: 12px;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #212529;
+    color: #f8f9fa;
     min-height: 50px;
     line-height: 50px;
     text-align: center;
@@ -39,48 +41,48 @@ body {
 
   /* Przycisk podstawowy (primary) - czarne tło, biały tekst */
   .btn-primary {
-      background-color: #000000 !important;
-      border-color: #000000 !important;
+      background-color: #212529 !important;
+      border-color: #212529 !important;
       color: #ffffff !important;
   }
 
   .btn-primary:hover,
   .btn-primary:focus,
   .btn-primary:active {
-      background-color: #333333 !important; /* Ciemnoszary przy najechaniu */
-      border-color: #333333 !important;
+      background-color: #495057 !important; /* Ciemnoszary przy najechaniu */
+      border-color: #495057 !important;
   }
   
 
   /* Przycisk "outline" - czarna ramka i tekst, przezroczyste tło */
   .btn-outline-primary {
-      color: #000000 !important;
-      border-color: #000000 !important;
+      color: #212529 !important;
+      border-color: #212529 !important;
   }
 
   .btn-outline-primary:hover,
   .btn-outline-primary:focus,
   .btn-outline-primary:active {
-      background-color: #000000 !important;
+      background-color: #212529 !important;
       color: #ffffff !important;
   }
 
   /* --- Dostosowanie kontrolek formularzy --- */
   .form-control:focus,
   .form-select:focus {
-      border-color: #555555 !important;
-      box-shadow: 0 0 0 0.25rem rgba(85, 85, 85, 0.25) !important; /* Cień przy zaznaczeniu */
+      border-color: #495057 !important;
+      box-shadow: 0 0 0 0.25rem rgba(73, 80, 87, 0.25) !important; /* Cień przy zaznaczeniu */
   }
 
   /* --- Dostosowanie linków --- */
   a, .link-primary {
-      color: #000000 !important;
+      color: #212529 !important;
       text-decoration: none;
       transition: color 0.2s ease-in-out;
   }
 
   a:hover, .link-primary:hover {
-      color: #666666 !important;
+      color: #495057 !important;
       text-decoration: underline;
   }
 

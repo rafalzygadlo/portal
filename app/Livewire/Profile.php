@@ -18,21 +18,11 @@ class Profile extends Component
 
     public function render()
     {
-        $articles = Article::where('user_id', $this->user->id)
-            ->withCount(['votes as upvotes_count' => function ($query) {
-                $query->where('value', 1);
-            }, 'votes as downvotes_count' => function ($query) {
-                $query->where('value', -1);
-            }])
-            ->latest()
-            ->get();
-
-        $reputation = $articles->sum(function ($article) {
-            return $article->upvotes_count - $article->downvotes_count;
-        });
+       
+        $reputation =  0;
 
         return view('livewire.profile', [
-            'articles' => $articles,
+            'articles' => 0,
             'reputation' => $reputation
         ]);
     }

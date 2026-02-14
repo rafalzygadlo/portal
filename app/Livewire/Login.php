@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use GuzzleHttp\Psr7\Request;
 use Livewire\Component;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
@@ -21,7 +22,7 @@ class Login extends Component
         // Generowanie podpisanego linku ważnego przez 30 minut
         $url = URL::temporarySignedRoute(
             'login.verify',
-            now()->addMinutes(30),
+            now()->addMinutes(5),
             ['email' => $this->email]
         );
 
@@ -40,6 +41,26 @@ class Login extends Component
         return redirect('/');
     }
 
+    public function verify(Request $request, $email)
+    {
+        if (! $request->hasValidSignature()) 
+        {
+            abort(403, 'Link logowania wygasł lub jest nieprawidłowy.');
+        }
+
+        $user = User::firstOrCreate(
+            ['email' => $email],
+            [
+                'first_name' => Str::before($email, '@'), 
+                'last_name' => '',
+                'password' => Hash::make(Str::random(24)), 
+            ]);
+
+        Auth::login($user);
+
+        return redirect()->intended(); 
+        
+    }
     public function render()
     {
         return view('livewire.login');

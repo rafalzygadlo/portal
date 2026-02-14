@@ -12,7 +12,7 @@
                 <p class="text-muted">Email: {{ $user->email }}</p>
                 <div class="d-flex justify-content-center gap-4 mt-3">
                     <div class="text-center">
-                        <h4 class="fw-bold mb-0">{{ $articles->count() }}</h4>
+                       
                         <small class="text-muted">Artykuły</small>
                     </div>
                     <div class="text-center">
@@ -33,9 +33,7 @@
                             <a href="{{ route('business.create') }}" class="btn btn-outline-primary text-start">
                                 <i class="bi bi-briefcase me-2"></i> Załóż nowy biznes
                             </a>
-                            <a href="{{ route('article.create') }}" class="btn btn-outline-primary text-start">
-                                <i class="bi bi-pencil-square me-2"></i> Napisz artykuł
-                            </a>
+                            
                             <a href="{{ route('todos.create') }}"  class="btn btn-outline-primary text-start">
                                 <i class="bi bi-lightbulb me-2"></i> Zgłoś pomysł
                             </a>
@@ -75,26 +73,6 @@
             @endforelse
                 </div>
 
-            <h4 class="mb-4 pb-2 border-bottom">Artykuły użytkownika</h4>
-            
-            @forelse($articles as $article)
-                <div class="card mb-3 border-0 shadow-sm">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <h5 class="card-title mb-1">
-                                <a href="{{ route('article.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
-                            </h5>
-                            <span class="badge {{ ($article->upvotes_count - $article->downvotes_count) >= 0 ? 'bg-success' : 'bg-danger' }}">
-                                {{ ($article->upvotes_count - $article->downvotes_count) > 0 ? '+' : '' }}{{ $article->upvotes_count - $article->downvotes_count }} pkt
-                            </span>
-                        </div>
-                        <p class="text-muted small mb-2">{{ $article->created_at->format('d.m.Y H:i') }}</p>
-                        <p class="card-text">{{ \Illuminate\Support\Str::limit($article->content, 150) }}</p>
-                    </div>
-                </div>
-            @empty
-                <div class="alert alert-light text-center">Ten użytkownik nie napisał jeszcze żadnych artykułów.</div>
-            @endforelse
-        </div>
+          
     </div>
 </div>
