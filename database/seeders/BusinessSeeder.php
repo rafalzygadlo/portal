@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Business;
 use App\Models\User;
-use App\Models\ReservationService;
+use App\Models\Category;
 use App\Models\Reservation;
+use App\Models\ReservationService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -26,6 +27,8 @@ class BusinessSeeder extends Seeder
             ['name' => 'Studio Fotografii', 'services' => ['Sesja portretowa', 'Sesja eventowa', 'Fotografia produktów']],
             ['name' => 'Studio Masazu', 'services' => ['Sesja portretowa', 'Sesja eventowa', 'Fotografia produktów']],
         ];
+
+        $businessCategories = Category::where('type', 'business')->get();
 
         // Utworz właścicieli biznesów
         $owners = User::factory(11)->create();
@@ -55,6 +58,12 @@ class BusinessSeeder extends Seeder
                 ],
                 'booking_slot_duration' => 30
             ]);
+
+            if ($businessCategories->count() > 0) {
+                $numberOfCategories = rand(1, min(3, $businessCategories->count()));
+                $randomCategories = $businessCategories->random($numberOfCategories);
+                $business->categories()->attach($randomCategories->pluck('id')->toArray());
+            }
 
             // Uaktualnij owner's current_business_id
             //$owner->update(['current_business_id' => $business->id, 'user_type' => 'business_owner']);
@@ -111,5 +120,6 @@ class BusinessSeeder extends Seeder
         }
     }
 }
+
 
 

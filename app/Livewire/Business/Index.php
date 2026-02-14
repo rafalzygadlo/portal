@@ -4,6 +4,7 @@ namespace App\Livewire\Business;
 
 use App\Models\Business;
 use App\Models\Category;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,28 +12,28 @@ class Index extends Component
 {
     use WithPagination;
 
-    public $category = null;
+    #[Url(as: 'kategorie', except: [], keep: true)]
+    public $selectedCategories = [];
 
-    public function filterByCategory($categorySlug)
+    public function updatedSelectedCategories()
     {
-        $this->category = $categorySlug;
         $this->resetPage();
     }
 
     public function render()
     {
         $businesses = Business::
-            when($this->category, function ($query) {
+            when($this->selectedCategories, function ($query) {
                 $query->whereHas('categories', function ($q) {
-                    $q->where('slug', $this->category);
+                    $q->whereIn('slug', $this->selectedCategories);
                 });
             })
             ->latest()
-            ->paginate(5);
+            ->paginate(6);
 
         return view('livewire.business.index', [
             'businesses' => $businesses,
-            'categories' => Category::all(),
+            'categories' => Category::orderBy('name')->get(),
         ]);
     }
 }
