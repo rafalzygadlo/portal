@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Poll;
 
-use App\Models\Poll\Pool;
+use App\Models\Poll\Poll;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
