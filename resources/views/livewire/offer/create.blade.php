@@ -1,7 +1,7 @@
 <div>
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card border-1 shadow">
+            <div class="card border-1">
                 <div class="card-header bg-white">Add New Offer</div>
 
                 <div class="card-body">

@@ -1,7 +1,7 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-md-4 mb-4">
-            <div class="card border-0 shadow-sm text-center p-4">
+            <div class="card border-0 text-center p-4">
                 <div class="mb-3">
                     <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center text-primary fw-bold" style="width: 100px; height: 100px; font-size: 2.5rem;">
                         {{ substr($user->first_name, 0, 1) }}

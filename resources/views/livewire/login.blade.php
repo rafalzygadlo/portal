@@ -1,7 +1,7 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6 col-sm-12">
-            <div class="card shadow-sm border-0">
+            <div class="card border-0">
                 <div class="card-header bg-white text-center py-4">
                     <i class="bi bi-key-fill" style="font-size: 3rem;"></i>
                     <h3 class="mb-0 mt-2 fw-bold">Witaj z powrotem!</h3>
