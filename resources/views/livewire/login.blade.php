@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6 col-sm-12">
             <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white text-center py-4">
+                <div class="card-header bg-white text-center py-4">
                     <i class="bi bi-key-fill" style="font-size: 3rem;"></i>
                     <h3 class="mb-0 mt-2 fw-bold">Witaj z powrotem!</h3>
                 </div>
@@ -24,7 +24,14 @@
                                 @error('email') <div class="invalid-feedback text-start">{{ $message }}</div> @enderror
                             </div>
 
-                            <button class="w-100 btn btn-lg btn-primary" type="submit">
+                            <div class="form-check mb-3 text-start">
+                                <input class="form-check-input" type="checkbox" id="remember" wire:model="remember">
+                                <label class="form-check-label" for="remember">
+                                    Zapamiętaj mnie
+                                </label>
+                            </div>
+
+                            <button class="w-100 btn btn-lg btn-dark" type="submit">
                                 <span wire:loading.remove wire:target="login">
                                     <i class="bi bi-magic"></i> Wyślij magiczny link
                                 </span>

@@ -72,29 +72,7 @@ Route::get('/notify',App\Livewire\Notifications::class)->name('notifications.ind
 Route::get('/login',App\Livewire\Login::class)->name('login')->middleware('guest');
 Route::post('/login',[App\Livewire\Login::class,'login']);
 Route::get('/logout',[App\Livewire\Login::class,'logout'])->name('logout');
-
-
-
-
-Route::get('/login/verify/{email}', function (Request $request, $email) {
-    if (! $request->hasValidSignature()) 
-    {
-        abort(403, 'Link logowania wygasł lub jest nieprawidłowy.');
-    }
-
-    $user = User::firstOrCreate(
-        ['email' => $email],
-        [
-            'first_name' => Str::before($email, '@'), 
-            'last_name' => '',
-            'password' => Hash::make(Str::random(24)), 
-        ]
-    );
-
-    Auth::login($user);
-
-    return redirect('/');
-})->name('login.verify');
+Route::get('/login/verify/{email}', [App\Livewire\Login::class, 'verify'])->name('login.verify');
 
 // 
 
