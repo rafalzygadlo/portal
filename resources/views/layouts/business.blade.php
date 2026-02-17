@@ -10,7 +10,7 @@
     <link href="{{ asset('/css/bootstrap-icons.css') }}" rel="stylesheet">
     @livewireStyles
 </head>
-<body class="bg-light">
+<body >
     <nav class="navbar navbar-expand-md bg-white shadow-sm">
         <div class="container ">
             <a class="navbar-brand">
