@@ -1,8 +1,8 @@
 <div>
     <div class="row justify-content-center">
         <div class="col-md-4">
-            <div class="card border-0 shadow">
-                <div class="card-header bg-white">Dodaj nowy pomysł</div>
+            <div class="card border-1">
+                <div class="card-header">Dodaj nowy pomysł</div>
 
                 <div class="card-body">
 

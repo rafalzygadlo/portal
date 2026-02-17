@@ -1,8 +1,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card border-0">
-                <div class="card-header bg-white">Dodaj nową firmę</div>
+            <div class="card border-1">
+                <div class="card-header">Dodaj nową firmę</div>
 
                 <div class="card-body">
 
