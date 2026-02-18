@@ -16,7 +16,6 @@ class OfferFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'offer_category_id' => CategoryFactory::new(),
             'title' => $this->faker->sentence(),
             'content' => $this->faker->paragraphs(3, true),
         ];

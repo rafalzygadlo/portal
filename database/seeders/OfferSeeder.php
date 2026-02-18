@@ -19,17 +19,10 @@ class OfferSeeder extends Seeder
             $users = \App\Models\User::factory()->count(10)->create();
         }
         
-        $categories = \App\Models\Offer\Category::all();
-        if ($categories->isEmpty()) {
-            $this->call(OfferCategorySeeder::class);
-            $categories = \App\Models\Offer\Category::all();
-        }
-
         Offer::factory()
             ->count(100)
             ->create([
-                'user_id' => fn() => $users->random()->id,
-                'offer_category_id' => fn() => $categories->random()->id,
+                'user_id' => fn() => $users->random()->id
             ]);
     }
 }

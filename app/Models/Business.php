@@ -19,7 +19,6 @@ class Business extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
         'name',
         'slug',
         'subdomain',
@@ -40,11 +39,11 @@ class Business extends Model
     ];
 
     /**
-     * Get the user that owns the business.
+     * The users that belong to the business.
      */
-    public function user(): BelongsTo
+    public function users(): BelongsToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     /**

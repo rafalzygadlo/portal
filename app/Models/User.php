@@ -29,7 +29,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'avatar',
         'password',
         'user_type',
-        'current_business_id',
         'subdomain',
     ];
 
@@ -71,11 +70,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Biznesy, którymi zarządza użytkownik.
+     * The businesses that the user belongs to.
      */
-    public function ownedBusinesses(): HasMany
+    public function businesses(): BelongsToMany
     {
-        return $this->hasMany(Business::class);
+        return $this->belongsToMany(Business::class);
     }
 
     /**
@@ -92,27 +91,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Aktualnie wybrany biznes.
-     */
-    public function currentBusiness_old(): BelongsTo
-    {
-        return $this->belongsTo(Business::class, 'current_business_id');
-    }
-
-    /**
      * Rezerwacje użytkownika.
      */
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
-    }
-
-    /**
-     * Sprawdź, czy użytkownik jest właścicielem biznesu.
-     */
-    public function isBusinessOwner(Business $business): bool
-    {
-        return $this->id === $business->user_id;
     }
 
     /**

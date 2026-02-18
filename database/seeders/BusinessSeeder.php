@@ -37,7 +37,6 @@ class BusinessSeeder extends Seeder
             $owner = $owners[$index];
 
             $business = Business::create([
-                'user_id' => $owner->id,
                 'name' => $businessData['name'],
                 'slug' => Str::slug($businessData['name']),
                 'subdomain' => Str::slug($businessData['name']),
