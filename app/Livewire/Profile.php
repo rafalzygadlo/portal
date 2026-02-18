@@ -18,12 +18,6 @@ class Profile extends Component
 
     public function render()
     {
-       
-        $reputation =  0;
-
-        return view('livewire.profile', [
-            'articles' => 0,
-            'reputation' => $reputation
-        ]);
+        return view('livewire.profile');
     }
 }

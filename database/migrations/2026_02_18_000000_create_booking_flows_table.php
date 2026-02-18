@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('announcements', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('title');
-            $table->text('content');
+        Schema::create('booking_flows', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignId('business_id')->constrained()->onDelete('cascade');
+            $table->string('status')->default('draft');
+            $table->json('data')->nullable();
+            $table->timestamp('expires_at');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('announcements');
+        Schema::dropIfExists('booking_flows');
     }
 };

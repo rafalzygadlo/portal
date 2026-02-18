@@ -87,19 +87,44 @@
             {{$slot}}
         </main>
 
-  <footer class="py-3 my-4">
-    <ul class="nav justify-content-center border-top  pb-3 mb-3">
-      <li class="nav-item">
-        <a href="{{ route('page', ['page' => 'privacy'] ) }}" class="nav-link px-2 text-muted"><small>{{ __('global.privacy') }}</small></a>
-    </li>
-      <li class="nav-item">
-        <a href="{{ route('page', ['page' => 'faq']) }}" class="nav-link px-2 text-muted"><small>{{ __('global.faq') }}</small></a>
-    </li>
-      <li class="nav-item">
-        <a href="{{ route('page', ['page' => 'terms'] ) }}" class="nav-link px-2 text-muted"><small>{{ __('global.terms') }}</small></a>
-    </li>
-    </ul>
-
+  <footer class="text-white bg-dark">
+    <div class="container py-4 py-md-5 px-4 px-md-3">
+        <div class="row">
+            <div class="col-lg-3 mb-3">
+                <a class="d-inline-flex align-items-center mb-2 text-decoration-none" href="/" aria-label="Portal">
+                    <span class="fs-5 text-white">{{ config('app.name', 'Portal') }}</span>
+                </a>
+                <ul class="list-unstyled small">
+                    <li class="mb-2 text-white">{{ __('main.footer.about') }}</li>
+                    <li class="mb-2 text-white">© {{date('Y')}}</li>
+                </ul>
+            </div>
+            <div class="col-6 col-lg-2 offset-lg-1 mb-3">
+                <h5 class="text-white">{{ __('main.footer.sections') }}</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a class="text-white text-decoration-none" href="{{ route('todos.index') }}">{{ __('todos.index') }}</a></li>
+                    <li class="mb-2"><a class="text-white text-decoration-none" href="{{ route('business.index') }}">{{ __('business.index') }}</a></li>
+                    <li class="mb-2"><a class="text-white text-decoration-none" href="{{ route('polls.index') }}">{{ __('polls.index') }}</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-lg-2 mb-3">
+                <h5 class="text-white">{{ __('main.footer.legal') }}</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a class="text-white text-decoration-none" href="{{ route('page', ['page' => 'privacy'] ) }}">{{ __('global.privacy') }}</a></li>
+                    <li class="mb-2"><a class="text-white text-decoration-none" href="{{ route('page', ['page' => 'terms'] ) }}">{{ __('global.terms') }}</a></li>
+                    <li class="mb-2"><a class="text-white text-decoration-none" href="{{ route('page', ['page' => 'faq']) }}">{{ __('global.faq') }}</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-lg-2 mb-3">
+                <h5 class="text-white">{{ __('main.footer.social') }}</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a class="text-white text-decoration-none" href="#">Facebook</a></li>
+                    <li class="mb-2"><a class="text-white text-decoration-none" href="#">Twitter</a></li>
+                    <li class="mb-2"><a class="text-white text-decoration-none" href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
   </footer>
 
 </div>

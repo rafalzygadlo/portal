@@ -93,6 +93,14 @@ class Business extends Model
     }
 
     /**
+     * Zasoby biznesu.
+     */
+    public function resources(): HasMany
+    {
+        return $this->hasMany(Resource::class);
+    }
+
+    /**
      * Przesunięcie godzin pracy dla danego dnia (0 = poniedziałek).
      */
     public function getBusinessHours(): array

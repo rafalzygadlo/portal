@@ -1,6 +1,7 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-md-4 mb-4">
+            
             <div class="card border-0 text-center p-4">
                 <div class="mb-3">
                     <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center text-primary fw-bold" style="width: 100px; height: 100px; font-size: 2.5rem;">
@@ -10,18 +11,7 @@
                 <h3 class="fw-bold">{{ $user->first_name }} {{ $user->last_name }}</h3>
                 <p class="text-muted">Dołączył: {{ $user->created_at->format('d.m.Y') }}</p>
                 <p class="text-muted">Email: {{ $user->email }}</p>
-                <div class="d-flex justify-content-center gap-4 mt-3">
-                    <div class="text-center">
-                       
-                        <small class="text-muted">Artykuły</small>
-                    </div>
-                    <div class="text-center">
-                        <h4 class="fw-bold mb-0 {{ $reputation >= 0 ? 'text-success' : 'text-danger' }}">
-                            {{ $reputation > 0 ? '+' : '' }}{{ $reputation }}
-                        </h4>
-                        <small class="text-muted">Reputacja</small>
-                    </div>
-                </div>
+                
             </div>
 
             @if(Auth::id() === $user->id)
@@ -44,7 +34,9 @@
                     </div>
                 </div>
             @endif
+
         </div>
+
         <div class="col-md-8">
             <h4 class="mb-4 pb-2 border-bottom">Biznesy użytkownika</h4>
             <div class="row mb-5">
@@ -69,7 +61,7 @@
                         </div>
                     @empty
 
-                <div class="alert alert-light text-center">Ten użytkownik nie napisał jeszcze żadnych artykułów.</div>
+                <div class="alert alert-light text-center">Ten użytkownik nie zarządza jeszcze żadnym biznesem.</div>
             @endforelse
                 </div>
 

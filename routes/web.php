@@ -21,12 +21,24 @@ use Illuminate\Support\Str;
 
 // Subdomeny - Strony biznesu i rezerwacje
 Route::domain('{subdomain}.localhost')->group(function () {
+    
     Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
-    Route::get('/booking', \App\Livewire\Business\Booking\Step1::class)->name('business.booking');
+    Route::get('/booking', \App\Livewire\Business\Booking\StartBooking::class)->name('business.booking');
+    Route::get('/booking/{flow}/step1', \App\Livewire\Business\Booking\Step1::class)->name('booking.step1');
+    Route::get('/booking/{flow}/step2', \App\Livewire\Business\Booking\Step2::class)->name('booking.step2');
+    Route::get('/booking/{flow}/step3', \App\Livewire\Business\Booking\Step3::class)->name('booking.step3');
+    Route::get('/booking/{flow}/step4', \App\Livewire\Business\Booking\Step4::class)->name('booking.step4');
     
     Route::middleware(['auth'])->group(function () {
-        Route::get('/dashboard/{business}/reservations', \App\Livewire\Business\Dashboard::class)->name('dashboard.business')->can('update,business');
+        // Dashboard routes
+        Route::get('/admin/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('dashboard.business');
         
+        
+        // Resource routes
+        //Route::get('/admin/resources', \App\Livewire\Admin\Business\Resource\Index::class)->name('business.resources.index')->can('update,business');
+        //Route::get('/admin/resources/create', \App\Livewire\Business\Resource\Create::class)->name('business.resource.create')->can('update,business');
+        // Reservations routes
+
     });
 
 });
@@ -56,11 +68,6 @@ Route::get('/todos/{todo}', App\Livewire\Todo\Show::class)->name('todos.show');
 Route::get('/offers', \App\Livewire\Offer\Index::class)->name('offers.index');
 Route::get('/offers/create', \App\Livewire\Offer\Create::class)->name('offers.create')->middleware('auth');
 Route::get('/offers/{offer}', \App\Livewire\Offer\Show::class)->name('offers.show');
-
-// Announcements (deprecated - replaced by Offers)
-Route::get('/announcements', \App\Livewire\Announcement\Index::class)->name('announcements.index');
-Route::get('/announcements/create', \App\Livewire\Announcement\Create::class)->name('announcements.create')->middleware('auth');
-Route::get('/announcements/{announcement}', \App\Livewire\Announcement\Show::class)->name('announcements.show');
 
 // Polls
 Route::get('/polls', \App\Livewire\Poll\Index::class)->name('polls.index');

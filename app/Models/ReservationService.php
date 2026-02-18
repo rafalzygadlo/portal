@@ -13,6 +13,7 @@ class ReservationService extends Model
 
     protected $fillable = [
         'business_id',
+        'resource_id',
         'name',
         'description',
         'price',
@@ -33,6 +34,14 @@ class ReservationService extends Model
     public function business(): BelongsTo
     {
         return $this->belongsTo(Business::class);
+    }
+
+    /**
+     * Zasób, który świadczy tę usługę.
+     */
+    public function resource(): BelongsTo
+    {
+        return $this->belongsTo(Resource::class);
     }
 
     /**

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('offer_category_id')->constrained('offer_categories')->onDelete('cascade');
             $table->string('title');
             $table->text('content');
             $table->timestamps();

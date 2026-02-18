@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('announcements', function (Blueprint $table) {
-            $table->decimal('price', 8, 2)->nullable();
-            $table->string('salary')->nullable();
+        Schema::table('reservation_services', function (Blueprint $table) {
+            $table->foreignId('resource_id')->after('business_id')->constrained()->onDelete('cascade');
         });
     }
 
@@ -22,9 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('announcements', function (Blueprint $table) {
-            $table->dropColumn('price');
-            $table->dropColumn('salary');
+        Schema::table('reservation_services', function (Blueprint $table) {
+            $table->dropForeign(['resource_id']);
+            $table->dropColumn('resource_id');
         });
     }
 };

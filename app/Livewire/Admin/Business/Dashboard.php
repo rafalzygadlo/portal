@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Business;
+namespace App\Livewire\Admin\Business;
 
 use App\Models\Business;
 use App\Models\ReservationService;
@@ -9,12 +9,14 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Url;
 
 class Dashboard extends Component
 {
     use WithPagination;
 
     public Business $business;
+    #[Url]
     public string $tab = 'services'; // services, reservations, settings
     public bool $showServiceModal = false;
     public string $serviceName = '';
@@ -28,11 +30,6 @@ class Dashboard extends Component
     {
         //$this->authorize('update', $business);
         $this->business = $business;
-    }
-
-    public function setTab(string $tab)
-    {
-        $this->tab = $tab;
     }
 
     public function openServiceModal(?ReservationService $service = null)
@@ -129,7 +126,7 @@ class Dashboard extends Component
             ->latest()
             ->paginate(10);
 
-        return view('livewire.business.dashboard', [
+        return view('livewire.admin.business.dashboard', [
             'services' => $this->business->services()->orderBy('sort_order')->get(),
             'reservations' => $reservations,
         ])->layout('layouts.business', ['business' => $this->business]);
