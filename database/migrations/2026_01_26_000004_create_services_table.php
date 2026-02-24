@@ -8,9 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('reservation_services', function (Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('business_id')->constrained()->onDelete('cascade');
+            $table->foreignId('resource_id')->constrained()->onDelete('cascade');
             $table->string('name'); // np. "Wymiana opon", "Naprawa"
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2)->nullable();
