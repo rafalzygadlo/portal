@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Resource extends Model
 {
@@ -17,18 +19,27 @@ class Resource extends Model
         'is_active',
     ];
 
-    public function business()
+    /**
+     * The business that this resource belongs to.
+     */
+    public function business(): BelongsTo
     {
         return $this->belongsTo(Business::class);
     }
 
-    public function user()
+    /**
+     * The services provided by this resource.
+     */
+    public function services(): BelongsToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(Services::class, 'resource_service');
     }
 
-    public function services()
+    /**
+     * The user associated with this resource, if any.
+     */
+    public function user(): BelongsTo
     {
-        return $this->hasMany(ReservationService::class);
+        return $this->belongsTo(User::class);
     }
 }

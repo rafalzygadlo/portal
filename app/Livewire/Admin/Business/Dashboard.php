@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin\Business;
 
 use App\Models\Business;
-use App\Models\ReservationService;
+use App\Models\Service;
 use App\Models\Reservation;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -24,7 +24,7 @@ class Dashboard extends Component
     public string $servicePrice = '';
     public string $serviceDuration = '30';
     public string $serviceBuffer = '15';
-    public ?ReservationService $editingService = null;
+    public ?Reservation $editingService = null;
 
     public function mount(Business $business)
     {
@@ -32,7 +32,7 @@ class Dashboard extends Component
         $this->business = $business;
     }
 
-    public function openServiceModal(?ReservationService $service = null)
+    public function openServiceModal(?Reservation $service = null)
     {
         if ($service) {
             $this->editingService = $service;
@@ -74,7 +74,7 @@ class Dashboard extends Component
                 'buffer_minutes' => $this->serviceBuffer,
             ]);
         } else {
-            ReservationService::create([
+            Service::create([
                 'business_id' => $this->business->id,
                 'name' => $this->serviceName,
                 'description' => $this->serviceDescription,
@@ -90,7 +90,7 @@ class Dashboard extends Component
         session()->flash('success', 'Usługa została ' . ($this->editingService ? 'zaktualizowana' : 'dodana') . '!');
     }
 
-    public function deleteService(ReservationService $service)
+    public function deleteService(Service $service)
     {
         $this->authorize('update', $this->business);
         $service->delete();
@@ -98,7 +98,7 @@ class Dashboard extends Component
         session()->flash('success', 'Usługa została usunięta.');
     }
 
-    public function toggleServiceActive(ReservationService $service)
+    public function toggleServiceActive(Service $service)
     {
         $this->authorize('update', $this->business);
         $service->update(['is_active' => !$service->is_active]);

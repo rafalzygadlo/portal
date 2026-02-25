@@ -152,7 +152,7 @@
     <div class="bg-light rounded-3 p-4 mb-5">
         <p class="small text-muted">
             Biznes dodany: <strong>{{ $business->created_at->format('d.m.Y H:i') }}</strong><br>
-            Właściciel: <strong><a href="{{ route('user.profile', $business->user) }}" class="text-primary">{{ $business->user->first_name }} {{ $business->user->last_name }}</a></strong>
+            {{--  Właściciel: <strong><a href="{{ route('user.profile', $business->owner) }}" class="text-primary">{{ $business->owner->first_name }} {{ $business->owner->last_name }}</a></strong>  --}}
         </p>
     </div>
 

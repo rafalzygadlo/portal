@@ -39,11 +39,11 @@ class Business extends Model
     ];
 
     /**
-     * The users that belong to the business.
+     * The owner that belong to the business.
      */
-    public function users(): BelongsToMany
+    public function owner()
     {
-        return $this->belongsToMany(User::class);
+        return  $this->belongsToMany(User::class);
     }
 
     /**
@@ -51,7 +51,7 @@ class Business extends Model
      */
     public function categories()
     {
-        return $this->morphToMany(\App\Models\Category::class, 'categorizable');
+        return $this->morphToMany(Category::class, 'categorizable');
     }
 
     /**
@@ -59,20 +59,7 @@ class Business extends Model
      */
     public function comments()
     {
-        return $this->morphMany(\App\Models\Comment::class, 'commentable');
-    }
-
-    /**
-     * Pracownicy biznesu.
-     */
-    public function employees(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            User::class,
-            'business_employees',
-            'business_id',
-            'user_id'
-        )->withPivot('role', 'is_active')->withTimestamps();
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     /**
@@ -80,7 +67,7 @@ class Business extends Model
      */
     public function services(): HasMany
     {
-        return $this->hasMany(ReservationService::class);
+        return $this->hasMany(Services::class);
     }
 
     /**

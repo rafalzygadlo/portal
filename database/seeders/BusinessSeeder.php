@@ -6,7 +6,8 @@ use App\Models\Business;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Reservation;
-use App\Models\ReservationService;
+use App\Models\Resource;
+use App\Models\Service;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -67,22 +68,16 @@ class BusinessSeeder extends Seeder
             // Uaktualnij owner's current_business_id
             //$owner->update(['current_business_id' => $business->id, 'user_type' => 'business_owner']);
 
-            // Dodaj pracowników
-            $employees = User::factory(3)->create();
+            // Dodaj zasoby (np. pracowników, sprzęt)
+            $resources = Resource::factory(3)->create([
+                'business_id' => $business->id,
+                'type' => fake()->randomElement(['person', 'equipment'])
+            ]);
 
-            $employeeIds = $employees->pluck('id')->toArray();
-
-            foreach ($employees as $employee) {
-                $business->employees()->attach($employee->id, [
-                    'role' => fake()->randomElement(['employee', 'manager']),
-                    'is_active' => true,
-                ]);
-            }
-
-            // Utwórz usługi rezerwacji
-            $services = [];
+            // Utwórz usługi dla biznesu
+            $createdServices = collect();
             foreach ($businessData['services'] as $serviceName) {
-                $service = ReservationService::create([
+                $service = Service::create([
                     'business_id' => $business->id,
                     'name' => $serviceName,
                     'description' => 'Profesjonalna usługa: ' . $serviceName,
@@ -91,22 +86,30 @@ class BusinessSeeder extends Seeder
                     'buffer_minutes' => 15,
                     'is_active' => true,
                 ]);
-                $services[] = $service;
+                $createdServices->push($service);
+            }
+
+            // Przypisz usługi do zasobów (relacja Many-to-Many)
+            if ($createdServices->isNotEmpty()) {
+                foreach ($resources as $resource) {
+                    $servicesToAttach = $createdServices->random(rand(1, $createdServices->count()))->pluck('id');
+                    $resource->services()->attach($servicesToAttach);
+                }
             }
 
             // Utwórz rezerwacje dla danego biznesu
             for ($i = 0; $i < 8; $i++) {
-                $service = fake()->randomElement($services);
+                if ($createdServices->isEmpty()) continue;
+
+                $service = $createdServices->random();
                 $startTime = now()->addDays(fake()->numberBetween(1, 30))
                     ->setHour(fake()->numberBetween(9, 17))
                     ->setMinute(0);
 
-                $userIdOptions = array_merge($employeeIds, [null]);
-
                 Reservation::create([
                     'business_id' => $business->id,
-                    'reservation_service_id' => $service->id,
-                    'user_id' => fake()->randomElement($userIdOptions),
+                    'service_id' => $service->id,
+                    'user_id' => null, // Ustawiamy na null, można tu wstawić ID zalogowanego klienta
                     'client_name' => fake()->name(),
                     'client_email' => fake()->email(),
                     'client_phone' => fake()->phoneNumber(),
