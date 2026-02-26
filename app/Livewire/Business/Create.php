@@ -20,18 +20,7 @@ class Create extends Component
         'name' => 'required|min:3|max:255',
         'subdomain' => 'required|min:3|max:50|alpha_dash|unique:businesses,subdomain',
     ];
-
-    public function openModal(): void
-    {
-        $this->resetValidation();
-        $this->showModal = true;
-    }
-
-    public function closeModal(): void
-    {
-        $this->showModal = false;
-    }
-
+   
     public function updatedName(string $value): void
     {
         // Convenience: auto-suggest subdomain until user starts editing it.
@@ -44,17 +33,17 @@ class Create extends Component
     {
         $this->validate();
 
-        Business::create([
+        $business = Business::create([
             'user_id' => Auth::id(),
             'name' => $this->name,
-            'slug' => Str::slug($this->name),
             'subdomain' => $this->subdomain,
+            'description' => 'Default description for ' . $this->name
         ]);
 
+        $business->users()->attach(Auth::id(), ['owner' => true]);
         session()->flash('status', 'Dziękujemy za dodanie firmy.');
 
         $this->reset(['name', 'subdomain']);
-        $this->closeModal();
 
         return $this->redirect('/business');
     }

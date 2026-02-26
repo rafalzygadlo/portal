@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Business\Resource;
+namespace App\Livewire\Admin\Business\Resource;
 
 use App\Models\Business;
 use App\Models\Resource;

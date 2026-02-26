@@ -33,7 +33,9 @@ Route::domain('{subdomain}.localhost')->group(function () {
         // Dashboard routes
         Route::get('/admin/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('dashboard.business');
         
-        
+        // Services routes
+        Route::get('/admin/services', \App\Livewire\Admin\Business\Service\Index::class)->name('admin.business.services.index');
+        //Route::get('/admin/services/create', \App\Livewire\Admin\Business\Service\Create::class)->name('business.service.create')->can('update,business');
         // Resource routes
         //Route::get('/admin/resources', \App\Livewire\Admin\Business\Resource\Index::class)->name('business.resources.index')->can('update,business');
         //Route::get('/admin/resources/create', \App\Livewire\Business\Resource\Create::class)->name('business.resource.create')->can('update,business');
@@ -52,7 +54,7 @@ Route::get('/article/{article}', \App\Livewire\Article\Show::class)->name('artic
 // Business routes
 Route::get('/business', \App\Livewire\Business\Index::class)->name('business.index');
 Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create')->middleware('auth');
-Route::get('/business/{business:slug}', \App\Livewire\Business\Show::class)->name('business.show');
+Route::get('/business/{business:subdomain}', \App\Livewire\Business\Show::class)->name('business.show');
 
 
 Route::get('/page/{page}', \App\Livewire\Page::class)

@@ -20,7 +20,6 @@ class Business extends Model
      */
     protected $fillable = [
         'name',
-        'slug',
         'subdomain',
         'description',
         'address',
@@ -29,8 +28,6 @@ class Business extends Model
         'latitude',
         'longitude',
         'business_hours',
-        'booking_slot_duration',
-        'is_approved',
     ];
 
     protected $casts = [

@@ -14,7 +14,10 @@
                     <h1 class="fw-bold mb-3">{{ $business->name }}</h1>
 
                     <div class="d-flex align-items-center text-muted mb-4 border-bottom pb-3">
-                        <i class="bi bi-person-circle me-1"></i> {{ $business->owner?->name }}
+                        <i class="bi bi-person-circle me-1"></i> 
+                        @if($business->owner)
+                                    <i class="bi bi-person-circle me-1"></i> <a href="{{ route('user.profile', $business->owner) }}" class="text-decoration-none text-muted">{{ $business->owner->name }}</a>
+                        @endif
                         <span class="mx-2">&bull;</span>
                         <i class="bi bi-calendar3 me-1"></i> {{ $business->created_at->format('d.m.Y') }}
                     </div>

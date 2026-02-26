@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Reservation extends Model
 {
@@ -39,11 +40,10 @@ class Reservation extends Model
     /**
      * Usługa rezerwacji.
      */
-    public function service(): BelongsTo
+    public function service(): BelongsToMany
     {
-        return $this->belongsTo(ReservationService::class, 'reservation_service_id');
+        return $this->belongsToMany(Service::class);
     }
-
     /**
      * Użytkownik (jeśli zalogowany).
      */

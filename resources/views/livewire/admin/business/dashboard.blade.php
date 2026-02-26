@@ -12,13 +12,13 @@
 
     <!-- Tabs -->
     <ul class="nav nav-tabs mb-4">
-    {{--     
+    
     <li class="nav-item">
-            <a href="{{ route('admin.business.services.index') }}" class="nav-link">
+            <a href="{{ route('admin.business.services.index',['subdomain' => $business->subdomain]) }}" class="nav-link">
                 Services
             </a>
         </li>
-        
+    {{--
         <li class="nav-item">
             <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'reservations']) }}" class="nav-link {{ $tab === 'reservations' ? 'active' : '' }}">
                 Rezerwacje

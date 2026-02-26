@@ -127,7 +127,7 @@
 
     <!-- Panel administracyjny dla właściciela -->
     @if($isOwner)
-        {{$business->slug}}
+        {{$business->subdomain}}
             <div class="alert alert-warning border-start-lg border-warning mb-5">
             <h5 class="alert-heading fw-bold mb-2">Panel Administracyjny</h5>
              {{-- <a href="{{ route('dashboard.business', $business->user ) }}" class="btn btn-warning"> --}}

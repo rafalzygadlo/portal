@@ -55,7 +55,7 @@
                                     <livewire:business.vote :model="$business" :key="$business->id" />
                                 </div>
                             </div>
-                            <a href="{{ route('business.show', $business->slug) }}" class="stretched-link"></a>
+                            <a href="{{ route('business.show', $business->subdomain) }}" class="stretched-link"></a>
                         </div>
                     </div>
                 </div>
@@ -72,4 +72,5 @@
     <div class="mt-4">
         {{ $businesses->links() }}
     </div>
+    <livewire:business.create />
 </div>

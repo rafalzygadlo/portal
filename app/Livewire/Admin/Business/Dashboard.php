@@ -26,8 +26,9 @@ class Dashboard extends Component
     public string $serviceBuffer = '15';
     public ?Reservation $editingService = null;
 
-    public function mount(Business $business)
-    {
+    public function mount( $subdomain)
+    {   
+        $business = Business::where('subdomain', $subdomain)->firstOrFail();
         //$this->authorize('update', $business);
         $this->business = $business;
     }
@@ -121,10 +122,13 @@ class Dashboard extends Component
 
     public function render()
     {
+        /*
         $reservations = $this->business->reservations()
             ->with('service', 'user')
             ->latest()
             ->paginate(10);
+        */
+        $reservations = null;    
 
         return view('livewire.admin.business.dashboard', [
             'services' => $this->business->services()->orderBy('sort_order')->get(),

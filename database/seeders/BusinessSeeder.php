@@ -39,7 +39,6 @@ class BusinessSeeder extends Seeder
 
             $business = Business::create([
                 'name' => $businessData['name'],
-                'slug' => Str::slug($businessData['name']),
                 'subdomain' => Str::slug($businessData['name']),
                 'description' => 'Profesjonalny biznes o wysokim standardzie usług.',
                 'address' => fake()->address(),
@@ -56,7 +55,7 @@ class BusinessSeeder extends Seeder
                     'sat' => ['open' => '10:00', 'close' => '16:00', 'closed' => false],
                     'sun' => ['closed' => true],
                 ],
-                'booking_slot_duration' => 30
+                
             ]);
 
             if ($businessCategories->count() > 0) {
