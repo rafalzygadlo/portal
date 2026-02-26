@@ -22,13 +22,12 @@ class BusinessIdentificationTest extends TestCase
             'user_id' => $user->id,
             'name' => 'Marcin IT Solutions',
             'subdomain' => 'marcin', // upewnij się, że masz to pole w tabeli business
-            'slug' => 'marcin-it-solutions',
             'description' => 'Opis naszego biznesu',
             'address' => 'Adres naszego biznesu'
         ]);
 
         // 3. Act: Visit the subdomain
-        $url = 'http://marcin.localhost';
+        $url = 'http://marcin' . env('DOMAIN_NAME'); // upewnij się, że masz ustawioną domenę w .env
         $response = $this->get($url);
 
         // 4. Assert
@@ -39,7 +38,7 @@ class BusinessIdentificationTest extends TestCase
     /** @test */
     public function it_returns_404_for_non_existent_subdomains()
     {
-        $url = 'http://fake-subdomain.localhost';
+        $url = 'http://fake-subdomain' . env('DOMAIN_NAME');
         $response = $this->get($url);
 
         $response->assertStatus(404);

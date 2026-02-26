@@ -2,9 +2,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm">
+                
                 <div class="card-header">
                     <h1 class="h4 mb-0">Dodaj nową firmę</h1>
                 </div>
+
                 <div class="card-body p-4">
                     <form wire:submit.prevent="save">
                         <div class="mb-3">
@@ -21,7 +23,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control @error('subdomain') is-invalid @enderror"
                                     id="subdomain" wire:model.defer="subdomain" placeholder="np. moja-firma">
-                                <span class="input-group-text">.twojadomena.pl</span>
+                                <span class="input-group-text"> {{ env('DOMAIN_NAME') }}</span>
                                 @error('subdomain')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror

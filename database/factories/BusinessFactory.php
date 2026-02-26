@@ -26,9 +26,8 @@ class BusinessFactory extends Factory
         static $counter = 0;
         $name = $this->faker->company . ' ' . ++$counter;
         return [
-            'user_id' => User::factory(),
             'name' => $name,
-            'slug' => Str::slug($name),
+            'subdomain' => Str::slug($name),
             'description' => $this->faker->paragraphs(3, true),
             'address' => $this->faker->address,
             'phone' => $this->faker->phoneNumber,

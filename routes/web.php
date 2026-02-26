@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
 */
 
 // Subdomeny - Strony biznesu i rezerwacje
-Route::domain('{subdomain}.localhost')->group(function () {
+Route::domain('{subdomain}' . env('DOMAIN_NAME'))->group(function () {
     
     Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
     Route::get('/booking', \App\Livewire\Business\Booking\StartBooking::class)->name('business.booking');

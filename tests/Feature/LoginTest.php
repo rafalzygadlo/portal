@@ -2,16 +2,24 @@
 
 namespace Tests\Feature;
 
+use App\Models\Business;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function it_should_return_a_successful_response_for_the_homepage()
     {
+        Business::factory()->create();
         // 1. Visit the landing page
-        $response = $this->get('/');
+        $this->withoutExceptionHandling();
 
+        $response = $this->get('/');
+        
+        dump($response->status());
         // 2. Assert the status code is 200 (OK)
         $response->assertStatus(200);
         

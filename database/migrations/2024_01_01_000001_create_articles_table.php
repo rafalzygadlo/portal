@@ -22,7 +22,11 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index('title');
-            $table->fullText('content');
+
+            if (DB::getDriverName() !== 'sqlite') 
+            {
+                $table->fullText('content');
+            }
         });
     }
 

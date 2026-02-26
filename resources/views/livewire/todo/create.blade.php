@@ -1,10 +1,13 @@
-<div>
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-4">
-            <div class="card border-1">
-                <div class="card-header">Dodaj nowy pomysł</div>
-
-                <div class="card-body">
+          <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                
+                <div class="card-header">
+                    <h1 class="h4 mb-0">Dodaj nowy pomysł</h1>
+                </div>
+                
+                <div class="card-body p-4">
 
                     <div class="col-md-0">
                         <form wire:submit.prevent="save">
