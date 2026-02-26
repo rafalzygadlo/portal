@@ -65,6 +65,9 @@ class BusinessSeeder extends Seeder
                 $business->categories()->attach($randomCategories->pluck('id')->toArray());
             }
 
+            // Przypisz właściciela do biznesu
+            $business->users()->attach($owner->id, ['owner' => true]);
+
             // Uaktualnij owner's current_business_id
             //$owner->update(['current_business_id' => $business->id, 'user_type' => 'business_owner']);
 

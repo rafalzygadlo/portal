@@ -39,11 +39,28 @@ class Business extends Model
     ];
 
     /**
-     * The owner that belong to the business.
+     * The owners that belong to the business.
      */
-    public function owner()
+    public function owners()
     {
-        return  $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)
+                ->wherePivot('owner', true);
+    }
+
+    /**
+     * Get the owner of the business.
+     */
+    public function getOwnerAttribute()
+    {
+        return $this->owners()->first();
+    }
+
+    /**
+     * The users that belong to the business.
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'business_user');
     }
 
     /**
@@ -67,7 +84,7 @@ class Business extends Model
      */
     public function services(): HasMany
     {
-        return $this->hasMany(Services::class);
+        return $this->hasMany(Service::class);
     }
 
     /**

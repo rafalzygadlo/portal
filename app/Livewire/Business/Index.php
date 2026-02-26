@@ -28,7 +28,6 @@ class Index extends Component
                     $q->whereIn('slug', $this->selectedCategories);
                 });
             })
-            ->with('users')
             ->latest()
             ->paginate(6);
 

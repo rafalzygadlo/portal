@@ -53,56 +53,24 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 
-    /**
-     * Głosy oddane przez użytkownika na artykuły.
-     */
-    public function articleVotes(): HasMany
+    public function getNameAttribute()
     {
-        return $this->hasMany(Vote::class);
+        return $this->first_name . ' ' . $this->last_name;
     }
-
-    /**
-     * Powiadomienia użytkownika.
-     */
+    
+    public function ownedBusinesses(): BelongsToMany
+    {
+        return $this->belongsToMany(Business::class)->wherePivot('owner', true);
+    }
+    
     public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
     }
 
-    /**
-     * The businesses that the user belongs to.
-     */
-    public function businesses(): BelongsToMany
-    {
-        return $this->belongsToMany(Business::class);
-    }
-
-    /**
-     * Biznesy, w których użytkownik pracuje.
-     */
-    public function employeeBusinesses(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            Business::class,
-            'business_employees',
-            'user_id',
-            'business_id'
-        )->withPivot('role', 'is_active')->withTimestamps();
-    }
-
-    /**
-     * Rezerwacje użytkownika.
-     */
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
     }
 
-    /**
-     * Sprawdź, czy użytkownik pracuje w biznesie.
-     */
-    public function worksBusiness(Business $business): bool
-    {
-        return $this->employeeBusinesses()->where('business_id', $business->id)->exists();
-    }
 }

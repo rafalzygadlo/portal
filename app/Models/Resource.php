@@ -32,7 +32,7 @@ class Resource extends Model
      */
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(Services::class, 'resource_service');
+        return $this->belongsToMany(Service::class );
     }
 
     /**
