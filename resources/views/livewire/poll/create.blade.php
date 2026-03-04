@@ -7,6 +7,7 @@
                 <div class="card-body">
 
                     <form wire:submit.prevent="createPoll">
+                        
                         <div class="mb-3">
                             <label for="question" class="form-label">Pytanie</label>
                             <input type="text" class="form-control @error('question') is-invalid @enderror" id="question" wire:model.defer="question">
@@ -37,6 +38,7 @@
                                 <span wire:loading>Zapisywanie...</span>
                             </button>
                         </div>
+
                     </form>
                 </div>
             </div>

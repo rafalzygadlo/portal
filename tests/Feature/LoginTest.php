@@ -19,7 +19,6 @@ class LoginTest extends TestCase
 
         $response = $this->get('/');
         
-        dump($response->status());
         // 2. Assert the status code is 200 (OK)
         $response->assertStatus(200);
         
