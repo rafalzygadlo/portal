@@ -185,4 +185,6 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+
+    'business_domain' => env('DOMAIN_NAME', '.localhost12'),
 ];

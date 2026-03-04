@@ -19,8 +19,14 @@ use Illuminate\Support\Str;
 |
 */
 
+$domain = config('app.business_domain');
+if (empty($domain)) 
+{
+    throw new \Exception('BŁĄD SYSTEMU: Zmienna DOMAIN_NAME w pliku .env jest pusta! Skonfiguruj ją, aby subdomeny działały.');
+}
+
 // Subdomeny - Strony biznesu i rezerwacje
-Route::domain('{subdomain}' . env('DOMAIN_NAME'))->group(function () {
+Route::domain('{subdomain}' . $domain)->group(function () {
     
     Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
     Route::get('/booking', \App\Livewire\Business\Booking\StartBooking::class)->name('business.booking');
