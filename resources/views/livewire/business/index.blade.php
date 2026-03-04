@@ -72,5 +72,4 @@
     <div class="mt-4">
         {{ $businesses->links() }}
     </div>
-    <livewire:business.create />
 </div>
