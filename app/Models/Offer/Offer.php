@@ -5,7 +5,9 @@ namespace App\Models\Offer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Voteable;
-use App\Models\Offer\Category;
+use App\Models\Category;
+use App\Models\User;
+use App\Models\Comment;
 
 class Offer extends Model
 {
@@ -20,12 +22,12 @@ class Offer extends Model
 
     public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'offer_category_id');
+        return $this->morphMany(Category::class, 'offer_category_id');
     }
 
     /**
@@ -33,6 +35,6 @@ class Offer extends Model
      */
     public function comments()
     {
-        return $this->morphMany(\App\Models\Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }
