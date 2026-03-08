@@ -12,7 +12,7 @@
                         <div class="mb-3">
                             <label for="name" class="form-label">Nazwa firmy</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                                wire:model.defer="name">
+                                wire:model.live="name">
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

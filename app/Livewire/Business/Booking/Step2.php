@@ -4,13 +4,16 @@ namespace App\Livewire\Business\Booking;
 
 use App\Models\Business;
 use App\Models\Reservation;
-use App\Models\ReservationService;
+use App\Models\Service;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Carbon\Carbon;
+use App\Models\BookingFlow;
+
 
 class Step2 extends Component
 {
+    public BookingFlow $flow;
     public Business $business;
     public string $selectedServiceId;
     public string $selectedDate = '';
@@ -22,16 +25,14 @@ class Step2 extends Component
     #[Computed]
     public function selectedService()
     {
-        return $this->selectedServiceId ? ReservationService::find($this->selectedServiceId) : null;
+        return $this->selectedServiceId ? Service::find($this->selectedServiceId) : null;
     }
 
-    public function mount(Business $business, string $selectedServiceId, string $selectedDate, string $selectedTime)
+    public function mount( BookingFlow $flow)
     {
-        $this->business = $business;
-        $this->selectedServiceId = $selectedServiceId;
+        $this->business = $flow->business;
+        $this->selectedServiceId = $flow->data['service_id'] ?? '';
         $this->weekStart = now()->addDay()->startOfWeek();
-        $this->selectedDate = $selectedDate ?: $this->weekStart->format('Y-m-d');
-        $this->selectedTime = $selectedTime;
         $this->loadWeekSlots();
     }
 
@@ -66,7 +67,8 @@ class Step2 extends Component
 
     protected function loadWeekSlots(): void
     {
-        if (!$this->selectedService()) {
+        if (!$this->selectedService()) 
+        {
             return;
         }
 
@@ -76,7 +78,8 @@ class Step2 extends Component
         $businessHours = $this->business->getBusinessHours();
         $dayMap = ['mon' => 'Monday', 'tue' => 'Tuesday', 'wed' => 'Wednesday', 'thu' => 'Thursday', 'fri' => 'Friday', 'sat' => 'Saturday', 'sun' => 'Sunday'];
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i < 7; $i++) 
+        {
             $date = $this->weekStart->copy()->addDays($i);
             $dayKey = strtolower(substr($date->format('D'), 0, 3));
             $dayName = $dayMap[$dayKey] ?? null;
@@ -97,13 +100,13 @@ class Step2 extends Component
             $slots = [];
             $openTime = Carbon::parse($businessHours[$dayKey]['open']);
             $closeTime = Carbon::parse($businessHours[$dayKey]['close']);
-            //$slotDuration = $this->business->booking_slot_duration ?? 30;
             $serviceDuration = $this->selectedService()->duration_minutes;
 
             $current = $date->copy()->setHour($openTime->hour)->setMinute($openTime->minute)->second(0);
             $dayClose = $date->copy()->setHour($closeTime->hour)->setMinute($closeTime->minute)->second(0);
 
-            while ($current->copy()->addMinutes($serviceDuration) <= $dayClose) {
+            while ($current->copy()->addMinutes($serviceDuration) <= $dayClose) 
+            {
                 $slotEnd = $current->copy()->addMinutes($serviceDuration);
                 $isAvailable = Reservation::isTimeSlotAvailable(
                     $this->business->id,
@@ -123,7 +126,7 @@ class Step2 extends Component
                     'fullDateTime' => $current->format('Y-m-d H:i:s'),
                 ];
 
-                $current->addMinutes($slotDuration);
+                $current->addMinutes($serviceDuration);
             }
 
             $this->weekSlots[$date->format('Y-m-d')] = $slots;

@@ -23,14 +23,13 @@ class Step1 extends Component
         
         // Pre-fill from flow data if available
         $this->selectedServiceId = $this->flow->data['service_id'] ?? '';
-        $this->selectedDate = $this->flow->data['date'] ?? '';
+
     }
 
     public function nextStep()
     {
         $this->validate([
-            'selectedServiceId' => 'required|exists:reservation_services,id',
-            'selectedDate' => 'required|date|after_or_equal:today',
+            'selectedServiceId' => 'required|exists:services,id',
         ]);
         
         $this->flow->update([
@@ -40,7 +39,9 @@ class Step1 extends Component
             ]),
         ]);
 
-        return redirect()->route('booking.step2', ['flow' => $this->flow->id]);
+        return redirect()->route('booking.step2', 
+        ['flow' => $this->flow->id, 'subdomain' => $this->business->subdomain
+        ]);
     }
 
     public function selectService($serviceId)

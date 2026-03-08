@@ -13,9 +13,6 @@ class Create extends Component
     public string $name = '';
     public string $subdomain = '';
 
-    /** Controls optional modal UI in the Blade view */
-    public bool $showModal = false;
-
     protected array $rules = [
         'name' => 'required|min:3|max:255',
         'subdomain' => 'required|min:3|max:50|alpha_dash|unique:businesses,subdomain',
@@ -23,10 +20,7 @@ class Create extends Component
    
     public function updatedName(string $value): void
     {
-        // Convenience: auto-suggest subdomain until user starts editing it.
-        if ($this->subdomain === '') {
-            $this->subdomain = Str::slug($value);
-        }
+        $this->subdomain = Str::slug($value);
     }
 
     public function save()
@@ -40,6 +34,7 @@ class Create extends Component
             'description' => 'Default description for ' . $this->name
         ]);
 
+        dd($business->subdomain);
         $business->users()->attach(Auth::id(), ['owner' => true]);
         session()->flash('status', 'Dziękujemy za dodanie firmy.');
 

@@ -13,7 +13,7 @@ class Reservation extends Model
 
     protected $fillable = [
         'business_id',
-        'reservation_service_id',
+        'service_id',
         'user_id',
         'client_name',
         'client_email',
@@ -63,7 +63,7 @@ class Reservation extends Model
         ?int $excludeId = null
     ): bool {
         $query = self::where('business_id', $businessId)
-            ->where('reservation_service_id', $serviceId)
+            ->where('service_id', $serviceId)
             ->where('status', '!=', 'cancelled')
             ->where(function ($q) use ($startTime, $endTime) {
                 $q->whereBetween('start_time', [$startTime, $endTime])

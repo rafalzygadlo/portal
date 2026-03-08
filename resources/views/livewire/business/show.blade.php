@@ -13,10 +13,9 @@
                 <div class="card-body">
                     <h1 class="fw-bold mb-3">{{ $business->name }}</h1>
 
-                    <div class="d-flex align-items-center text-muted mb-4 border-bottom pb-3">
-                        <i class="bi bi-person-circle me-1"></i> 
+                    <div class="d-flex align-items-center text-muted mb-4 border-bottom pb-3"> 
                         @if($business->owner)
-                                    <i class="bi bi-person-circle me-1"></i> <a href="{{ route('user.profile', $business->owner) }}" class="text-decoration-none text-muted">{{ $business->owner->name }}</a>
+                            <i class="bi bi-person-circle me-1"></i> <a href="{{ route('user.profile', $business->owner) }}" class="text-decoration-none text-muted">{{ $business->owner->name }}</a>
                         @endif
                         <span class="mx-2">&bull;</span>
                         <i class="bi bi-calendar3 me-1"></i> {{ $business->created_at->format('d.m.Y') }}
@@ -28,10 +27,10 @@
                             @if($business->phone)
                                 <p class="mb-2"><i class="bi bi-telephone me-2"></i> <strong>Telefon:</strong> {{ $business->phone }}</p>
                             @endif
-                            @if($business->website)
-                                <p class="mb-2"><i class="bi bi-globe me-2"></i> <strong>Strona WWW:</strong> <a href="{{ $business->website }}" target="_blank" class="link-primary">{{ $business->website }}</a></p>
+                             @if($business->subdomain)
+                                <p class="mb-2"><i class="bi bi-globe me-2"></i> <strong>Strona WWW:</strong> <a href="https://{{ $business->subdomain }}{{ env('DOMAIN_NAME') }}" target="_blank" class="link-primary">{{ $business->subdomain }}</a></p>
                             @endif
-                        </div>
+                       </div>
                         <div class="col-md-4">
                             @if($business->categories->isNotEmpty())
                                 <div class="mb-2">

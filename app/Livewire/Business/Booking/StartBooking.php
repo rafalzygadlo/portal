@@ -22,6 +22,7 @@ class StartBooking extends Component
         ]);
         
         return redirect()->route('booking.step1', [
+            'subdomain' => $subdomain,
             'flow' => $flow->id,
         ]);
     }
