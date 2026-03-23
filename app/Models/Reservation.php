@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 
 class Reservation extends Model
 {
@@ -62,6 +63,11 @@ class Reservation extends Model
         string $endTime,
         ?int $excludeId = null
     ): bool {
+        
+        if (Carbon::parse($startTime)->setTimezone('Europe/Warsaw')->isPast()) {
+            return false;
+        }
+
         $query = self::where('business_id', $businessId)
             ->where('service_id', $serviceId)
             ->where('status', '!=', 'cancelled')

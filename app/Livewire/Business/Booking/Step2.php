@@ -53,9 +53,10 @@ class Step2 extends Component
 
     public function previousWeek()
     {
+        $now = now()->setTimezone('Europe/Warsaw');
         $newWeekStart = $this->weekStart->copy()->subWeek()->startOfWeek();
 
-        if ($newWeekStart->lt(now()->addDay()->startOfWeek())) {
+        if ($newWeekStart->setTimezone('Europe/Warsaw')->lt($now->addDay()->startOfWeek())) {
             return;
         }
 
@@ -76,6 +77,7 @@ class Step2 extends Component
         $this->weekSlots = [];
 
         $businessHours = $this->business->getBusinessHours();
+        $now = now()->setTimezone('Europe/Warsaw');
         $dayMap = ['mon' => 'Monday', 'tue' => 'Tuesday', 'wed' => 'Wednesday', 'thu' => 'Thursday', 'fri' => 'Friday', 'sat' => 'Saturday', 'sun' => 'Sunday'];
 
         for ($i = 0; $i < 7; $i++) 
@@ -83,7 +85,7 @@ class Step2 extends Component
             $date = $this->weekStart->copy()->addDays($i);
             $dayKey = strtolower(substr($date->format('D'), 0, 3));
             $dayName = $dayMap[$dayKey] ?? null;
-            $isPast = $date->lt(now()->startOfDay());
+            $isPast = $date->setTimezone('Europe/Warsaw')->lt($now->startOfDay());
 
             $this->weekDays[$date->format('Y-m-d')] = [
                 'date' => $date,
@@ -115,7 +117,7 @@ class Step2 extends Component
                     $slotEnd->format('Y-m-d H:i:s')
                 );
 
-                if ($current->isPast()) {
+                if ($current->setTimezone('Europe/Warsaw')->isPast()) {
                     $isAvailable = false;
                 }
 

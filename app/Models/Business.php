@@ -24,9 +24,6 @@ class Business extends Model
         'description',
         'address',
         'phone',
-        'website',
-        'latitude',
-        'longitude',
         'business_hours',
     ];
 

@@ -31,9 +31,7 @@ class BusinessFactory extends Factory
             'description' => $this->faker->paragraphs(3, true),
             'address' => $this->faker->address,
             'phone' => $this->faker->phoneNumber,
-            'website' => $this->faker->url,
-            'latitude' => $this->faker->latitude,
-            'longitude' => $this->faker->longitude,
+
         ];
     }
 }

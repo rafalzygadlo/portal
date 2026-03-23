@@ -185,5 +185,5 @@ return [
     ])->toArray(),
 
 
-    'business_domain' => env('DOMAIN_NAME', '.localhost12'),
+    'business_domain' => env('DOMAIN_NAME', ''),
 ];

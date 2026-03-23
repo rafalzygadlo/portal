@@ -43,9 +43,9 @@ class BusinessSeeder extends Seeder
                 'description' => 'Profesjonalny biznes o wysokim standardzie usług.',
                 'address' => fake()->address(),
                 'phone' => fake()->phoneNumber(),
-                'website' => 'https://' . Str::slug($businessData['name']) . env('DOMAIN_NAME'),
-                'latitude' => fake()->latitude(51.5, 52.5),
-                'longitude' => fake()->longitude(20.5, 21.5),
+                //'website' => 'https://' . Str::slug($businessData['name']) . config('app.business_domain'),
+                //'latitude' => fake()->latitude(51.5, 52.5),
+                //'longitude' => fake()->longitude(20.5, 21.5),
                 'business_hours' => [
                     'mon' => ['open' => '09:00', 'close' => '18:00', 'closed' => false],
                     'tue' => ['open' => '09:00', 'close' => '18:00', 'closed' => false],

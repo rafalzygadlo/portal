@@ -27,7 +27,7 @@ class BusinessIdentificationTest extends TestCase
         ]);
 
         // 3. Act: Visit the subdomain
-        $url = 'http://marcin' . env('DOMAIN_NAME'); // upewnij się, że masz ustawioną domenę w .env
+        $url = 'http://marcin' . config('app.business_domain'); // upewnij się, że masz ustawioną domenę w .env
         $response = $this->get($url);
 
         // 4. Assert
@@ -38,7 +38,7 @@ class BusinessIdentificationTest extends TestCase
     /** @test */
     public function it_returns_404_for_non_existent_subdomains()
     {
-        $url = 'http://fake-subdomain' . env('DOMAIN_NAME');
+        $url = 'http://fake-subdomain' . config('app.business_domain');
         $response = $this->get($url);
 
         $response->assertStatus(404);
