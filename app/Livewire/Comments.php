@@ -42,7 +42,7 @@ class Comments extends Component
             'content' => $this->content,
         ]);
 
-        CommentCreated::dispatch(Auth::user(), $this->model, $comment->content);
+        //CommentCreated::dispatch(Auth::user(), $this->model, $comment->content);
 
         $this->content = '';
         $this->replyToId = null;

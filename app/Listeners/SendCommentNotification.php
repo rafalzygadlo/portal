@@ -13,7 +13,7 @@ class SendCommentNotification
         if ($event->model->user_id === $event->commenter->id) {
             return;
         }
-
+        dd($event);
         Notification::create([
             'user_id' => $event->model->user_id,
             'from_user_id' => $event->commenter->id,
