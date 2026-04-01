@@ -29,21 +29,23 @@ if (empty($domain))
 Route::domain('{subdomain}' . $domain)->group(function () {
     
     Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
-    Route::get('/booking', \App\Livewire\Business\Booking\StartBooking::class)->name('business.booking');
-    Route::get('/booking/{flow}/step1', \App\Livewire\Business\Booking\Step1::class)->name('booking.step1');
-    Route::get('/booking/{flow}/step2', \App\Livewire\Business\Booking\Step2::class)->name('booking.step2');
-    Route::get('/booking/{flow}/step3', \App\Livewire\Business\Booking\Step3::class)->name('booking.step3');
-    Route::get('/booking/{flow}/step4', \App\Livewire\Business\Booking\Step4::class)->name('booking.step4');
+    Route::prefix('booking')->group(function () {
+    Route::get('/', \App\Livewire\Business\Booking\StartBooking::class)->name('business.booking');
+    Route::get('/{flow}/step1', \App\Livewire\Business\Booking\Step1::class)->name('booking.step1');
+    Route::get('/{flow}/step2', \App\Livewire\Business\Booking\Step2::class)->name('booking.step2');
+    Route::get('/{flow}/step3', \App\Livewire\Business\Booking\Step3::class)->name('booking.step3');
+    Route::get('/{flow}/step4', \App\Livewire\Business\Booking\Step4::class)->name('booking.step4');
+    });
     
-    Route::middleware(['auth'])->group(function () {
+    Route::prefix('admin')->middleware(['auth'])->group(function () {
         // Dashboard routes
-        Route::get('/admin/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('dashboard.business');
+        Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('dashboard.business');
         
         // Services routes
-        Route::get('/admin/services', \App\Livewire\Admin\Business\Service\Index::class)->name('admin.business.service.index');
+        Route::get('/services', \App\Livewire\Admin\Business\Service\Index::class)->name('admin.business.service.index');
         //Route::get('/admin/services/create', \App\Livewire\Admin\Business\Service\Create::class)->name('business.service.create')->can('update,business');
         // Resource routes
-        Route::get('/admin/resources', \App\Livewire\Admin\Business\Resource\Index::class)->name('admin.business.resource.index');
+        Route::get('/resources', \App\Livewire\Admin\Business\Resource\Index::class)->name('admin.business.resource.index');
         // ->can('update,business');
         //Route::get('/admin/resources/create', \App\Livewire\Business\Resource\Create::class)->name('business.resource.create')->can('update,business');
         // Reservations routes
