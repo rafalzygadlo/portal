@@ -1,7 +1,13 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3">Zasoby</h1>
-        <a href="{{ route('business.resource.create', $business) }}" class="btn btn-primary">Dodaj zasób</a>
+          <button 
+                    wire:click="openResourceModal"
+                    class="btn btn-primary"
+                >
+                    + Dodaj zasob
+                </button>
+        
     </div>
 
     <div class="card">

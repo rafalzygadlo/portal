@@ -40,10 +40,11 @@ Route::domain('{subdomain}' . $domain)->group(function () {
         Route::get('/admin/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('dashboard.business');
         
         // Services routes
-        Route::get('/admin/services', \App\Livewire\Admin\Business\Service\Index::class)->name('admin.business.services.index');
+        Route::get('/admin/services', \App\Livewire\Admin\Business\Service\Index::class)->name('admin.business.service.index');
         //Route::get('/admin/services/create', \App\Livewire\Admin\Business\Service\Create::class)->name('business.service.create')->can('update,business');
         // Resource routes
-        //Route::get('/admin/resources', \App\Livewire\Admin\Business\Resource\Index::class)->name('business.resources.index')->can('update,business');
+        Route::get('/admin/resources', \App\Livewire\Admin\Business\Resource\Index::class)->name('admin.business.resource.index');
+        // ->can('update,business');
         //Route::get('/admin/resources/create', \App\Livewire\Business\Resource\Create::class)->name('business.resource.create')->can('update,business');
         // Reservations routes
 

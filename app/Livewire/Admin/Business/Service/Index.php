@@ -17,7 +17,7 @@ class Index extends Component
     public function render()
     {
 
-        return view('livewire.admin.business.services.index', [
+        return view('livewire.admin.business.service.index', [
             'services' => $this->business->services()->get(),
         ])->layout('layouts.business', ['business' => $this->business]);
     }

@@ -14,8 +14,13 @@
     <ul class="nav nav-tabs mb-4">
     
     <li class="nav-item">
-            <a href="{{ route('admin.business.services.index',['subdomain' => $business->subdomain]) }}" class="nav-link">
+            <a href="{{ route('admin.business.service.index',['subdomain' => $business->subdomain]) }}" class="nav-link">
                 Services
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.business.resource.index', ['subdomain' => $business->subdomain]) }}" class="nav-link">
+                Resources
             </a>
         </li>
     {{--
@@ -24,11 +29,7 @@
                 Rezerwacje
             </a>
         </li>
-        <li class="nav-item">
-            <a href="{{ route('business.resources.index', $business) }}" class="nav-link">
-                Zasoby
-            </a>
-        </li>
+        
         <li class="nav-item">
             <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'settings']) }}" class="nav-link {{ $tab === 'settings' ? 'active' : '' }}">
                 Ustawienia

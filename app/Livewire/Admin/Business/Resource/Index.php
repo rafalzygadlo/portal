@@ -9,14 +9,14 @@ class Index extends Component
 {
     public Business $business;
 
-    public function mount(Business $business)
+    public function mount($subdomain)
     {
-        $this->business = $business;
+        $this->business = Business::where('subdomain', $subdomain)->firstOrFail();
     }
 
     public function render()
     {
-        return view('livewire.business.resource.index', [
+        return view('livewire.admin.business.resource.index', [
             'resources' => $this->business->resources()->get(),
         ])->layout('layouts.business', ['business' => $this->business]);
     }
