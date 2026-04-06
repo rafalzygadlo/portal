@@ -121,7 +121,7 @@ class Booking extends Component
             $this->business->id,
             $service->id,
             $startTime->format('Y-m-d H:i:s'),
-            $startTime->copy()->addMinutes($service->duration_minutes)->format('Y-m-d H:i:s')
+            $startTime->copy()->addMinutes($service->duration)->format('Y-m-d H:i:s')
         )) {
             $this->addError('selectedTime', 'Wybrany termin jest już zajęty.');
             $this->dispatch('notify', message: 'Wybrany termin jest już zajęty.', type: 'error');
@@ -136,7 +136,7 @@ class Booking extends Component
             'client_email' => $this->clientEmail,
             'client_phone' => $this->clientPhone,
             'start_time' => $startTime,
-            'end_time' => $startTime->copy()->addMinutes($service->duration_minutes),
+            'end_time' => $startTime->copy()->addMinutes($service->duration),
             'notes' => $this->notes,
             'status' => 'pending',
         ]);

@@ -102,7 +102,7 @@ class Step2 extends Component
             $slots = [];
             $openTime = Carbon::parse($businessHours[$dayKey]['open']);
             $closeTime = Carbon::parse($businessHours[$dayKey]['close']);
-            $serviceDuration = $this->selectedService()->duration_minutes;
+            $serviceDuration = $this->selectedService()->duration;
 
             $current = $date->copy()->setHour($openTime->hour)->setMinute($openTime->minute)->second(0);
             $dayClose = $date->copy()->setHour($closeTime->hour)->setMinute($closeTime->minute)->second(0);

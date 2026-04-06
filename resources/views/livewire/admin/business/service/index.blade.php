@@ -14,12 +14,7 @@
         <div>
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="h4 fw-bold">Twoje usługi</h2>
-                <button 
-                    wire:click="openServiceModal"
-                    class="btn btn-primary"
-                >
-                    + Dodaj usługę
-                </button>
+                <button  wire:click="$dispatch('openServiceModal')" class="btn btn-primary"> + Dodaj usługę </button>
             </div>
 
             @foreach ($services as $service)
@@ -29,11 +24,11 @@
                             <h5 class="fw-bold">{{ $service->name }}</h5>
                             <p class="text-muted small mb-2">{{ $service->description }}</p>
                             <div class="d-flex gap-3 small text-muted">
-                                <span>⏱️ {{ $service->duration_minutes }} min</span>
+                                <span>⏱️ {{ $service->duration }} min</span>
                                 @if ($service->price)
                                     <span>💰 {{ number_format($service->price, 2) }} zł</span>
                                 @endif
-                                <span>⏳ Przerwa: {{ $service->buffer_minutes }} min</span>
+                                <span>⏳ Przerwa: {{ $service->buffer }} min</span>
                             </div>
                         </div>
                         <div class="d-flex gap-2 ms-3">
@@ -60,5 +55,8 @@
                     </div>
                 </div>
             @endforeach
+        
+        <livewire:admin.business.service.create :business="$business" />
         </div>
     
+        

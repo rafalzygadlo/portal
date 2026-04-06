@@ -16,10 +16,9 @@ return new class extends Migration
             $table->string('name'); // np. "Wymiana opon", "Naprawa"
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2)->nullable();
-            $table->integer('duration_minutes'); // czas trwania
-            $table->integer('buffer_minutes')->default(0); // przerwa między rezerwacjami
+            $table->integer('duration'); // czas trwania
+            $table->integer('buffer')->default(0); // przerwa między rezerwacjami
             $table->boolean('is_active')->default(true);
-            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
     }

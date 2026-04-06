@@ -11,7 +11,7 @@
                         <i class="bi bi-gem fs-2 text-primary me-3"></i>
                         <div>
                             <h6 class="fw-bold mb-0">{{ $service->name }}</h6>
-                            <small class="text-muted">{{ $service->duration_minutes }} min</small>
+                            <small class="text-muted">{{ $service->duration }} min</small>
                         </div>
                     </div>
                      @if ($service->price)

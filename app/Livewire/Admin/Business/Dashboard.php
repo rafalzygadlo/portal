@@ -40,8 +40,8 @@ class Dashboard extends Component
             $this->serviceName = $service->name;
             $this->serviceDescription = $service->description;
             $this->servicePrice = $service->price;
-            $this->serviceDuration = $service->duration_minutes;
-            $this->serviceBuffer = $service->buffer_minutes;
+            $this->serviceDuration = $service->duration;
+            $this->serviceBuffer = $service->buffer;
         } else {
             $this->reset('serviceName', 'serviceDescription', 'servicePrice', 'serviceDuration', 'serviceBuffer', 'editingService');
             $this->serviceDuration = '30';
@@ -71,8 +71,8 @@ class Dashboard extends Component
                 'name' => $this->serviceName,
                 'description' => $this->serviceDescription,
                 'price' => $this->servicePrice ?: null,
-                'duration_minutes' => $this->serviceDuration,
-                'buffer_minutes' => $this->serviceBuffer,
+                'duration' => $this->serviceDuration,
+                'buffer' => $this->serviceBuffer,
             ]);
         } else {
             Service::create([
@@ -80,8 +80,8 @@ class Dashboard extends Component
                 'name' => $this->serviceName,
                 'description' => $this->serviceDescription,
                 'price' => $this->servicePrice ?: null,
-                'duration_minutes' => $this->serviceDuration,
-                'buffer_minutes' => $this->serviceBuffer,
+                'duration' => $this->serviceDuration,
+                'buffer' => $this->serviceBuffer,
                 'is_active' => true,
             ]);
         }
@@ -131,7 +131,7 @@ class Dashboard extends Component
         $reservations = null;    
 
         return view('livewire.admin.business.dashboard', [
-            'services' => $this->business->services()->orderBy('sort_order')->get(),
+            'services' => $this->business->services()->get(),
             'reservations' => $reservations,
         ])->layout('layouts.business', ['business' => $this->business]);
     }

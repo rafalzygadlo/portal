@@ -22,7 +22,7 @@
                                 <td>{{ $reservation->service->name }}</td>
                                 <td>
                                     {{ $reservation->start_time->format('d.m.Y H:i') }}<br>
-                                    <span class="small text-muted">{{ $reservation->service->duration_minutes }} min</span>
+                                    <span class="small text-muted">{{ $reservation->service->duration }} min</span>
                                 </td>
                                 <td>
                                     <span class="badge rounded-pill {{ 

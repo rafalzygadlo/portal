@@ -34,7 +34,6 @@ class Create extends Component
             'description' => 'Default description for ' . $this->name
         ]);
 
-        //dd($business->subdomain);
         $business->users()->attach(Auth::id(), ['owner' => true]);
         session()->flash('status', 'Dziękujemy za dodanie firmy.');
 

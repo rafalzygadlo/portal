@@ -9,16 +9,21 @@ class Index extends Component
 {
     public Business $business;
 
+    protected $listeners = 
+    [
+        'serviceCreated' => '$refresh',
+    ];
+
     public function mount($subdomain)
     {
         $this->business = Business::where('subdomain', $subdomain)->firstOrFail();
     }
-
+    
     public function render()
     {
 
         return view('livewire.admin.business.service.index', [
-            'services' => $this->business->services()->get(),
+            'services' => $this->business->services()->orderBy('created_at', 'desc')->get()
         ])->layout('layouts.business', ['business' => $this->business]);
     }
 }

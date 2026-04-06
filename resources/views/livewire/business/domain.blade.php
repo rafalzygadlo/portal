@@ -65,11 +65,11 @@
                                 <p class="card-text text-muted small mb-4">{{ $service->description }}</p>
                                 
                                 <div class="mb-4 mt-auto">
-                                    <p class="small text-body mb-1">⏱️ <strong>Czas:</strong> {{ $service->duration_minutes }} minut</p>
+                                    <p class="small text-body mb-1">⏱️ <strong>Czas:</strong> {{ $service->duration }} minut</p>
                                     @if($service->price)
                                         <p class="small text-body mb-1">💰 <strong>Cena:</strong> {{ number_format($service->price, 2) }} zł</p>
                                     @endif
-                                    <p class="small text-body mb-1">⏳ <strong>Przerwa:</strong> {{ $service->buffer_minutes }} min</p>
+                                    <p class="small text-body mb-1">⏳ <strong>Przerwa:</strong> {{ $service->buffer }} min</p>
                                 </div>
 
                                 @if($business->subdomain)

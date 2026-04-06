@@ -84,8 +84,8 @@ class BusinessSeeder extends Seeder
                     'name' => $serviceName,
                     'description' => 'Profesjonalna usługa: ' . $serviceName,
                     'price' => fake()->randomElement([50, 75, 100, 150, 200]),
-                    'duration_minutes' => fake()->randomElement([30, 45, 60, 90]),
-                    'buffer_minutes' => 15,
+                    'duration' => fake()->randomElement([30, 45, 60, 90]),
+                    'buffer' => 15,
                     'is_active' => true,
                 ]);
                 $createdServices->push($service);
@@ -116,7 +116,7 @@ class BusinessSeeder extends Seeder
                     'client_email' => fake()->email(),
                     'client_phone' => fake()->phoneNumber(),
                     'start_time' => $startTime,
-                    'end_time' => $startTime->copy()->addMinutes($service->duration_minutes),
+                    'end_time' => $startTime->copy()->addMinutes($service->duration),
                     'notes' => fake()->randomElement([null, 'Specjalne życzenia', 'Pierwsza wizyta']),
                     'status' => fake()->randomElement(['pending', 'confirmed', 'completed']),
                 ]);
