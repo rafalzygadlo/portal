@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Strona główna</a></li>
+                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($article->title, 30) }}</li>
                 </ol>
             </nav>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="card-footer1 bg-white p-0 border-top-0">
                      <a href="/" class="btn btn-outline-primary">
-                        <i class="bi bi-arrow-left"></i> Wróć do listy
+                        <i class="bi bi-arrow-left"></i> Back to list
                     </a>
                 </div>
             </div>

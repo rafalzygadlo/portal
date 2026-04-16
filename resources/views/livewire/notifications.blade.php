@@ -10,10 +10,10 @@
 
     <div class="dropdown-menu dropdown-menu-end" style="width: 350px; max-height: 500px; overflow-y: auto;" aria-labelledby="notificationsDropdown">
         <h6 class="dropdown-header">
-            Powiadomienia
+            Notifications
             @if($unreadCount > 0)
                 <button wire:click="markAllAsRead" class="btn btn-sm btn-link p-0 ms-2">
-                    Oznacz wszystkie jako przeczytane
+                    Mark all as read
                 </button>
             @endif
         </h6>
@@ -39,7 +39,7 @@
             @endforeach
         @else
             <div class="dropdown-item text-muted text-center py-3">
-                Brak powiadomień
+                No notifications
             </div>
         @endif
     </div>

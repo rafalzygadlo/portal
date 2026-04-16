@@ -28,7 +28,7 @@ class Service extends Model
     ];
 
     /**
-     * Biznes do którego należy ta usługa.
+     * The business that owns this service.
      */
     public function business(): BelongsTo
     {
@@ -36,7 +36,7 @@ class Service extends Model
     }
 
     /**
-     * Zasoby, które mogą świadczyć tę usługę.
+     * Resources that can provide this service.
      */
     public function resources(): BelongsToMany
     {
@@ -44,7 +44,7 @@ class Service extends Model
     }
 
     /**
-     * Rezerwacje dla tej usługi.
+     * Reservations for this service.
      */
     public function reservations(): HasMany
     {

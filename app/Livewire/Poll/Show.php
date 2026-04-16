@@ -51,7 +51,7 @@ class Show extends Component
         $this->selectedOptionId = $this->poll->options
             ->firstWhere('votes.user_id', Auth::id())?->id;
 
-        session()->flash('status', 'Dziękujemy za oddanie głosu!');
+        session()->flash('status', 'Thank you for voting!');
     }
 
     public function render()

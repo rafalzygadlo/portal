@@ -1,7 +1,7 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Ankiety</h2>
-        <a href="{{ route('polls.create') }}" class="btn btn-primary">Dodaj ankietę</a>
+        <h2>Polls</h2>
+        <a href="{{ route('polls.create') }}" class="btn btn-primary">Add poll</a>
     </div>
 
     @if (session('status'))
@@ -13,7 +13,7 @@
     <div class="row">
         @forelse ($polls as $poll)
             @php
-                // Szukamy opcji, na którą zagłosował użytkownik
+                // Find the option that the user voted for
                 $votedOption = $poll->options->first(function($option) {
                     return $option->votes->contains('user_id', auth()->id());
                 });

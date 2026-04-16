@@ -35,7 +35,7 @@ class Create extends Component
         ]);
 
         $business->users()->attach(Auth::id(), ['owner' => true]);
-        session()->flash('status', 'Dziękujemy za dodanie firmy.');
+        session()->flash('status', 'Thank you for adding your business.');
 
         $this->reset(['name', 'subdomain']);
 

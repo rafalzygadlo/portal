@@ -123,8 +123,8 @@ class Booking extends Component
             $startTime->format('Y-m-d H:i:s'),
             $startTime->copy()->addMinutes($service->duration)->format('Y-m-d H:i:s')
         )) {
-            $this->addError('selectedTime', 'Wybrany termin jest już zajęty.');
-            $this->dispatch('notify', message: 'Wybrany termin jest już zajęty.', type: 'error');
+            $this->addError('selectedTime', 'The selected time slot is already booked.');
+            $this->dispatch('notify', message: 'The selected time slot is already booked.', type: 'error');
             return;
         }
 
@@ -141,7 +141,7 @@ class Booking extends Component
             'status' => 'pending',
         ]);
 
-        session()->flash('success', 'Rezerwacja została złożona! Czekamy na potwierdzenie.');
+        session()->flash('success', 'Your reservation has been submitted! We are waiting for confirmation.');
         $this->resetExcept('business', 'services');
     }
 

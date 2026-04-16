@@ -3,8 +3,8 @@
         <div class="col-lg-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Strona główna</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('business.index') }}" class="text-decoration-none">Katalog firm</a></li>
+                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('business.index') }}" class="text-decoration-none">Business directory</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($business->name, 30) }}</li>
                 </ol>
             </nav>
@@ -47,7 +47,7 @@
                     </div>
 
                     <a href="{{ route('business.index') }}" class="btn btn-outline-primary">
-                        <i class="bi bi-arrow-left"></i> Wróć do listy
+                        <i class="bi bi-arrow-left"></i> Back to list
                     </a>
                 </div>
             </div>
@@ -55,7 +55,7 @@
             <hr class="my-4">
 
             <div class="comments-section">
-                <h3>Komentarze</h3>
+                <h3>Comments</h3>
                 <livewire:comments :model="$business" />
             </div>
         </div>

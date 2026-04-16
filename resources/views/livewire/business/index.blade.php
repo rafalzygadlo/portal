@@ -1,8 +1,8 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Katalog firm</h2>
-        <a href="{{ route('business.create') }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Dodaj swoją
-            firmę</a>
+        <h2>Business directory</h2>
+        <a href="{{ route('business.create') }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Add your
+            business</a>
     </div>
 
     @if (session('status'))
@@ -13,7 +13,7 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <h5 class="card-title">Filtruj wg kategorii</h5>
+            <h5 class="card-title">Filter by category</h5>
             <div class="d-flex flex-wrap gap-2">
                 @foreach($categories as $cat)
                     <div>
@@ -62,7 +62,7 @@
             @empty
                 <div class="col-12">
                     <div class="alert alert-secondary">
-                        Brak firm w tej kategorii.
+                        No businesses in this category.
                     </div>
                 </div>
             @endforelse

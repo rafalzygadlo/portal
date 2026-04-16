@@ -12,7 +12,7 @@
                 <span class="badge bg-primary rounded-pill">{{ $article->getScore() }}</span>
             </li>
         @empty
-            <li class="list-group-item text-muted text-center py-3">Brak artykułów w tym miesiącu.</li>
+            <li class="list-group-item text-muted text-center py-3">No articles this month.</li>
         @endforelse
     </ul>
 </div>

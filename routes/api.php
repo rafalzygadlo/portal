@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Rezerwacje - publiczne
+// Reservations - public
 #Route::get('/reservations/available-slots', [ReservationController::class, 'getAvailableSlots']);
 #Route::post('/reservations', [ReservationController::class, 'store']);
 

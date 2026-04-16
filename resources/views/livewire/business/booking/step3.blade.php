@@ -2,7 +2,7 @@
     <h3 class="fw-semibold mb-3 h5">Twoje dane</h3>
     <div class="row g-3">
         <div class="col-md-6">
-            <label class="form-label">Imię i Nazwisko</label>
+            <label class="form-label">Full Name</label>
             <input type="text" wire:model="name" class="form-control @error('name') is-invalid @enderror">
             @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>

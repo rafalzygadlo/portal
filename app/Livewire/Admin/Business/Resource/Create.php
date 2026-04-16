@@ -34,7 +34,7 @@ class Create extends Component
             'user_id' => $this->type === 'person' ? $this->userId : null,
         ]);
 
-        session()->flash('success', 'Zasób został dodany.');
+        session()->flash('success', 'Resource has been added.');
 
         return redirect()->route('business.resources.index', $this->business);
     }

@@ -74,7 +74,7 @@ class Business extends Model
     }
 
     /**
-     * Usługi rezerwacji oferowane przez biznes.
+     * Booking services offered by the business.
      */
     public function services(): HasMany
     {
@@ -82,7 +82,7 @@ class Business extends Model
     }
 
     /**
-     * Rezerwacje dla biznesu.
+     * Reservations for the business.
      */
     public function reservations(): HasMany
     {
@@ -90,7 +90,7 @@ class Business extends Model
     }
 
     /**
-     * Zasoby biznesu.
+     * Business resources.
      */
     public function resources(): HasMany
     {
@@ -98,7 +98,7 @@ class Business extends Model
     }
 
     /**
-     * Przesunięcie godzin pracy dla danego dnia (0 = poniedziałek).
+     * Shift of business hours for a given day (0 = Monday).
      */
     public function getBusinessHours(): array
     {
@@ -106,7 +106,7 @@ class Business extends Model
     }
 
     /**
-     * Domyślne godziny pracy.
+     * Default opening hours.
      */
     public function getDefaultBusinessHours(): array
     {

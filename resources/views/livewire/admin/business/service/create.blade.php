@@ -5,7 +5,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">
-                            {{ $editingService ? 'Edytuj usługę' : 'Nowa usługa' }}
+                            {{ $editingService ? 'Edit service' : 'New service' }}
                         </h5>
                         <button type="button" class="btn-close" wire:click="closeServiceModal"></button>
                     </div>
@@ -52,14 +52,14 @@
                                     type="submit"
                                     class="btn btn-primary flex-grow-1"
                                 >
-                                    Zapisz
+                                    Save
                                 </button>
                                 <button 
                                     type="button"
                                     wire:click="closeServiceModal"
                                     class="btn btn-secondary flex-grow-1"
                                 >
-                                    Anuluj
+                                    Cancel
                                 </button>
                             </div>
                         </form>

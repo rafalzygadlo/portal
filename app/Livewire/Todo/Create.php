@@ -30,7 +30,7 @@ class Create extends Component
             'status' => 'pending',
         ]);
 
-        return redirect()->route('todos.index')->with('message', 'Twój pomysł został dodany!');
+        return redirect()->route('todos.index')->with('message', 'Your idea has been added!');
     }
 
     public function render()

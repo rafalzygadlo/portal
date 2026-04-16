@@ -9,7 +9,7 @@ class SendCommentNotification
 {
     public function handle(CommentCreated $event): void
     {
-        // Nie wysyłaj powiadomienia jeśli komentuje się własny post
+        // Do not send a notification if commenting on your own post
         if ($event->model->user_id === $event->commenter->id) {
             return;
         }
@@ -20,7 +20,7 @@ class SendCommentNotification
             'type' => 'comment',
             'notifiable_type' => class_basename($event->model),
             'notifiable_id' => $event->model->id,
-            'message' => "{$event->commenter->name} skomentował Twój post",
+            'message' => "{$event->commenter->name} commented on your post",
             'read' => false,
         ]);
     }

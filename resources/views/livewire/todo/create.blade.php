@@ -4,7 +4,7 @@
             <div class="card shadow-sm">
                 
                 <div class="card-header">
-                    <h1 class="h4 mb-0">Dodaj nowy pomysł</h1>
+                    <h1 class="h4 mb-0">Add new idea</h1>
                 </div>
                 
                 <div class="card-body p-4">
@@ -12,7 +12,7 @@
                     <div class="col-md-0">
                         <form wire:submit.prevent="save">
                             <div class="mb-3">
-                                <label for="title" class="form-label">Tytuł</label>
+                                <label for="title" class="form-label">Title</label>
                                 <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" wire:model.defer="title">
                                 @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
@@ -24,10 +24,10 @@
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                <a href="{{ route('todos.index') }}" class="btn btn-outline-secondary me-2">Anuluj</a>
+                                <a href="{{ route('todos.index') }}" class="btn btn-outline-secondary me-2">Cancel</a>
                                 <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
-                                    <span wire:loading.remove>Dodaj pomysł</span>
-                                    <span wire:loading>Zapisywanie...</span>
+                                    <span wire:loading.remove>Add idea</span>
+                                    <span wire:loading>Saving...</span>
                                 </button>
                             </div>
                         </form>

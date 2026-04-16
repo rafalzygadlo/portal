@@ -22,11 +22,11 @@
 
                 @if ($day['isPast'])
                         <div class="text-center text-muted small p-3">
-                        Minął
+                        Expired
                     </div>
                 @elseif (empty($weekSlots[$dateKey]))
                     <div class="text-center text-muted small p-3">
-                        Zamknięte
+                        Closed
                     </div>
                 @else
                     <div class="d-grid gap-1" style="max-height: 18rem; overflow-y: auto;">
@@ -56,7 +56,7 @@
         </div>
     @empty
         <div class="col-12 text-center text-muted p-4">
-            Ładowanie...
+            Loading...
         </div>
     @endforelse
     </div>

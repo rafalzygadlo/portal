@@ -11,7 +11,7 @@
             <div class="mb-4">
                 <div class="progress" style="height: 20px;">
                     @php
-                        $steps = [1 => 'Usługa', 2 => 'Termin', 3 => 'Twoje dane', 4 => 'Potwierdzenie'];
+                        $steps = [1 => 'Service', 2 => 'Termin', 3 => 'Twoje dane', 4 => 'Potwierdzenie'];
                         $progress = ($step - 1) * 33.33;
                     @endphp
                     <div class="progress-bar" role="progressbar" style="width: {{ $progress }}%;" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -76,7 +76,7 @@
 
                     @if($step > 1 && $step < 4)
                         <button type="button" wire:click="nextStep" class="btn btn-primary" @if(($step == 2 && !$selectedTime)) disabled @endif>
-                            Dalej
+                            Next
                         </button>
                     @elseif($step == 4)
                         <button type="submit" class="btn btn-success btn-lg">

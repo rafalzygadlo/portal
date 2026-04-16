@@ -1,71 +1,71 @@
   <div class="container-fluid">
-    <h1>Regulamin serwisu</h1>
-    <div class="meta">Data ostatniej aktualizacji: <strong>[WSTAW DATĘ]</strong></div>
+    <h1>Terms of Service</h1>
+    <div class="meta">Last updated: <strong>[INSERT DATE]</strong></div>
 
     <div class="section">
-      <h2>1. Postanowienia ogólne</h2>
-      <p>Niniejszy Regulamin określa zasady korzystania z serwisu <strong>[NAZWA SERWISU]</strong> dostępnego pod adresem <strong>[ADRES STRONY]</strong>. Korzystając z serwisu użytkownik akceptuje postanowienia Regulaminu.</p>
+      <h2>1. General provisions</h2>
+      <p>These Terms of Service govern the use of the <strong>[SERVICE NAME]</strong> website available at <strong>[SITE URL]</strong>. By using the website, the user accepts these terms.</p>
     </div>
 
     <div class="section">
-      <h2>2. Definicje</h2>
-      <p>Użyte w Regulaminie pojęcia oznaczają:</p>
+      <h2>2. Definitions</h2>
+      <p>The following definitions apply in these Terms of Service:</p>
       <ul>
-        <li><strong>Serwis</strong> — strona internetowa [ADRES],</li>
-        <li><strong>Administrator</strong> — właściciel i operator serwisu,</li>
-        <li><strong>Użytkownik</strong> — osoba korzystająca z serwisu,</li>
-        <li><strong>Treści</strong> — materiały publikowane przez Użytkowników (artykuły, komentarze, zdjęcia).</li>
+        <li><strong>Website</strong> — the website at [ADDRESS],</li>
+        <li><strong>Administrator</strong> — the website owner and operator,</li>
+        <li><strong>User</strong> — a person using the website,</li>
+        <li><strong>Content</strong> — materials published by users (articles, comments, photos).</li>
       </ul>
     </div>
 
     <div class="section">
-      <h2>3. Zasady korzystania</h2>
+      <h2>3. Rules of use</h2>
       <ol>
-        <li>Serwis umożliwia publikację artykułów i innych treści przez Użytkowników.</li>
-        <li>Użytkownik odpowiada za treść przesyłanych materiałów i oświadcza, że posiada do nich prawa.</li>
-        <li>Zabronione jest publikowanie treści sprzecznych z prawem, obraźliwych, naruszających prawa osób trzecich lub zawierających dane osobowe bez zgody.</li>
-        <li>Administrator zastrzega sobie prawo do usuwania treści naruszających Regulamin oraz do blokowania kont.</li>
+        <li>The website allows users to publish articles and other content.</li>
+        <li>The user is responsible for the content they submit and confirms they have the rights to it.</li>
+        <li>Publishing content that is illegal, offensive, infringes third-party rights, or contains personal data without consent is prohibited.</li>
+        <li>The Administrator reserves the right to remove content that violates these terms and to block accounts.</li>
       </ol>
     </div>
 
     <div class="section">
-      <h2>4. Konto użytkownika</h2>
-      <p>Rejestracja wymaga podania danych wymaganych przez formularz. Użytkownik jest odpowiedzialny za zachowanie poufności danych logowania i zobowiązany jest nieudostępniania ich osobom trzecim.</p>
+      <h2>4. User account</h2>
+      <p>Registration requires providing the data requested by the form. The user is responsible for keeping login credentials confidential and must not share them with third parties.</p>
     </div>
 
     <div class="section">
-      <h2>5. Konkurs „Artykuł tygodnia”</h2>
+      <h2>5. Article of the week contest</h2>
       <ol>
-        <li>Administrator może prowadzić cykliczny konkurs na najlepszy artykuł tygodnia.</li>
-        <li>Nagroda pieniężna wynosi <strong>100 zł</strong> (o ile konkurs jest ogłoszony i finansowany przez Administratora).</li>
-        <li>Warunki konkursu, zasady oceny i termin wypłaty nagrody będą określone w odrębnym komunikacie.</li>
-        <li>Decyzja Administratora dotycząca rozstrzygnięcia konkursu jest ostateczna.</li>
+        <li>The Administrator may run a recurring contest for the best article of the week.</li>
+        <li>The cash prize is <strong>100 PLN</strong> (if the contest is announced and funded by the Administrator).</li>
+        <li>The contest rules, evaluation criteria, and prize payment schedule will be announced separately.</li>
+        <li>The Administrator's decision regarding the contest result is final.</li>
       </ol>
     </div>
 
     <div class="section">
-      <h2>6. Prawa autorskie</h2>
-      <p>Publikując treści w serwisie Użytkownik udziela Administratorowi niewyłącznej, nieodpłatnej licencji na korzystanie, publikowanie i archiwizację tych treści na potrzeby serwisu.</p>
+      <h2>6. Copyright</h2>
+      <p>By publishing content on the website, the user grants the Administrator a non-exclusive, royalty-free license to use, publish, and archive the content for website purposes.</p>
     </div>
 
     <div class="section">
-      <h2>7. Odpowiedzialność</h2>
-      <p>Administrator nie ponosi odpowiedzialności za treści publikowane przez Użytkowników. Użytkownik korzysta z serwisu na własne ryzyko i ponosi odpowiedzialność za skutki prawne swoich publikacji.</p>
+      <h2>7. Liability</h2>
+      <p>The Administrator is not liable for content published by users. The user uses the website at their own risk and is responsible for any legal consequences of their publications.</p>
     </div>
 
     <div class="section">
-      <h2>8. Reklamacje i kontakt</h2>
-      <p>Reklamacje dotyczące działania serwisu można kierować na adres e-mail: <strong>[EMAIL]</strong>. Administrator odpowie w terminie do 30 dni.</p>
+      <h2>8. Complaints and contact</h2>
+      <p>Complaints about website operation can be sent to: <strong>[EMAIL]</strong>. The Administrator will respond within 30 days.</p>
     </div>
 
     <div class="section">
-      <h2>9. Zmiany regulaminu</h2>
-      <p>Administrator może zmieniać Regulamin. O zmianach użytkownicy będą informowani poprzez komunikat na stronie. Korzystanie z serwisu po zmianach Regulaminu oznacza ich akceptację.</p>
+      <h2>9. Changes to the terms</h2>
+      <p>The Administrator may change the Terms of Service. Users will be informed of changes via a website notification. Continued use of the website after changes indicates acceptance.</p>
     </div>
 
     <div class="section">
-      <h2>10. Postanowienia końcowe</h2>
-      <p>W kwestiach nieuregulowanych w Regulaminie stosuje się obowiązujące przepisy prawa polskiego.</p>
+      <h2>10. Final provisions</h2>
+      <p>In matters not covered by these Terms, applicable Polish law shall apply.</p>
     </div>
 
   </div>

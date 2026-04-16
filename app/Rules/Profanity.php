@@ -31,6 +31,6 @@ class Profanity implements Rule
      */
     public function message()
     {
-        return 'Komentarz zawiera niedozwolone słowa.';
+        return 'Comment contains disallowed words.';
     }
 }

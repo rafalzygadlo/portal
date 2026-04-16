@@ -3,8 +3,8 @@
         <div class="col-lg-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Strona główna</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('polls.index') }}" class="text-decoration-none">Ankiety</a></li>
+                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('polls.index') }}" class="text-decoration-none">Polls</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($poll->question, 30) }}</li>
                 </ol>
             </nav>
@@ -45,9 +45,9 @@
                                 <label class="form-check-label {{ $votedOption && $votedOption->id == $option->id ? 'fw-bold' : '' }}" for="option-{{ $option->id }}">
                                     {{ $option->name }}
                                 </label>
-                                <span class="text-muted">({{ $option->votes->count() }} głosów)</span>
+                                <span class="text-muted">({{ $option->votes->count() }} votes)</span>
                                 @if($votedOption && $votedOption->id == $option->id)
-                                    <span class="badge bg-dark ms-2">Twój głos</span>
+                                    <span class="badge bg-dark ms-2">Your vote</span>
                                 @endif
                             </div>
                         @endforeach
@@ -55,12 +55,12 @@
                 </div>
                 <div class="card-footer bg-white border-top-0 mt-4">
                     @if($votedOption)
-                        <button class="btn btn-secondary" disabled>Już zagłosowałeś</button>
+                        <button class="btn btn-secondary" disabled>You have already voted</button>
                     @else
-                        <button class="btn btn-primary" wire:click="vote" @if(!$selectedOptionId) disabled @endif>Głosuj</button>
+                        <button class="btn btn-primary" wire:click="vote" @if(!$selectedOptionId) disabled @endif>Vote</button>
                     @endif
                     <a href="{{ route('polls.index') }}" class="btn btn-outline-primary ms-2">
-                        <i class="bi bi-arrow-left"></i> Wróć do listy
+                        <i class="bi bi-arrow-left"></i> Back to list
                     </a>
                 </div>
             </div>
@@ -68,7 +68,7 @@
             <hr class="my-4">
 
             <div class="comments-section">
-                <h3>Komentarze</h3>
+                <h3>Comments</h3>
                 <livewire:comments :model="$poll" />
             </div>
         </div>

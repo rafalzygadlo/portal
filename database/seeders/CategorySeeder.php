@@ -13,22 +13,22 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        // Definiujemy kategorie z podziałem na typy
+        // Define categories by type
         $categories = [
             'business' => [
                 'Biznes',
                 'Technologia',
                 'Motoryzacja',
                 'Programowanie',
-                'Nieruchomości',
-                'Sprzedaż'
+                'Real Estate',
+                'Sales'
             ],
             'article' => [
-                'Aktualności',
+                'News',
                 'Problemy',
                 'Lifestyle',
                 'Zdrowie',
-                'Podróże',
+                'Travel',
                 'Kulinaria',
                 'Sport',
                 'Edukacja',
@@ -50,7 +50,7 @@ class CategorySeeder extends Seeder
             }
         }
 
-        // Używamy insertOrIgnore, aby uniknąć błędów przy ponownym uruchamianiu seedera
+        // Use insertOrIgnore to avoid errors when running the seeder again
         DB::table('categories')->insertOrIgnore($data);
     }
 }

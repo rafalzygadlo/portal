@@ -40,7 +40,7 @@ class Create extends Component
     
     public function preview()
     {
-        // Opcjonalnie: walidacja przed pokazaniem podglądu
+        // Optional: validation before showing preview
         $this->validate([
             'title' => 'required|min:5',
             'content' => 'required|min:10',
@@ -65,7 +65,7 @@ class Create extends Component
 
         if ($this->containsForbiddenWords($this->title) || $this->containsForbiddenWords($this->content)) {
             throw ValidationException::withMessages([
-                'content' => 'Treść zawiera niedozwolone słowa.',
+                'content' => 'Content contains disallowed words.',
             ]);
         }
 
@@ -83,7 +83,7 @@ class Create extends Component
 
         $article->categories()->sync($this->categories);
 
-        return redirect()->to('/')->with('status', 'Artykuł został dodany i czeka na publikację!');
+        return redirect()->to('/')->with('status', 'Your article has been added and is pending publication!');
     }
 
     public function render()

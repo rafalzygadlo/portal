@@ -22,7 +22,7 @@ class Vote extends Component
         {
             $vote = $this->model->votes()->where('user_id', Auth::id())->first();
             $this->userVote = $vote ? ($vote->value === 1 ? 'up' : 'down') : null;
-            // Sprawdzamy czy user_id istnieje w modelu (niektóre modele mogą nie mieć autora)
+            // Check if user_id exists on the model (some models may not have an author)
             $this->isAuthor = isset($this->model->user_id) && Auth::id() === $this->model->user_id;
         }
     }

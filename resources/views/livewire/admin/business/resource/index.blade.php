@@ -1,12 +1,7 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3">Zasoby</h1>
-          <button 
-                    wire:click="openResourceModal"
-                    class="btn btn-primary"
-                >
-                    + Dodaj zasob
-                </button>
+        <h1 class="h3">Resources</h1>
+          <button  wire:click="openResourceModal" class="btn btn-primary">+</button>
         
     </div>
 
@@ -34,12 +29,12 @@
                                 @endif
                             </td>
                             <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-secondary">Zarządzaj</a>
+                                <a href="#" class="btn btn-sm btn-secondary">Manage</a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center">Brak zasobów.</td>
+                            <td colspan="4" class="text-center">No resources.</td>
                         </tr>
                     @endforelse
                 </tbody>

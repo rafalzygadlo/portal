@@ -8,7 +8,7 @@ use App\Models\Business;
 class BusinessPolicy
 {
     /**
-     * Czy użytkownik może zarządzać biznesem.
+     * Whether the user can manage the business.
      */
     public function update(User $user, Business $business): bool
     {
@@ -16,7 +16,7 @@ class BusinessPolicy
     }
 
     /**
-     * Czy użytkownik może usunąć biznes.
+     * Whether the user can delete the business.
      */
     public function delete(User $user, Business $business): bool
     {
@@ -24,7 +24,7 @@ class BusinessPolicy
     }
 
     /**
-     * Czy użytkownik może przeglądać rezerwacje.
+     * Whether the user can view reservations.
      */
     public function viewReservations(User $user, Business $business): bool
     {

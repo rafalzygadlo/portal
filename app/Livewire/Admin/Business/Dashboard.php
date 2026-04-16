@@ -88,7 +88,7 @@ class Dashboard extends Component
 
         $this->closeServiceModal();
         $this->business->refresh();
-        session()->flash('success', 'Usługa została ' . ($this->editingService ? 'zaktualizowana' : 'dodana') . '!');
+        session()->flash('success', 'Service has been ' . ($this->editingService ? 'updated' : 'added') . '!');
     }
 
     public function deleteService(Service $service)
@@ -96,7 +96,7 @@ class Dashboard extends Component
         $this->authorize('update', $this->business);
         $service->delete();
         $this->business->refresh();
-        session()->flash('success', 'Usługa została usunięta.');
+        session()->flash('success', 'Service has been deleted.');
     }
 
     public function toggleServiceActive(Service $service)

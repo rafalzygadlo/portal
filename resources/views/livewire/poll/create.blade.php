@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-5">
             <div class="card border-1">
-                <div class="card-header">Dodaj nową ankietę</div>
+                <div class="card-header">Add new poll</div>
 
                 <div class="card-body">
 
@@ -19,23 +19,23 @@
                             @foreach ($options as $index => $option)
                                 <div class="input-group mb-2">
                                     <input type="text" class="form-control @error('options.'.$index) is-invalid @enderror" wire:model.defer="options.{{ $index }}">
-                                    <button type="button" class="btn btn-danger" wire:click="removeOption({{ $index }})">Usuń</button>
+                                    <button type="button" class="btn btn-danger" wire:click="removeOption({{ $index }})">Delete</button>
                                     @error('options.'.$index) <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             @endforeach
                         </div>
 
                         <div class="d-flex justify-content-start mb-3">
-                            <button type="button" class="btn btn-outline-secondary" wire:click="addOption">Dodaj opcję</button>
+                            <button type="button" class="btn btn-outline-secondary" wire:click="addOption">Add option</button>
                         </div>
                         
                         @error('options') <div class="text-danger mb-3">{{ $message }}</div> @enderror
 
                         <div class="d-flex justify-content-end">
-                            <a href="{{ route('polls.index') }}" class="btn btn-outline-secondary me-2">Anuluj</a>
+                            <a href="{{ route('polls.index') }}" class="btn btn-outline-secondary me-2">Cancel</a>
                             <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
-                                <span wire:loading.remove>Dodaj ankietę</span>
-                                <span wire:loading>Zapisywanie...</span>
+                                <span wire:loading.remove>Add poll</span>
+                                <span wire:loading>Saving...</span>
                             </button>
                         </div>
 

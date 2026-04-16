@@ -1,7 +1,7 @@
 <div class="business-dashboard container py-4">
     <div class="mb-4">
         <h1 class="h2 fw-bold">{{ $business->name }}</h1>
-        <p class="text-muted">Panel zarządzania rezerwacjami</p>
+        <p class="text-muted">Reservations management panel</p>
     </div>
 
     @if (session()->has('success'))
@@ -13,8 +13,8 @@
     
         <div>
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="h4 fw-bold">Twoje usługi</h2>
-                <button  wire:click="$dispatch('openServiceModal')" class="btn btn-primary"> + Dodaj usługę </button>
+                <h2 class="h4 fw-bold">Your services</h2>
+                <button  wire:click="$dispatch('openServiceModal')" class="btn btn-primary"> + Add service </button>
             </div>
 
             @foreach ($services as $service)
@@ -26,9 +26,9 @@
                             <div class="d-flex gap-3 small text-muted">
                                 <span>⏱️ {{ $service->duration }} min</span>
                                 @if ($service->price)
-                                    <span>💰 {{ number_format($service->price, 2) }} zł</span>
+                                    <span>💰 {{ number_format($service->price, 2) }} PLN</span>
                                 @endif
-                                <span>⏳ Przerwa: {{ $service->buffer }} min</span>
+                                <span>⏳ Break: {{ $service->buffer }} min</span>
                             </div>
                         </div>
                         <div class="d-flex gap-2 ms-3">
@@ -36,20 +36,20 @@
                                 wire:click="toggleServiceActive({{ $service->id }})"
                                 class="btn btn-sm {{ $service->is_active ? 'btn-success' : 'btn-light border' }}"
                             >
-                                {{ $service->is_active ? 'Aktywna' : 'Nieaktywna' }}
+                                {{ $service->is_active ? 'Active' : 'Inactive' }}
                             </button>
                             <button 
                                 wire:click="openServiceModal({{ $service->id }})"
                                 class="btn btn-sm btn-outline-primary"
                             >
-                                Edytuj
+                                Edit
                             </button>
                             <button 
                                 wire:click="deleteService({{ $service->id }})"
                                 class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Na pewno usunąć?')"
+                                onclick="return confirm('Are you sure you want to delete?')"
                             >
-                                Usuń
+                                Delete
                             </button>
                         </div>
                     </div>

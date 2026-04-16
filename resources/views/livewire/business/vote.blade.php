@@ -7,7 +7,7 @@
         <button class="btn btn-sm btn-light disabled text-dark fw-bold" style="opacity: 1; min-width: 40px;">
             {{ $votesCount }}
         </button>
-        <button wire:click="vote('down')" class="btn btn-sm {{ $userVote === 'down' ? 'btn-danger' : 'btn-outline-danger' }}" {{ $isAuthor ? 'disabled' : '' }} title="Słabe">
+        <button wire:click="vote('down')" class="btn btn-sm {{ $userVote === 'down' ? 'btn-danger' : 'btn-outline-danger' }}" {{ $isAuthor ? 'disabled' : '' }} title="Weak">
             <i class="bi bi-hand-thumbs-down{{ $userVote === 'down' ? '-fill' : '' }}"></i>{{ $model->downvotes()->count() }}
         </button>
     </div>

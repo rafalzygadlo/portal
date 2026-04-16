@@ -23,11 +23,11 @@ trait Voteable
 
     public function getScore()
     {
-        // Sprawdź, czy suma głosów została już załadowana (eager loaded)
+        // Check if vote sum has already been loaded (eager loaded)
         if (isset($this->votes_sum_value)) {
             return (int) $this->votes_sum_value;
         }
-        // Suma wartości głosów (1 dla up, -1 dla down) daje wynik
+        // The sum of vote values (1 for up, -1 for down) yields the score
         return (int) $this->votes()->sum('value');
     }
 }

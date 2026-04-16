@@ -6,7 +6,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>Klient</th>
-                            <th>Usługa</th>
+                            <th>Service</th>
                             <th>Data i czas</th>
                             <th>Status</th>
                             <th>Akcje</th>
@@ -39,7 +39,7 @@
                                                 wire:click="confirmReservation({{ $reservation->id }})"
                                                 class="btn btn-sm btn-link text-success text-decoration-none p-0"
                                             >
-                                                Potwierdź
+                                                Confirm
                                             </button>
                                         @endif
                                         @if ($reservation->status !== 'cancelled')
@@ -47,7 +47,7 @@
                                                 wire:click="cancelReservation({{ $reservation->id }})"
                                                 class="btn btn-sm btn-link text-danger text-decoration-none p-0"
                                             >
-                                                Anuluj
+                                                Cancel
                                             </button>
                                         @endif
                                     </div>
@@ -56,7 +56,7 @@
                         @empty
                             <tr>
                                 <td colspan="5" class="text-center text-muted py-4">
-                                    Brak rezerwacji
+                                    No reservations
                                 </td>
                             </tr>
                         @endforelse

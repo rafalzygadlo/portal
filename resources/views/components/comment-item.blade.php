@@ -9,7 +9,7 @@
                 @else
                     <i class="bi bi-person-circle text-secondary"></i>
                 @endif
-                {{ $comment->user->first_name ?? 'Użytkownik' }}
+                {{ $comment->user->first_name ?? 'User' }}
             </div>
             <small class="text-muted" @if($isReply) style="font-size: 0.8rem;" @endif>{{ $comment->created_at->diffForHumans() }}</small>
         </div>
@@ -19,14 +19,14 @@
             @auth
                 @if(!$isReply)
                     <button wire:click="$set('replyToId', {{ $comment->id }})" class="btn btn-link text-primary btn-sm p-0 text-decoration-none">
-                        <i class="bi bi-reply"></i> Odpowiedz
+                        <i class="bi bi-reply"></i> Reply
                     </button>
                 @endif
             @endauth
 
             @can('delete', $comment)
-                <button wire:click="delete({{ $comment->id }})" class="btn btn-link text-danger btn-sm p-0 text-decoration-none @if($isReply) style="font-size: 0.8rem;" @endif" onclick="confirm('Czy na pewno usunąć?') || event.stopImmediatePropagation()">
-                    Usuń
+                <button wire:click="delete({{ $comment->id }})" class="btn btn-link text-danger btn-sm p-0 text-decoration-none @if($isReply) style="font-size: 0.8rem;" @endif" onclick="confirm('Are you sure you want to delete?') || event.stopImmediatePropagation()">
+                    Delete
                 </button>
             @endcan
         </div>

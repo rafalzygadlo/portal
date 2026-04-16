@@ -9,36 +9,29 @@
                     </div>
                 </div>
                 <h3 class="fw-bold">{{ $user->first_name }} {{ $user->last_name }}</h3>
-                <p class="text-muted">Dołączył: {{ $user->created_at->format('d.m.Y') }}</p>
-                <p class="text-muted">Email: {{ $user->email }}</p>
-                
-            </div>
-
-            @if(Auth::id() === $user->id)
-                <div class="card border-0 shadow-sm mt-4">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold mb-3">Szybkie akcje</h5>
+                    <p class="text-muted">Joined: {{ $user->created_at->format('d.m.Y') }}</p>
+                        <h5 class="card-title fw-bold mb-3">Quick actions</h5>
                         <div class="d-grid gap-2">
                              
                             <a href="{{ route('business.create') }}" class="btn btn-outline-primary text-start">
-                                <i class="bi bi-briefcase me-2"></i> Załóż nowy biznes
+                                <i class="bi bi-briefcase me-2"></i> Create new business
                             </a>
                             
                             <a href="{{ route('todos.create') }}"  class="btn btn-outline-primary text-start">
-                                <i class="bi bi-lightbulb me-2"></i> Zgłoś pomysł
+                                <i class="bi bi-lightbulb me-2"></i> Submit idea
                             </a>
                             <a href="{{ route('polls.create') }}"  class="btn btn-outline-primary text-start">
-                                <i class="bi bi-lightbulb me-2"></i> Dodaj ankiete
+                                <i class="bi bi-lightbulb me-2"></i> Add poll
                             </a>
                         </div>
                     </div>
                 </div>
-            @endif
+            
 
-        </div>
+        
 
         <div class="col-md-8">
-            <h4 class="mb-4 pb-2 border-bottom">Biznesy użytkownika</h4>
+            <h4 class="mb-4 pb-2 border-bottom">User businesses</h4>
             <div class="row mb-5">
                     @forelse($user->ownedBusinesses as $business)
                         <div class="col-md-6 mb-3">
@@ -48,10 +41,10 @@
                                     <p class="card-text text-muted small mb-3">{{ \Illuminate\Support\Str::limit($business->description, 60) }}</p>
                                     <div class="d-flex gap-2">
                                         <a href="{{ route('business.domain', ['subdomain' => $business->subdomain]) }}" class="btn btn-sm btn-outline-secondary" target="_blank">
-                                            <i class="bi bi-globe"></i> Strona
+                                            <i class="bi bi-globe"></i> Page
                                         </a>
                                         @if(Auth::id() === $user->id)
-                                            <a href="{{ route('dashboard.business', ['subdomain' => $business->subdomain]) }}" class="btn btn-sm btn-primary">
+                                            <a href="{{ route('admin.dashboard', ['subdomain' => $business->subdomain]) }}" class="btn btn-sm btn-primary">
                                                 <i class="bi bi-speedometer2"></i> Dashboard
                                             </a>
                                         @endif
@@ -61,7 +54,7 @@
                         </div>
                     @empty
 
-                <div class="alert alert-light text-center">Ten użytkownik nie zarządza jeszcze żadnym biznesem.</div>
+                <div class="alert alert-light text-center">This user does not manage any businesses yet.</div>
             @endforelse
                 </div>
 

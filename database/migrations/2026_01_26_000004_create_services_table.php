@@ -11,13 +11,13 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('business_id')->constrained()->onDelete('cascade');
-            // zrob tabele resource_service z resource_id i service_id, bo jedna usługa może być świadczona przez wiele zasobów, a jeden zasób może świadczyć wiele usług
+            // create a resource_service table with resource_id and service_id because one service can be offered by many resources, and one resource can provide many services
             //$table->foreignId('resource_id')->constrained()->onDelete('cascade');
-            $table->string('name'); // np. "Wymiana opon", "Naprawa"
+            $table->string('name'); // np. "Tire replacement", "Naprawa"
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2)->nullable();
-            $table->integer('duration'); // czas trwania
-            $table->integer('buffer')->default(0); // przerwa między rezerwacjami
+            $table->integer('duration'); // duration
+            $table->integer('buffer')->default(0); // buffer time between reservations
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

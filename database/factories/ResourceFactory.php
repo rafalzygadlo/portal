@@ -26,10 +26,10 @@ class ResourceFactory extends Factory
     public function definition(): array
     {
         return [
-            'business_id' => Business::factory(), // Domyślnie tworzy nowy biznes, jeśli ID nie zostanie podane
+            'business_id' => Business::factory(), // By default creates a new business if no ID is provided
             'name' => fake()->name(),
             'type' => fake()->randomElement(['person', 'equipment', 'room']),
-            'user_id' => null, // Może zostać nadpisane
+            'user_id' => null, // Can be overridden
             'is_active' => true,
         ];
     }

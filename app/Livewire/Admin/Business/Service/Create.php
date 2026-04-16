@@ -11,8 +11,8 @@ class Create extends Component
     public Business $business;
     
     //form fields
-    public string $name = 'testowa usługa';
-    public string $description = 'przykładowy opis usługi';
+    public string $name = 'test service';
+    public string $description = 'sample service description';
     public int $duration = 60;        
     public float $price = 100.00;
     public int $buffer = 15;
@@ -62,7 +62,7 @@ class Create extends Component
             'is_active' => true,
         ]);
 
-        session()->flash('success', 'Zasób został dodany.');
+        session()->flash('success', 'Resource has been added.');
         $this->closeServiceModal();
         $this->dispatch('serviceCreated');
     }

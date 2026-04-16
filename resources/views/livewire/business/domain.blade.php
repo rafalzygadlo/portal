@@ -24,7 +24,7 @@
             @if($business->website)
                 <div class="col-md-4">
                     <p class="small text-white-50">🌐 Strona</p>
-                    <p class="fw-semibold"><a href="{{ $business->website }}" target="_blank" class="text-white">Odwiedź</a></p>
+                    <p class="fw-semibold"><a href="{{ $business->website }}" target="_blank" class="text-white">Visit</a></p>
                 </div>
             @endif
         </div>
@@ -44,11 +44,11 @@
         </div>
     @endif
 
-    <!-- Usługi rezerwacji -->
+    <!-- Reservation services -->
     @if(count($services) > 0)
         <div class="mb-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="h2 fw-bold">Dostępne usługi</h2>
+                <h2 class="h2 fw-bold">Available services</h2>
                 @if($business->subdomain)
                     <a href="https://{{ $business->subdomain }}.localhost/booking" class="btn btn-primary px-4 py-2">
                         Zarezerwuj termin
@@ -67,9 +67,9 @@
                                 <div class="mb-4 mt-auto">
                                     <p class="small text-body mb-1">⏱️ <strong>Czas:</strong> {{ $service->duration }} minut</p>
                                     @if($service->price)
-                                        <p class="small text-body mb-1">💰 <strong>Cena:</strong> {{ number_format($service->price, 2) }} zł</p>
+                                        <p class="small text-body mb-1">💰 <strong>Price:</strong> {{ number_format($service->price, 2) }} PLN</p>
                                     @endif
-                                    <p class="small text-body mb-1">⏳ <strong>Przerwa:</strong> {{ $service->buffer }} min</p>
+                                    <p class="small text-body mb-1">⏳ <strong>Break:</strong> {{ $service->buffer }} min</p>
                                 </div>
 
                                 @if($business->subdomain)
@@ -88,11 +88,11 @@
     <!-- Godziny pracy -->
     @php
         $dayNames = [
-            'mon' => 'Poniedziałek',
+            'mon' => 'Monday',
             'tue' => 'Wtorek',
-            'wed' => 'Środa',
+            'wed' => 'Wednesday',
             'thu' => 'Czwartek',
-            'fri' => 'Piątek',
+            'fri' => 'Friday',
             'sat' => 'Sobota',
             'sun' => 'Niedziela',
         ];
@@ -113,7 +113,7 @@
                             <span class="fw-medium">{{ $dayName }}</span>
                             <span class="text-muted">
                                 @if($hours['closed'] ?? false)
-                                    <span class="text-danger">Zamknięte</span>
+                                    <span class="text-danger">Closed</span>
                                 @else
                                     {{ $hours['open'] }} - {{ $hours['close'] }}
                                 @endif
@@ -125,13 +125,13 @@
         </div>
     </div>
 
-    <!-- Panel administracyjny dla właściciela -->
+    <!-- Owner administration panel -->
     @if($isOwner)
         {{$business->subdomain}}
             <div class="alert alert-warning border-start-lg border-warning mb-5">
             <h5 class="alert-heading fw-bold mb-2">Panel Administracyjny</h5>
              {{-- <a href="{{ route('dashboard.business', $business->user ) }}" class="btn btn-warning"> --}}
-                Zarządzaj rezerwacjami
+                Manage reservations
             </a>
         </div>
     @endif
@@ -148,17 +148,17 @@
         </div>
     </div>
 
-    <!-- Informacja o właścicielu -->
+    <!-- Owner information -->
     <div class="bg-light rounded-3 p-4 mb-5">
         <p class="small text-muted">
             Biznes dodany: <strong>{{ $business->created_at->format('d.m.Y H:i') }}</strong><br>
-            {{--  Właściciel: <strong><a href="{{ route('user.profile', $business->owner) }}" class="text-primary">{{ $business->owner->first_name }} {{ $business->owner->last_name }}</a></strong>  --}}
+            {{--  Owner: <strong><a href="{{ route('user.profile', $business->owner) }}" class="text-primary">{{ $business->owner->first_name }} {{ $business->owner->last_name }}</a></strong>  --}}
         </p>
     </div>
 
-    <!-- Komentarze -->
+    <!-- Comments -->
     <div class="mb-5">
-        <h3 class="h2 fw-bold mb-4">Komentarze i opinie</h3>
+        <h3 class="h2 fw-bold mb-4">Comments i opinie</h3>
         <livewire:comments :model="$business" />
     </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="business-dashboard container py-4">
     <div class="mb-4">
         <h1 class="h2 fw-bold">{{ $business->name }}</h1>
-        <p class="text-muted">Panel zarządzania rezerwacjami</p>
+        <p class="text-muted">Reservations management panel</p>
     </div>
 
     @if (session()->has('success'))
@@ -14,36 +14,36 @@
     <ul class="nav nav-tabs mb-4">
         <li class="nav-item">
             <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'services']) }}" class="nav-link {{ $tab === 'services' ? 'active' : '' }}">
-                Usługi
+                Services
             </a>
         </li>
         <li class="nav-item">
             <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'reservations']) }}" class="nav-link {{ $tab === 'reservations' ? 'active' : '' }}">
-                Rezerwacje
+                Reservations
             </a>
         </li>
         <li class="nav-item">
             <a href="{{ route('business.resources.index', $business) }}" class="nav-link">
-                Zasoby
+                Resources
             </a>
         </li>
         <li class="nav-item">
             <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'settings']) }}" class="nav-link {{ $tab === 'settings' ? 'active' : '' }}">
-                Ustawienia
+                Settings
             </a>
         </li>
     </ul>
 
-    <!-- TAB: USŁUGI -->
+    <!-- TAB: SERVICES -->
     @if ($tab === 'services')
         <div>
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="h4 fw-bold">Twoje usługi</h2>
+                <h2 class="h4 fw-bold">Your Services</h2>
                 <button 
                     wire:click="openServiceModal"
                     class="btn btn-primary"
                 >
-                    + Dodaj usługę
+                    + Add Service
                 </button>
             </div>
 
@@ -56,9 +56,9 @@
                             <div class="d-flex gap-3 small text-muted">
                                 <span>⏱️ {{ $service->duration }} min</span>
                                 @if ($service->price)
-                                    <span>💰 {{ number_format($service->price, 2) }} zł</span>
+                                    <span>💰 {{ number_format($service->price, 2) }} PLN</span>
                                 @endif
-                                <span>⏳ Przerwa: {{ $service->buffer }} min</span>
+                                <span>⏳ Break: {{ $service->buffer }} min</span>
                             </div>
                         </div>
                         <div class="d-flex gap-2 ms-3">
@@ -66,20 +66,20 @@
                                 wire:click="toggleServiceActive({{ $service->id }})"
                                 class="btn btn-sm {{ $service->is_active ? 'btn-success' : 'btn-light border' }}"
                             >
-                                {{ $service->is_active ? 'Aktywna' : 'Nieaktywna' }}
+                                {{ $service->is_active ? 'Active' : 'Inactive' }}
                             </button>
                             <button 
                                 wire:click="openServiceModal({{ $service->id }})"
                                 class="btn btn-sm btn-outline-primary"
                             >
-                                Edytuj
+                                Edit
                             </button>
                             <button 
                                 wire:click="deleteService({{ $service->id }})"
                                 class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Na pewno usunąć?')"
+                                onclick="return confirm('Are you sure you want to delete?')"
                             >
-                                Usuń
+                                Delete
                             </button>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>Klient</th>
-                            <th>Usługa</th>
+                            <th>Service</th>
                             <th>Data i czas</th>
                             <th>Status</th>
                             <th>Akcje</th>
@@ -131,7 +131,7 @@
                                                 wire:click="confirmReservation({{ $reservation->id }})"
                                                 class="btn btn-sm btn-link text-success text-decoration-none p-0"
                                             >
-                                                Potwierdź
+                                                Confirm
                                             </button>
                                         @endif
                                         @if ($reservation->status !== 'cancelled')
@@ -139,7 +139,7 @@
                                                 wire:click="cancelReservation({{ $reservation->id }})"
                                                 class="btn btn-sm btn-link text-danger text-decoration-none p-0"
                                             >
-                                                Anuluj
+                                                Cancel
                                             </button>
                                         @endif
                                     </div>
@@ -148,7 +148,7 @@
                         @empty
                             <tr>
                                 <td colspan="5" class="text-center text-muted py-4">
-                                    Brak rezerwacji
+                                    No reservations
                                 </td>
                             </tr>
                         @endforelse
@@ -166,20 +166,20 @@
     @if ($tab === 'settings')
         <div class="card shadow-sm">
             <div class="card-body">
-                <h2 class="h4 fw-bold mb-4">Ustawienia biznesu</h2>
-                <p class="text-muted">Godziny pracy i inne ustawienia będą dostępne tutaj.</p>
+                <h2 class="h4 fw-bold mb-4">Business settings</h2>
+                <p class="text-muted">Business hours and other settings will be available here.</p>
             </div>
         </div>
     @endif
 
-    <!-- MODAL: Edycja usługi -->
+    <!-- MODAL: Edit service -->
     @if ($showServiceModal)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">
-                            {{ $editingService ? 'Edytuj usługę' : 'Nowa usługa' }}
+                            {{ $editingService ? 'Edit service' : 'New service' }}
                         </h5>
                         <button type="button" class="btn-close" wire:click="closeServiceModal"></button>
                     </div>
@@ -226,14 +226,14 @@
                                     type="submit"
                                     class="btn btn-primary flex-grow-1"
                                 >
-                                    Zapisz
+                                    Save
                                 </button>
                                 <button 
                                     type="button"
                                     wire:click="closeServiceModal"
                                     class="btn btn-secondary flex-grow-1"
                                 >
-                                    Anuluj
+                                    Cancel
                                 </button>
                             </div>
                         </form>

@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('business_id')->constrained()->onDelete('cascade');
             $table->foreignId('service_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-            $table->string('client_name'); // dla niezalogowanych
+            $table->string('client_name'); // for unauthenticated users
             $table->string('client_email');
             $table->string('client_phone')->nullable();
             $table->dateTime('start_time');

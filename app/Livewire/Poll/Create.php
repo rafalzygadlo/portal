@@ -41,7 +41,7 @@ class Create extends Component
             $poll->options()->create(['name' => $optionName]);
         }
 
-        session()->flash('status', 'Ankieta została pomyślnie utworzona.');
+        session()->flash('status', 'The poll has been created successfully.');
 
         return redirect()->route('polls.index');
     }

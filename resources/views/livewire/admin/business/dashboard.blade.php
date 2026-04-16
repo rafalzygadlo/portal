@@ -1,40 +1,57 @@
 <div class="business-dashboard container py-4">
     <div class="mb-4">
         <h1 class="h2 fw-bold">{{ $business->name }}</h1>
-        <p class="text-muted">Panel zarządzania rezerwacjami</p>
+        <p class="text-muted">Reservations management panel</p>
     </div>
 
-    @if (session()->has('success'))
-        <div class="alert alert-success mb-4">
-            {{ session('success') }}
+    <!-- Large icon button menu -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-4">
+        <div class="col">
+            <a href="{{ route('admin.business.service.index',['subdomain' => $business->subdomain]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-list-check display-6 text-primary"></i>
+                </div>
+                <div>
+                    <h3 class="h5 fw-bold mb-1">Services</h3>
+                    <p class="text-muted small mb-0">Manage service offerings</p>
+                </div>
+            </a>
         </div>
-    @endif
-
-    <!-- Tabs -->
-    <ul class="nav nav-tabs mb-4">
-    
-    <li class="nav-item">
-            <a href="{{ route('admin.business.service.index',['subdomain' => $business->subdomain]) }}" class="nav-link">
-                Services
+        <div class="col">
+            <a href="{{ route('admin.business.resource.index', ['subdomain' => $business->subdomain]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-people display-6 text-primary"></i>
+                </div>
+                <div>
+                    <h3 class="h5 fw-bold mb-1">Resources</h3>
+                    <p class="text-muted small mb-0">Assign equipment and staff</p>
+                </div>
             </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('admin.business.resource.index', ['subdomain' => $business->subdomain]) }}" class="nav-link">
-                Resources
+        </div>
+        <div class="col">
+            {{-- 
+            <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'reservations']) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-calendar-check display-6 text-primary"></i>
+                </div>
+                <div>
+                    <h3 class="h5 fw-bold mb-1">Reservations</h3>
+                    <p class="text-muted small mb-0">View and confirm bookings</p>
+                </div>
             </a>
-        </li>
-    {{--
-        <li class="nav-item">
-            <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'reservations']) }}" class="nav-link {{ $tab === 'reservations' ? 'active' : '' }}">
-                Rezerwacje
+        </div>
+        <div class="col">
+            <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'settings']) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-sliders display-6 text-primary"></i>
+                </div>
+                <div>
+                    <h3 class="h5 fw-bold mb-1">Settings</h3>
+                    <p class="text-muted small mb-0">Update business details</p>
+                </div>
             </a>
-        </li>
-        
-        <li class="nav-item">
-            <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'settings']) }}" class="nav-link {{ $tab === 'settings' ? 'active' : '' }}">
-                Ustawienia
-            </a>
-        </li>
-         --}}
-    </ul>
+        </div>
+            --}}
+        </div>
+    </div>
 

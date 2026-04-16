@@ -31,7 +31,7 @@ class Reservation extends Model
     ];
 
     /**
-     * Biznes do którego należy rezerwacja.
+     * Business to which the reservation belongs.
      */
     public function business(): BelongsTo
     {
@@ -39,14 +39,14 @@ class Reservation extends Model
     }
 
     /**
-     * Usługa rezerwacji.
+     * Service rezerwacji.
      */
     public function service(): BelongsToMany
     {
         return $this->belongsToMany(Service::class);
     }
     /**
-     * Użytkownik (jeśli zalogowany).
+     * User (if logged in).
      */
     public function user(): BelongsTo
     {
@@ -54,7 +54,7 @@ class Reservation extends Model
     }
 
     /**
-     * Sprawdzenie dostępności slotu.
+     * Check slot availability.
      */
     public static function isTimeSlotAvailable(
         int $businessId,

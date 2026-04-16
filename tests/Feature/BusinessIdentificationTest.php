@@ -21,13 +21,13 @@ class BusinessIdentificationTest extends TestCase
         $business = Business::create([
             'user_id' => $user->id,
             'name' => 'Marcin IT Solutions',
-            'subdomain' => 'marcin', // upewnij się, że masz to pole w tabeli business
+            'subdomain' => 'marcin', // make sure this field exists in the business table
             'description' => 'Opis naszego biznesu',
             'address' => 'Adres naszego biznesu'
         ]);
 
         // 3. Act: Visit the subdomain
-        $url = 'http://marcin' . config('app.business_domain'); // upewnij się, że masz ustawioną domenę w .env
+        $url = 'http://marcin' . config('app.business_domain'); // make sure the domain is set in .env
         $response = $this->get($url);
 
         // 4. Assert

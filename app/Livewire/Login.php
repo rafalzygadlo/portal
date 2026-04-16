@@ -43,9 +43,9 @@ class Login extends Component
         );
 
         // Send the email (using Mail::raw for simplicity, consider a Mailable in production)
-        Mail::raw("Cześć! Kliknij w ten link, aby się zalogować do portalu Bolesławiec: \n\n $url", function ($message) {
+        Mail::raw("Hello! Click this link to log in to the Boleslawiec portal: \n\n $url", function ($message) {
             $message->to($this->email)
-                ->subject('Twój link do logowania');
+                ->subject('Your login link');
         });
 
         $this->linkSent = true;
@@ -61,7 +61,7 @@ class Login extends Component
     {
         if (! $request->hasValidSignature()) 
         {
-            abort(403, 'Link logowania wygasł lub jest nieprawidłowy.');
+            abort(403, 'Login link has expired or is invalid.');
         }
 
         $user = User::firstOrCreate(

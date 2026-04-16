@@ -1,5 +1,5 @@
 <div>
-    <h3 class="fw-semibold mb-3 h5">Wybierz usługę</h3>
+    <h3 class="fw-semibold mb-3 h5">Choose a service</h3>
     <div class="row g-3">
         @forelse ($services as $service)
             <div class="col-md-6">
@@ -16,14 +16,14 @@
                     </div>
                      @if ($service->price)
                         <div class="mt-auto text-end fs-5 fw-bold pt-2">
-                            {{ number_format($service->price, 2) }} zł
+                            {{ number_format($service->price, 2) }} PLN
                         </div>
                     @endif
                 </div>
             </div>
         @empty
             <div class="col-12">
-                <div class="alert alert-secondary">Brak dostępnych usług do rezerwacji.</div>
+                <div class="alert alert-secondary">No available services for booking.</div>
             </div>
         @endforelse
     </div>
@@ -32,7 +32,7 @@
     @enderror
     <div class="d-flex justify-content-between mt-4">
         <button type="button" wire:click="nextStep" class="btn btn-primary">
-            Dalej
+            Next
         </button>
                     
     </div>

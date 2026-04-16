@@ -1,5 +1,5 @@
 <div>
-    <h1 class="h3 mb-4">Dodaj nowy zasób</h1>
+    <h1 class="h3 mb-4">Add new resource</h1>
 
     <div class="card">
         <div class="card-body">
@@ -15,16 +15,16 @@
                     <select id="type" wire:model.live="type" class="form-select">
                         <option value="person">Osoba</option>
                         <option value="facility">Miejsce / Pomieszczenie</option>
-                        <option value="equipment">Sprzęt</option>
+                        <option value="equipment">Equipment</option>
                     </select>
                     @error('type') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
 
                 @if ($type === 'person')
                     <div class="mb-3">
-                        <label for="userId" class="form-label">Powiąż z użytkownikiem (opcjonalne)</label>
+                        <label for="userId" class="form-label">Link to user (optional)</label>
                         <select id="userId" wire:model="userId" class="form-select">
-                            <option value="">-- Wybierz użytkownika --</option>
+                            <option value="">-- Select user --</option>
                             @foreach ($employees as $employee)
                                 <option value="{{ $employee->id }}">{{ $employee->name }}</option>
                             @endforeach
@@ -35,8 +35,8 @@
 
 
                 <div class="d-flex justify-content-end">
-                    <a href="{{ route('business.resources.index', $business) }}" class="btn btn-secondary me-2">Anuluj</a>
-                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                    <a href="{{ route('business.resources.index', $business) }}" class="btn btn-secondary me-2">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>

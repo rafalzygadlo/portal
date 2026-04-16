@@ -1,7 +1,7 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Pomysły</h2>
-        <a href="{{ route('todos.create') }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Dodaj pomysł</a>
+        <h2>Ideas</h2>
+        <a href="{{ route('todos.create') }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Add idea</a>
     </div>
 
     @if (session('message'))
@@ -21,7 +21,7 @@
                         </div>
                         <div class="mt-auto d-flex justify-content-between align-items-center small text-muted">
                             <span>Autor: {{ $todo->user->first_name }} {{ $todo->user->last_name }}</span>
-                            <span>Komentarze: {{ $todo->comments_count }}</span>
+                            <span>Comments: {{ $todo->comments_count }}</span>
                         </div>
                         <a href="{{ route('todos.show', $todo->id) }}" class="stretched-link"></a>
                     </div>
@@ -30,7 +30,7 @@
         @empty
             <div class="col-12">
                 <div class="alert alert-secondary">
-                    Brak pomysłów.
+                    No ideas yet.
                 </div>
             </div>
         @endforelse

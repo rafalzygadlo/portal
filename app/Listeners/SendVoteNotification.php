@@ -9,15 +9,15 @@ class SendVoteNotification
 {
     public function handle(VoteCreated $event): void
     {
-        // Nie wysyłaj powiadomienia jeśli głosuje się na swój post
+        // Do not send a notification if voting on your own post
         if ($event->model->user_id === $event->voter->id) {
             return;
         }
 
         $voteType = $event->value === 1 ? 'vote_up' : 'vote_down';
         $message = $event->value === 1 
-            ? "{$event->voter->name} polubił Twój post 👍"
-            : "{$event->voter->name} nie polubił Twój post 👎";
+            ? "{$event->voter->name} liked your post 👍"
+            : "{$event->voter->name} nie liked your post 👎";
 
         Notification::create([
             'user_id' => $event->model->user_id,

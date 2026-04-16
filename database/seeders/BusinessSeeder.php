@@ -16,22 +16,22 @@ class BusinessSeeder extends Seeder
     public function run(): void
     {
         $businessTypes = [
-            ['name' => 'Serwis Opon Warszawa', 'services' => ['Wymiana opon', 'Naprawa opony', 'Wyważanie', 'Przechowywanie']],
-            ['name' => 'Salon Fryzjerski Luna', 'services' => ['Strzyżenie', 'Koloryzacja', 'Zabiegi pielęgnacyjne']],
-            ['name' => 'Klinika Stomatologiczna', 'services' => ['Czyszczenie', 'Leczenie kanałowe', 'Implanty', 'Ortodoncja']],
-            ['name' => 'Studio Masażu Zen', 'services' => ['Masaż relaksacyjny', 'Masaż sportowy', 'Masaż twarzy']],
-            ['name' => 'Mechanika Samochodowa Pro', 'services' => ['Przegląd', 'Wymiana olejów', 'Naprawa silnika', 'Diagnostyka']],
-            ['name' => 'Beauty Studio Glamour', 'services' => ['Makijaż', 'Pedicure', 'Manicure', 'Brwi']],
+            ['name' => 'Warsaw Tire Service', 'services' => ['Tire replacement', 'Tire repair', 'Wheel balancing', 'Tire storage']],
+            ['name' => 'Salon Fryzjerski Luna', 'services' => ['Haircut', 'Coloring', 'Care treatments']],
+            ['name' => 'Dental Clinic', 'services' => ['Cleaning', 'Root canal treatment', 'Implants', 'Orthodontics']],
+            ['name' => 'Studio Zen Massage', 'services' => ['Relaxing massage', 'Sports massage', 'Facial massage']],
+            ['name' => 'Pro Auto Mechanics', 'services' => ['Inspection', 'Oil change', 'Engine repair', 'Diagnostics']],
+            ['name' => 'Beauty Studio Glamour', 'services' => ['Makeup', 'Pedicure', 'Manicure', 'Brows']],
             ['name' => 'Fitness Centrum Mocy', 'services' => ['Trening personalny', 'Joga', 'Pilates', 'Grupy fitnessu']],
-            ['name' => 'Atelier Odzieżowe', 'services' => ['Szycie na miarę', 'Alteracje', 'Naprawy']],
+            ['name' => 'Tailoring Studio', 'services' => ['Custom tailoring', 'Alterations', 'Repairs']],
             ['name' => 'Nauka Jazdy Pro', 'services' => ['Prawo jazdy kat. B', 'Prawo jazdy kat. A', 'Kurs odnowienia']],
-            ['name' => 'Studio Fotografii', 'services' => ['Sesja portretowa', 'Sesja eventowa', 'Fotografia produktów']],
-            ['name' => 'Studio Masazu', 'services' => ['Sesja portretowa', 'Sesja eventowa', 'Fotografia produktów']],
+            ['name' => 'Photography Studio', 'services' => ['Portrait session', 'Event session', 'Product photography']],
+            ['name' => 'Massage Studio', 'services' => ['Portrait session', 'Event session', 'Product photography']],
         ];
 
         $businessCategories = Category::where('type', 'business')->get();
 
-        // Utworz właścicieli biznesów
+        // Create business owners
         $owners = User::factory(11)->create();
 
         foreach ($businessTypes as $index => $businessData) {
@@ -40,7 +40,7 @@ class BusinessSeeder extends Seeder
             $business = Business::create([
                 'name' => $businessData['name'],
                 'subdomain' => Str::slug($businessData['name']),
-                'description' => 'Profesjonalny biznes o wysokim standardzie usług.',
+                'description' => 'A professional business with a high standard of services.',
                 'address' => fake()->address(),
                 'phone' => fake()->phoneNumber(),
                 //'website' => 'https://' . Str::slug($businessData['name']) . config('app.business_domain'),
@@ -64,25 +64,25 @@ class BusinessSeeder extends Seeder
                 $business->categories()->attach($randomCategories->pluck('id')->toArray());
             }
 
-            // Przypisz właściciela do biznesu
+            // Assign owner to business
             $business->users()->attach($owner->id, ['owner' => true]);
 
-            // Uaktualnij owner's current_business_id
+            // Update owner's current_business_id
             //$owner->update(['current_business_id' => $business->id, 'user_type' => 'business_owner']);
 
-            // Dodaj zasoby (np. pracowników, sprzęt)
+            // Add resources (e.g., staff, equipment)
             $resources = Resource::factory(3)->create([
                 'business_id' => $business->id,
                 'type' => fake()->randomElement(['person', 'equipment'])
             ]);
 
-            // Utwórz usługi dla biznesu
+            // Create services for business
             $createdServices = collect();
             foreach ($businessData['services'] as $serviceName) {
                 $service = Service::create([
                     'business_id' => $business->id,
                     'name' => $serviceName,
-                    'description' => 'Profesjonalna usługa: ' . $serviceName,
+                    'description' => 'Professional service: ' . $serviceName,
                     'price' => fake()->randomElement([50, 75, 100, 150, 200]),
                     'duration' => fake()->randomElement([30, 45, 60, 90]),
                     'buffer' => 15,
@@ -91,7 +91,7 @@ class BusinessSeeder extends Seeder
                 $createdServices->push($service);
             }
 
-            // Przypisz usługi do zasobów (relacja Many-to-Many)
+            // Assign services to resources (many-to-many relation)
             if ($createdServices->isNotEmpty()) {
                 foreach ($resources as $resource) {
                     $servicesToAttach = $createdServices->random(rand(1, $createdServices->count()))->pluck('id');
@@ -99,7 +99,7 @@ class BusinessSeeder extends Seeder
                 }
             }
 
-            // Utwórz rezerwacje dla danego biznesu
+            // Create reservations for the business
             for ($i = 0; $i < 8; $i++) {
                 if ($createdServices->isEmpty()) continue;
 
@@ -111,13 +111,13 @@ class BusinessSeeder extends Seeder
                 Reservation::create([
                     'business_id' => $business->id,
                     'service_id' => $service->id,
-                    'user_id' => null, // Ustawiamy na null, można tu wstawić ID zalogowanego klienta
+                    'user_id' => null, // set to null; can be replaced with the authenticated client ID
                     'client_name' => fake()->name(),
                     'client_email' => fake()->email(),
                     'client_phone' => fake()->phoneNumber(),
                     'start_time' => $startTime,
                     'end_time' => $startTime->copy()->addMinutes($service->duration),
-                    'notes' => fake()->randomElement([null, 'Specjalne życzenia', 'Pierwsza wizyta']),
+                    'notes' => fake()->randomElement([null, 'Special requests', 'First visit']),
                     'status' => fake()->randomElement(['pending', 'confirmed', 'completed']),
                 ]);
             }

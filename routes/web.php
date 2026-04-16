@@ -22,10 +22,10 @@ use Illuminate\Support\Str;
 $domain = config('app.business_domain');
 if (empty($domain)) 
 {
-    throw new \Exception('BŁĄD SYSTEMU: Zmienna DOMAIN_NAME w pliku .env jest pusta! Skonfiguruj ją, aby subdomeny działały.');
+    throw new \Exception('SYSTEM ERROR: The DOMAIN_NAME value in .env is empty. Configure it so subdomains work correctly.');
 }
 
-// Subdomeny - Strony biznesu i rezerwacje
+// Subdomains - business pages and bookings
 Route::domain('{subdomain}' . $domain)->group(function () {
     
     Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
@@ -39,7 +39,7 @@ Route::domain('{subdomain}' . $domain)->group(function () {
     
     Route::prefix('admin')->middleware(['auth'])->group(function () {
         // Dashboard routes
-        Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('dashboard.business');
+        Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('admin.dashboard');
         
         // Services routes
         Route::get('/services', \App\Livewire\Admin\Business\Service\Index::class)->name('admin.business.service.index');

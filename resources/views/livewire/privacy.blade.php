@@ -1,70 +1,70 @@
   <div class="container-fluid">
-    <h1>Polityka prywatności</h1>
-    <div class="meta">Data ostatniej aktualizacji: <strong>[WSTAW DATĘ]</strong></div>
+    <h1>Privacy Policy</h1>
+    <div class="meta">Last updated: <strong>[INSERT DATE]</strong></div>
 
     <div class="section">
-      <p>Niniejsza Polityka Prywatności opisuje zasady przetwarzania danych osobowych użytkowników serwisu <strong>[NAZWA SERWISU]</strong> dostępnego pod adresem <strong>[ADRES STRONY]</strong>. Korzystając z serwisu akceptujesz zasady opisane poniżej.</p>
+      <p>This Privacy Policy explains how we process personal data of users of the <strong>[SERVICE NAME]</strong> website available at <strong>[SITE URL]</strong>. By using the website, you agree to the terms described below.</p>
     </div>
 
     <div class="section">
-      <h2>1. Administrator danych</h2>
-      <p>Administratorem danych osobowych jest: <strong>[NAZWA / IMIĘ I NAZWISKO]</strong>, adres: <strong>[ADRES]</strong>, e-mail: <strong>[EMAIL]</strong>.</p>
+      <h2>1. Data controller</h2>
+      <p>The data controller is: <strong>[NAME / COMPANY]</strong>, address: <strong>[ADDRESS]</strong>, email: <strong>[EMAIL]</strong>.</p>
     </div>
 
     <div class="section">
-      <h2>2. Jakie dane zbieramy</h2>
-      <p>W zależności od sposobu korzystania z serwisu możemy przetwarzać m.in.:</p>
+      <h2>2. Data we collect</h2>
+      <p>Depending on how you use the website, we may process the following data:</p>
       <ul>
-        <li>adres e-mail (jeśli zakładasz konto lub kontaktujesz się z nami),</li>
-        <li>pseudonim / login użytkownika,</li>
-        <li>treści publikowane przez użytkownika (artykuły, komentarze),</li>
-        <li>dane techniczne: adres IP, dane o przeglądarce i urządzeniu, logi serwera, pliki cookies.</li>
+        <li>email address (if you register or contact us),</li>
+        <li>user nickname / login,</li>
+        <li>content published by the user (articles, comments),</li>
+        <li>technical data: IP address, browser and device information, server logs, cookies.</li>
       </ul>
     </div>
 
     <div class="section">
-      <h2>3. Cele i podstawa prawna przetwarzania</h2>
-      <p>Dane przetwarzamy w celach:</p>
+      <h2>3. Purposes and legal basis</h2>
+      <p>We process data for the following purposes:</p>
       <ul>
-        <li>obsługi kont użytkowników i logowania;</li>
-        <li>publikowania i moderacji treści przesłanych przez użytkowników;</li>
-        <li>zapewnienia bezpieczeństwa serwisu i rozwiązywania incydentów;</li>
-        <li>realizacji obowiązków prawnych administratora.</li>
+        <li>managing user accounts and authentication,</li>
+        <li>publishing and moderating user-submitted content,</li>
+        <li>ensuring website security and resolving incidents,</li>
+        <li>fulfilling the controller's legal obligations.</li>
       </ul>
-      <p>Podstawy prawne: m.in. art. 6 RODO (zgoda, wykonanie umowy, prawnie uzasadniony interes).</p>
+      <p>Legal basis: e.g. Article 6 GDPR (consent, contract execution, legitimate interest).</p>
     </div>
 
     <div class="section">
-      <h2>4. Czas przechowywania</h2>
-      <p>Dane przechowujemy przez okres niezbędny do realizacji celu przetwarzania, zgodnie z przepisami prawa lub do czasu wycofania zgody (jeżeli przetwarzanie odbywa się na jej podstawie).</p>
+      <h2>4. Storage period</h2>
+      <p>We retain data only as long as necessary to fulfill the processing purpose, in accordance with applicable law, or until consent is withdrawn when processing is based on consent.</p>
     </div>
 
     <div class="section">
-      <h2>5. Odbiorcy danych</h2>
-      <p>Dane mogą być przekazywane podmiotom technicznie wspierającym serwis (hosting, dostawcy usług IT). Dane nie są sprzedawane podmiotom trzecim w celach marketingowych bez wyraźnej zgody.</p>
+      <h2>5. Data recipients</h2>
+      <p>Data may be shared with third parties that provide technical support to the website (hosting providers, IT service providers). Data is not sold to third parties for marketing purposes without explicit consent.</p>
     </div>
 
     <div class="section">
-      <h2>6. Prawa użytkownika</h2>
-      <p>Masz prawo do:</p>
+      <h2>6. User rights</h2>
+      <p>You have the right to:</p>
       <ul>
-        <li>dostępu do swoich danych oraz ich sprostowania;</li>
-        <li;>usunięcia danych („prawo do bycia zapomnianym”) w zakresie przewidzianym prawem;</li>
-        <li>ograniczenia przetwarzania, przenoszenia danych;</li>
-        <li>wniesienia sprzeciwu wobec przetwarzania oraz wycofania zgody;</li>
-        <li>złożenia skargi do Prezesa Urzędu Ochrony Danych Osobowych.</li>
+        <li>access and correct your data,</li>
+        <li>request deletion of your data (the “right to be forgotten”) where legally applicable,</li>
+        <li>request restriction of processing or data portability,</li>
+        <li>object to processing and withdraw consent,</li>
+        <li>file a complaint with the data protection authority.</li>
       </ul>
     </div>
 
     <div class="section">
-      <h2>7. Pliki cookies</h2>
-      <p>Serwis wykorzystuje pliki cookies w celach funkcjonalnych (utrzymanie sesji), analitycznych oraz ewentualnie reklamowych. Użytkownik może zarządzać ustawieniami cookies w ustawieniach przeglądarki; ograniczenie cookies może wpłynąć na funkcjonowanie serwisu.</p>
+      <h2>7. Cookies</h2>
+      <p>The website uses cookies for functional purposes (session maintenance), analytics, and potentially advertising. You can manage cookie settings in your browser; limiting cookies may affect website functionality.</p>
     </div>
 
     <div class="section">
-      <h2>8. Kontakt</h2>
-      <p>W sprawach dotyczących ochrony danych osobowych prosimy kontaktować się pod adresem: <strong>[EMAIL]</strong>.</p>
+      <h2>8. Contact</h2>
+      <p>If you have questions about data protection, please contact us at: <strong>[EMAIL]</strong>.</p>
     </div>
 
-    <small>Dokument ma charakter ogólny. Jeżeli chcesz: przygotuję wersję z dokładniejszymi zapisami RODO / umową powierzenia dla dostawców hostingu.</small>
+    <small>This document is provided for general information only. If needed, we can prepare a more detailed version with GDPR clauses or a data processing agreement for hosting providers.</small>
   </div>
