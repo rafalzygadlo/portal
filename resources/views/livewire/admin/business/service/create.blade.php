@@ -47,20 +47,10 @@
                                 <input type="number" wire:model="price" step="0.01" min="0" class="form-control">
                             </div>
 
-                            <div class="d-flex gap-2 mt-4">
-                                <button 
-                                    type="submit"
-                                    class="btn btn-primary flex-grow-1"
-                                >
-                                    Save
-                                </button>
-                                <button 
-                                    type="button"
-                                    wire:click="closeServiceModal"
-                                    class="btn btn-secondary flex-grow-1"
-                                >
-                                    Cancel
-                                </button>
+                            
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="button" wire:click="closeServiceModal" class="btn btn-secondary">Cancel</button>
                             </div>
                         </form>
                     </div>

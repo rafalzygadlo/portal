@@ -5,7 +5,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center text-truncate">
                     <span class="badge bg-secondary rounded-pill me-2">{{ $index + 1 }}</span>
-                    <a href="{{ route('article.show', $article) }}" class="fw-bold text-truncate text-decoration-none text-dark" style="max-width: 150px;">
+                    <a href="{{ route('articles.show', $article) }}" class="fw-bold text-truncate text-decoration-none text-dark" style="max-width: 150px;">
                         {{ $article->title }}
                     </a>
                 </div>

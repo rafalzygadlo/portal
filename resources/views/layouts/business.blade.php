@@ -53,7 +53,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('admin.dashboard', ['subdomain' => $business->subdomain]) }}"> {{ __('dashroard.link') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.business.dashboard', ['subdomain' => $business->subdomain]) }}"> {{ __('dashroard.link') }}</a>
                                     <a class="dropdown-item" href="{{ route('user.profile', Auth::user()) }}"> {{ __('profile.link') }}</a>
                                 <div class="dropdown-divider"></div>
                                      <a class="dropdown-item" href="{{ route('logout') }}"> {{ __('global.logout') }}</a>

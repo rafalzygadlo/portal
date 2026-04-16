@@ -17,7 +17,7 @@
 
         <div class="mt-0">
             @auth
-            <a href="{{ route('article.create') }}">
+            <a href="{{ route('articles.create') }}">
                 <i class="bi bi-pencil-square"></i> Add article
             </a>
             @else

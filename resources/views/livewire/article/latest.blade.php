@@ -53,7 +53,7 @@
                         <div class="card-body d-flex flex-column">
                             <h3 class="card-title">
                                 <span class="badge rounded-pill bg-primary">{{ $article->votes_sum_value  }}</span>
-                                <a href="{{ route('article.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
+                                <a href="{{ route('articles.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
                             </h3>
                             <p class="card-text text-muted small">
                                 @if($article->user)

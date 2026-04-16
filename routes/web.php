@@ -39,15 +39,15 @@ Route::domain('{subdomain}' . $domain)->group(function () {
     
     Route::prefix('admin')->middleware(['auth'])->group(function () {
         // Dashboard routes
-        Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('admin.dashboard');
+        Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('admin.business.dashboard');
         
         // Services routes
-        Route::get('/services', \App\Livewire\Admin\Business\Service\Index::class)->name('admin.business.service.index');
-        //Route::get('/admin/services/create', \App\Livewire\Admin\Business\Service\Create::class)->name('business.service.create')->can('update,business');
+        Route::get('/services', \App\Livewire\Admin\Business\Service\Index::class)->name('admin.business.services.index');
+        //Route::get('/services/create', \App\Livewire\Admin\Business\Service\Create::class)->name('admin.business.services.create')->can('update,business');
         // Resource routes
-        Route::get('/resources', \App\Livewire\Admin\Business\Resource\Index::class)->name('admin.business.resource.index');
+        Route::get('/resources', \App\Livewire\Admin\Business\Resource\Index::class)->name('admin.business.resources.index');
         // ->can('update,business');
-        //Route::get('/admin/resources/create', \App\Livewire\Business\Resource\Create::class)->name('business.resource.create')->can('update,business');
+        //Route::get('/resources/create', \App\Livewire\Admin\Business\Resource\Create::class)->name('admin.business.resources.create')->can('update,business');
         // Reservations routes
 
     });
@@ -57,8 +57,8 @@ Route::domain('{subdomain}' . $domain)->group(function () {
 
 // Article routes
 Route::get('/',App\Livewire\Main::class)->name('main.index');
-Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('article.create')->middleware('auth');
-Route::get('/article/{article}', \App\Livewire\Article\Show::class)->name('article.show');
+Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('articles.create')->middleware('auth');
+Route::get('/articles/{article}', \App\Livewire\Article\Show::class)->name('articles.show');
 
 // Business routes
 Route::get('/business', \App\Livewire\Business\Index::class)->name('business.index');

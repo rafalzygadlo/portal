@@ -18,7 +18,7 @@ class Create extends Component
     public int $buffer = 15;
     
     public bool $open = false;
-    public bool $editingService = false;
+    public ?Service $editingService = null;
     protected $listeners = 
     [
         'openServiceModal',
@@ -29,6 +29,7 @@ class Create extends Component
     public function mount(Business $business)
     {
         $this->business = $business;
+        $this->editingService = null;
     }
 
     public function closeServiceModal()
@@ -37,9 +38,27 @@ class Create extends Component
         $this->reset('name', 'description', 'duration', 'price', 'buffer', 'editingService');
     }
     
-    public function openServiceModal()
+    public function openServiceModal($serviceId = null)
     {
         $this->open = true;
+
+        if ($serviceId) {
+            $serviceModel = Service::find($serviceId);
+        } else {
+            $serviceModel = null;
+        }
+
+        if ($serviceModel) {
+            $this->editingService = $serviceModel;
+            $this->name = $serviceModel->name;
+            $this->description = $serviceModel->description;
+            $this->duration = $serviceModel->duration;
+            $this->price = $serviceModel->price;
+            $this->buffer = $serviceModel->buffer;
+        } else {
+            $this->editingService = null;
+            $this->reset('name', 'description', 'duration', 'price', 'buffer');
+        }
     }
 
     public function saveService()
@@ -53,14 +72,27 @@ class Create extends Component
             
         ]);
 
-        $this->business->services()->create([
-            'name' => $this->name,
-            'description' => $this->description,
-            'duration' => $this->duration,
-            'price' => $this->price,
-            'buffer' => $this->buffer,
-            'is_active' => true,
-        ]);
+        if ($this->editingService) 
+        {
+            $this->editingService->update([
+                'name' => $this->name,
+                'description' => $this->description,
+                'price' => $this->price ?: null,
+                'duration' => $this->duration,
+                'buffer' => $this->buffer,
+            ]);
+        } 
+        else 
+        {
+             $this->business->services()->create([
+                'name' => $this->name,
+                'description' => $this->description,
+                'duration' => $this->duration,
+                'price' => $this->price,
+                'buffer' => $this->buffer,
+                'is_active' => true,
+            ]);
+        }
 
         session()->flash('success', 'Resource has been added.');
         $this->closeServiceModal();
@@ -71,6 +103,6 @@ class Create extends Component
     {
         return view('livewire.admin.business.service.create', [
             'open' => $this->open,
-        ])->layout('layouts.business', ['business' => $this->business]);
+        ])->layout('layouts.admin', ['business' => $this->business]);
     }
 }

@@ -133,6 +133,6 @@ class Dashboard extends Component
         return view('livewire.admin.business.dashboard', [
             'services' => $this->business->services()->get(),
             'reservations' => $reservations,
-        ])->layout('layouts.business', ['business' => $this->business]);
+        ])->layout('layouts.admin', ['business' => $this->business]);
     }
 }

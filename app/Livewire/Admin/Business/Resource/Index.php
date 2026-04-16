@@ -9,6 +9,11 @@ class Index extends Component
 {
     public Business $business;
 
+     protected $listeners = 
+    [
+        'resourceCreated' => '$refresh',
+    ];
+
     public function mount($subdomain)
     {
         $this->business = Business::where('subdomain', $subdomain)->firstOrFail();
@@ -18,6 +23,6 @@ class Index extends Component
     {
         return view('livewire.admin.business.resource.index', [
             'resources' => $this->business->resources()->get(),
-        ])->layout('layouts.business', ['business' => $this->business]);
+        ])->layout('layouts.admin', ['business' => $this->business]);
     }
 }

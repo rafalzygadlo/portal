@@ -24,6 +24,6 @@ class Index extends Component
 
         return view('livewire.admin.business.service.index', [
             'services' => $this->business->services()->orderBy('created_at', 'desc')->get()
-        ])->layout('layouts.business', ['business' => $this->business]);
+        ])->layout('layouts.admin', ['business' => $this->business]);
     }
 }

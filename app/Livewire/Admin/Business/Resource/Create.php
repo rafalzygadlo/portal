@@ -11,37 +11,54 @@ class Create extends Component
     public Business $business;
     public string $name = '';
     public string $type = 'person';
-    public ?string $userId = null;
-    public $employees;
+
+    public bool $open = false;
+    
+    protected $listeners = 
+    [
+        'openResourceModal',
+        'closeResourceModal', 
+        'saveResource'
+    ];
 
     public function mount(Business $business)
     {
         $this->business = $business;
-        $this->employees = $this->business->employees()->get();
+    }
+
+    public function openResourceModal()
+    {
+        $this->open = true;
+    }
+
+    public function closeResourceModal()
+    {
+        $this->open = false;
+        $this->reset('name', 'type');
     }
 
     public function save()
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:person,facility,equipment',
-            'userId' => 'nullable|required_if:type,person|exists:users,id',
+            'type' => 'required|in:person,facility,equipment'
         ]);
 
         $this->business->resources()->create([
             'name' => $this->name,
-            'type' => $this->type,
-            'user_id' => $this->type === 'person' ? $this->userId : null,
+            'type' => $this->type
         ]);
 
         session()->flash('success', 'Resource has been added.');
+        $this->closeResourceModal();
+        $this->dispatch('resourceCreated');
 
-        return redirect()->route('business.resources.index', $this->business);
     }
 
     public function render()
     {
-        return view('livewire.business.resource.create')
-            ->layout('layouts.business', ['business' => $this->business]);
+        return view('livewire.admin.business.resource.create', [
+            'open' => $this->open])
+        ->layout('layouts.admin', ['business' => $this->business]);
     }
 }

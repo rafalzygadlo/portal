@@ -44,7 +44,7 @@
                                             <i class="bi bi-globe"></i> Page
                                         </a>
                                         @if(Auth::id() === $user->id)
-                                            <a href="{{ route('admin.dashboard', ['subdomain' => $business->subdomain]) }}" class="btn btn-sm btn-primary">
+                                            <a href="{{ route('admin.business.dashboard', ['subdomain' => $business->subdomain]) }}" class="btn btn-sm btn-primary">
                                                 <i class="bi bi-speedometer2"></i> Dashboard
                                             </a>
                                         @endif

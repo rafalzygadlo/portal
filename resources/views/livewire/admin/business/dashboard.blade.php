@@ -7,7 +7,7 @@
     <!-- Large icon button menu -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-4">
         <div class="col">
-            <a href="{{ route('admin.business.service.index',['subdomain' => $business->subdomain]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
+            <a href="{{ route('admin.business.services.index',['subdomain' => $business->subdomain]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
                 <div class="d-flex align-items-center mb-3">
                     <i class="bi bi-list-check display-6 text-primary"></i>
                 </div>
@@ -18,7 +18,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="{{ route('admin.business.resource.index', ['subdomain' => $business->subdomain]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
+            <a href="{{ route('admin.business.resources.index', ['subdomain' => $business->subdomain]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
                 <div class="d-flex align-items-center mb-3">
                     <i class="bi bi-people display-6 text-primary"></i>
                 </div>

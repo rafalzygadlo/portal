@@ -23,7 +23,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('business.resources.index', $business) }}" class="nav-link">
+            <a href="{{ route('admin.business.resources.index', $business) }}" class="nav-link">
                 Resources
             </a>
         </li>

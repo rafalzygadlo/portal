@@ -23,7 +23,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('business.resources.index', $business) }}" class="nav-link">
+            <a href="{{ route('admin.business.resources.index', $business) }}" class="nav-link">
                 Resources
             </a>
         </li>
@@ -40,7 +40,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="h4 fw-bold">Your Services</h2>
                 <button 
-                    wire:click="openServiceModal"
+                    wire:click="$dispatch('openServiceModal')"
                     class="btn btn-primary"
                 >
                     + Add Service
