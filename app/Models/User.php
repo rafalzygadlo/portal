@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Business;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -58,9 +59,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->first_name . ' ' . $this->last_name;
     }
     
+    public function businesses(): BelongsToMany
+    {
+        return $this->belongsToMany(Business::class, 'business_user');
+    }
+
     public function ownedBusinesses(): BelongsToMany
     {
-        return $this->belongsToMany(Business::class)->wherePivot('owner', true);
+        return $this->businesses()->wherePivot('owner', true);
+    }
+
+    public function worksBusiness(Business $business): bool
+    {
+        return $this->businesses()->where('business_id', $business->id)->exists();
     }
     
     public function notifications(): HasMany

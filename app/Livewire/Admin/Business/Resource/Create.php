@@ -4,10 +4,13 @@ namespace App\Livewire\Admin\Business\Resource;
 
 use App\Models\Business;
 use App\Models\Resource;
+use App\Traits\ResolvesCurrentBusiness;
 use Livewire\Component;
 
 class Create extends Component
 {
+    use ResolvesCurrentBusiness;
+
     public Business $business;
     public string $name = '';
     public string $type = 'person';
@@ -21,9 +24,9 @@ class Create extends Component
         'saveResource'
     ];
 
-    public function mount(Business $business)
+    public function mount()
     {
-        $this->business = $business;
+        $this->business = $this->resolveCurrentBusiness();
     }
 
     public function openResourceModal()

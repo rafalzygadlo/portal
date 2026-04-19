@@ -6,7 +6,7 @@ use App\Models\Business;
 use App\Traits\ResolvesCurrentBusiness;
 use Livewire\Component;
 
-class Index extends Component
+class Table extends Component
 {
     use ResolvesCurrentBusiness;
 
@@ -23,7 +23,6 @@ class Index extends Component
     }
 
     public function render()
-    {
         return view('livewire.admin.business.resource.index', [
             'resources' => $this->business->resources()->get(),
         ])->layout('layouts.admin', ['business' => $this->business]);

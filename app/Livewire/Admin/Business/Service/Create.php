@@ -4,10 +4,13 @@ namespace App\Livewire\Admin\Business\Service;
 
 use App\Models\Business;
 use App\Models\Service;
+use App\Traits\ResolvesCurrentBusiness;
 use Livewire\Component;
 
 class Create extends Component
 {
+    use ResolvesCurrentBusiness;
+
     public Business $business;
     
     //form fields
@@ -26,9 +29,9 @@ class Create extends Component
         'saveService'
     ];
     
-    public function mount(Business $business)
+    public function mount()
     {
-        $this->business = $business;
+        $this->business = $this->resolveCurrentBusiness();
         $this->editingService = null;
     }
 

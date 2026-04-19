@@ -5,15 +5,15 @@ namespace App\Livewire\Admin\Business;
 use App\Models\Business;
 use App\Models\Service;
 use App\Models\Reservation;
+use App\Traits\ResolvesCurrentBusiness;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
 
 class Dashboard extends Component
 {
-    use WithPagination;
+    use WithPagination, ResolvesCurrentBusiness;
 
     public Business $business;
     #[Url]
@@ -26,11 +26,9 @@ class Dashboard extends Component
     public string $serviceBuffer = '15';
     public ?Reservation $editingService = null;
 
-    public function mount( $subdomain)
-    {   
-        $business = Business::where('subdomain', $subdomain)->firstOrFail();
-        //$this->authorize('update', $business);
-        $this->business = $business;
+    public function mount()
+    {
+        $this->business = $this->resolveCurrentBusiness();
     }
 
     public function openServiceModal(?Reservation $service = null)

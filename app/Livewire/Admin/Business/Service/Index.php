@@ -3,27 +3,31 @@
 namespace App\Livewire\Admin\Business\Service;
 
 use App\Models\Business;
+use App\Traits\ResolvesCurrentBusiness;
+use App\Traits\WithLivewireSorting;
 use Livewire\Component;
 
 class Index extends Component
 {
-    public Business $business;
+    use ResolvesCurrentBusiness;
 
+    public Business $business;
+    
     protected $listeners = 
     [
         'serviceCreated' => '$refresh',
     ];
 
-    public function mount($subdomain)
+    public function mount()
     {
-        $this->business = Business::where('subdomain', $subdomain)->firstOrFail();
+        $this->business = $this->resolveCurrentBusiness();
     }
     
     public function render()
     {
 
         return view('livewire.admin.business.service.index', [
-            'services' => $this->business->services()->orderBy('created_at', 'desc')->get()
+            'services' => $this->business->services()->get(),
         ])->layout('layouts.admin', ['business' => $this->business]);
     }
 }
