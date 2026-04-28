@@ -25,10 +25,6 @@ class Offer extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function category()
-    {
-        return $this->morphMany(Category::class, 'offer_category_id');
-    }
 
     /**
      * Get all comments for the offer.
@@ -36,5 +32,10 @@ class Offer extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function categories()
+    {
+        return $this->morphToMany(Category::class, 'categoryable');
     }
 }

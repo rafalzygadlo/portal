@@ -22,7 +22,13 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
 
         $users = \App\Models\User::all();
-        // Create Offers
+        
+        
+        // Create Articles
+        $this->call(ArticleSeeder::class);
+        $this->seedVotesForModel(\App\Models\Article\Article::class, $users, 'Articles');
+        
+        // Create Offers        
         $this->call(OfferSeeder::class);
         $this->seedVotesForModel(\App\Models\Offer\Offer::class, $users, 'Offers');
         

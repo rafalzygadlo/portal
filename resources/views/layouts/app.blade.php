@@ -18,7 +18,7 @@
 <body>
     <div>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm sticky-top">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Portal') }}
                 </a>
@@ -29,6 +29,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('articles.index') }}">{{ __('articles.index') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('offers.index') }}">{{ __('offers.index') }}</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('todos.index') }}">{{ __('todos.index') }}</a>
                         </li>

@@ -10,9 +10,16 @@ class Index extends Component
 {
     use WithPagination;
 
+    #[Session]
+    public $selectedCategories = [];
+
     public function render()
     {
-        $offers = Offer::with('user', 'category')->latest()->paginate(10);
+        $offers = Offer::with('user')->
+        //whereHas('categories', function ($q) {
+          //  $q->whereIn('slug', $this->selectedCategories);
+        //})->
+         latest()->paginate(10);
 
         return view('livewire.offer.index', [
             'offers' => $offers

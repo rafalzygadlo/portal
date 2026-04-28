@@ -23,12 +23,11 @@ class TodoSeeder extends Seeder
         $this->command->getOutput()->progressStart($todosCount);
 
         $todosData = [];
-        $now = now();
-
+        
         for ($i = 0; $i < $todosCount; $i++) {
             $todosData[] = Todo::factory()->raw([
-                'created_at' => $now,
-                'updated_at' => $now,
+                'created_at' =>date('Y-m-d H:i:s', random_int(strtotime('-1 year'), strtotime('now'))),
+                'updated_at' => date('Y-m-d H:i:s', random_int(strtotime('-1 year'), strtotime('now'))),
             ]);
 
             if (count($todosData) >= $chunkSize) {

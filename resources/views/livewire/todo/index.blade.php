@@ -1,4 +1,4 @@
-<div class="container">
+<div class="col">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Ideas</h2>
         <a href="{{ route('todos.create') }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Add idea</a>

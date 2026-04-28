@@ -16,12 +16,17 @@ class Category extends Model
         'slug',
     ];
 
+    public function categoryable()
+    {
+        return $this->morphTo();
+    }
+
     /**
      * Get all of the articles that are assigned this category.
      */
     public function articles()
     {
-        return $this->morphedByMany(Article\Article::class, 'categorizable');
+        return $this->morphedByMany(Article::class, 'categoryable');
     }
 
     /**
@@ -29,6 +34,14 @@ class Category extends Model
      */
     public function businesses()
     {
-        return $this->morphedByMany(Business::class, 'categorizable');
+        return $this->morphedByMany(Business::class, 'categoryable');
+    }
+
+    /**
+     * Get all of the offers that are assigned this category.
+     */
+    public function offers()
+    {
+        return $this->morphedByMany(Offer::class, 'categoryable');
     }
 }

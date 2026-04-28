@@ -1,4 +1,4 @@
-<div class="container py-5">
+<div class="col">
     <!-- Header -->
     <div class="bg-primary text-white rounded-3 p-5 mb-5">
         <div class="d-flex justify-content-between align-items-start mb-4">

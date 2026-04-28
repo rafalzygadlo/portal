@@ -27,14 +27,20 @@ if (empty($domain))
 
 // Subdomains - business pages and bookings
 Route::domain('{subdomain}' . $domain)->group(function () {
-    
+
+    Route::get('/login', \App\Livewire\Login::class)->name('business.login')->middleware('guest');
+    Route::post('/login', [\App\Livewire\Login::class, 'login'])->name('business.login.submit');
+    Route::get('/logout', [\App\Livewire\Login::class, 'logout'])->name('business.logout');
+    Route::get('/login/verify/{email}', [\App\Livewire\Login::class, 'verify'])->name('business.login.verify');
+
     Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
+    
     Route::prefix('booking')->group(function () {
-    Route::get('/', \App\Livewire\Business\Booking\StartBooking::class)->name('business.booking');
-    Route::get('/{flow}/step1', \App\Livewire\Business\Booking\Step1::class)->name('booking.step1');
-    Route::get('/{flow}/step2', \App\Livewire\Business\Booking\Step2::class)->name('booking.step2');
-    Route::get('/{flow}/step3', \App\Livewire\Business\Booking\Step3::class)->name('booking.step3');
-    Route::get('/{flow}/step4', \App\Livewire\Business\Booking\Step4::class)->name('booking.step4');
+        Route::get('/', \App\Livewire\Business\Booking\StartBooking::class)->name('business.booking');
+        Route::get('/{flow}/step1', \App\Livewire\Business\Booking\Step1::class)->name('booking.step1');
+        Route::get('/{flow}/step2', \App\Livewire\Business\Booking\Step2::class)->name('booking.step2');
+        Route::get('/{flow}/step3', \App\Livewire\Business\Booking\Step3::class)->name('booking.step3');
+        Route::get('/{flow}/step4', \App\Livewire\Business\Booking\Step4::class)->name('booking.step4');
     });
     
     Route::prefix('admin')->middleware(['auth'])->group(function () {
@@ -55,8 +61,11 @@ Route::domain('{subdomain}' . $domain)->group(function () {
 });
 
 
-// Article routes
 Route::get('/',App\Livewire\Main::class)->name('main.index');
+
+// Article routes
+
+Route::get('/articles', \App\Livewire\Article\Index::class)->name('articles.index');
 Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('articles.create')->middleware('auth');
 Route::get('/articles/{article}', \App\Livewire\Article\Show::class)->name('articles.show');
 
@@ -91,6 +100,10 @@ Route::get('/login',App\Livewire\Login::class)->name('login')->middleware('guest
 Route::post('/login',[App\Livewire\Login::class,'login']);
 Route::get('/logout',[App\Livewire\Login::class,'logout'])->name('logout');
 Route::get('/login/verify/{email}', [App\Livewire\Login::class, 'verify'])->name('login.verify');
+
+
+
+
 
 // 
 

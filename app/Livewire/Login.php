@@ -17,6 +17,28 @@ class Login extends Component
     public $linkSent = false;
     public $remember = false;
 
+    protected function businessSubdomain(): ?string
+    {
+        $host = request()->getHost();
+        $domain = config('app.business_domain');
+
+        if (Str::endsWith($host, $domain) && !Str::startsWith($host, 'app' . $domain)) {
+            return request()->route('subdomain') ?? Str::before($host, $domain);
+        }
+
+        return null;
+    }
+
+    protected function loginVerifyRouteName(): string
+    {
+        return $this->businessSubdomain() ? 'business.login.verify' : 'login.verify';
+    }
+
+    protected function loginRouteParams(): array
+    {
+        return $this->businessSubdomain() ? ['subdomain' => $this->businessSubdomain()] : [];
+    }
+
     public function login()
     {
         $this->validate([
@@ -31,15 +53,17 @@ class Login extends Component
             $intendedUrl = '/';
         }
 
+        $parameters = array_merge($this->loginRouteParams(), [
+            'email' => $this->email,
+            'remember' => $this->remember,
+            'redirect' => $intendedUrl, // Pass the redirect URL
+        ]);
+
         // Generate a signed link valid for 5 minutes
         $url = URL::temporarySignedRoute(
-            'login.verify',
+            $this->loginVerifyRouteName(),
             now()->addMinutes(5),
-            [
-                'email' => $this->email,
-                'remember' => $this->remember,
-                'redirect' => $intendedUrl // Pass the redirect URL
-            ]
+            $parameters
         );
 
         // Send the email (using Mail::raw for simplicity, consider a Mailable in production)

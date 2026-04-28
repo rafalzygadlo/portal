@@ -12,8 +12,8 @@
 </head>
 <body >
     <nav class="navbar navbar-expand-md bg-white shadow-sm">
-        <div class="container ">
-            <a class="navbar-brand">
+        <div class="container-fluid">
+             <a class="navbar-brand">
                 {{ $business->name }}
             </a>
              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -31,11 +31,9 @@
                         <!-- Authentication Links -->
                         @if(!Auth::guard('user')->check())
 
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('login.link') }}</a>
-                                </li>
-                            @endif
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('business.login', ['subdomain' => $business->subdomain]) }}">{{ __('login.link') }}</a>
+                            </li>
                         @else
                         <li class="nav-item">
                             </li>
@@ -56,8 +54,8 @@
                                     <a class="dropdown-item" href="{{ route('admin.business.dashboard', ['subdomain' => $business->subdomain]) }}"> {{ __('dashroard.link') }}</a>
                                     <a class="dropdown-item" href="{{ route('user.profile', Auth::user()) }}"> {{ __('profile.link') }}</a>
                                 <div class="dropdown-divider"></div>
-                                     <a class="dropdown-item" href="{{ route('logout') }}"> {{ __('global.logout') }}</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                     <a class="dropdown-item" href="{{ route('business.logout', ['subdomain' => $business->subdomain]) }}"> {{ __('global.logout') }}</a>
+                                    <form id="logout-form" action="{{ route('business.logout', ['subdomain' => $business->subdomain]) }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>  
@@ -69,7 +67,7 @@
         
     </nav>
 
-    <div class="container py-5">
+    <div class="container-fluid py-5">
         {{ $slot }}
     </div>
 

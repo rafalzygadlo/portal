@@ -28,13 +28,12 @@ class ArticleSeeder extends Seeder
         }
 
         $articlesData = [];
-        $now = now();
-
+        
         for ($i = 0; $i < $articlesCount; $i++) {
             $articlesData[] = \App\Models\Article\Article::factory()->raw([
                 'user_id' => $users->random()->id,
-                'created_at' => $now,
-                'updated_at' => $now,
+                'created_at' => date('Y-m-d H:i:s', random_int(strtotime('-1 year'), strtotime('now'))),
+                'updated_at' => date('Y-m-d H:i:s', random_int(strtotime('-1 year'), strtotime('now'))),
             ]);
 
             if (count($articlesData) >= $chunkSize) {

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categorizables', function (Blueprint $table) {
+        Schema::create('categoryables', function (Blueprint $table) {
             $table->unsignedBigInteger('category_id');
-            $table->morphs('categorizable');
+            $table->morphs('categoryable');
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categorizables');
+        Schema::dropIfExists('categoryables');
     }
 };

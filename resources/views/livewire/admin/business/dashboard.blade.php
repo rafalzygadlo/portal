@@ -1,4 +1,4 @@
-<div class="business-dashboard container py-4">
+<div class="col py-4">
     <div class="mb-4">
         <h1 class="h2 fw-bold">{{ $business->name }}</h1>
         <p class="text-muted">Reservations management panel</p>

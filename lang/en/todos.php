@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'index' => 'ToDo',
+    'index' => 'Todo',
 ];

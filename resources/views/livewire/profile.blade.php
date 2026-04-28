@@ -10,6 +10,8 @@
                 </div>
                 <h3 class="fw-bold">{{ $user->first_name }} {{ $user->last_name }}</h3>
                     <p class="text-muted">Joined: {{ $user->created_at->format('d.m.Y') }}</p>
+                    <p>{{ $user->email }}</p>
+                    
                         <h5 class="card-title fw-bold mb-3">Quick actions</h5>
                         <div class="d-grid gap-2">
                              

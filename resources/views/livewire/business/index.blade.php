@@ -1,6 +1,6 @@
-<div class="container">
+<div class="col">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Business directory</h2>
+        <h2>Business</h2>
         <a href="{{ route('business.create') }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Add your
             business</a>
     </div>

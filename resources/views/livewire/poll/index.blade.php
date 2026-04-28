@@ -1,4 +1,4 @@
-<div class="container">
+<div class="col">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Polls</h2>
         <a href="{{ route('polls.create') }}" class="btn btn-primary">Add poll</a>

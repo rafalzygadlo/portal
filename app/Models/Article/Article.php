@@ -5,7 +5,7 @@ namespace App\Models\Article;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Article\Report;
-use App\Models\Article\Category;
+use App\Models\Category;
 use App\Models\User;
 use App\Models\Comment;
 use App\Traits\Voteable;
@@ -42,6 +42,6 @@ class Article extends Model
 
         public function categories()
         {
-            return $this->morphToMany(\App\Models\Category::class, 'categorizable');
+            return $this->morphToMany(Category::class, 'categoryable');
         }
 }

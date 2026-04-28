@@ -1,4 +1,4 @@
-<div class="container">
+<div class="col">
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <nav aria-label="breadcrumb">
