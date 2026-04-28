@@ -11,20 +11,26 @@ class Authenticate extends Middleware
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      */
-    protected function redirectTo(Request $request): ?string
-    {
-        if ($request->expectsJson()) {
-            return null;
-        }
+   protected function redirectTo($request)
+{
+    if ($request->expectsJson()) {
+        return null;
+    }
 
-        $host = $request->getHost();
-        $domain = config('app.business_domain');
+    $host = $request->getHost();
+    $domain = config('app.business_domain'); // np. 'localhost' lub 'mojastrona.pl'
 
-        if (Str::endsWith($host, $domain) && !Str::startsWith($host, 'app' . $domain)) {
-            $subdomain = $request->route('subdomain') ?? Str::before($host, $domain);
+    // Sprawdzamy czy to subdomena (zakładając że $domain nie ma kropki na początku)
+    if (Str::endsWith($host, '.' . $domain)) {
+        $subdomain = Str::before($host, '.' . $domain);
+
+        // Wykluczamy subdomenę 'app' (główną aplikację)
+        if ($subdomain !== 'app') {
             return route('business.login', ['subdomain' => $subdomain]);
         }
-
-        return route('login');
     }
+
+    // Domyślne logowanie dla domeny głównej lub subdomeny 'app'
+    return route('login');
+}
 }

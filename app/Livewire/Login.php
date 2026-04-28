@@ -22,8 +22,11 @@ class Login extends Component
         $host = request()->getHost();
         $domain = config('app.business_domain');
 
-        if (Str::endsWith($host, $domain) && !Str::startsWith($host, 'app' . $domain)) {
-            return request()->route('subdomain') ?? Str::before($host, $domain);
+        // Sprawdzamy, czy aktualny host jest subdomeną (różni się od domeny głównej i kończy się na nią)
+        if ($host !== $domain && Str::endsWith($host, $domain)) {
+            // Pobieramy parametr z trasy lub wycinamy z hosta, usuwając końcową kropkę
+            $subdomain = request()->route('subdomain') ?? Str::before($host, $domain);
+            return rtrim($subdomain, '.');
         }
 
         return null;

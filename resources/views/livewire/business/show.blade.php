@@ -1,4 +1,4 @@
-<div class="container">
+<div class="conl">
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <nav aria-label="breadcrumb">
@@ -28,7 +28,7 @@
                                 <p class="mb-2"><i class="bi bi-telephone me-2"></i> <strong>Telefon:</strong> {{ $business->phone }}</p>
                             @endif
                              @if($business->subdomain)
-                                <p class="mb-2"><i class="bi bi-globe me-2"></i> <strong>Strona WWW:</strong> <a href="https://{{ $business->subdomain }}{{ env('DOMAIN_NAME') }}" target="_blank" class="link-primary">{{ $business->subdomain }}</a></p>
+                                <p class="mb-2"><i class="bi bi-globe me-2"></i> <strong>Strona WWW:</strong> <a href="https://{{ $business->subdomain }}.{{ env('DOMAIN_NAME') }}" target="_blank" class="link-primary">{{ $business->subdomain }}</a></p>
                             @endif
                        </div>
                         <div class="col-md-4">

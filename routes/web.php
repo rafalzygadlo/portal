@@ -26,7 +26,7 @@ if (empty($domain))
 }
 
 // Subdomains - business pages and bookings
-Route::domain('{subdomain}' . $domain)->group(function () {
+Route::domain('{subdomain}.' . $domain)->group(function () {
 
     Route::get('/login', \App\Livewire\Login::class)->name('business.login')->middleware('guest');
     Route::post('/login', [\App\Livewire\Login::class, 'login'])->name('business.login.submit');

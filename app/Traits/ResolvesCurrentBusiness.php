@@ -9,16 +9,11 @@ trait ResolvesCurrentBusiness
 {
     protected function resolveCurrentBusiness(): Business
     {
-        $user = Auth::user();
-
-        if (! $user) {
-            abort(403);
-        }
-
-        $query = $user->businesses();
+        $query = Business::query();
         $subdomain = request()->route('subdomain');
 
-        if ($subdomain) {
+        if ($subdomain) 
+        {
             return $query->where('subdomain', $subdomain)->firstOrFail();
         }
 
