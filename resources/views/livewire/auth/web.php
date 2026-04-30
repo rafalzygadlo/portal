@@ -99,22 +99,6 @@ Route::post('/register', [App\Livewire\Auth\Register::class, 'register']);
 
 /*
 |--------------------------------------------------------------------------
-| Password Reset Routes
-|--------------------------------------------------------------------------
-|
-| These routes handle the password reset process.
-|
-*/
-Route::middleware('guest')->group(function () {
-    Route::get('/forgot-password', \App\Livewire\Auth\ForgotPassword::class)->name('password.request');
-    Route::post('/forgot-password', [\App\Livewire\Auth\ForgotPassword::class, 'sendResetLink'])->name('password.email');
-    Route::get('/reset-password/{token}', \App\Livewire\Auth\ResetPassword::class)->name('password.reset');
-    Route::post('/reset-password', [\App\Livewire\Auth\ResetPassword::class, 'resetPassword'])->name('password.update');
-});
-
-
-/*
-|--------------------------------------------------------------------------
 | Email Verification Routes
 |--------------------------------------------------------------------------
 |

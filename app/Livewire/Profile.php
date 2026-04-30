@@ -10,10 +10,10 @@ class Profile extends Component
 {
     public User $user;
 
-    public function mount(User $user)
+    public function mount()
     {
-        $this->user = $user;
-        $this->user->load('ownedBusinesses');
+        $this->user = auth()->user();
+        
     }
 
     public function render()
