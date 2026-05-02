@@ -106,10 +106,10 @@ Route::post('/register', [App\Livewire\Auth\Register::class, 'register']);
 |
 */
 Route::middleware('guest')->group(function () {
-    Route::get('/forgot-password', \App\Livewire\Auth\ForgotPassword::class)->name('password.request');
-    Route::post('/forgot-password', [\App\Livewire\Auth\ForgotPassword::class, 'sendResetLink'])->name('password.email');
-    Route::get('/reset-password/{token}', \App\Livewire\Auth\ResetPassword::class)->name('password.reset');
-    Route::post('/reset-password', [\App\Livewire\Auth\ResetPassword::class, 'resetPassword'])->name('password.update');
+    Route::get('/forgot-password', \App\Livewire\Auth\Password\Forgot::class)->name('password.request');
+    Route::post('/forgot-password', [\App\Livewire\Auth\Password\Forgot::class, 'sendResetLink'])->name('password.email');
+    Route::get('/reset-password/{token}', \App\Livewire\Auth\Password\Reset::class)->name('password.reset');
+    Route::post('/reset-password', [\App\Livewire\Auth\Password\Reset::class, 'resetPassword'])->name('password.update');
 });
 
 

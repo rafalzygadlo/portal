@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Auth;
+namespace App\Livewire\Auth\Password;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 
-class ForgotPassword extends Component
+class Forgot extends Component
 {
     public string $email = '';
     public string $status = '';
@@ -34,6 +34,6 @@ class ForgotPassword extends Component
 
     public function render()
     {
-        return view('livewire.auth.forgot-password');
+        return view('livewire.auth.password.forgot');
     }
 }

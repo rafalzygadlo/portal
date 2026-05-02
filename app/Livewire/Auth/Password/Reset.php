@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Livewire\Auth;
+namespace App\Livewire\Auth\Password;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 
-class ResetPassword extends Component
+class Reset extends Component
 {
     public string $token = '';
     public string $email = '';
@@ -51,6 +51,6 @@ class ResetPassword extends Component
 
     public function render()
     {
-        return view('livewire.auth.reset-password');
+        return view('livewire.auth.password.reset');
     }
 }

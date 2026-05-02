@@ -1,7 +1,11 @@
 <div class="col">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Offers</h2>
-        <a href="{{ route('offers.create') }}" class="btn btn-primary">Add Offer</a>
+        @auth
+            <button wire:click="$dispatch('openOfferModal')" class="btn btn-primary">Add Offer</button>
+        @else
+            <a href="{{ route('login') }}" class="btn btn-outline-primary">Login to Add Offer</a>
+        @endauth
     </div>
 
     @if (session('status'))
@@ -94,4 +98,7 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $offers->links() }}
     </div>
+
+    {{-- Komponent musi być wyrenderowany, aby nasłuchiwać zdarzeń --}}
+    @livewire('offer.create')
 </div>

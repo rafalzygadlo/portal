@@ -1,45 +1,75 @@
 <div>
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card border-1">
-                <div class="card-header bg-white">Add New Offer</div>
+    @if ($open)
+        <div class="modal-backdrop fade show"></div>
+        <div class="modal d-block" tabindex="-1" role="dialog" style="background: rgba(0, 0, 0, 0.45);">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content shadow-lg">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add New Offer</h5>
+                        <button type="button" class="btn-close" aria-label="Close" wire:click="closeOfferModal"></button>
+                    </div>
 
-                <div class="card-body">
+                    <div class="modal-body">
+                        <form wire:submit.prevent="save">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" wire:model="title">
+                                @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
 
-                    <form wire:submit.prevent="save">
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" wire:model.defer="title">
-                            @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
+                            <div class="mb-3">
+                                <label for="category_id" class="form-label">Category</label>
+                                <select class="form-select @error('category_id') is-invalid @enderror" id="category_id" wire:model="category_id">
+                                    <option value="0">Select a category...</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('category_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="offer_category_id" class="form-label">Category</label>
-                            <select class="form-control @error('offer_category_id') is-invalid @enderror" id="offer_category_id" wire:model.defer="offer_category_id">
-                                <option value="0">Select a category...</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('offer_category_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
+                            <div class="mb-3">
+                                <label for="content" class="form-label">Description</label>
+                                <textarea class="form-control @error('content') is-invalid @enderror" id="content" rows="5" wire:model="content"></textarea>
+                                @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="content" class="form-label">Description</label>
-                            <textarea class="form-control @error('content') is-invalid @enderror" id="content" rows="5" wire:model.defer="content"></textarea>
-                            @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
+                            <div class="mb-3">
+                                <label for="photos" class="form-label">Photos</label>
+                                <input type="file" class="form-control @error('photos.*') is-invalid @enderror" id="photos" wire:model="photos" multiple>
+                                <div wire:loading wire:target="photos" class="text-primary small mt-1">
+                                    <div class="spinner-border spinner-border-sm" role="status"></div> Uploading previews...
+                                </div>
+                                @error('photos.*') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
-                        <div class="d-flex justify-content-end">
-                            <a href="{{ route('offers.index') }}" class="btn btn-outline-secondary me-2">Cancel</a>
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
-                                <span wire:loading.remove>Add Offer</span>
-                                <span wire:loading>Saving...</span>
-                            </button>
-                        </div>
-                    </form>
+                                @if ($photos)
+                                    <div class="d-flex flex-wrap gap-2 mt-3">
+                                        @foreach ($photos as $index => $photo)
+                                            <div class="position-relative">
+                                                <img src="{{ $photo->temporaryUrl() }}" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                                                <button type="button" 
+                                                        class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" 
+                                                        style="padding: 0px 5px; line-height: 1.2;" 
+                                                        wire:click="removePhoto({{ $index }})">
+                                                    <i class="bi bi-x"></i>
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-secondary" wire:click="closeOfferModal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">
+                                    <span wire:loading.remove><i class="bi bi-send"></i> Add Offer</span>
+                                    <span wire:loading>Saving...</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>
