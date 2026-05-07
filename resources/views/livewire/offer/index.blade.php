@@ -1,4 +1,28 @@
-<div class="col">
+<div class="container">
+    <style>
+        .offer-card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .offer-card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15) !important;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in-card {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+    </style>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Offers</h2>
         @auth
@@ -34,6 +58,10 @@
                 } elseif ($loop->iteration > 5) {
                     $colClass = 'col-md-4';
                 }
+
+                if($offers->currentPage() > 1) {
+                    $colClass = 'col-md-4';
+                }
             @endphp
 
             {{-- Separator Daty jako pełna szerokość --}}
@@ -51,12 +79,19 @@
             @endif
     
             {{-- Karta Oferty --}}
-            <div class="{{ $colClass }} mb-4" wire:key="offer-{{ $offer->id }}">
-                <div class="card h-100 border-1 shadow-sm overflow-hidden">                    
+            <div class="{{ $colClass }} mb-4 fade-in-card" wire:key="offer-{{ $offer->id }}" style="animation-delay: {{ $loop->index * 0.1 }}s">
+                <div class="card h-100 border-1 shadow-sm overflow-hidden offer-card-hover position-relative">                    
+                     @if($offer->images->isNotEmpty())
+                        <img src="{{ asset('/storage/' . $offer->images->first()->path) }}" class="card-img-top" alt="{{ $offer->title }}" style="height: 200px; object-fit: cover;">
+                    @else
+                        <div class="bg-light d-flex align-items-center justify-content-center border-bottom" style="height: 200px;">
+                            <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                        </div>
+                    @endif
                     <div class="card-body d-flex flex-column">
                         <h3 class="card-title h5">
                             <span class="badge rounded-pill bg-primary me-1">{{ $offer->votes_sum_value ?? 0 }}</span>
-                            <a href="{{ route('offers.show', $offer->id) }}" class="text-decoration-none text-dark hover-primary">
+                            <a href="{{ route('offers.show', $offer->id) }}" class="text-decoration-none text-dark hover-primary stretched-link">
                                 {{ $offer->title }}
                             </a>
                         </h3>
@@ -67,7 +102,7 @@
                         </div>
 
                         <p class="card-text flex-grow-1">
-                            {{ Str::limit($offer->content, $loop->first ? 250 : 150) }}
+                            {!! nl2br(strip_tags(Str::limit($offer->content, $loop->first ? 250 : 150), '<a>')) !!}
                         </p>
 
                         @if($offer->categories->isNotEmpty())

@@ -8,6 +8,7 @@ use App\Traits\Voteable;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Image;
 
 class Offer extends Model
 {
@@ -32,6 +33,11 @@ class Offer extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     public function categories()

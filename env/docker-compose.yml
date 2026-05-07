@@ -21,6 +21,7 @@ services:
     expose:
        - 9000
     volumes:
+      - ./php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./..:/var/www/html
     restart: unless-stopped
 

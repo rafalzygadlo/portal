@@ -1,4 +1,5 @@
 <div>
+
     @if ($open)
         <div class="modal-backdrop fade show"></div>
         <div class="modal d-block" tabindex="-1" role="dialog" style="background: rgba(0, 0, 0, 0.45);">
@@ -19,8 +20,8 @@
 
                             <div class="mb-3">
                                 <label for="category_id" class="form-label">Category</label>
-                                <select class="form-select @error('category_id') is-invalid @enderror" id="category_id" wire:model="category_id">
-                                    <option value="0">Select a category...</option>
+                                <select class="form-select @error('category_id') is-invalid @enderror" id="category_id" wire:model.live="category_id">
+                                    <option value="">Select a category...</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
@@ -36,12 +37,13 @@
 
                             <div class="mb-3">
                                 <label for="photos" class="form-label">Photos</label>
-                                <input type="file" class="form-control @error('photos.*') is-invalid @enderror" id="photos" wire:model="photos" multiple>
+                                <input type="file" class="form-control @if($errors->has('photos') || $errors->has('photos.*')) is-invalid @endif" id="photos" wire:model="photos" multiple accept="image/*">
                                 <div wire:loading wire:target="photos" class="text-primary small mt-1">
                                     <div class="spinner-border spinner-border-sm" role="status"></div> Uploading previews...
                                 </div>
+                                @error('photos') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 @error('photos.*') <div class="invalid-feedback">{{ $message }}</div> @enderror
-
+                                
                                 @if ($photos)
                                     <div class="d-flex flex-wrap gap-2 mt-3">
                                         @foreach ($photos as $index => $photo)

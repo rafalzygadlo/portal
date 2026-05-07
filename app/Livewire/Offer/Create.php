@@ -48,7 +48,7 @@ class Create extends Component
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:5000',
             'category_id' => 'required|exists:categories,id',
-            'photos.*' => 'image|max:2048', // 2MB Max per photo
+            'photos.*' => 'required|image|max:8192', // 4MB Max per photo
         ];
     }
 
