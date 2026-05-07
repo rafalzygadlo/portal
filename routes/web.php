@@ -61,67 +61,45 @@ Route::get('/',App\Livewire\Main::class)->name('main.index');
 // Article routes
 
 Route::get('/articles', \App\Livewire\Article\Index::class)->name('articles.index');
-Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('articles.create')->middleware('auth');
 Route::get('/articles/{article}', \App\Livewire\Article\Show::class)->name('articles.show');
 
 // Business routes
 Route::get('/business', \App\Livewire\Business\Index::class)->name('business.index');
-Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create')->middleware('auth');
 Route::get('/business/{business:subdomain}', \App\Livewire\Business\Show::class)->name('business.show');
-
 
 Route::get('/page/{page}', \App\Livewire\Page::class)
     ->where('page', 'privacy|terms|faq')->name('page');
 
 // Todo routes
 Route::get('/todos', App\Livewire\Todo\Index::class)->name('todos.index');
-Route::get('/todos/create', App\Livewire\Todo\Create::class)->name('todos.create')->middleware('auth');
 Route::get('/todos/{todo}', App\Livewire\Todo\Show::class)->name('todos.show');
 
 // Offers
-Route::get('/offers', \App\Livewire\Offer\Index::class)->name('offers.index');
-Route::get('/offers/create', \App\Livewire\Offer\Create::class)->name('offers.create')->middleware('auth');
-Route::get('/offers/{offer}', \App\Livewire\Offer\Show::class)->name('offers.show');
+Route::get('/offers/{category:slug}', \App\Livewire\Offer\Index::class)->name('offers.index');
+Route::get('/offers/{offer:slug}', \App\Livewire\Offer\Show::class)->name('offers.show');
 
 // Polls
 Route::get('/polls', \App\Livewire\Poll\Index::class)->name('polls.index');
-Route::get('/polls/create', \App\Livewire\Poll\Create::class)->name('polls.create')->middleware('auth');
 Route::get('/polls/{poll}', \App\Livewire\Poll\Show::class)->name('polls.show');
 
-Route::get('/notify',App\Livewire\Notifications::class)->name('notifications.index')->middleware('auth');
-
-Route::get('/login',App\Livewire\Auth\Login::class)->name('login')->middleware('guest');
-Route::post('/login',[App\Livewire\Auth\Login::class,'login']);
-Route::get('/logout',[App\Livewire\Auth\Login::class,'logout'])->name('logout');
-
-Route::get('/register', App\Livewire\Auth\Register::class)->name('register')->middleware('guest');
-Route::post('/register', [App\Livewire\Auth\Register::class, 'register']);
-
-/*
-|--------------------------------------------------------------------------
-| Password Reset Routes
-|--------------------------------------------------------------------------
-|
-| These routes handle the password reset process.
-|
-*/
+// Guest routes (Only for users not logged in)
 Route::middleware('guest')->group(function () {
+    Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
+    Route::post('/login', [App\Livewire\Auth\Login::class, 'login']);
+    Route::get('/register', App\Livewire\Auth\Register::class)->name('register');
+    Route::post('/register', [App\Livewire\Auth\Register::class, 'register']);
+
     Route::get('/forgot-password', \App\Livewire\Auth\Password\Forgot::class)->name('password.request');
     Route::post('/forgot-password', [\App\Livewire\Auth\Password\Forgot::class, 'sendResetLink'])->name('password.email');
     Route::get('/reset-password/{token}', \App\Livewire\Auth\Password\Reset::class)->name('password.reset');
     Route::post('/reset-password', [\App\Livewire\Auth\Password\Reset::class, 'resetPassword'])->name('password.update');
 });
 
-
-/*
-|--------------------------------------------------------------------------
-| Email Verification Routes
-|--------------------------------------------------------------------------
-|
-| These routes handle the email verification process.
-|
-*/
+// Authenticated routes (User must be logged in)
 Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout');
+
+    // Email Verification Routes
     Route::get('/email/verify', \App\Livewire\Auth\Verify::class)->name('verification.notice');
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
@@ -133,8 +111,17 @@ Route::middleware(['auth'])->group(function () {
         $request->user()->sendEmailVerificationNotification();
         return back()->with('message', 'Link weryfikacyjny został wysłany!');
     })->middleware(['throttle:6,1'])->name('verification.send');
+
+    // Verified Routes (User must be logged in AND have verified email)
+    Route::middleware(['verified'])->group(function () {
+        Route::get('/profile', App\Livewire\Profile::class)->name('user.profile');
+        Route::get('/notify', App\Livewire\Notifications::class)->name('notifications.index');
+
+        // Creation routes (moved into verified group to reduce duplication)
+        Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('articles.create');
+        Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create');
+        Route::get('/todos/create', App\Livewire\Todo\Create::class)->name('todos.create');
+        Route::get('/offers/create', \App\Livewire\Offer\Create::class)->name('offers.create');
+        Route::get('/polls/create', \App\Livewire\Poll\Create::class)->name('polls.create');
+    });
 });
-
-
-// Zabezpiecz trasę profilu, aby była dostępna tylko dla zweryfikowanych użytkowników
-Route::get('/profile', App\Livewire\Profile::class)->middleware(['auth', 'verified'])->name('user.profile');

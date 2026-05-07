@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
@@ -13,44 +13,68 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        // Define categories by type
+        // Definicja hierarchiczna kategorii
         $categories = [
-            'business' => [
-                'Biznes',
-                'Technologia',
-                'Motoryzacja',
-                'Programowanie',
-                'Real Estate',
-                'Sales'
+            'Elektronika' => [
+                'Komputery' => [
+                    'Laptopy',
+                    'Komputery stacjonarne',
+                    'Podzespoły',
+                ],
+                'Telefony' => [
+                    'Smartfony',
+                    'Akcesoria do telefonów',
+                    'Telefony stacjonarne',
+                ],
+                'Telewizory i RTV',
             ],
-            'article' => [
-                'News',
-                'Problemy',
-                'Lifestyle',
-                'Zdrowie',
-                'Travel',
-                'Kulinaria',
-                'Sport',
-                'Edukacja',
-            ]
+            'Dom i Ogród' => [
+                'Meble' => [
+                    'Sofy i Kanapy',
+                    'Stoły i Krzesła',
+                    'Szafy',
+                ],
+                'Ogród' => [
+                    'Narzędzia ogrodowe',
+                    'Rośliny',
+                ],
+            ],
+            'Motoryzacja' => [
+                'Samochody osobowe',
+                'Części samochodowe',
+                'Motocykle',
+            ],
+            'Usługi' => [
+                'IT i Programowanie',
+                'Budownictwo',
+                'Korepetycje',
+            ],
         ];
 
-        $data = [];
-        $now = now();
+        $this->seedCategories($categories);
+    }
 
-        foreach ($categories as $type => $categoryList) {
-            foreach ($categoryList as $categoryName) {
-                $data[] = [
-                    'name'       => $categoryName,
-                    'slug'       => Str::slug($categoryName),
-                    'type'       => $type,
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ];
+    /**
+     * Rekurencyjne tworzenie kategorii.
+     */
+    private function seedCategories(array $categories, ?int $parentId = null): void
+    {
+        foreach ($categories as $key => $value) {
+            // Jeśli klucz jest tekstem, a wartość tablicą -> to jest rodzic
+            if (is_array($value)) {
+                $category = Category::updateOrCreate(
+                    ['slug' => Str::slug($key)],
+                    ['name' => $key, 'parent_id' => $parentId]
+                );
+
+                $this->seedCategories($value, $category->id);
+            } else {
+                // Jeśli to tylko wartość tekstowa -> to jest kategoria bez dzieci na tym poziomie
+                Category::updateOrCreate(
+                    ['slug' => Str::slug($value)],
+                    ['name' => $value, 'parent_id' => $parentId]
+                );
             }
         }
-
-        // Use insertOrIgnore to avoid errors when running the seeder again
-        DB::table('categories')->insertOrIgnore($data);
     }
 }

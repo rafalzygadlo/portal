@@ -3,6 +3,9 @@
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('offers.index') }}" class="text-decoration-none">Offers</a></li>
+            @foreach($this->breadcrumb as $cat)
+                <li class="breadcrumb-item"><a href="{{ route('offers.index', ['category' => $cat->id]) }}" class="text-decoration-none">{{ $cat->name }}</a></li>
+            @endforeach
             <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($offer->title, 40) }}</li>
         </ol>
     </nav>
@@ -86,8 +89,10 @@
                             <div>
                                 <p class="text-muted small mb-0">Kategoria</p>
                                 <h6 class="mb-0 fw-bold">
-                                    @if($offer->category)
-                                        <span class="text-dark">{{ $offer->category->name }}</span>
+                                    @if($offer->categories->isNotEmpty())
+                                        <a href="{{ route('offers.index', ['category' => $offer->categories->first()->id]) }}" class="text-decoration-none text-dark">
+                                            {{ $offer->categories->first()->name }}
+                                        </a>
                                     @else
                                         Brak kategorii
                                     @endif

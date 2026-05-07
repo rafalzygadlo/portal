@@ -39,7 +39,7 @@ class Register extends Component
             Auth::guard('user')->login($user);
         });
 
-        return redirect()->route('profile');
+        return redirect()->route('user.profile');
     }
 
     public function render()

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Offer\Offer;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class OfferSeeder extends Seeder
 {
@@ -19,20 +20,29 @@ class OfferSeeder extends Seeder
             $users = \App\Models\User::factory()->count(10)->create();
         }
         
+        $categories = \App\Models\Category::all();
         Offer::factory()
             ->count(100)
             ->create(function () use ($users) {
-            // Najpierw losujemy datę stworzenia
-            $createdAt = rand(strtotime('-2 months'), strtotime('now'));
-            echo "Created at: " . date('Y-m-d H:i:s', $createdAt) . "\n";
-            // Data aktualizacji musi być >= dacie stworzenia
-            $updatedAt = rand($createdAt, strtotime('now'));
-
-            return [
-                'user_id' => $users->random()->id,
-                'created_at' => date('Y-m-d H:i:s', $createdAt),
-                'updated_at' => date('Y-m-d H:i:s', $updatedAt),
-        ];
-    });
+                // Define random creation date and a subsequent update date
+                $createdAt = fake()->dateTimeBetween('-2 months', 'now');
+                $title = fake()->sentence(5);
+                
+                return [
+                    'user_id' => $users->random()->id,
+                    'title' => $title,
+                    'slug' => Str::slug($title),
+                    'created_at' => $createdAt,
+                    'updated_at' => fake()->dateTimeBetween($createdAt, 'now'),
+                ];
+            })
+            ->each(function (Offer $offer) use ($categories) {
+                // Attach categories after the model is created and saved
+                if ($categories->isNotEmpty()) {
+                    $numberOfCategories = rand(1, min(3, $categories->count()));
+                    $randomCategories = $categories->random($numberOfCategories);
+                    $offer->categories()->attach($randomCategories->pluck('id')->toArray());
+                }
+            });
     }
 }

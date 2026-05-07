@@ -29,7 +29,7 @@ class BusinessSeeder extends Seeder
             ['name' => 'Massage Studio', 'services' => ['Portrait session', 'Event session', 'Product photography']],
         ];
 
-        $businessCategories = Category::where('type', 'business')->get();
+        $businessCategories = Category::all();
 
         // Create business owners
         $owners = User::factory(11)->create();
