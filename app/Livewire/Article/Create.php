@@ -23,7 +23,7 @@ class Create extends Component
     protected $rules = [
         'title' => 'required|min:5|max:255',
         'content' => 'required|min:10',
-        'photo' => 'nullable|image|max:2048', // Maksymalnie 2MB
+        'photos.*' => 'nullable|image|max:2048', // Maksymalnie 2MB
         'categories' => 'required|array|min:1',
     ];
 
@@ -69,16 +69,25 @@ class Create extends Component
             ]);
         }
 
-        $imagePath = null;
-        if ($this->photo) {
-            $imagePath = $this->photo->store('articles', 'public');
+        foreach ($this->photos as $photo) 
+        {
+            $filename = $photo->hashName();
+
+            // W wersji 2 używamy make() oraz resize() z funkcją zachowania proporcji
+            $img = Image::make($photo->getRealPath())->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            // Enkodujemy do formatu JPG i zapisujemy
+            Storage::disk('public')->put('articles/' . $filename, (string) $img->encode('jpg', 80));
+            $article->images()->create(['path' => 'articles/' . $filename]);
         }
 
         $article = Article::create([
             'user_id' => Auth::id(),
             'title' => $this->title,
-            'content' => $this->content,
-            'image_path' => $imagePath,
+            'content' => $this->content
         ]);
 
         $article->categories()->sync($this->categories);

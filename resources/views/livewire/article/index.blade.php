@@ -47,7 +47,14 @@
             <div class="{{ $colClass }} mb-4" wire:key="article-{{ $article->id }}">
                 <div class="card h-100 border-1 shadow-sm overflow-hidden">
                     <div class="card-body d-flex flex-column">
-                        <h3 class="card-title h5">
+                      @if($article->images->isNotEmpty())
+                                <img src="{{ asset('storage/' . $article->images->first()->path) }}" class="card-img-top" alt="{{ $article->title }}" style="height: 180px; object-fit: cover;">
+                            @else
+                                <div class="bg-light d-flex align-items-center justify-content-center border-bottom" style="height: 180px;">
+                                    <i class="bi bi-image text-muted" style="font-size: 2.5rem;"></i>
+                                </div>
+                            @endif    
+                    <h3 class="card-title h5">
                             <span class="badge rounded-pill bg-primary me-1">{{ $article->votes_sum_value ?? 0 }}</span>
                             <a href="{{ route('articles.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
                         </h3>

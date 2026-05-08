@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\User;
 use App\Models\Comment;
 use App\Traits\Voteable;
+use App\Models\Image;
 
 class Article extends Model
 {
@@ -43,5 +44,10 @@ class Article extends Model
         public function categories()
         {
             return $this->morphToMany(Category::class, 'categoryable');
+        }
+
+        public function images()
+        {
+            return $this->morphMany(Image::class, 'imageable');
         }
 }
