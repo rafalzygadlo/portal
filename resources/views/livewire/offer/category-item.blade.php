@@ -2,7 +2,7 @@
     @php
         $hasChildren = $category->children && $category->children->isNotEmpty();
         $collapseId = "category-collapse-" . $category->id;
-        $isActive = request('category') == $category->id;
+        $isActive = (request()->route('categorySlug') === $category->slug);
 
         // Sprawdzamy, czy kategoria jest w ścieżce breadcrumb (jest przodkiem wybranej kategorii)
         $isInPath = collect($breadcrumb ?? [])->contains('id', $category->id);
@@ -22,7 +22,7 @@
                 <i class="bi bi-dot small text-muted me-1"></i>
             @endif
             
-            <a href="?category={{ $category->id }}" 
+            <a href="{{ route('offers.index', $category->slug) }}" 
                class="category-link text-decoration-none text-dark small {{ $isActive ? 'fw-bold text-primary' : '' }}">
                 {{ $category->name }}
             </a>

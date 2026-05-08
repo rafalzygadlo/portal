@@ -26,7 +26,7 @@ class Authenticate extends Middleware
 
         // Wykluczamy subdomenę 'app' (główną aplikację)
         if ($subdomain !== 'app') {
-            return route('business.login', ['subdomain' => $subdomain]);
+            return route('login', ['subdomain' => $subdomain]);
         }
     }
 

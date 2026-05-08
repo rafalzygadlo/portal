@@ -29,7 +29,7 @@ class Index extends Component
                 });
             })
             ->latest()
-            ->paginate(6);
+            ->paginate(20);
 
         return view('livewire.business.index', [
             'businesses' => $businesses,

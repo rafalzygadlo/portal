@@ -28,10 +28,8 @@
 
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="row g-3">
-            @forelse ($businesses as $business)
-                <div class="col-md-6">
+        @forelse ($businesses as $business)
+                <div class="col mb-4 ">
                     <div class="card h-100">
                         <div class="card-body d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-start mb-2">
@@ -67,8 +65,7 @@
                 </div>
             @endforelse
         </div>
-        </div>
-    </div>
+    
     <div class="mt-4">
         {{ $businesses->links() }}
     </div>

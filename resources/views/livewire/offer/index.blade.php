@@ -67,7 +67,7 @@
                 @foreach ($breadcrumb as $crumb)
                     <li class="breadcrumb-item {{ $loop->last ? 'active' : '' }}" @if($loop->last) aria-current="page" @endif>
                         @if (!$loop->last)
-                            <a href="{{ route('offers.index', ['category' => $crumb->id]) }}" class="text-decoration-none">{{ $crumb->name }}</a>
+                            <a href="{{ route('offers.index', $crumb->slug) }}" class="text-decoration-none">{{ $crumb->name }}</a>
                         @else
                             {{ $crumb->name }}
                         @endif

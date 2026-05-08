@@ -32,7 +32,7 @@
                         @if(!Auth::guard('user')->check())
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('business.login', ['subdomain' => $business->subdomain]) }}">{{ __('login.link') }}</a>
+                                <a class="nav-link" href="{{ route('login', ['subdomain' => $business->subdomain]) }}">{{ __('login.link') }}</a>
                             </li>
                         @else
                         <li class="nav-item">

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Auth\Events\Registered;
 use Faker\Factory;
 
 class Register extends Component
@@ -26,7 +27,7 @@ class Register extends Component
     {
         $validatedData = $this->validate();
 
-        DB::transaction(function () use ($validatedData) {
+        $user = DB::transaction(function () use ($validatedData) {
             
             $user = User::create([
                 'email' => $validatedData['email'],
@@ -35,9 +36,11 @@ class Register extends Component
                 'last_name' => Factory::create()->lastName
             ]);
            
-            
-            Auth::guard('user')->login($user);
+            return $user;
         });
+            
+        event(new Registered($user));
+        Auth::guard('user')->login($user);
 
         return redirect()->route('user.profile');
     }

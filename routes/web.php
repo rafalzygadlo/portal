@@ -25,6 +25,38 @@ if (empty($domain))
     throw new \Exception('SYSTEM ERROR: The DOMAIN_NAME value in .env is empty. Configure it so subdomains work correctly.');
 }
 
+// Authenticated routes (User must be logged in)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout');
+
+    // Email Verification Routes
+    Route::get('/email/verify', \App\Livewire\Auth\Verify::class)->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect()->intended(route('user.profile')); // Przekieruj po weryfikacji
+    })->middleware(['signed'])->name('verification.verify');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Link weryfikacyjny został wysłany!');
+    })->middleware(['throttle:6,1'])->name('verification.send');
+
+    // Verified Routes (User must be logged in AND have verified email)
+    Route::middleware(['verified'])->group(function () {
+        Route::get('/profile', App\Livewire\Profile::class)->name('user.profile');
+        Route::get('/notify', App\Livewire\Notifications::class)->name('notifications.index');
+
+        // Creation routes (moved into verified group to reduce duplication)
+        Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('articles.create');
+        Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create');
+        Route::get('/todos/create', App\Livewire\Todo\Create::class)->name('todos.create');
+        Route::get('/offers/create', \App\Livewire\Offer\Create::class)->name('offers.create');
+        Route::get('/polls/create', \App\Livewire\Poll\Create::class)->name('polls.create');
+    });
+});
+
+
 // Subdomains - business pages and bookings
 Route::domain('{subdomain}.' . $domain)->group(function () {
 
@@ -75,8 +107,8 @@ Route::get('/todos', App\Livewire\Todo\Index::class)->name('todos.index');
 Route::get('/todos/{todo}', App\Livewire\Todo\Show::class)->name('todos.show');
 
 // Offers
-Route::get('/offers/{category:slug}', \App\Livewire\Offer\Index::class)->name('offers.index');
-Route::get('/offers/{offer:slug}', \App\Livewire\Offer\Show::class)->name('offers.show');
+Route::get('/offers/{categorySlug?}', \App\Livewire\Offer\Index::class)->name('offers.index');
+Route::get('/offer/{offer:slug}', \App\Livewire\Offer\Show::class)->name('offers.show');
 
 // Polls
 Route::get('/polls', \App\Livewire\Poll\Index::class)->name('polls.index');
@@ -95,33 +127,4 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [\App\Livewire\Auth\Password\Reset::class, 'resetPassword'])->name('password.update');
 });
 
-// Authenticated routes (User must be logged in)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout');
 
-    // Email Verification Routes
-    Route::get('/email/verify', \App\Livewire\Auth\Verify::class)->name('verification.notice');
-
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return redirect()->intended(route('user.profile')); // Przekieruj po weryfikacji
-    })->middleware(['signed'])->name('verification.verify');
-
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-        return back()->with('message', 'Link weryfikacyjny został wysłany!');
-    })->middleware(['throttle:6,1'])->name('verification.send');
-
-    // Verified Routes (User must be logged in AND have verified email)
-    Route::middleware(['verified'])->group(function () {
-        Route::get('/profile', App\Livewire\Profile::class)->name('user.profile');
-        Route::get('/notify', App\Livewire\Notifications::class)->name('notifications.index');
-
-        // Creation routes (moved into verified group to reduce duplication)
-        Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('articles.create');
-        Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create');
-        Route::get('/todos/create', App\Livewire\Todo\Create::class)->name('todos.create');
-        Route::get('/offers/create', \App\Livewire\Offer\Create::class)->name('offers.create');
-        Route::get('/polls/create', \App\Livewire\Poll\Create::class)->name('polls.create');
-    });
-});

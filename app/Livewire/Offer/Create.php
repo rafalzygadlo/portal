@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\Offer\Offer;
 use App\Models\Category;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class Create extends Component
 {
@@ -48,7 +50,7 @@ class Create extends Component
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:5000',
             'category_id' => 'required|exists:categories,id',
-            'photos.*' => 'required|image|max:8192', // 4MB Max per photo
+            'photos.*' => 'required|image|max:8192', // 8MB Max per photo
         ];
     }
 
@@ -60,13 +62,24 @@ class Create extends Component
             'user_id' => auth()->id(),
             'title' => $this->title,
             'content' => $this->content,
+            'slug' => \Str::slug($this->title) . '-' . uniqid(),
         ]);
 
         $offer->categories()->attach($this->category_id);
 
-        foreach ($this->photos as $photo) {
-            $path = $photo->store('offers', 'public');
-            $offer->images()->create(['path' => $path]); // Używa relacji morphMany
+        foreach ($this->photos as $photo) 
+        {
+            $filename = $photo->hashName();
+
+            // W wersji 2 używamy make() oraz resize() z funkcją zachowania proporcji
+            $img = Image::make($photo->getRealPath())->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            // Enkodujemy do formatu JPG i zapisujemy
+            Storage::disk('public')->put('offers/' . $filename, (string) $img->encode('jpg', 80));
+            $offer->images()->create(['path' => 'offers/' . $filename]);
         }
 
         return $this->redirect('/offers');

@@ -19,6 +19,7 @@ class Offer extends Model
         'offer_category_id',
         'title',
         'content',
+        'slug',
     ];
 
     public function user()

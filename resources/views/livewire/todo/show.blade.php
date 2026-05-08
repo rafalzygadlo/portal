@@ -16,8 +16,8 @@
 
             <div class="card border-0 overflow-hidden">
                 <div class="card-body p-0 p-md-0">
-                    <h1 class="fw-bold mb-3">{{ $todo->title }} <span class="badge bg-secondary">{{ $todo->status }}</span></h1>
-                    
+                    <h1 class="fw-bold mb-3">{{ $todo->title }}</h1>
+                    <span class="badge bg-secondary">{{ $todo->status }}</span>
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
                         <div class="text-muted">
                             <i class="bi bi-person-circle me-1"></i> 

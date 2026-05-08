@@ -19,14 +19,12 @@ class Index extends Component
     #[Session]
     public $selectedCategories = [];
 
-    public $currentCategoryId = null;
+    public $categorySlug = null;
     public $breadcrumb = [];
 
-    public function mount(Request $request)
+    public function mount($categorySlug = null)
     {
-        if ($request->has('category')) {
-            $this->currentCategoryId = $request->input('category');
-        }
+        $this->categorySlug = $categorySlug;
     }
 
     public function handleCreateOffer()
@@ -61,9 +59,9 @@ class Index extends Component
 
         // Build breadcrumb path
         $this->breadcrumb = [];
-        if ($this->currentCategoryId) {
+        if ($this->categorySlug) {
             // Eager load 'parent' to avoid N+1 queries when building the path
-            $currentCategory = Category::with('parent')->find($this->currentCategoryId);
+            $currentCategory = Category::with('parent')->where('slug', $this->categorySlug)->first();
             if ($currentCategory) {
                 $path = collect();
                 $category = $currentCategory;
@@ -81,9 +79,9 @@ class Index extends Component
                     $query->whereIn('slug', $this->selectedCategories);
                 });
             })
-            ->when($this->currentCategoryId, function ($q) {
+            ->when($this->categorySlug, function ($q) {
                 $q->whereHas('categories', function ($query) {
-                    $query->where('categories.id', $this->currentCategoryId);
+                    $query->where('categories.slug', $this->categorySlug);
                 });
             })
             ->latest()
