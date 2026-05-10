@@ -130,13 +130,14 @@
                         } elseif ($loop->iteration > 3 || $offers->currentPage() > 1) {
                             $colClass = 'col-md-6 col-xl-4';
                         }
+                        $colClass = 'col'; // Dodajemy flex do wszystkich kart, aby miały jednakową wysokość
                     @endphp
 
                     @if ($offerDay !== $currentDay)
                         <div class="col-12">
                             <div class="d-flex align-items-center my-4">
                                 <div class="flex-grow-1 border-top"></div>
-                                <div class="badge rounded-pill bg-primary px-3 fw-semibold mx-2">
+                                <div class="badge rounded-pill bg-secondary px-3 fw-semibold mx-2">
                                     {{ $label }}
                                 </div>
                                 <div class="flex-grow-1 border-top"></div>
@@ -148,7 +149,7 @@
                     <div class="{{ $colClass }} mb-4 fade-in-card" wire:key="offer-{{ $offer->id }}" style="animation-delay: {{ $loop->index * 0.1 }}s">
                         <div class="card h-100 border-1 shadow-sm overflow-hidden offer-card-hover position-relative">                    
                              @if($offer->images->isNotEmpty())
-                                <img src="{{ asset('storage/' . $offer->images->first()->path) }}" class="card-img-top" alt="{{ $offer->title }}" style="height: 180px; object-fit: cover;">
+                                <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="card-img-top" alt="{{ $offer->title }}" style="height: 180px; object-fit: cover;">
                             @else
                                 <div class="bg-light d-flex align-items-center justify-content-center border-bottom" style="height: 180px;">
                                     <i class="bi bi-image text-muted" style="font-size: 2.5rem;"></i>
@@ -177,7 +178,10 @@
                                 </div>
                             @endif
                                 <div class="mt-auto pt-2 border-top small text-muted">
-                                    {{ $offer->created_at->format('Y-m-d') }}
+                                        <i class="bi bi-calendar-event me-1"></i>
+                                         <div class="badge rounded-pill bg-primary px-3 fw-semibold mx-2">
+                                    {{ $offer->created_at->translatedFormat('l, d F Y') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

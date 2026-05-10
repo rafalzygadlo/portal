@@ -2,7 +2,7 @@
     <h1 class="fw-bold mb-3">{{ $title ?: 'No title' }}</h1>
 
     @if ($photo)
-        <img src="{{ $photo->temporaryUrl() }}" class="img-fluid mb-4 rounded" style="max-height: 400px; width: 100%; object-fit: cover;" alt="Preview image">
+        <img loading="lazy" src="{{ $photo->temporaryUrl() }}" class="img-fluid mb-4 rounded" style="max-height: 400px; width: 100%; object-fit: cover;" alt="Preview image">
     @endif
 
     <div class="article-content fs-5 lh-lg">

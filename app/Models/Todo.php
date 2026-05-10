@@ -15,6 +15,17 @@ class Todo extends Model
 
     protected $fillable = ['user_id', 'title', 'description', 'status'];
 
+    public function getStatusColor()
+    {
+        return match($this->status) {
+            'pending'   => 'warning', // Żółty - czeka
+            'planned'   => 'info',    // Niebieski - zaplanowane
+            'completed' => 'success', // Zielony - zrobione
+            default     => 'secondary'
+        };
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -10,7 +10,7 @@
 
             <div class="card border-0 overflow-hidden">
                 @if($article->image_path)
-                    <img src="{{ asset('storage/' . $article->image_path) }}" class="card-img-top" alt="{{ $article->title }}" style="max-height: 500px; object-fit: cover;">
+                    <img loading="lazy" src="{{ asset('storage/' . $article->image_path) }}" class="card-img-top" alt="{{ $article->title }}" style="max-height: 500px; object-fit: cover;">
                 @endif
                 
                 <div class="card-body p-0 p-md-0">

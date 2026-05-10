@@ -53,7 +53,10 @@
                                     <livewire:business.vote :model="$business" :key="$business->id" />
                                 </div>
                             </div>
-                            <a href="{{ route('business.show', $business->subdomain) }}" class="stretched-link"></a>
+                            @if($business->subdomain)
+                                <p class="mb-2"><i class="bi bi-globe me-2"></i> <strong>Strona WWW:</strong> <a href="https://{{ $business->subdomain }}.{{ env('DOMAIN_NAME') }}" target="_blank" class="link-primary">{{ $business->subdomain }}</a></p>
+                            @endif
+                            
                         </div>
                     </div>
                 </div>

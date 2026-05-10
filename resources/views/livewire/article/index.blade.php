@@ -48,7 +48,7 @@
                 <div class="card h-100 border-1 shadow-sm overflow-hidden">
                     <div class="card-body d-flex flex-column">
                       @if($article->images->isNotEmpty())
-                                <img src="{{ asset('storage/' . $article->images->first()->path) }}" class="card-img-top" alt="{{ $article->title }}" style="height: 180px; object-fit: cover;">
+                                <img loading="lazy" src="{{ asset('storage/' . $article->images->first()->path) }}" class="card-img-top" alt="{{ $article->title }}" style="height: 180px; object-fit: cover;">
                             @else
                                 <div class="bg-light d-flex align-items-center justify-content-center border-bottom" style="height: 180px;">
                                     <i class="bi bi-image text-muted" style="font-size: 2.5rem;"></i>

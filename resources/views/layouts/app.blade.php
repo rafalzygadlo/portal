@@ -235,7 +235,7 @@
                         </li>
 
                         <li class="nav-item px-lg-2">
-                            <a class="nav-link fw-semibold" href="#">Ogłoszenia</a>
+                            <a class="nav-link fw-semibold" href="{{ route('offers.index') }}">Ogłoszenia</a>
                         </li>
 
                         <li class="nav-item">

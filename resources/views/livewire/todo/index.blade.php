@@ -2,13 +2,14 @@
     <style>
         .sticky-note {
             background: #fcfcc7; /* Delikatniejszy żółty */
-            padding: 1.5rem;
+            padding: 1rem;
             box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
             transform: rotate(-1.5deg);
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             border: none;
             border-bottom-right-radius: 40px 5px;
             min-height: 180px; /* Lekko zmniejszona wysokość, aby lepiej pasowała do pastelowych kolorów */
+            min-width: 300px;
             position: relative;
         }
         .sticky-note:nth-child(even) {
@@ -45,7 +46,7 @@
                             <h5 class="card-title mb-0 fw-bold">{{ $todo->title }}</h5>
                         </div>
                         <div class="mb-3">
-                            <span class="badge bg-dark bg-opacity-10 text-dark">{{ $todo->status }}</span>
+                            <span class="badge bg-{{ $todo->getStatusColor() }}">{{ $todo->status }}</span>
                             <small class="text-muted d-block mt-1">{{ $todo->created_at->diffForHumans() }}</small>
                         </div>
                         <div class="mt-auto d-flex justify-content-between align-items-center small text-muted">

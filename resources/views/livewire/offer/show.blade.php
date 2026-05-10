@@ -20,7 +20,7 @@
                     @if($offer->images->isNotEmpty())
                         <div class="mb-4 bg-light rounded-3 overflow-hidden d-flex align-items-center justify-content-center" style="min-height: 400px; max-height: 600px;">
                             <a href="{{ asset('storage/' . $offer->images->first()->path) }}" target="_blank">
-                                <img src="{{ asset('storage/' . $offer->images->first()->path) }}" class="img-fluid shadow-sm" alt="{{ $offer->title }}" style="max-height: 600px; object-fit: contain;">
+                                <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="img-fluid shadow-sm" alt="{{ $offer->title }}" style="max-height: 600px; object-fit: contain;">
                             </a>
                         </div>
                     @else
@@ -43,7 +43,7 @@
                             @foreach($offer->images->skip(1) as $image)
                                 <div class="col-6 col-md-4 col-lg-3">
                                     <a href="{{ asset('storage/' . $image->path) }}" target="_blank">
-                                        <img src="{{ asset('storage/' . $image->path) }}" class="img-fluid rounded-3 border shadow-sm hover-zoom" alt="{{ $offer->title }}" style="height: 150px; width: 100%; object-fit: cover;">
+                                        <img loading="lazy" src="{{ asset('storage/' . $image->path) }}" class="img-fluid rounded-3 border shadow-sm hover-zoom" alt="{{ $offer->title }}" style="height: 150px; width: 100%; object-fit: cover;">
                                     </a>
                                 </div>
                             @endforeach

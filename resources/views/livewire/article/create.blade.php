@@ -47,7 +47,7 @@
                             @error('photo') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
                             @if ($photo)
-                                <img src="{{ $photo->temporaryUrl() }}" class="img-fluid mt-2" style="max-height: 200px;" alt="Preview image">
+                                <img loading="lazy" src="{{ $photo->temporaryUrl() }}" class="img-fluid mt-2" style="max-height: 200px;" alt="Preview image">
                             @endif
                         </div>
                         <div class="mb-4">
