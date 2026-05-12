@@ -76,6 +76,10 @@
                                                 {{ __('login.forgot_password') }}
                                             </a>
                                         @endif
+
+                                        <div class="text-center mt-3 small text-muted">
+                                            Nie masz konta? <a href="{{ route('register') }}">Zarejestruj się</a>.
+                                        </div>
                                     </div>
                                 </div>
                             </div>

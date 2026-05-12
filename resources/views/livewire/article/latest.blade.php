@@ -48,36 +48,44 @@
 
 
             <div class="{{ $colClass }} mb-4" wire:key="'article-'.$article->id">
-                <div class="card h-100 border-1 shadow-sm overflow-hidden">                    
-                    <div class="d-flex h-100">
-                        <div class="card-body d-flex flex-column">
-                            <h3 class="card-title">
-                                <span class="badge rounded-pill bg-primary">{{ $article->votes_sum_value  }}</span>
-                                <a href="{{ route('articles.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
-                            </h3>
-                            <p class="card-text text-muted small">
+                <div class="article-card h-100 overflow-hidden">
+                    <div class="card-body d-flex flex-column p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3 gap-3">
+                            <span class="badge-soft">{{ $article->votes_sum_value }} głosów</span>
+                            <span class="badge bg-primary bg-opacity-10 text-primary">{{ $article->comments()->count() }} komentarzy</span>
+                        </div>
+
+                        <h3 class="card-title fs-5 fw-semibold mb-3">
+                            <a href="{{ route('articles.show', $article) }}">{{ $article->title }}</a>
+                        </h3>
+
+                        <div class="d-flex flex-wrap align-items-center text-muted article-meta mb-3 small">
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="bi bi-person-fill"></i>
                                 @if($article->user)
-                                <i class="bi bi-person"></i><a href="{{ route('user.profile', $article->user) }}" class="text-decoration-none text-muted">{{ $article->user->first_name }}</a>
+                                    <a href="{{ route('user.profile', $article->user) }}" class="text-decoration-none text-muted">{{ $article->user->first_name }}</a>
                                 @else
-                                Autor nieznany
+                                    Autor nieznany
                                 @endif
-                                <i class="bi bi-calendar"></i> {{ $article->created_at->format('d.m.Y H:i') }}
-                                @if(Auth::check() && $article->user_id === Auth::id())
-                                <i class="bi bi-pencil ms-2"></i>
-                                <span class="badge rounded-pill bg-primary">Your article</span>
-                                @endif
-
-                                <span class="badge rounded-pill bg-primary"><i class="bi bi-chat"></i> {{ $article->comments()->count() }}</span>
-                                id:<span class="badge rounded-pill bg-secondary">{{ $article->id  }}</span>
-                            </p>
-                            <p class="card-text flex-grow-1">{{ \Illuminate\Support\Str::limit($article->content, $loop->first ? 250 : 100) }}</p>
-
-                            <div class="mt-auto">
-                                <div>
-                                    <livewire:article.vote :model="$article" :key="'vote-single-'.$article->id" />
-                                </div>
                             </div>
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="bi bi-calendar-event"></i>
+                                {{ $article->created_at->format('d.m.Y H:i') }}
+                            </div>
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="bi bi-hash"></i>
+                                {{ $article->id }}
+                            </div>
+                            @if(Auth::check() && $article->user_id === Auth::id())
+                                <span class="badge bg-primary bg-opacity-15 text-primary">Your article</span>
+                            @endif
+                        </div>
 
+                        <p class="card-text text-muted flex-grow-1 mb-4">{{ \Illuminate\Support\Str::limit($article->content, $loop->first ? 250 : 100) }}</p>
+
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                            <div class="text-muted small">Czytaj więcej...</div>
+                            <livewire:article.vote :model="$article" :key="'vote-single-'.$article->id" />
                         </div>
                     </div>
                 </div>

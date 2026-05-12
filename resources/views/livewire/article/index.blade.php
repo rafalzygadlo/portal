@@ -1,3 +1,4 @@
+
 <div class="col">
     <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
         <h2 class="mb-0">{{ $sort === 'popular' ? 'Most popular' : 'Newest' }} articles</h2>
@@ -21,16 +22,16 @@
                 };
 
                 // Grid Logic
-                $colClass = 'col-12';
+                $colClass = 'col-6';
                 if ($loop->iteration > 1 && $loop->iteration <= 5) {
                     $colClass = 'col-md-6';
-                } elseif ($loop->iteration > 5) {
+                } elseif ($loop->iteration> 5) {
                     $colClass = 'col-md-4';
                 }
             @endphp
 
             {{-- Date Separator --}}
-            @if ($articleDay !== $currentDay)
+            @if ($articleDay == $currentDay)
                 <div class="col-12">
                     <div class="d-flex align-items-center my-4">
                         <div class="flex-grow-1 border-top"></div>
@@ -45,45 +46,44 @@
 
             {{-- Article Card --}}
             <div class="{{ $colClass }} mb-4" wire:key="article-{{ $article->id }}">
-                <div class="card h-100 border-1 shadow-sm overflow-hidden">
-                    <div class="card-body d-flex flex-column">
-                      @if($article->images->isNotEmpty())
-                                <img loading="lazy" src="{{ asset('storage/' . $article->images->first()->path) }}" class="card-img-top" alt="{{ $article->title }}" style="height: 180px; object-fit: cover;">
-                            @else
-                                <div class="bg-light d-flex align-items-center justify-content-center border-bottom" style="height: 180px;">
-                                    <i class="bi bi-image text-muted" style="font-size: 2.5rem;"></i>
-                                </div>
-                            @endif    
-                    <h3 class="card-title h5">
-                            <span class="badge rounded-pill bg-primary me-1">{{ $article->votes_sum_value ?? 0 }}</span>
-                            <a href="{{ route('articles.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
-                        </h3>
-
-                        <div class="card-text text-muted small mb-2">
-                            <i class="bi bi-person"></i>
-                            @if($article->user)
-                                <a href="{{ route('user.profile', $article->user) }}" class="text-decoration-none text-muted">{{ $article->user->first_name }}</a>
-                            @else
-                                Unknown Author
-                            @endif
-                            
-                            <span class="ms-2"><i class="bi bi-calendar"></i> {{ $article->created_at->format('d.m.Y H:i') }}</span>
-
-                            @if(Auth::check() && $article->user_id === Auth::id())
-                                <span class="badge rounded-pill bg-info text-dark ms-2"><i class="bi bi-pencil"></i> Yours</span>
-                            @endif
+                <div class="h-100 p-3 d-flex flex-column bg-light border rounded-1 border-secondary-subtle overflow-hidden">
+                    @if($article->images->isNotEmpty())
+                        <img loading="lazy" src="{{ asset('storage/' . $article->images->first()->path) }}" class="card-img-top" alt="{{ $article->title }}" style="height: 180px; object-fit: cover;">
+                    @else
+                        <div class="bg-light d-flex align-items-center justify-content-center border-bottom" style="height: 180px;">
+                            <i class="bi bi-image text-muted" style="font-size: 2.5rem;"></i>
                         </div>
+                    @endif
 
-                        <p class="card-text flex-grow-1">
-                            {{ \Illuminate\Support\Str::limit($article->content, $loop->first ? 250 : 100) }}
-                        </p>
+                    <h3 class="card-title h5 mt-3">
+                        <span class="badge rounded-pill bg-primary me-1">{{ $article->votes_sum_value ?? 0 }}</span>
+                        <a href="{{ route('articles.show', $article) }}" class="text-decoration-none text-dark">{{ $article->title }}</a>
+                    </h3>
 
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div class="small">
-                                <i class="bi bi-chat"></i> {{ $article->comments_count ?? $article->comments()->count() }}
-                            </div>
-                            <livewire:article.vote :model="$article" :key="'vote-'.$article->id" />
+                    <div class="card-text text-muted small mb-2">
+                        <i class="bi bi-person"></i>
+                        @if($article->user)
+                            <a href="{{ route('user.profile', $article->user) }}" class="text-decoration-none text-muted">{{ $article->user->first_name }}</a>
+                        @else
+                            Unknown Author
+                        @endif
+                        
+                        <span class="ms-2"><i class="bi bi-calendar"></i> {{ $article->created_at->format('d.m.Y H:i') }}</span>
+
+                        @if(Auth::check() && $article->user_id === Auth::id())
+                            <span class="badge rounded-pill bg-info text-dark ms-2"><i class="bi bi-pencil"></i> Yours</span>
+                        @endif
+                    </div>
+
+                    <p class="card-text flex-grow-1">
+                        {{ \Illuminate\Support\Str::limit($article->content, $loop->first ? 250 : 100) }}
+                    </p>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="small">
+                            <i class="bi bi-chat"></i> {{ $article->comments_count ?? $article->comments()->count() }}
                         </div>
+                        <livewire:article.vote :model="$article" :key="'vote-'.$article->id" />
                     </div>
                 </div>
             </div>

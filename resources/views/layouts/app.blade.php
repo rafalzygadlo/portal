@@ -13,120 +13,6 @@
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/bootstrap-icons.css') }}" rel="stylesheet">
 
-    <style>
-        :root {
-            --r-blue: #0d6efd;
-            --r-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
-
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* NAVBAR & MEGA MENU FIXES */
-        .navbar {
-            padding: 0.8rem 0;
-            background: #fff !important;
-            z-index: 1050 !important; /* Wyżej niż reszta strony */
-        }
-
-        @media (min-width: 992px) {
-            .navbar .nav-item.dropdown.position-static {
-                position: static !important;
-            }
-
-            /* Mostek bezpieczeństwa: zapobiega uciekaniu menu */
-            .navbar .nav-item.dropdown {
-                padding-bottom: 15px; 
-                margin-bottom: -15px;
-            }
-
-            .navbar .dropdown-menu.w-100 {
-                left: 0 !important;
-                right: 0 !important;
-                width: 100% !important;
-                top: 100%;
-                border: none;
-                border-top: 1px solid #f1f1f1;
-                box-shadow: var(--r-shadow) !important;
-                display: none;
-                z-index: 1100 !important;
-                animation: fadeIn 0.2s ease-out;
-            }
-
-            .navbar .nav-item.dropdown:hover > .dropdown-menu {
-                display: block !important;
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* STYLIZACJA ELEMENTÓW MENU */
-        .dropdown-item {
-            font-size: 0.92rem;
-            color: #444;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .dropdown-item:hover {
-            background-color: #f0f7ff;
-            color: var(--r-blue);
-            transform: translateX(5px);
-        }
-
-        .mega-menu-title {
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: #adb5bd;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        /* LOGO R */
-        .logo-r {
-            background: var(--r-blue);
-            color: white;
-            font-weight: 900;
-            padding: 0.3rem 0.8rem;
-            border-radius: 10px;
-            margin-right: 12px;
-            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.25);
-        }
-
-        /* MAIN CONTENT LAYER */
-        main {
-            position: relative;
-            z-index: 1; /* Niżej niż navbar */
-        }
-
-        /* MOBILE FIXES */
-        @media (max-width: 991px) {
-            .navbar-collapse {
-                background: white;
-                padding: 1.5rem;
-                margin-top: 0.5rem;
-                border-radius: 15px;
-                box-shadow: var(--r-shadow);
-            }
-            .dropdown-menu {
-                border: none !important;
-                padding-left: 0.5rem !important;
-                box-shadow: none !important;
-            }
-            .navbar .nav-item.dropdown {
-                margin-bottom: 1rem;
-            }
-        }
-    </style>
 
     @livewireStyles
 </head>
@@ -135,7 +21,7 @@
 
         <!-- Header/Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
-            <div class="container">
+            <div class="container-fluid px-4 px-lg-5">
                 <a class="navbar-brand d-flex align-items-center" href="/">
                     <span class="logo-r">R</span>
                     <span class="fw-bold tracking-tight">Portal Bolesławiec</span>
@@ -146,7 +32,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="mainNav">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         
                         <!-- ŻYCIE MIASTA -->
                         <li class="nav-item dropdown position-static">
@@ -237,20 +123,40 @@
                         <li class="nav-item px-lg-2">
                             <a class="nav-link fw-semibold" href="{{ route('offers.index') }}">Ogłoszenia</a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold text-primary border border-primary rounded-pill px-4 ms-lg-3 mt-2 mt-lg-0 d-inline-block transition" href="{{ route('todos.index') }}">
-                                <i class="bi bi-rocket-takeoff me-1"></i> Projekt R
-                            </a>
-                        </li>
                     </ul>
+
+                    <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                        @guest
+                            <a class="nav-link fw-semibold text-secondary" href="{{ route('login') }}">Login</a>
+                        @else
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ Auth::user()->first_name ?? Auth::user()->name }}
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                                    <li><a class="dropdown-item" href="{{ route('user.profile', Auth::user()) }}">Profil</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item">Logout</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endguest
+
+                        <a class="btn btn-primary btn-pill fw-semibold" href="{{ route('todos.index') }}">
+                            <i class="bi bi-rocket-takeoff me-1"></i> Projekt R
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>
 
         <!-- MAIN CONTENT -->
         <main class="py-5">
-            <div class="container">
+            <div class="container-fluid px-4 px-lg-5">
                 {{ $slot }}
             </div>
         </main>

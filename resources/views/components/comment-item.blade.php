@@ -1,34 +1,39 @@
 @props(['comment', 'isReply' => false])
 
-<div class="card mb-3 border-0 @if($isReply) ms-5 @else bg-light @endif" @if($isReply) style="background-color: #f8f9fa;" @endif>
-    <div class="card-body @if($isReply) py-2 @endif">
-        <div class="d-flex justify-content-between align-items-center mb-1">
-            <div class="fw-bold @if($isReply) small @endif">
-                @if($isReply)
-                    <i class="bi bi-arrow-return-right text-secondary me-1"></i>
-                @else
-                    <i class="bi bi-person-circle text-secondary"></i>
-                @endif
-                {{ $comment->user->first_name ?? 'User' }}
-            </div>
-            <small class="text-muted" @if($isReply) style="font-size: 0.8rem;" @endif>{{ $comment->created_at->diffForHumans() }}</small>
-        </div>
-        <p class="mb-1 @if($isReply) small @endif">{{ $comment->content }}</p>
+@php
+    $commenter = $comment->user->first_name ?? 'Użytkownik';
+    $initial = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($commenter, 0, 1));
+@endphp
 
-        <div class="d-flex gap-3 mt-2">
+<div class="card mb-3 comment-card border-0 @if($isReply) comment-reply @endif">
+    <div class="card-body py-3">
+        <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px;">
+                    {{ $initial }}
+                </div>
+                <div>
+                    <div class="fw-semibold">{{ $commenter }}</div>
+                    <div class="text-muted text-muted-small">{{ $comment->created_at->diffForHumans() }}</div>
+                </div>
+            </div>
+            @can('delete', $comment)
+                <button wire:click="delete({{ $comment->id }})" class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                </button>
+            @endcan
+        </div>
+
+        <p class="mb-3 text-secondary">{{ $comment->content }}</p>
+
+        <div class="d-flex flex-wrap gap-2">
             @auth
                 @if(!$isReply)
-                    <button wire:click="$set('replyToId', {{ $comment->id }})" class="btn btn-link text-primary btn-sm p-0 text-decoration-none">
-                        <i class="bi bi-reply"></i> Reply
+                    <button wire:click="$set('replyToId', {{ $comment->id }})" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-reply me-1"></i> Odpowiedz
                     </button>
                 @endif
             @endauth
-
-            @can('delete', $comment)
-                <button wire:click="delete({{ $comment->id }})" class="btn btn-link text-danger btn-sm p-0 text-decoration-none @if($isReply) style="font-size: 0.8rem;" @endif" onclick="confirm('Are you sure you want to delete?') || event.stopImmediatePropagation()">
-                    Delete
-                </button>
-            @endcan
         </div>
     </div>
 </div>

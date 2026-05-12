@@ -1,11 +1,19 @@
-<div class="container-fluid mt-0">
-
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <livewire:article />
-            <livewire:business />
-            <livewire:todo />
+<div class="container-fluid py-5">
+    <div class="row gy-4">
+        <div class="col-12">
+            <div class="section-card p-4">
+                <livewire:article />
+            </div>
         </div>
-        
+        <div class="col-12">
+            <div class="section-card p-4">
+                <livewire:business />
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="section-card p-4">
+                <livewire:todo />
+            </div>
+        </div>
     </div>
 </div>
