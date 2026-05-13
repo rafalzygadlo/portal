@@ -9,7 +9,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\Format;
+
 
 class Create extends Component
 {
@@ -52,7 +52,7 @@ class Create extends Component
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:5000',
             'category_id' => 'required|exists:categories,id',
-            'photos.*' => 'limit:4|required|image|max:8192', // 8MB Max per photo
+            'photos.*' => 'required|image|max:8192', // 8MB Max per photo
         ];
     }
 
@@ -74,14 +74,12 @@ class Create extends Component
         foreach ($this->photos as $photo) 
         {
             $filename = $photo->hashName();
-
-            $image = $manager->decodePath($photo->getRealPath());
-
-            $image->scaleDown(width: 1200); 
+            $image = $manager->read($photo->getRealPath());
+            
+            $image->scale(height: 1200); // 400 x 300 (4:3)
         
             // Enkodujemy do formatu JPG i zapisujemy
-            $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 65);
-            Storage::disk('public')->put('offers/' . $filename, $encoded);
+            Storage::disk('public')->put('offers/' . $filename, $image->toJpeg(80)->toString());
             $offer->images()->create(['path' => 'offers/' . $filename]);
         }
 

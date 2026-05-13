@@ -10,21 +10,11 @@ RUN docker-php-ext-enable mysqli
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN docker-php-ext-enable pdo_mysql
 
-RUN apt-get install -y zlib1g-dev libicu-dev g++
+RUN apt-get install -y zlib1g-dev libicu-dev g++ libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev libonig-dev zip git
 
-RUN docker-php-ext-install intl
-RUN docker-php-ext-configure intl 
-
-RUN docker-php-ext-install exif
-RUN docker-php-ext-configure exif 
-
-RUN apt-get install -y libgd-dev libjpeg-dev
-RUN docker-php-ext-install gd
-RUN docker-php-ext-configure gd 
-
-#zip
-RUN apt install zip -y
-RUN apt install git -y
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
+RUN docker-php-ext-install intl pdo_mysql mbstring exif gd
 
 # user
 ARG UID=1000

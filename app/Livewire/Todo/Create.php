@@ -10,9 +10,17 @@ class Create extends Component
     public $title;
     public $description;
 
+    public $open = false;
+
     protected $rules = [
         'title' => 'required|min:5|max:100',
         'description' => 'required|min:10|max:500',
+    ];
+    protected $listeners = 
+    [
+        'openTodoModal',
+        'closeTodoModal', 
+        'saveTodo'
     ];
 
     public function save()
