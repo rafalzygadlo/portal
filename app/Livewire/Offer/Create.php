@@ -7,27 +7,34 @@ use App\Models\Offer\Offer;
 use App\Models\Category;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\Format;
+use App\Services\OfferImageService;
 
 class Create extends Component
 {
     use WithFileUploads;
 
     public string $title = '';
-    public string $content = '';
+    public string $content = '';    
     public int $category_id = 0;
     public $photos = [];
     public bool $open = false;
 
-     protected $listeners = 
+    protected $listeners = 
     [
         'openOfferModal',
         'closeOfferModal', 
         'saveOffer'
     ];
     
+    public function rules()
+    {
+        return [
+            'title' => 'required|string|max:255',
+            'content' => 'required|string|max:5000',
+            'category_id' => 'required|exists:categories,id',
+            'photos.*' => 'required|image|max:8192', // 8MB Max per photo
+        ];
+    }
 
     public function openOfferModal()
     {
@@ -46,17 +53,12 @@ class Create extends Component
         $this->photos = array_values($this->photos);
     }
 
-    public function rules()
-    {
-        return [
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|max:5000',
-            'category_id' => 'required|exists:categories,id',
-            'photos.*' => 'limit:4|required|image|max:8192', // 8MB Max per photo
-        ];
-    }
-
-    public function save()
+    /**
+     * Save the offer and process images.
+     * 
+     * @param OfferImageService $imageService
+     */
+    public function save(OfferImageService $imageService)
     {
         $this->validate();
 
@@ -69,21 +71,7 @@ class Create extends Component
 
         $offer->categories()->attach($this->category_id);
 
-        $manager = new ImageManager(new Driver());
-
-        foreach ($this->photos as $photo) 
-        {
-            $filename = $photo->hashName();
-
-            $image = $manager->decodePath($photo->getRealPath());
-
-            $image->scaleDown(width: 1200); 
-        
-            // Enkodujemy do formatu JPG i zapisujemy
-            $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 65);
-            Storage::disk('public')->put('offers/' . $filename, $encoded);
-            $offer->images()->create(['path' => 'offers/' . $filename]);
-        }
+        $imageService->processAndAttach($offer, $this->photos);
 
         return $this->redirect('/offers');
     }

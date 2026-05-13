@@ -2,7 +2,7 @@
 
     @if ($open)
         <div class="modal-backdrop fade show"></div>
-        <div class="modal d-block" tabindex="-1" role="dialog" style="background: rgba(0, 0, 0, 0.45);">
+        <div class="modal d-block" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content shadow-lg">
                     <div class="modal-header">
@@ -14,7 +14,7 @@
                         <form wire:submit.prevent="save">
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
-                                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" wire:model="title">
+                                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" wire:model.live="title">
                                 @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
@@ -30,8 +30,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="content" class="form-label">Description</label>
-                                <textarea class="form-control @error('content') is-invalid @enderror" id="content" rows="5" wire:model="content"></textarea>
+                                <label for="content" class="form-label">Content</label>
+                                <textarea class="form-control @error('content') is-invalid @enderror" id="content" rows="5" wire:model.live="content"></textarea>
                                 @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
