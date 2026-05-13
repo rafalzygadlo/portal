@@ -1,38 +1,4 @@
 <div class="col">
-    <style>
-        .offer-card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .offer-card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.15) !important;
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .fade-in-card {
-            opacity: 0;
-            animation: fadeInUp 0.5s ease-out forwards;
-        }
-        .collapse-icon {
-            transition: transform 0.2s ease;
-            display: inline-block;
-        }
-        [aria-expanded="true"] .collapse-icon {
-            transform: rotate(90deg);
-        }
-        .category-sidebar .border-start {
-            border-left: 1px solid #dee2e6 !important;
-        }
-    </style>
-
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Offers</h2>
         
@@ -107,6 +73,7 @@
                     </ul>
                 </div>
             </div>
+                <livewire:category-selector />
         </aside>
 
         {{-- Główna Treść --}}
@@ -130,7 +97,7 @@
                         } elseif ($loop->iteration > 3 || $offers->currentPage() > 1) {
                             $colClass = 'col-md-6 col-xl-4';
                         }
-                        $colClass = 'col'; // Dodajemy flex do wszystkich kart, aby miały jednakową wysokość
+                        $colClass = 'col-4'; // Dodajemy flex do wszystkich kart, aby miały jednakową wysokość
                     @endphp
 
                     @if ($offerDay !== $currentDay)

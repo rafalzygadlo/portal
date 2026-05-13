@@ -19,14 +19,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="category_id" class="form-label">Category</label>
-                                <select class="form-select @error('category_id') is-invalid @enderror" id="category_id" wire:model.live="category_id">
-                                    <option value="">Select a category...</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('category_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                <livewire:category-selector :categories="$categories" :error="$errors->first('category_id')" />
                             </div>
 
                             <div class="mb-3">

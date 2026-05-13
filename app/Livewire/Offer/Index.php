@@ -21,6 +21,17 @@ class Index extends Component
 
     public $categorySlug = null;
     public $breadcrumb = [];
+    public $filterCategoryId = null;
+
+    protected $listeners = [
+        'categorySelected' => 'selectCategoryFilter'
+    ];
+
+    public function selectCategoryFilter($categoryId)
+    {
+        $this->filterCategoryId = $categoryId;
+        $this->resetPage();
+    }
 
     public function mount($categorySlug = null)
     {
@@ -82,6 +93,11 @@ class Index extends Component
             ->when($this->categorySlug, function ($q) {
                 $q->whereHas('categories', function ($query) {
                     $query->where('categories.slug', $this->categorySlug);
+                });
+            })
+            ->when($this->filterCategoryId, function ($q) {
+                $q->whereHas('categories', function ($query) {
+                    $query->where('categories.id', $this->filterCategoryId);
                 });
             })
             ->latest()

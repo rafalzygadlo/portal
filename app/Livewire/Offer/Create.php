@@ -15,7 +15,7 @@ class Create extends Component
 
     public string $title = '';
     public string $content = '';    
-    public int $category_id = 0;
+    public ?int $category_id = null;
     public $photos = [];
     public bool $open = false;
 
@@ -23,7 +23,8 @@ class Create extends Component
     [
         'openOfferModal',
         'closeOfferModal', 
-        'saveOffer'
+        'saveOffer',
+        'categorySelected' => 'setCategory'
     ];
     
     public function rules()
@@ -39,18 +40,26 @@ class Create extends Component
     public function openOfferModal()
     {
         $this->open = true;
+        $this->resetValidation();
     }
 
     public function closeOfferModal()
     {
         $this->open = false;
         $this->reset('title', 'content', 'category_id', 'photos');
+        $this->resetValidation();
     }
 
     public function removePhoto($index)
     {
         unset($this->photos[$index]);
         $this->photos = array_values($this->photos);
+    }
+
+    public function setCategory($categoryId)
+    {
+        $this->category_id = $categoryId;
+        $this->resetValidation('category_id');
     }
 
     /**
@@ -78,7 +87,7 @@ class Create extends Component
 
     public function render()
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::whereNull('parent_id')->get();
 
         return view('livewire.offer.create', [
             'categories' => $categories
