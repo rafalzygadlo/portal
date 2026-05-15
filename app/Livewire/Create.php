@@ -23,7 +23,8 @@ class Create extends Component
     [
         'openOfferModal',
         'closeOfferModal', 
-        'saveOffer'
+        'saveOffer',
+        'categorySelected' => 'setCategory'
     ];
     
     public function rules()
@@ -53,6 +54,12 @@ class Create extends Component
     {
         unset($this->photos[$index]);
         $this->photos = array_values($this->photos);
+    }
+
+    public function setCategory($categoryId)
+    {
+        $this->category_id = $categoryId;
+       // $this->resetValidation('category_id');
     }
 
     /**

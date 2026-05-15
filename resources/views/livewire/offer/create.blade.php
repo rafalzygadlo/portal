@@ -6,33 +6,36 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content shadow-lg">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add New Offer</h5>
+                        <h5 class="modal-title">{{ __('offers.add_new_offer') }}</h5>
                         <button type="button" class="btn-close" aria-label="Close" wire:click="closeOfferModal"></button>
                     </div>
 
                     <div class="modal-body">
                         <form wire:submit.prevent="save">
                             <div class="mb-3">
-                                <label for="title" class="form-label">Title</label>
-                                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" wire:model.live="title">
+                                <label for="title" class="form-label">{{ __('offers.title') }}</label>
+                                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" wire:model.defer="title">
                                 @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="mb-3">
-                                <livewire:category-selector :categories="$categories" :error="$errors->first('category_id')" />
+                                
+                                    <livewire:category-selector wire:model.defer="category_id"  wire:key="category-selector" />
+                                    @error('category_id') <div class="text-danger small">{{ $message }}</div> @enderror
+                                
                             </div>
 
                             <div class="mb-3">
-                                <label for="content" class="form-label">Content</label>
-                                <textarea class="form-control @error('content') is-invalid @enderror" id="content" rows="5" wire:model.live="content"></textarea>
+                                <label for="content" class="form-label">{{ __('offers.content') }}</label>
+                                <textarea class="form-control @error('content') is-invalid @enderror" id="content" rows="5" wire:model.defer="content"></textarea>
                                 @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="mb-3">
-                                <label for="photos" class="form-label">Photos</label>
-                                <input type="file" class="form-control @if($errors->has('photos') || $errors->has('photos.*')) is-invalid @endif" id="photos" wire:model="photos" multiple accept="image/*">
+                                <label for="photos" class="form-label">{{ __('offers.photos') }}</label>
+                                <input type="file" class="form-control @if($errors->has('photos') || $errors->has('photos.*')) is-invalid @endif" id="photos" wire:model.defer="photos" multiple accept="image/*">
                                 <div wire:loading wire:target="photos" class="text-primary small mt-1">
-                                    <div class="spinner-border spinner-border-sm" role="status"></div> Uploading previews...
+                                    <div class="spinner-border spinner-border-sm" role="status"></div> {{ __('offers.uploading_previews') }}
                                 </div>
                                 @error('photos') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 @error('photos.*') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -55,10 +58,10 @@
                             </div>
 
                             <div class="d-flex justify-content-end gap-2">
-                                <button type="button" class="btn btn-secondary" wire:click="closeOfferModal">Cancel</button>
+                                <button type="button" class="btn btn-secondary" wire:click="closeOfferModal">{{ __('offers.cancel') }}</button>
                                 <button type="submit" class="btn btn-primary">
-                                    <span wire:loading.remove><i class="bi bi-send"></i> Add Offer</span>
-                                    <span wire:loading>Saving...</span>
+                                    <span wire:loading.remove><i class="bi bi-send"></i> {{ __('offers.add_offer') }}</span>
+                                    <span wire:loading>{{ __('offers.saving') }}</span>
                                 </button>
                             </div>
                         </form>

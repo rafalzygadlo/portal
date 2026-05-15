@@ -63,7 +63,7 @@
     <div class="row">
         {{-- Sidebar z Kategoriami --}}
         <aside class="col-lg-3 mb-4">
-            <div class="card shadow-sm border-0 category-sidebar sticky-top" style="top: 20px; z-index: 1000;">
+            <div class="card shadow border-0 category-sidebar sticky-top" style="top: 20px; z-index: 1000;">
                 <div class="card-header bg-white fw-bold">
                     <i class="bi bi-list-ul me-2"></i>Categories
                 </div>
@@ -113,7 +113,7 @@
                     @endif
             
                     <div class="{{ $colClass }} mb-4 fade-in-card" wire:key="offer-{{ $offer->id }}" style="animation-delay: {{ $loop->index * 0.1 }}s">
-                        <div class="card h-100 border-0 shadow-sm overflow-hidden offer-card-hover position-relative">                    
+                        <div class="card h-100 border-0 shadow overflow-h">                    
                              @if($offer->images->isNotEmpty())
                                 <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="card-img-top" alt="{{ $offer->title }}" style="height: 180px; object-fit: cover;">
                             @else
@@ -124,7 +124,7 @@
                             <div class="card-body d-flex flex-column">
                                 <h3 class="card-title h6">
                                   
-                                    <a href="{{ route('offers.show', $offer) }}" class="text-decoration-none text-dark hover-primary stretched-link">
+                                    <a href="{{ route('offers.show', $offer) }}" class="text-decoration-none text-dark hover-primary">
                                         {{ Str::limit($offer->title, 50) }}
                                     </a>
                                 </h3>
@@ -133,7 +133,7 @@
                                     <i class="bi bi-clock"></i> {{ $offer->created_at->diffForHumans() }}
                                 </div>
 
-                                <p class="card-text flex-grow-1 small">
+                                <p class="card-text flex-grow-1">
                                     {!! nl2br(strip_tags(Str::limit($offer->content, $loop->first ? 180 : 100), '<a>')) !!}
                                 </p>
                                   @if($offer->categories->isNotEmpty())

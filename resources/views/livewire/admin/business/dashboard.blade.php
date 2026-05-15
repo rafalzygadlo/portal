@@ -7,7 +7,7 @@
     <!-- Large icon button menu -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-4">
         <div class="col">
-            <a href="{{ route('admin.business.services.index',['subdomain' => $business->subdomain]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
+            <a href="{{ route('admin.business.services.index',['subdomain' => $business->subdomain]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow">
                 <div class="d-flex align-items-center mb-3">
                     <i class="bi bi-list-check display-6 text-primary"></i>
                 </div>
@@ -18,7 +18,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="{{ route('admin.business.resources.index', ['subdomain' => $business->subdomain]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
+            <a href="{{ route('admin.business.resources.index', ['subdomain' => $business->subdomain]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow">
                 <div class="d-flex align-items-center mb-3">
                     <i class="bi bi-people display-6 text-primary"></i>
                 </div>
@@ -30,7 +30,7 @@
         </div>
         <div class="col">
             {{-- 
-            <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'reservations']) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
+            <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'reservations']) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow">
                 <div class="d-flex align-items-center mb-3">
                     <i class="bi bi-calendar-check display-6 text-primary"></i>
                 </div>
@@ -41,7 +41,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'settings']) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow-sm">
+            <a href="{{ route('dashboard.business', ['business' => $business, 'tab' => 'settings']) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow">
                 <div class="d-flex align-items-center mb-3">
                     <i class="bi bi-sliders display-6 text-primary"></i>
                 </div>

@@ -13,7 +13,7 @@
     <div class="row">
         @forelse ($todos as $todo)
             <div class="col-3 mb-4">
-                <div class="card h-100 shadow-sm border-0">
+                <div class="card h-100 shadow border-0">
                     <div class="card-body d-flex flex-column ">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <a href="{{ route('todos.show', $todo->id) }}" class="text-decoration-none text-dark">

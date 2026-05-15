@@ -48,7 +48,7 @@
             </div>
 
             @foreach ($services as $service)
-                <div class="card mb-3 shadow-sm">
+                <div class="card mb-3 shadow">
                     <div class="card-body d-flex justify-content-between align-items-start">
                         <div class="flex-grow-1">
                             <h5 class="fw-bold">{{ $service->name }}</h5>
@@ -164,7 +164,7 @@
 
     <!-- TAB: USTAWIENIA -->
     @if ($tab === 'settings')
-        <div class="card shadow-sm">
+        <div class="card shadow">
             <div class="card-body">
                 <h2 class="h4 fw-bold mb-4">Business settings</h2>
                 <p class="text-muted">Business hours and other settings will be available here.</p>

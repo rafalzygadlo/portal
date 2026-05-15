@@ -13,6 +13,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Business;
+use App\Models\Offer\Offer;
+use App\Models\Article\Article;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -72,6 +74,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function worksBusiness(Business $business): bool
     {
         return $this->businesses()->where('business_id', $business->id)->exists();
+    }
+
+    public function offers(): HasMany
+    {
+        return $this->hasMany(Offer::class);
+    }
+
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
     }
     
     public function notifications(): HasMany

@@ -1,4 +1,4 @@
-<div class="card booking-widget shadow-sm">
+<div class="card booking-widget shadow">
     <div class="card-body p-4">
         <h2 class="card-title fw-bold mb-4">Zarezerwuj termin</h2>
 

@@ -1,7 +1,7 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <div class="card shadow-sm">
+            <div class="card shadow">
                 
                 <div class="card-header">
                     <h1 class="h4 mb-0">Add new business</h1>

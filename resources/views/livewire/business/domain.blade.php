@@ -59,7 +59,7 @@
             <div class="row g-4">
                 @foreach($services as $service)
                     <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 shadow-sm">
+                        <div class="card h-100 shadow">
                             <div class="card-body d-flex flex-column">
                                 <h3 class="h5 card-title fw-bold mb-2">{{ $service->name }}</h3>
                                 <p class="card-text text-muted small mb-4">{{ $service->description }}</p>

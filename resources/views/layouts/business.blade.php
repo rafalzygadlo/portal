@@ -11,7 +11,7 @@
     @livewireStyles
 </head>
 <body >
-    <nav class="navbar navbar-expand-md bg-white shadow-sm">
+    <nav class="navbar navbar-expand-md bg-white shadow">
         <div class="container-fluid">
              <a class="navbar-brand">
                 {{ $business->name }}

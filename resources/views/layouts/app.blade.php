@@ -19,7 +19,7 @@
 <body>
     <div id="app">
         <!-- Header/Navbar -->
-        <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm">
+        <nav class="navbar navbar-expand-lg bg-white sticky-top shadow">
             <div class="container-fluid px-4 px-lg-5">
                 <span class="logo-r">R</span>
                 <a class="navbar-brand d-flex align-items-center" href="/">
@@ -68,8 +68,8 @@
         </nav>
 
         <!-- MAIN CONTENT -->
-        <main class="py-5" >
-            <div class="container-fluid px-4 px-lg-5">
+        <main >
+            <div class="container-fluid bg-light py-4 px-4 px-lg-5">
                 {{ $slot }}
             </div>
         </main>
@@ -80,7 +80,7 @@
                 <div class="row g-4">
                     <div class="col-lg-4">
                         <h5 class="fw-bold mb-4 d-flex align-items-center">
-                            <span class="logo-r shadow-none">R</span> Bolesławiec
+                            <span class="logo-r shadow">R</span> Bolesławiec
                         </h5>
                         <p class="text-secondary small" style="max-width: 300px;">
                             Portal budowany z rzetelnością dla mieszkańców Bolesławca. Wszystko co lokalne w jednym miejscu.

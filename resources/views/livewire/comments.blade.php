@@ -2,7 +2,7 @@
     <h3 class="mb-4">Comments ({{ $model->comments()->count() }})</h3>
 
     @auth
-        <div class="card mb-4 shadow-sm border-0">
+        <div class="card mb-4 shadow border-0">
             <div class="card-body">
                 <form wire:submit.prevent="postComment">
                     <div style="display: none;">

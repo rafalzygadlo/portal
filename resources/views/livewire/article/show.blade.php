@@ -8,7 +8,7 @@
                 </ol>
             </nav>
 
-            <div class="card border-0 shadow-sm overflow-hidden mb-4">
+            <div class="card border-0 shadow overflow-hidden mb-4">
                 @if($article->image_path)
                     <img loading="lazy" src="{{ asset('storage/' . $article->image_path) }}" class="card-img-top" alt="{{ $article->title }}" style="max-height: 450px; object-fit: cover;">
                 @endif

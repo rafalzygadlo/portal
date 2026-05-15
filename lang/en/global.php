@@ -14,4 +14,7 @@ return [
 	'privacy' => 'Privacy Policy',
 	'terms' => 'Terms of Service',
 	'faq' => 'FAQ',
+	'category' => 'Category',
+	'back' => 'Back',
+	'selected_category' => 'Selected category: :category',
 ];

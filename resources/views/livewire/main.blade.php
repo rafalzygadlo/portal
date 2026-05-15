@@ -9,7 +9,7 @@
 
         @foreach ($feed as $item)
             <div class="col-12 col-md-6 col-lg-3">
-                <div class="card h-100 shadow-sm border-0">
+                <div class="card h-100 shadow border-0">
 
                 <a href="{{ route('offers.show', $item) }}" class="text-decoration-none">        
                     @if($item->images->isNotEmpty())               

@@ -13,14 +13,14 @@
     <div class="row g-4">
         {{-- Lewa kolumna: Galeria i Opis --}}
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+            <div class="card border-0 shadow rounded-4 overflow-hidden mb-4">
                 <div class="card-body p-4">
                     <h1 class="fw-bold h2 mb-4">{{ $offer->title }}</h1>
 
                     @if($offer->images->isNotEmpty())
                         <div class="mb-4 bg-light overflow-hidden d-flex align-items-center justify-content-center" style="min-height: 400px; max-height: 600px;">
                             <a href="{{ asset('storage/' . $offer->images->first()->path) }}" target="_blank">
-                                <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="img-fluid shadow-sm" alt="{{ $offer->title }}" style="max-height: 600px; object-fit: contain;">
+                                <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="img-fluid shadow" alt="{{ $offer->title }}" style="max-height: 600px; object-fit: contain;">
                             </a>
                         </div>
                     @else
@@ -43,7 +43,7 @@
                             @foreach($offer->images->skip(1) as $image)
                                 <div class="col-6 col-md-4 col-lg-3">
                                     <a href="{{ asset('storage/' . $image->path) }}" target="_blank">
-                                        <img loading="lazy" src="{{ asset('storage/' . $image->path) }}" class="img-fluid border shadow-sm hover-zoom" alt="{{ $offer->title }}" style="height: 150px; width: 100%; object-fit: cover;">
+                                        <img loading="lazy" src="{{ asset('storage/' . $image->path) }}" class="img-fluid border shadow hover-zoom" alt="{{ $offer->title }}" style="height: 150px; width: 100%; object-fit: cover;">
                                     </a>
                                 </div>
                             @endforeach
@@ -62,7 +62,7 @@
         {{-- Prawa kolumna: Sidebar --}}
         <div class="col-lg-4">
             <div class="sticky-top" style="top: 20px; z-index: 1000;">
-                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card border-0 shadow rounded-4 mb-4">
                     <div class="card-body p-4">
                         <h5 class="fw-bold mb-4">Informacje</h5>
                         

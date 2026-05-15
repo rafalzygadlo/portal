@@ -4,7 +4,7 @@
           <button  wire:click="$dispatch('openResourceModal')" class="btn btn-primary">+ Add</button>
     </div>
 
-    <div class="table-responsive border rounded shadow-sm bg-white">
+    <div class="table-responsive border rounded shadow bg-white">
         <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
                 <tr>

@@ -12,8 +12,7 @@ class Profile extends Component
 
     public function mount()
     {
-        $this->user = auth()->user();
-        
+        $this->user = auth()->user()->loadMissing(['ownedBusinesses', 'offers', 'articles']);
     }
 
     public function render()
