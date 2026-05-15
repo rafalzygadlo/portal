@@ -73,7 +73,6 @@
                     </ul>
                 </div>
             </div>
-                <livewire:category-selector />
         </aside>
 
         {{-- Główna Treść --}}
@@ -114,7 +113,7 @@
                     @endif
             
                     <div class="{{ $colClass }} mb-4 fade-in-card" wire:key="offer-{{ $offer->id }}" style="animation-delay: {{ $loop->index * 0.1 }}s">
-                        <div class="card h-100 border-1 shadow-sm overflow-hidden offer-card-hover position-relative">                    
+                        <div class="card h-100 border-0 shadow-sm overflow-hidden offer-card-hover position-relative">                    
                              @if($offer->images->isNotEmpty())
                                 <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="card-img-top" alt="{{ $offer->title }}" style="height: 180px; object-fit: cover;">
                             @else
@@ -124,7 +123,7 @@
                             @endif
                             <div class="card-body d-flex flex-column">
                                 <h3 class="card-title h6">
-                                    <span class="badge rounded-pill bg-primary me-1">{{ $offer->votes_sum_value ?? 0 }}</span>
+                                  
                                     <a href="{{ route('offers.show', $offer) }}" class="text-decoration-none text-dark hover-primary stretched-link">
                                         {{ Str::limit($offer->title, 50) }}
                                     </a>

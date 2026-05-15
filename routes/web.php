@@ -27,7 +27,7 @@ if (empty($domain))
 
 // Authenticated routes (User must be logged in)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout');
+    Route::post('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout');
 
     // Email Verification Routes
     Route::get('/email/verify', \App\Livewire\Auth\Verify::class)->name('verification.notice');

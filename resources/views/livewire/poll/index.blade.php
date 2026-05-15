@@ -19,8 +19,8 @@
                 });
             @endphp
             <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 {{ $votedOption ? 'border-dark' : '' }}">
-                    <div class="card-body d-flex flex-column">
+                <div class="card h-100  {{ $votedOption ? 'border-dark' : 'border-0' }}">
+                    <div class="card-body  d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <h5 class="card-title mb-0">{{ $poll->question }}</h5>
                             <small class="text-muted text-nowrap ms-2">{{ $poll->created_at->diffForHumans() }}</small>

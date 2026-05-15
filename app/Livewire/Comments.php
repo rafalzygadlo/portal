@@ -20,7 +20,7 @@ class Comments extends Component
     protected function rules()
     {
         return [
-            'content' => ['required', 'min:3', 'max:500', new Profanity],
+            'content' => ['required', 'min:3', 'max:500', /*new Profanity */],
         ];
     }
 

@@ -18,13 +18,13 @@
                     <h1 class="fw-bold h2 mb-4">{{ $offer->title }}</h1>
 
                     @if($offer->images->isNotEmpty())
-                        <div class="mb-4 bg-light rounded-3 overflow-hidden d-flex align-items-center justify-content-center" style="min-height: 400px; max-height: 600px;">
+                        <div class="mb-4 bg-light overflow-hidden d-flex align-items-center justify-content-center" style="min-height: 400px; max-height: 600px;">
                             <a href="{{ asset('storage/' . $offer->images->first()->path) }}" target="_blank">
                                 <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="img-fluid shadow-sm" alt="{{ $offer->title }}" style="max-height: 600px; object-fit: contain;">
                             </a>
                         </div>
                     @else
-                        <div class="bg-light d-flex align-items-center justify-content-center rounded-3 mb-4" style="height: 300px;">
+                        <div class="bg-light d-flex align-items-center justify-content-center mb-4" style="height: 300px;">
                             <i class="bi bi-image text-muted display-1"></i>
                         </div>
                     @endif
@@ -43,7 +43,7 @@
                             @foreach($offer->images->skip(1) as $image)
                                 <div class="col-6 col-md-4 col-lg-3">
                                     <a href="{{ asset('storage/' . $image->path) }}" target="_blank">
-                                        <img loading="lazy" src="{{ asset('storage/' . $image->path) }}" class="img-fluid rounded-3 border shadow-sm hover-zoom" alt="{{ $offer->title }}" style="height: 150px; width: 100%; object-fit: cover;">
+                                        <img loading="lazy" src="{{ asset('storage/' . $image->path) }}" class="img-fluid border shadow-sm hover-zoom" alt="{{ $offer->title }}" style="height: 150px; width: 100%; object-fit: cover;">
                                     </a>
                                 </div>
                             @endforeach
@@ -53,7 +53,7 @@
             </div>
 
             <div class="d-flex gap-2">
-                <a href="{{ route('offers.index') }}" class="btn btn-light border px-4 py-2 rounded-pill">
+                <a href="{{ route('offers.index') }}" class="btn btn-light border px-4 py-2">
                     <i class="bi bi-arrow-left me-2"></i>Wróć do listy
                 </a>
             </div>
@@ -67,7 +67,7 @@
                         <h5 class="fw-bold mb-4">Informacje</h5>
                         
                         <div class="d-flex align-items-center mb-3">
-                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3">
+                            <div class="bg-opacity-10 p-3 me-3">
                                 <i class="bi bi-person-circle "></i>
                             </div>
                             <div>
@@ -83,7 +83,7 @@
                         </div>
 
                         <div class="d-flex align-items-center mb-3">
-                            <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 me-3">
+                            <div class="bg-opacity-10 text-success p-3 me-3">
                                 <i class="bi bi-tag fs-4"></i>
                             </div>
                             <div>
@@ -101,7 +101,7 @@
                         </div>
 
                         <div class="d-flex align-items-center mb-0">
-                            <div class="bg-info bg-opacity-10 text-info rounded-circle p-3 me-3">
+                            <div class="bg-opacity-10 p-3 me-3">
                                 <i class="bi bi-calendar3 fs-4"></i>
                             </div>
                             <div>
@@ -109,14 +109,6 @@
                                 <h6 class="mb-0 fw-bold">{{ $offer->created_at->format('d.m.Y H:i') }}</h6>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                {{-- Sekcja Głosów (Opcjonalnie, jeśli chcesz tu pokazać wynik) --}}
-                <div class="card border-0 bg-primary text-white shadow-sm rounded-4 mb-4">
-                    <div class="card-body p-4 text-center">
-                        <h6 class="text-uppercase small fw-bold opacity-75">Punkty zaufania</h6>
-                        <div class="display-4 fw-bold">{{ $offer->votes_sum_value ?? 0 }}</div>
                     </div>
                 </div>
             </div>
