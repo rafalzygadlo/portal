@@ -1,13 +1,13 @@
 
 <div class="d-inline-flex align-items-center gap-1">
     <div class="btn-group" role="group">
-        <button wire:click="vote('up')" class="btn btn-sm {{ $userVote === 'up' ? 'btn-success' : 'btn-outline-success' }}" {{ $isAuthor ? 'disabled' : '' }} title="Dobre">
+        <button wire:click="vote('up')" class="btn btn-pill {{ $userVote === 'up' ? 'btn-success' : 'btn-outline-success' }}" {{ $isAuthor ? 'disabled' : '' }} title="Dobre">
             <i class="bi bi-hand-thumbs-up{{ $userVote === 'up' ? '-fill' : '' }}"></i>{{ $model->upvotes()->count() }}
         </button>
-        <button class="btn btn-sm btn-light disabled text-dark fw-bold" style="opacity: 1; min-width: 40px;">
+        <button class="btn btn-sm btn-light disabled text-dark fw-bold" >
             {{ $votesCount }}
         </button>
-        <button wire:click="vote('down')" class="btn btn-sm {{ $userVote === 'down' ? 'btn-danger' : 'btn-outline-danger' }}" {{ $isAuthor ? 'disabled' : '' }} title="Weak">
+        <button wire:click="vote('down')" class="btn btn-pill {{ $userVote === 'down' ? 'btn-danger' : 'btn-outline-danger' }}" {{ $isAuthor ? 'disabled' : '' }} title="Weak">
             <i class="bi bi-hand-thumbs-down{{ $userVote === 'down' ? '-fill' : '' }}"></i>{{ $model->downvotes()->count() }}
         </button>
     </div>

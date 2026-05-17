@@ -39,8 +39,9 @@
                     @if($offer->images->count() > 1)
                         <hr class="my-5">
                         <h4 class="fw-semibold mb-4 text-dark">Galeria zdjęć</h4>
+                        <span>{{ $offer->images->count() }} zdjęć</span>
                         <div class="row g-3">
-                            @foreach($offer->images->skip(1) as $image)
+                            @foreach($offer->images->skip(1)->take(4) as $image)
                                 <div class="col-6 col-md-4 col-lg-3">
                                     <a href="{{ asset('storage/' . $image->path) }}" target="_blank">
                                         <img loading="lazy" src="{{ asset('storage/' . $image->path) }}" class="img-fluid border shadow hover-zoom" alt="{{ $offer->title }}" style="height: 150px; width: 100%; object-fit: cover;">
@@ -118,7 +119,6 @@
     <div class="row mt-5">
         <div class="col-lg-8">
             <div class="comments-section">
-                <h3>Comments</h3>
                 <livewire:comments :model="$offer" />
             </div>
         </div>

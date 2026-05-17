@@ -21,8 +21,6 @@ class Create extends Component
 
     protected $listeners = 
     [
-        'openOfferModal',
-        'closeOfferModal', 
         'saveOffer'
     ];
     
@@ -34,19 +32,6 @@ class Create extends Component
             'category_id' => 'required|exists:categories,id',
             'photos.*' => 'required|image|max:8192', // 8MB Max per photo
         ];
-    }
-
-    public function openOfferModal()
-    {
-        $this->open = true;
-        $this->resetValidation();
-    }
-
-    public function closeOfferModal()
-    {
-        $this->open = false;
-        $this->reset('title', 'content', 'category_id', 'photos');
-        $this->resetValidation();
     }
 
     public function removePhoto($index)

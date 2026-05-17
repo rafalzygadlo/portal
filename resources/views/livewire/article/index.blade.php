@@ -46,7 +46,7 @@
 
             {{-- Article Card --}}
             <div class="{{ $colClass }} mb-4" wire:key="article-{{ $article->id }}">
-                <div class="h-100 p-3 d-flex flex-column bg-light border rounded-1 border-secondary-subtle overflow-hidden">
+                <div class="h-100 p-3 d-flex flex-column bg-white border rounded-1 border-secondary-subtle overflow-hidden">
                     @if($article->images->isNotEmpty())
                         <img loading="lazy" src="{{ asset('storage/' . $article->images->first()->path) }}" class="card-img-top" alt="{{ $article->title }}" style="height: 180px; object-fit: cover;">
                     @else

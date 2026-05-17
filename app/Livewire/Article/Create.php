@@ -15,7 +15,7 @@ class Create extends Component
 
     public $title;
     public $content;
-    public $photo;
+    public $photos = [];
     public $categories = [];
     public $mode = 'edit';
     public $honey_pot;
@@ -26,16 +26,6 @@ class Create extends Component
         'photos.*' => 'nullable|image|max:2048', // Maksymalnie 2MB
         'categories' => 'required|array|min:1',
     ];
-
-    private function containsForbiddenWords($text) {
-        $forbiddenWords = ['kurwa', 'cholera', 'chuj', 'pierdol'];
-        foreach ($forbiddenWords as $word) {
-            if (stripos($text, $word) !== false) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     
     public function preview()
@@ -55,19 +45,12 @@ class Create extends Component
         $this->mode = 'edit';
     }
     
-
     public function save()
     {
         if(!empty($this->honey_pot)) {
             return null;
         }
         $this->validate();
-
-        if ($this->containsForbiddenWords($this->title) || $this->containsForbiddenWords($this->content)) {
-            throw ValidationException::withMessages([
-                'content' => 'Content contains disallowed words.',
-            ]);
-        }
 
         foreach ($this->photos as $photo) 
         {
