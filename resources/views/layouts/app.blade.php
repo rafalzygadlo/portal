@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Portal Bolesławiec') }}</title>
+    <title>{{ config('app.name', '') }}</title>
 
     <!-- CSS Files -->
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -23,7 +23,7 @@
             <div class="container-fluid px-4 px-lg-5">
                 <span class="logo-r">R</span>
                 <a class="navbar-brand d-flex align-items-center" href="/">
-                    <span class="fw-bold tracking-tight">Portal Bolesławiec</span>
+                    <span class="fw-bold tracking-tight">{{ config('app.name', '') }}</span>
                 </a>
 
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
@@ -80,7 +80,7 @@
                 <div class="row g-4">
                     <div class="col-lg-4">
                         <h5 class="fw-bold mb-4 d-flex align-items-center">
-                            <span class="logo-r shadow">R</span> Bolesławiec
+                            <span class="logo-r shadow">R</span> {{ config('app.name', '') }}
                         </h5>
                         <p class="text-secondary small" style="max-width: 300px;">
                             Portal budowany z rzetelnością dla mieszkańców Bolesławca. Wszystko co lokalne w jednym miejscu.
@@ -91,9 +91,11 @@
                         </div>
                     </div>
                     <div class="col-6 col-lg-2 offset-lg-2">
-                        <h6 class="fw-bold mb-3 small text-uppercase tracking-wider">Portal</h6>
+                        <h6 class="fw-bold mb-3 small text-uppercase tracking-wider">Gazeta</h6>
                         <ul class="list-unstyled small">
+                            <li class="mb-2"><a href="{{ route('articles.index') }}" class="text-secondary text-decoration-none">Artykuły</a></li>
                             <li class="mb-2"><a href="{{ route('business.index') }}" class="text-secondary text-decoration-none">Firmy</a></li>
+                            <li class="mb-2"><a href="{{ route('offers.index') }}" class="text-secondary text-decoration-none">Ogłoszenia</a></li>
                             <li class="mb-2"><a href="{{ route('todos.index') }}" class="text-secondary text-decoration-none">Roadmapa</a></li>
                             <li class="mb-2"><a href="{{ route('polls.index') }}" class="text-secondary text-decoration-none">Sondaże</a></li>
                         </ul>
@@ -109,7 +111,7 @@
                 </div>
                 <hr class="mt-5 border-secondary opacity-25">
                 <div class="text-center text-secondary small">
-                    © {{ date('Y') }} Portal Bolesławiec. Rzetelnie od 2026.
+                    © {{ date('Y') }} {{ config('app.name') }}. Rzetelnie od 2026.
                 </div>
             </div>
         </footer>

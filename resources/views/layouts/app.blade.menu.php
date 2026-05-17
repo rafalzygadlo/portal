@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Portal Bolesławiec') }}</title>
+    <title>{{ config('app.name', '') }}</title>
 
     <!-- CSS Files -->
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -26,7 +26,7 @@
             <div class="container-fluid px-4 px-lg-5">
                 <a class="navbar-brand d-flex align-items-center" href="/">
                     <span class="logo-r">R</span>
-                    <span class="fw-bold tracking-tight">Portal Bolesławiec</span>
+                    <span class="fw-bold tracking-tight">{{ config('app.name', '') }}</span>
                 </a>
 
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">

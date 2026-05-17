@@ -54,8 +54,8 @@
                                     <a class="dropdown-item" href="{{ route('admin.business.dashboard', ['subdomain' => $business->subdomain]) }}"> {{ __('dashroard.link') }}</a>
                                     <a class="dropdown-item" href="{{ route('user.profile', Auth::user()) }}"> {{ __('profile.link') }}</a>
                                 <div class="dropdown-divider"></div>
-                                     <a class="dropdown-item" href="{{ route('business.logout', ['subdomain' => $business->subdomain]) }}"> {{ __('global.logout') }}</a>
-                                    <form id="logout-form" action="{{ route('business.logout', ['subdomain' => $business->subdomain]) }}" method="POST" class="d-none">
+                                     <a class="dropdown-item" href="{{ route('logout', ['subdomain' => $business->subdomain]) }}"> {{ __('global.logout') }}</a>
+                                    <form id="logout-form" action="{{ route('logout', ['subdomain' => $business->subdomain]) }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>  
