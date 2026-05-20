@@ -69,7 +69,7 @@
                 </div>
                 <div class="card-body p-3">
                     <ul class="list-unstyled mb-0">
-                        @include('livewire.offer.category-item', ['categories' => $categories])
+                        @include('livewire.offer.category', ['categories' => $categories])
                     </ul>
                 </div>
             </div>
@@ -188,8 +188,4 @@
             </div>
         </div>
     </div>
-
-    {{-- Komponent musi być wyrenderowany, aby nasłuchiwać zdarzeń --}}
-    @livewire('offer.create')
-
 </div>

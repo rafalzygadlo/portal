@@ -1,5 +1,4 @@
 <div>
-@if ($open)
 <div class="modal d-block" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -35,5 +34,4 @@
         </div>
     </div>
 </div>
-@endif
 </div>

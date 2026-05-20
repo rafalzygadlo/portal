@@ -17,8 +17,7 @@ class Create extends Component
     public string $content = '';    
     public ?int $category_id = null;
     public $photos = [];
-    public bool $open = false;
-
+    
     protected $listeners = 
     [
         'saveOffer'

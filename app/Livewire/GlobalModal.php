@@ -3,6 +3,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Auth;
 
 class GlobalModal extends Component
 {
@@ -15,6 +16,9 @@ class GlobalModal extends Component
     #[On('openModal')]
     public function open($view, $title, $params = [])
     {
+        if (Auth::guest())
+            return $this->redirect(route('login'));
+        
         $this->view = $view;
         $this->title = $title;
         $this->params = $params;
