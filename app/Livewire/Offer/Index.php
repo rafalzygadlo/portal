@@ -28,7 +28,7 @@ class Index extends Component
     public function render()
     {
 
-        $categories= Category::whereNull('parent_id')->with('children')->withCount('offers')->get();    
+        $categories = Category::whereNull('parent_id')->with('children')->withCount('offers')->get();    
      
         // Build breadcrumb path
         $this->breadcrumb = [];

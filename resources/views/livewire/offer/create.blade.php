@@ -1,7 +1,4 @@
 <div>
-    <!-- Tytuł dajesz po prostu na górze formularza -->
-    <h4 class="mb-4">{{ __('offers.add_new_offer') }}</h4>
-
     <form wire:submit.prevent="save">
         <div class="mb-3">
             <label for="title" class="form-label">{{ __('offers.title') }}</label>

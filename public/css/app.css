@@ -15,3 +15,66 @@
     justify-content: center;
     margin-right: 0.5rem;
 }
+
+/* Efekt szkła (Glassmorphism) dla plakietek z datą */
+.glass-badge {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Nowoczesny, jasny przycisk aktywny w przełączniku */
+.btn-white {
+    background-color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+/* Subtelny efekt podniesienia karty po najechaniu myszką (desktop) */
+.transition-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+@media (min-width: 768px) {
+    .transition-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.08) !important;
+    }
+}
+
+/* Poprawka typografii */
+.fw-black { font-weight: 900; }
+.tracking-tight { letter-spacing: -0.5px; }
+
+/* Nowoczesna, zaokrąglona paginacja */
+.pagination {
+    gap: 6px; /* Odstępy między cyframi zamiast złączonych boksów */
+}
+.pagination .page-item .page-link {
+    border: none !important;
+    background-color: #f8f9fa;
+    color: #495057;
+    border-radius: 50% !important; /* Idealne kółka */
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s ease-in-out;
+}
+.pagination .page-item.active .page-link {
+    background-color: var(--bs-primary) !important; /* Kolor Twojego motywu */
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(var(--bs-primary-rgb), 0.25);
+}
+.pagination .page-item .page-link:hover:not(.active) {
+    background-color: #e9ecef;
+    color: var(--bs-primary);
+    transform: translateY(-1px);
+}
+.pagination .page-item.disabled .page-link {
+    background-color: transparent;
+    opacity: 0.4;
+}
