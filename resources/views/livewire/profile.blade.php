@@ -1,6 +1,6 @@
 <div class="col">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-9">
 
             <div class="accordion mb-5" id="profileAccordion">
                 <div class="accordion-item">
@@ -104,7 +104,7 @@
             </div>
 
         </div>
-        <div class="col-md-2 mb-4">
+        <div class="col-md-3 mb-4">
 
             <div class="card border-0 text-center p-4">
                 <div class="mb-3">

@@ -114,6 +114,7 @@
                                     <i class="bi bi-image text-muted" style="font-size: 2.5rem;"></i>
                                 </div>
                             @endif
+                            </a>
                             <div class="card-body d-flex flex-column">
                                 <h3 class="card-title h6">
 
