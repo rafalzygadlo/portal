@@ -62,7 +62,7 @@
 
     <div class="row">
         {{-- Sidebar z Kategoriami --}}
-        <aside class="col-lg-2 mb-4">
+        <aside class="col-md-3 mb-4">
             <div class="card shadow border-0 category-sidebar sticky-top" style="top: 20px; z-index: 1000;">
                 <div class="card-header bg-white fw-bold">
                     <i class="bi bi-list-ul me-2"></i>Categories
@@ -76,7 +76,7 @@
         </aside>
 
         {{-- Główna Treść --}}
-        <div class="col-lg-10">
+        <div class="col-md-9">
             <div class="row">
                 @php $currentDay = null; @endphp
                 
@@ -102,15 +102,17 @@
                         @php $currentDay = $offerDay; @endphp
                     @endif
                     --}}
-                    <div class="col-3 mb-4 fade-in-card" wire:key="offer-{{ $offer->id }}" style="animation-delay: {{ $loop->index * 0.1 }}s">
-                        <div class="card h-100 border-0 shadow overflow-h">                    
+                    <div class="col-md-6 mb-4 fade1-in-card" wire:key="offer-{{ $offer->id }}">
+                        <div class="card h-100 border-0 overflow-h">
+                            <a href="{{ route('offers.show', $offer) }}">                    
                              @if($offer->images->isNotEmpty())
                                 <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="card-img-top" alt="{{ $offer->title }}" style="height: 180px; object-fit: cover;">
                             @else
-                                <div class="bg-light d-flex align-items-center justify-content-center shadow" style="height: 180px;">
+                                <div class="bg-light d-flex align-items-center justify-content-center border "style="height: 180px;">
                                     <i class="bi bi-image text-muted" style="font-size: 2.5rem;"></i>
                                 </div>
                             @endif
+                            </a>
                             <div class="card-body d-flex flex-column">
                                 <h3 class="card-title h6">
                                   
