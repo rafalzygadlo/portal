@@ -36,6 +36,9 @@
                         <li class="nav-item px-lg-2">
                             <a class="nav-link fw-semibold" href="{{ route('offers.index') }}">Ogłoszenia</a>
                         </li>
+                        <li class="nav-item px-lg-2">
+                            <a class="nav-link fw-semibold" href="{{ route('business.index') }}">Firmy</a>
+                        </li>
                     </ul>
 
                     <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">

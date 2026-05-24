@@ -10,10 +10,14 @@ class Index extends Component
 {
     use WithPagination;
 
+    public $sortBy = 'created_at';
+
     public function render()
     {
         return view('livewire.todo.index', [
-            'todos' => Todo::with('user')->withCount('comments')->latest()->paginate(18)
+            'todos' => Todo::with('user')->withCount('comments')
+                ->orderByDesc($this->sortBy)
+                ->latest()->paginate(25)
         ]);
     }
 }

@@ -18,8 +18,6 @@ class Create extends Component
     ];
     protected $listeners = 
     [
-        'openTodoModal',
-        'closeTodoModal', 
         'saveTodo'
     ];
 

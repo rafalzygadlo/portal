@@ -34,7 +34,9 @@
                             @endif
                         </div>
                         <div>
-                            <livewire:article.vote :model="$article" :key="'vote-single-'.$article->id" />
+                            {{-- 
+                                <livewire:article.vote :model="$article" :key="'vote-single-'.$article->id" />
+                            --}}
                         </div>
                     </div>
 

@@ -1,7 +1,7 @@
 <div class="col-12 px-1 px-md-3">
     <!-- NAGŁÓWEK: Elastyczny na mobile, przycisk dopasowuje się do szerokości -->
-    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-2 mb-4">
-        <h2 class="mb-0 fw-bold fs-3 text-center text-sm-start">Business</h2>
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center">
+        <h2 class="mb-1 fw-black text-center ">Business</h2>
         <a href="{{ route('business.create') }}" class="btn btn-outline-dark btn-sm d-flex align-items-center justify-content-center py-2 py-sm-1">
             <i class="bi bi-plus-circle me-1"></i>Add your business
         </a>

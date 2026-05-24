@@ -48,11 +48,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/notify', App\Livewire\Notifications::class)->name('notifications.index');
 
         // Creation routes (moved into verified group to reduce duplication)
-        Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('articles.create');
-        Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create');
-        Route::get('/todos/create', App\Livewire\Todo\Create::class)->name('todos.create');
-        Route::get('/offers/create', \App\Livewire\Offer\Create::class)->name('offers.create');
-        Route::get('/polls/create', \App\Livewire\Poll\Create::class)->name('polls.create');
+        //Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('articles.create');
+        //Route::get('/business/create', \App\Livewire\Business\Create::class)->name('business.create');
+        //Route::get('/todos/create', App\Livewire\Todo\Create::class)->name('todos.create');
+        //Route::get('/offers/create', \App\Livewire\Offer\Create::class)->name('offers.create');
+        //Route::get('/polls/create', \App\Livewire\Poll\Create::class)->name('polls.create');
     });
 });
 

@@ -85,7 +85,9 @@
 
                         <div class="d-flex justify-content-between align-items-center pt-3 border-top">
                             <div class="text-muted small">Czytaj więcej...</div>
-                            <livewire:article.vote :model="$article" :key="'vote-single-'.$article->id" />
+                            {{-- 
+                                <livewire:article.vote :model="$article" :key="'vote-single-'.$article->id" />
+                            --}}
                         </div>
                     </div>
                 </div>

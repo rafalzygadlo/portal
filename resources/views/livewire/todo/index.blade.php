@@ -1,11 +1,32 @@
 <div class="col-12 px-2 px-md-3">
-    <!-- NAGŁÓWEK: Na smartfonie układ pionowy (flex-column), przycisk na pełną szerokość (w-100). Od tabletu (md) wraca do linii (flex-row) -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-2 mb-4">
-        <h2 class="mb-0 text-center text-md-start fw-bold">Todos</h2>
-        <a href="{{ route('todos.create') }}" class="btn btn-primary d-flex align-items-center justify-content-center gap-2">
-            <i class="bi bi-pencil-square"></i>
-            <span>Add todo for admin</span>
-        </a>
+        <h2 class="mb-1 text-center text-md-start fw-black">Todos</h2>
+
+        <div class="d-flex gap-2">
+        <div class="d-flex gap-2">
+            <div class="dropdown flex-grow-1 flex-md-grow-0">
+                <button class="btn btn-white border shadow-sm dropdown-toggle w-100 fw-medium d-flex align-items-center justify-content-between gap-2 px-3" 
+                        type="button" data-bs-toggle="dropdown" aria-expanded="false" style="min-width: 200px; height: 42px; background: white;">
+                    <span>
+                        <i class="bi bi-sort-down me-2 text-primary"></i>
+                        @if($sortBy === 'created_at') Najnowsze 
+                        @elseif($sortBy === 'likes_count') Najwięcej polubień
+                        @elseif($sortBy === 'comments_count') Najwięcej komentarzy
+                        @elseif($sortBy === 'status') Według statusu
+                        @else Sortowanie
+                        @endif
+                    </span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2">
+                    <li><a class="dropdown-item py-2 {{ $sortBy === 'created_at' ? 'active' : '' }}" href="#" wire:click.prevent="$set('sortBy', 'created_at')"><i class="bi bi-clock me-2"></i>Najnowsze</a></li>
+                    <li><a class="dropdown-item py-2 {{ $sortBy === 'likes_count' ? 'active' : '' }}" href="#" wire:click.prevent="$set('sortBy', 'likes_count')"><i class="bi bi-hand-thumbs-up me-2"></i>Najwięcej polubień</a></li>
+                    <li><a class="dropdown-item py-2 {{ $sortBy === 'comments_count' ? 'active' : '' }}" href="#" wire:click.prevent="$set('sortBy', 'comments_count')"><i class="bi bi-chat-text me-2"></i>Najwięcej komentarzy</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item py-2 {{ $sortBy === 'status' ? 'active' : '' }}" href="#" wire:click.prevent="$set('sortBy', 'status')"><i class="bi bi-list-check me-2"></i>Według statusu</a></li>
+                </ul>
+            </div>
+        </div>
+        </div>
     </div>
 
     @if (session('message'))
@@ -14,39 +35,50 @@
         </div>
     @endif
 
-    <!-- GRID: Na smartfonie col-12 (jedna karta pod drugą, ale zgrabna) lub col-sm-6 (dwie obok siebie, jeśli ekran jest ciut większy). Na komputerze col-md-3 (cztery w rzędzie) -->
-    <div class="row g-3 g-md-4">
+    
+    <div class="row g-2">
         @forelse ($todos as $todo)
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
-                    <div class="card-body d-flex flex-column p-3">
-                        
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <a href="{{ route('todos.show', $todo->id) }}" class="text-decoration-none text-dark blended-link">
-                                <h5 class="card-title mb-0 fw-bold fs-6 fs-md-5 text-break">{{ $todo->title }}</h5>
-                            </a>
-                        </div>
-                        
-                        <!-- Mini statystyki stanu i czasu -->
-                        <div class="mb-3 d-flex flex-wrap align-items-center gap-2">
-                            <span class="badge bg-{{ $todo->getStatusColor() }} small-badge">{{ $todo->status }}</span>
-                            <small class="text-muted text-nowrap" style="font-size: 0.75rem;">
-                                <i class="bi bi-clock me-1"></i>{{ $todo->created_at->diffForHumans() }}
-                            </small>
-                        </div>
-                        
-                        <!-- STOPKA KARTY: Ikony i autor zoptymalizowane pod małe ekrany, żeby nie wyszły poza krawędź -->
-                        <div class="mt-auto pt-2 border-top border-light d-flex justify-content-between align-items-center text-muted" style="font-size: 0.8rem;">
-                            <span class="text-truncate me-1" style="max-width: 80px;">
-                                <i class="bi bi-person"></i> {{ $todo->user->first_name }}
-                            </span>    
-                            <div class="d-flex gap-2 gap-md-3 flex-wrap justify-content-end">
-                                <span class="text-nowrap"><i class="bi bi-chat"></i> {{ $todo->comments_count }}</span>
-                                <span class="text-nowrap"><i class="bi bi-eye"></i> {{ $todo->views_count }}</span>
-                                <span class="text-nowrap"><i class="bi bi-hand-thumbs-up"></i> {{ $todo->likes_count }}</span>
+            <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden transition-all hover-shadow">
+                    <div class="card-body p-2 p-md-3">
+                        <div class="row align-items-center g-3">
+                            
+                            <!-- Status i Tytuł -->
+                            <div class="col-12 col-md-6 d-flex align-items-center gap-3">
+                                <div class="flex-shrink-0 d-none d-sm-block">
+                                    <span class="badge bg-{{ $todo->getStatusColor() }} rounded-pill px-3 py-2" style="min-width: 90px; font-size: 0.75rem;">
+                                        {{ $todo->status }}
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0 fw-bold">
+                                        <a href="{{ route('todos.show', $todo->id) }}" class="text-decoration-none text-dark hover-primary">
+                                            {{ $todo->title }}
+                                        </a>
+                                    </h6>
+                                    <div class="d-flex align-items-center gap-2 mt-1 d-md-none">
+                                        <span class="badge bg-{{ $todo->getStatusColor() }} p-1 rounded-circle" title="{{ $todo->status }}"> </span>
+                                        <small class="text-muted" style="font-size: 0.75rem;">{{ $todo->created_at->diffForHumans(null, true) }}</small>
+                                    </div>
+                                </div>
                             </div>
+
+                            <!-- Autor i Czas (Desktop) -->
+                            <div class="col-md-3 d-none d-md-flex align-items-center text-muted small">
+                                <i class="bi bi-person-circle me-2"></i>
+                                <span class="text-truncate">{{ $todo->user->first_name }}</span>
+                                <span class="mx-2">•</span>
+                                <span class="text-nowrap">{{ $todo->created_at->diffForHumans(null, true) }}</span>
+                            </div>
+
+                            <!-- Statystyki -->
+                            <div class="col-12 col-md-3 d-flex justify-content-start justify-content-md-end gap-3 text-muted small">
+                                <span title="Komentarze"><i class="bi bi-chat me-1"></i>{{ $todo->comments_count }}</span>
+                                {{-- <span title="Wyświetlenia"><i class="bi bi-eye me-1"></i>{{ $todo->views_count }}</span> --}}
+                                <span title="Polubienia"><i class="bi bi-hand-thumbs-up me-1"></i>{{ $todo->likes_count }}</span>
+                            </div>
+
                         </div>
-                        
                     </div>
                 </div>
             </div>
