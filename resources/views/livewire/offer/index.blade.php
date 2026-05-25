@@ -46,21 +46,19 @@
     <!-- GŁÓWNY UKŁAD: SIDEBAR + SIATKA -->
     <div class="row g-4">
         {{-- Nowoczesny Sidebar z Kategoriami --}}
-        <aside class="col-lg-3 col-xl-2 mb-4">
-            <div class="card border-0 rounded-4 shadow-sm bg-white sticky-top" style="top: 20px; border: 1px solid #f1f3f5 !important;">
+        <div class="col-lg-12 col-xl-12 mb-4">
+            <div class="card border-0 rounded-4 shadow-sm bg-white sticky-top">
                 <div class="card-header bg-white border-0 pt-4 px-4 pb-2 fw-bold text-dark d-flex align-items-center gap-2" style="font-size: 1.05rem;">
                     <i class="bi bi-folder2-open text-primary"></i> Categories
                 </div>
                 <div class="card-body px-4 pb-4 pt-2">
-                    <ul class="list-unstyled mb-0 d-flex flex-column gap-1">
-                        @include('livewire.offer.category', ['categories' => $categories])
-                    </ul>
+                    @include('livewire.offer.category', ['categories' => $categories])
                 </div>
             </div>
-        </aside>
+        </div>
 
         {{-- Główna Treść (Siatka Ofert) --}}
-        <div class="col-lg-9 col-xl-10">
+        <div class="col-lg-12 col-xl-12">
             <div class="row g-4">
                 @forelse ($offers as $offer)
                     <!-- KARTA OFERTY: Zmieniono z col-md-3 na col-md-6 col-xl-4 dla lepszej czytelności tekstu -->

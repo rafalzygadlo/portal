@@ -47,6 +47,9 @@ class Index extends Component
                 }
                 $this->breadcrumb = $path->all();
             }
+
+            $categories = Category::where('parent_id',$currentCategory->id)->with('children')->withCount('offers')->get();    
+     
         }
 
         $offers = Offer::with(['user', 'categories', 'images'])
