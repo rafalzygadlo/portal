@@ -45,7 +45,7 @@
 
         <!-- Przyciski akcji na dole formularza -->
         <div class="d-flex justify-content-end gap-2 mt-4">
-            <!-- Zamiast closeOfferModal strzelasz globalnym zdarzeniem zamknięcia modalu -->
+           
             <button type="button" class="btn btn-secondary" wire:click="$dispatch('closeModal')">
                 {{ __('offers.cancel') }}
             </button>

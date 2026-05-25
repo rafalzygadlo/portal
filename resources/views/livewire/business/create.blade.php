@@ -22,10 +22,13 @@
                             <div class="form-text">Allowed: letters, numbers, hyphens, and underscores.</div>
                         </div>
 
-                        <div class="d-flex justify-content-end mt-4">
-                            <a href="{{ route('business.index') }}" class="btn btn-outline-secondary me-2">Cancel</a>
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle me-1"></i>
-                                <span wire:loading.remove>Add business</span>
+                        <div class="d-flex justify-content-end mt-4 gap-2">
+                              <button type="button" class="btn btn-outline-secondary" wire:click="$dispatch('closeModal')">
+                                {{ __('global.cancel') }}
+                            </button>
+                            
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i>
+                                <span wire:loading.remove>{{ __('global.save') }}</span>
                                 <span wire:loading>Saving...</span>
                             </button>
                         </div>

@@ -2,9 +2,11 @@
     <!-- NAGŁÓWEK: Elastyczny na mobile, przycisk dopasowuje się do szerokości -->
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center">
         <h2 class="mb-1 fw-black text-center ">Business</h2>
+       {{--  
         <a href="{{ route('business.create') }}" class="btn btn-outline-dark btn-sm d-flex align-items-center justify-content-center py-2 py-sm-1">
             <i class="bi bi-plus-circle me-1"></i>Add your business
         </a>
+        --}}
     </div>
 
     @if (session('status'))

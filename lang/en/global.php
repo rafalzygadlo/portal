@@ -2,6 +2,8 @@
 
 return [
 
+	'title' => 'Title',
+	'cancel' => 'Cancel',
 	'create' => 'Create',
 	'save' => 'Save',
 	'edit' => 'Edit',

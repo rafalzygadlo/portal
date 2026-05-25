@@ -14,7 +14,7 @@ class GlobalModal extends Component
 
     
     #[On('openModal')]
-    public function open($view, $title, $params = [])
+    public function open($view, $title = '', $params = [])
     {
         if (Auth::guest())
             return $this->redirect(route('login'));
