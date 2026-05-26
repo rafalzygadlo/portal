@@ -19,7 +19,6 @@ class ArticleFactory extends Factory
             'user_id' => User::factory(),
             'title' => $this->faker->sentence(),
             'content' => $this->faker->paragraphs(3, true),
-            'image_path' => null,
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => now(),
         ];
