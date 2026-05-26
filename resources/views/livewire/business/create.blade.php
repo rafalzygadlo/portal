@@ -14,7 +14,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control @error('subdomain') is-invalid @enderror"
                                     id="subdomain" wire:model.defer="subdomain" placeholder="np. moja-firma">
-                                <span class="input-group-text"> {{ config('app.business_domain'); }}</span>
+                                <span class="input-group-text"> {{ config('app.business_domain') }}</span>
                                 @error('subdomain')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
