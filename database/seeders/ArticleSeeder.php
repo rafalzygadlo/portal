@@ -48,5 +48,6 @@ class ArticleSeeder extends Seeder
         }
 
         $this->command->getOutput()->progressFinish();
+        
     }
 }
