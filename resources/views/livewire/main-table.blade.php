@@ -18,7 +18,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($feed as $item)
+                        @foreach ($items as $item)
                             <tr>
                                 <td style="width:120px;">
                                     <a href="{{ route('offers.show', $item) }}" class="d-block">

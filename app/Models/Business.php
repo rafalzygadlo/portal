@@ -64,7 +64,16 @@ class Business extends Model
     {
         return $this->morphToMany(Category::class, 'categoryable');
     }
-
+    
+    
+    /**
+     * Get all images for the business.
+     */
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }   
+    
     /**
      * Get all comments for the business.
      */
