@@ -3,23 +3,26 @@
 
     <!-- MINIATURKA / ZDJĘCIE -->
     <a href="{{ route('offers.show', $item) }}"
-        class="position-relative d-block flex-shrink-0 col-4 col-lg-12 bg-light overflow-hidden"
+        class="position-relative d-block flex-shrink-0 bg-light overflow-hidden"
         style="min-height: 110px; max-height: 120px; height: auto; lg-height: 180px;">
         @if (!empty($item->images))
 
             @if($item->images->isNotEmpty())
                 <img loading="lazy" src="{{ asset('storage/' . $item->images->skip(0)->first()->path) }}"
-                    class="justify-content-center align-items-center object-fit-cover h-100 w-100" alt="{{ $item->title }}">
+                    class="justify-content-center align-items-center  h-100 w-100" alt="{{ $item->title }}">
             @else
                 <div
-                    class="w-100 h-100 d-flex align-items-center justify-content-center border-end border-lg-0 border-bottom-lg text-muted position-absolute position-lg-relative">
-                    <i class="bi bi-image" style="font-size: 1.8rem;"></i>
+                    class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                    <i class="bi bi-file-earmark-post text-muted opacity-50" style="font-size: 2.5rem;"></i>
                 </div>
             @endif
         @endif
     </a>
 
-    <span class="position-absolute top-0 end-0 m-2 badge bg-primary-subtle text-primary border">Ogłoszenie</span>
+     <span class="position-absolute top-0 end-0 m-3 badge text-dark">
+        <i class="bi bi-megaphone fs-5"></i>
+        Ogłoszenie
+    </span>
 
     <!-- TREŚĆ KARTY -->
     <div class="card-body p-3 p-lg-4 d-flex flex-column col-8 col-lg-12">

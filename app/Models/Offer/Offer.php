@@ -27,11 +27,6 @@ class Offer extends Model
         return $this->belongsTo(User::class);
     }
 
-
-    /**
-     * Get all comments for the offer.
-     */
-    
     public function likes()
     {
         return $this->morphMany(Comment::class, 'commentable');

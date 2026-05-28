@@ -35,10 +35,10 @@
                         </li>
                         <li>
                             <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2" 
-                               wire:click="$dispatch('openModal', ['todo.create','Dodaj zadanie dla administratora'])" 
+                               wire:click="$dispatch('openModal', ['todo.create','Dodaj zadanie'])" 
                                href="#">
                                 <i class="bi bi-check-circle-fill text-info fs-5"></i> 
-                                <span class="fw-medium">Dodaj zadanie dla administratora</span>
+                                <span class="fw-medium">Dodaj zadanie</span>
                             </a>
                         </li>
                     </ul>

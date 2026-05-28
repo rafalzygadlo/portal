@@ -13,7 +13,14 @@ class Todo extends Model
     use HasFactory;
     use Voteable;
 
-    protected $fillable = ['user_id', 'title', 'description', 'status'];
+    protected $fillable = 
+    [
+        'user_id', 
+        'title', 
+        'description', 
+        'slug',
+        'status'
+    ];
 
     public function getStatusColor()
     {

@@ -104,7 +104,7 @@ Route::get('/page/{page}', \App\Livewire\Page::class)
 
 // Todo routes
 Route::get('/todos', App\Livewire\Todo\Index::class)->name('todos.index');
-Route::get('/todos/{todo}', App\Livewire\Todo\Show::class)->name('todos.show');
+Route::get('/todos/{todo:slug}', App\Livewire\Todo\Show::class)->name('todos.show');
 
 // Offers
 Route::get('/offers/{categorySlug?}', \App\Livewire\Offer\Index::class)->name('offers.index');

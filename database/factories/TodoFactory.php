@@ -26,6 +26,7 @@ class TodoFactory extends Factory
             'user_id' => User::factory(),
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraphs(2, true),
+            'slug' => \Str::slug($this->faker->sentence),
             'status' => $this->faker->randomElement(['pending', 'planned', 'completed']),
         ];
     }

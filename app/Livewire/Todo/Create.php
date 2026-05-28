@@ -9,7 +9,6 @@ class Create extends Component
 {
     public $title;
     public $description;
-
     public $open = false;
 
     protected $rules = [
@@ -33,6 +32,7 @@ class Create extends Component
             'user_id' => Auth::id(),
             'title' => $this->title,
             'description' => $this->description,
+            'slug' => \Str::slug($this->title),
             'status' => 'pending',
         ]);
 
