@@ -1,1 +1,1 @@
-sudo docker exec app.maxkod.mysql mysqldump -u root --password=pwd db > backup.sql
+sudo docker exec portal.mariadb mariadb-dump -u root --password=pwd db > backup.sql
