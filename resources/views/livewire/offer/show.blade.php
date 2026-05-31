@@ -1,5 +1,5 @@
 <div class="col">
-    <nav aria-label="breadcrumb" class="mb-4">
+    <nav aria-label="breadcrumb" class="mb-2">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('offers.index') }}" class="text-decoration-none">Offers</a></li>
@@ -13,9 +13,9 @@
     <div class="row g-4">
         {{-- Lewa kolumna: Galeria i Opis --}}
         <div class="col-lg-8">
-            <div class="card border-0 shadow rounded-4 overflow-hidden mb-4">
-                <div class="card-body p-4">
-                    <h1 class="fw-bold h2 mb-4">{{ $offer->title }}</h1>
+            <div class="card border-0 shadow rounded-4 overflow-hidden mb-">
+                <div class="card-body">
+                    <h1 class="fw-bold h2">{{ $offer->title }}</h1>
 
                    <livewire:gallery :images="$offer->images"/>
                     

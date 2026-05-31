@@ -16,14 +16,13 @@ class OfferImageService
         $manager = new ImageManager(new Driver());
         $offerId = $offer->id;
         
-        foreach ($photos as $photo) 
+        foreach ($photos as $index => $photo) 
         {
             
             //filename construction
             $titleSlug = Str::slug($offer->title); // Zamieni "Dom w Bolesławcu" na "dom-w-boleslawcu"
             $timestamp = now()->format('YmdHis');
-            $random = Str::random(5);
-            $filename = "{$titleSlug}-{$timestamp}-{$random}.jpg";
+            $filename = "{$titleSlug}-{$timestamp}-{$index}.jpg";
 
             //directory construction
             $directory = "offers/{$offerId}";
