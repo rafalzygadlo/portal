@@ -39,25 +39,27 @@
     <div class="row g-2">
         @forelse ($todos as $todo)
             <div class="col-12">
-                <div class="card border-0 shadow-sm rounded-3 overflow-hidden transition-all hover-shadow">
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden transition-all transition-hover">
                     <div class="card-body p-2 p-md-3">
                         <div class="row align-items-center g-3">
                             
                             <!-- Status i Tytuł -->
                             <div class="col-12 col-md-6 d-flex align-items-center gap-3">
-                                <div class="flex-shrink-0 d-none d-sm-block">
-                                    <span class="badge bg-{{ $todo->getStatusColor() }} rounded-pill px-3 py-2" style="min-width: 90px; font-size: 0.75rem;">
+                                <div class="flex-shrink-0 d-sm-block">
+                                    <span class="badge bg-{{ $todo->getStatusColor() }} rounded-pill px-3 py-2">
                                         {{ $todo->status }}
                                     </span>
                                 </div>
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0 fw-bold">
-                                        <a href="{{ route('todos.show', $todo->id) }}" class="text-decoration-none text-dark hover-primary">
+                                        <a href="{{ route('todos.show', $todo) }}" class="text-decoration-none text-dark hover-primary line-clamp-2 stretched-link">
                                             {{ $todo->title }}
                                         </a>
                                     </h6>
                                     <div class="d-flex align-items-center gap-2 mt-1 d-md-none">
-                                        <span class="badge bg-{{ $todo->getStatusColor() }} p-1 rounded-circle" title="{{ $todo->status }}"> </span>
+                                        <i class="bi bi-person-circle me-1"></i>
+                                        <span class="text-truncate">{{ $todo->user->first_name }}</span>
+                                        <span class="mx-1">•</span>
                                         <small class="text-muted" style="font-size: 0.75rem;">{{ $todo->created_at->diffForHumans(null, true) }}</small>
                                     </div>
                                 </div>

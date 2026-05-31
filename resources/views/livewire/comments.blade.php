@@ -1,5 +1,5 @@
 <div class="mt-5">
-    <h3 class="mb-4">Comments ({{ $model->comments()->count() }})</h3>
+    <h6 class="mb-4">Comments ({{ $model->comments()->count() }})</h6>
 
     @auth
         <div class="card mb-4 shadow border-0">

@@ -1,5 +1,3 @@
-
-
 .logo-r {
     font-size: 1.5rem;
     color: #fff;
@@ -29,7 +27,7 @@
 
 /* Subtelny efekt podniesienia karty po najechaniu myszką (desktop) */
 .transition-hover {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition:  box-border 0.25s;
 }
 @media (min-width: 768px) {
     .transition-hover:hover {

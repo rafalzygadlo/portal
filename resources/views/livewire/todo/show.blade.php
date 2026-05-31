@@ -45,8 +45,8 @@
                         --}}
                     </div>
 
-                    <div class="article-content fs-5 lh-lg text-secondary">
-                        {!! nl2br(e($todo->description)) !!}
+                         <div class="lh-base" style="text-align: justify;">
+                        {!! nl2br($todo->description) !!}
                     </div>
 
                     <div class="mt-5">

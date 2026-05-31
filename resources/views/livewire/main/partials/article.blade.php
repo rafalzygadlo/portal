@@ -1,6 +1,6 @@
 <div class="card h-100 bg-white border-0 rounded-4 overflow-hidden transition-hover shadow-sm d-flex flex-column position-relative">
     <!-- MINIATURKA / ZDJĘCIE -->
-    <a href="" class="position-relative d-block flex-shrink-0 bg-light overflow-hidden"
+    <a href="{{ route('articles.show', $item)}}" class="position-relative d-block flex-shrink-0 bg-light overflow-hidden"
         style="min-height: 110px; max-height: 100%; height: auto; lg-height: 180px;">
         
             @if($item->images->isNotEmpty())
@@ -23,9 +23,10 @@
     <!-- TREŚĆ KARTY -->
     <div class="card-body p-3 p-lg-4 d-flex flex-column col-8 col-lg-12">
         <!-- Tytuł -->
-        <h6 class="card-title fw-bold mb-1 mb-lg-2">
-            <a href="" class="text-decoration-none text-dark hover-primary line-clamp-2">
+        <h6 class="card-title fw-bold mb-1 mb-lg-2 flex-grow-0">
+            <a href="{{ route('articles.show', $item) }}" class="text-decoration-none text-dark stretched-link hover-primary line-clamp-2">
                 {{ $item->title }}
+                <i class="bi bi-chevron-right small opacity-50 ms-1"></i>
             </a>
         </h6>
 
@@ -37,7 +38,7 @@
 
         <!-- Kategorie i data dodania -->
         <div
-            class="mt-auto d-flex flex-wrap align-items-center justify-content-between gap-1 pt-1 border-top border-light">
+            class="mt-auto d-flex flex-wrap align-items-center justify-content-between gap-1 pt-1 border-top">
             <div class="text-truncate" style="max-width: 60%;">
                 @foreach($item->categories->take(1) as $category) {{-- Na mobile bierzemy tylko 1 tag, żeby nie rozbić
                     układu --}}

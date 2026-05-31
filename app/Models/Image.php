@@ -14,4 +14,15 @@ class Image extends Model
     {
         return $this->morphTo();
     }
+
+    public function getThumbnailPath()
+    {
+        $filename = basename($this->path); // wyciąga samą nazwę pliku, np. 'zdjecie.jpg'
+        return 'offers/' . $this->imageable_id . '/thumbnails/' . $filename;
+    }
+    public function getSmallPath()
+    {
+        return 'small/' . $this->path;
+
+    }
 }

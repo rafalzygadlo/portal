@@ -17,18 +17,8 @@
                 <div class="card-body p-4">
                     <h1 class="fw-bold h2 mb-4">{{ $offer->title }}</h1>
 
-                    @if($offer->images->isNotEmpty())
-                        <div class="mb-4 bg-light overflow-hidden d-flex align-items-center justify-content-center" style="min-height: 400px; max-height: 600px;">
-                            <a href="{{ asset('storage/' . $offer->images->first()->path) }}" target="_blank">
-                                <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="img-fluid shadow" alt="{{ $offer->title }}" style="max-height: 600px; object-fit: contain;">
-                            </a>
-                        </div>
-                    @else
-                        <div class="bg-light d-flex align-items-center justify-content-center mb-4" style="height: 300px;">
-                            <i class="bi bi-image text-muted display-1"></i>
-                        </div>
-                    @endif
-
+                   <livewire:gallery :images="$offer->images"/>
+                    
                     <div class="offer-content py-3">
                         <h4 class="fw-semibold mb-3 border-start border-primary border-4 ps-3">Opis oferty</h4>
                         <div class="fs-5 text-secondary lh-base">
@@ -36,20 +26,8 @@
                         </div>
                     </div>
 
-                    @if($offer->images->count() > 1)
-                        <hr class="my-5">
-                        <h4 class="fw-semibold mb-4 text-dark">Galeria zdjęć</h4>
-                        <span>{{ $offer->images->count() }} zdjęć</span>
-                        <div class="row g-3">
-                            @foreach($offer->images->skip(1)->take(4) as $image)
-                                <div class="col-6 col-md-4 col-lg-3">
-                                    <a href="{{ asset('storage/' . $image->path) }}" target="_blank">
-                                        <img loading="lazy" src="{{ asset('storage/' . $image->path) }}" class="img-fluid border shadow hover-zoom" alt="{{ $offer->title }}" style="height: 150px; width: 100%; object-fit: cover;">
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
+
+
                 </div>
             </div>
 

@@ -4,12 +4,12 @@
     <!-- MINIATURKA / ZDJĘCIE -->
     <a href="{{ route('offers.show', $item) }}"
         class="position-relative d-block flex-shrink-0 bg-light overflow-hidden"
-        style="min-height: 110px; max-height: 120px; height: auto; lg-height: 180px;">
+        style="min-height: 110px; max-height: 120px;">
         @if (!empty($item->images))
 
             @if($item->images->isNotEmpty())
                 <img loading="lazy" src="{{ asset('storage/' . $item->images->skip(0)->first()->path) }}"
-                    class="justify-content-center align-items-center  h-100 w-100" alt="{{ $item->title }}">
+                    class="justify-content-center align-items-center  w-100" alt="{{ $item->title }}">
             @else
                 <div
                     class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
@@ -27,11 +27,11 @@
     <!-- TREŚĆ KARTY -->
     <div class="card-body p-3 p-lg-4 d-flex flex-column col-8 col-lg-12">
         <!-- Tytuł -->
-        <h6 class="card-title fw-bold mb-1 mb-lg-2">
-            <a href="" class="text-decoration-none text-dark hover-primary line-clamp-2">
+         <a href="{{ route('offers.show', $item) }}" class="text-decoration-none text-dark hover-primary">
+            <h6 class="card-title fw-bold mb-1 mb-lg-2 line-clamp-2">
                 {{ $item->title }}
-            </a>
-        </h6>
+            </h6>
+        </a>
 
         <!-- Krótki opis (Ukryty na bardzo małych ekranach dla oszczędności miejsca) -->
         <p class="card-text text-secondary small flex-grow-1 mb-2 d-none d-sm-block line-clamp-2"
@@ -42,7 +42,7 @@
         {{ $item->price ? 'Cena: ' . $item->price . ' zł' : '' }}
         <!-- Kategorie i data dodania -->
         <div
-            class="mt-auto d-flex flex-wrap align-items-center justify-content-between gap-1 pt-1 border-top border-light">
+            class="mt-auto d-flex flex-wrap align-items-center justify-content-between gap-1 pt-1 border-top">
             <div class="text-truncate" style="max-width: 60%;">
                 @foreach($item->categories->take(1) as $category) {{-- Na mobile bierzemy tylko 1 tag, żeby nie rozbić
                     układu --}}
