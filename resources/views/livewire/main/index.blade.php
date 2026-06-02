@@ -34,6 +34,14 @@
         </div>
         @endforeach
 
+        <div x-intersect="$wire.loadMore()" class="col-12 text-center p-4">
+            <div wire:loading wire:target="loadMore" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Ładowanie...</span>
+                </div>
+                <div class="mt-2 text-secondary small">Ładowanie kolejnych aktywności...</div>
+            </div>
+        </div>
         
     </div> 
 </div>
