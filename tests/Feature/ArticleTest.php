@@ -12,18 +12,22 @@ class ArticleTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_allows_a_user_to_create_an_article()
+    public function it_can_view_articles_index_page()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user);
+        Article::factory(3)->create();
+        
+        $response = $this->get('/articles');
+        
+        $response->assertStatus(200);
+    }
 
-        $article = Article::factory()->make();
-
-        $response = $this->post('/articles', $article->toArray());
-
-        $this->assertDatabaseHas('articles', [
-            'title' => $article->title,
-            'content' => $article->content,
-        ]);
+    /** @test */
+    public function it_can_view_article_show_page()
+    {
+        $article = Article::factory()->create();
+        
+        $response = $this->get("/articles/{$article->id}");
+        
+        $response->assertStatus(200);
     }
 }

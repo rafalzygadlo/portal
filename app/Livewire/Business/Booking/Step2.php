@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * DEPRECATED - Booking module temporarily disabled
+ * This component is part of the booking system that is not being developed in the current iteration.
+ * DO NOT USE - Routes for this component are commented out in routes/web.php
+ */
+
 namespace App\Livewire\Business\Booking;
 
 use App\Models\Business;

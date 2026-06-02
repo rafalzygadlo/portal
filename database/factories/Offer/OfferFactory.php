@@ -18,6 +18,7 @@ class OfferFactory extends Factory
             'user_id' => User::factory(),
             'title' => $this->faker->sentence(),
             'content' => $this->faker->paragraphs(3, true),
+            'slug' => $this->faker->slug(),
         ];
     }
 }

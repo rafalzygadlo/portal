@@ -62,6 +62,11 @@ Route::domain('{subdomain}.' . $domain)->group(function () {
 
     Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
     
+    // TODO: Booking module - temporarily disabled
+    // The booking system with multi-step flow (Step1-Step4) is under development
+    // and will not be developed further in this iteration.
+    // Routes remain commented out until the feature is ready for implementation.
+    /*
     Route::prefix('booking')->group(function () {
         Route::get('/', \App\Livewire\Business\Booking\StartBooking::class)->name('business.booking');
         Route::get('/{flow}/step1', \App\Livewire\Business\Booking\Step1::class)->name('booking.step1');
@@ -69,6 +74,7 @@ Route::domain('{subdomain}.' . $domain)->group(function () {
         Route::get('/{flow}/step3', \App\Livewire\Business\Booking\Step3::class)->name('booking.step3');
         Route::get('/{flow}/step4', \App\Livewire\Business\Booking\Step4::class)->name('booking.step4');
     });
+    */
     
     Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
         // Dashboard routes

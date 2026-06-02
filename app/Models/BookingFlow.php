@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * DEPRECATED - Booking module temporarily disabled
+ * This model is part of the booking system that is not being developed in the current iteration.
+ * DO NOT USE - Consider archiving or removing in future cleanup.
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;

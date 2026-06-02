@@ -8,6 +8,7 @@ use App\Models\Category;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use App\Services\OfferImageService;
+use App\Services\ImageAnalysisService;
 
 class Create extends Component
 {
@@ -37,6 +38,42 @@ class Create extends Component
     {
         unset($this->photos[$index]);
         $this->photos = array_values($this->photos);
+    }
+
+    /**
+     * Analyze first photo to auto-fill title and description
+     */
+    public function analyzePhoto()
+    {
+        if (empty($this->photos)) {
+            $this->addError('photos', 'Wrzuć co najmniej jedno zdjęcie');
+            return;
+        }
+
+        try {
+            $imageService = new ImageAnalysisService();
+            $result = $imageService->analyzeImage($this->photos[0]);
+
+            if (isset($result['error'])) {
+                $this->addError('photos', 'Nie udało się przeanalizować zdjęcia: ' . $result['error']);
+                return;
+            }
+
+            // Auto-fill fields
+            if (!empty($result['title'])) {
+                $this->title = $result['title'];
+            }
+
+            if (!empty($result['description'])) {
+                $this->content = $result['description'];
+            }
+
+            $this->dispatch('notify', message: '✨ Zdjęcie przeanalizowane! Tytuł i opis zostały uzupełnione.');
+
+        } catch (\Exception $e) {
+            \Log::error('Photo analysis error: ' . $e->getMessage());
+            $this->addError('photos', 'Błąd przy analizie zdjęcia');
+        }
     }
 
     /**

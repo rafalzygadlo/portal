@@ -18,15 +18,12 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->text('content');
-            $table->string('image_path')->nullable();
+    
             $table->timestamps();
 
             $table->index('title');
 
-            if (DB::getDriverName() !== 'sqlite') 
-            {
-                $table->fullText('content');
-            }
+    
         });
     }
 

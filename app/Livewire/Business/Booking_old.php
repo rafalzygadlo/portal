@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * DEPRECATED - Booking module temporarily disabled
+ * This file is part of the booking system that is not being developed in the current iteration.
+ * The multi-step booking flow has been replaced with a newer implementation.
+ * DO NOT USE - For reference only.
+ */
 namespace App\Livewire\Business;
 
 use App\Models\Business;

@@ -27,18 +27,32 @@
             @error('photos.*') <div class="invalid-feedback">{{ $message }}</div> @enderror
             
             @if ($photos)
-                <div class="d-flex flex-wrap gap-2 mt-3">
-                    @foreach ($photos as $index => $photo)
-                        <div class="position-relative">
-                            <img loading="lazy" src="{{ $photo->temporaryUrl() }}" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
-                            <button type="button" 
-                                    class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" 
-                                    style="padding: 0px 5px; line-height: 1.2;" 
-                                    wire:click="removePhoto({{ $index }})">
-                                <i class="bi bi-x"></i>
-                            </button>
-                        </div>
-                    @endforeach
+                <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach ($photos as $index => $photo)
+                            <div class="position-relative">
+                                <img loading="lazy" src="{{ $photo->temporaryUrl() }}" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                                <button type="button" 
+                                        class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" 
+                                        style="padding: 0px 5px; line-height: 1.2;" 
+                                        wire:click="removePhoto({{ $index }})">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+                    <button type="button" 
+                            class="btn btn-info btn-sm" 
+                            wire:click="analyzePhoto"
+                            wire:loading.attr="disabled">
+                        <span wire:loading.remove>
+                            <i class="bi bi-lightbulb"></i> Analizuj zdjęcie
+                        </span>
+                        <span wire:loading>
+                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            Analizuję...
+                        </span>
+                    </button>
                 </div>
             @endif
         </div>
