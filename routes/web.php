@@ -76,7 +76,7 @@ Route::domain('{subdomain}.' . $domain)->group(function () {
     });
     
     
-    Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('admin')->middleware(['auth', 'verified', 'can:manage-business,subdomain'])->group(function () {
         // Dashboard routes
         Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('admin.business.dashboard');
         

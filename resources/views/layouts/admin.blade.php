@@ -16,16 +16,21 @@
             <a class="navbar-brand fw-bold">
                 Admin - {{ $business->name }}
             </a>
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto">
-                    @auth
+                    @can('manage-business', $business->subdomain)
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.business.dashboard', ['subdomain' => $business->subdomain]) }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.business.services.index', ['subdomain' => $business->subdomain]) }}">Usługi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.business.resources.index', ['subdomain' => $business->subdomain]) }}">Zasoby</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('business.domain', ['subdomain' => $business->subdomain]) }}" target="_blank">Page</a>
@@ -34,27 +39,25 @@
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
-                    @if (!Auth::guard('user')->check())
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('business.login', ['subdomain' => $business->subdomain]) }}">{{ __('login.link') }}</a>
-                        </li>
-                    @else
+                    @auth
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi bi-person-circle"></i>
+                                <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.business.dashboard', ['subdomain' => $business->subdomain]) }}">{{ __('dashroard.link') }}</a>
-                                <a class="dropdown-item" href="{{ route('user.profile', Auth::user()) }}">{{ __('profile.link') }}</a>
+                                <a class="dropdown-item" href="{{ route('user.profile') }}">{{ __('profile.link') }}</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout', ['subdomain' => $business->subdomain]) }}">{{ __('global.logout') }}</a>
-                                <form id="logout-form" action="{{ route('logout', ['subdomain' => $business->subdomain]) }}" method="POST" class="d-none">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    {{ __('global.logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
                             </div>
                         </li>
-                    @endif
+                    @endauth
                 </ul>
             </div>
         </div>
