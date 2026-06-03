@@ -1,28 +1,35 @@
 <?php
 
-namespace App\Livewire\Offer;
+namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Category;
-use App\Models\Offer\Offer;
 
-class CategorySidebar extends Component
+class Sidebar extends Component
 {
     public $categorySlug;
     public $currentCategory;
+    public $modelClass; // Pełna nazwa klasy modelu, np. \App\Models\Offer\Offer
 
-    public function mount($categorySlug = null, $currentCategory = null)
+    public $route; // Nazwa trasy do generowania linków, np. 'offers.index'
+
+    public function mount($route = null, $categorySlug = null, $currentCategory = null, $modelClass = null)
     {
+        $this->route = $route;
         $this->categorySlug = $categorySlug;
         $this->currentCategory = $currentCategory;
+        $this->modelClass = $modelClass;
     }
 
     public function render()
     {
         $categories = $this->getSidebarCategories();
-        $this->attachRecursiveOfferCounts($categories);
+        
+        if ($this->modelClass) {
+            $this->attachRecursiveCounts($categories);
+        }
 
-        return view('livewire.offer.category', [
+        return view('livewire.sidebar', [
             'categories' => $categories
         ]);
     }
@@ -40,23 +47,11 @@ class CategorySidebar extends Component
             : Category::where('parent_id', $this->currentCategory->parent_id)->withCount('children')->get();
     }
 
-    private function attachRecursiveOfferCounts($categories)
+    private function attachRecursiveCounts($categories)
     {
         foreach ($categories as $item) {
-            $allChildIds = $this->getAllCategoryIds($item->id);
-            $item->total_offers_recursive = Offer::whereHas('categories', fn($q) => $q->whereIn('categories.id', $allChildIds))->count();
+            $allChildIds = Category::getAllChildrenIds($item->id);
+            $item->recursive_count = $this->modelClass::whereHas('categories', fn($q) => $q->whereIn('categories.id', $allChildIds))->count();
         }
-    }
-
-    private function getAllCategoryIds($parentId)
-    {
-        $ids = [$parentId];
-        $children = Category::where('parent_id', $parentId)->pluck('id')->toArray();
-
-        foreach ($children as $childId) {
-            $ids = array_merge($ids, $this->getAllCategoryIds($childId));
-        }
-
-        return $ids;
     }
 }

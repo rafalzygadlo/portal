@@ -21,17 +21,11 @@ class Show extends Component
     #[Computed]
     public function breadcrumb()
     {
-        $path = collect();
-        
         if ($this->offer->categories->isNotEmpty()) {
-            $current = $this->offer->categories->first();
-            while ($current) {
-                $path->prepend($current);
-                $current = $current->parent;
-            }
+            return $this->offer->categories->first()->getBreadcrumbs();
         }
         
-        return $path;
+        return collect(); // Zwróć pustą kolekcję, jeśli nie ma kategorii
     }
 
     public function render()

@@ -34,22 +34,10 @@ class Index extends Component
 
     private function getOffersQuery()
     {
-        $targetIds = $this->currentCategory ? $this->getAllCategoryIds($this->currentCategory->id) : [];
+        $targetIds = $this->currentCategory ? Category::getAllChildrenIds($this->currentCategory->id) : [];
 
         return Offer::with(['user', 'categories', 'images'])
             ->when($this->categorySlug, fn($q) => $q->whereHas('categories', fn($query) => $query->whereIn('categories.id', $targetIds)))
             ->latest();
-    }
-
-    private function getAllCategoryIds($parentId)
-    {
-        $ids = [$parentId];
-        $children = Category::where('parent_id', $parentId)->pluck('id')->toArray();
-
-        foreach ($children as $childId) {
-            $ids = array_merge($ids, $this->getAllCategoryIds($childId));
-        }
-
-        return $ids;
     }
 }

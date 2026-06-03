@@ -12,8 +12,8 @@ class Index extends Component
 {
     use WithPagination;
 
-    #[Session]
-    public $selectedCategories = [];
+    public $categorySlug = null;
+    public $currentCategory = null;
 
     public function updatedSelectedCategories()
     {
@@ -22,18 +22,21 @@ class Index extends Component
 
     public function render()
     {
-        $businesses = Business::
-            when($this->selectedCategories, function ($query) {
-                $query->whereHas('categories', function ($q) {
-                    $q->whereIn('slug', $this->selectedCategories);
-                });
-            })
-            ->latest()
-            ->paginate(20);
+         $this->currentCategory = $this->categorySlug 
+            ? Category::where('slug', $this->categorySlug)->first() 
+            : null;
 
         return view('livewire.business.index', [
-            'businesses' => $businesses,
-            'categories' => Category::orderBy('name')->get(),
+            'businesses' => $this->getOffersQuery()->paginate(20),
         ]);
+    }
+
+     private function getOffersQuery()
+    {
+        $targetIds = $this->currentCategory ? Category::getAllChildrenIds($this->currentCategory->id) : [];
+
+        return Business::with(['categories', 'images'])
+            ->when($this->categorySlug, fn($q) => $q->whereHas('categories', fn($query) => $query->whereIn('categories.id', $targetIds)))
+            ->latest();
     }
 }

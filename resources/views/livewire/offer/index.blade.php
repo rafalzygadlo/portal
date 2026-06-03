@@ -15,7 +15,7 @@
     @endif
 
     <!-- NOWOCZESNY, MINIMALISTYCZNY BREADCRUMB (Bez tła, czysta przestrzeń) -->
-    <livewire:offer.breadcrumb :category="$currentCategory" :key="'bc-'.$categorySlug" />
+    <livewire:breadcrumb :category="$currentCategory" :key="'bc-'.$categorySlug" />
 
 
     <!-- GŁÓWNY UKŁAD: SIDEBAR + SIATKA -->
@@ -27,7 +27,7 @@
                     <i class="bi bi-folder2-open text-primary"></i> Categories
                 </div>
                 <div class="card-body px-4 pb-4 pt-2">
-                    <livewire:offer.category-sidebar :categorySlug="$categorySlug" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
+                    <livewire:sidebar route="offers.index" :categorySlug="$categorySlug" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
                 </div>
             </div>
         </div>

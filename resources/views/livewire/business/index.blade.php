@@ -20,15 +20,15 @@
     @endif
 
     <div class="mb-4 p-3 p-md-4 rounded-1 bg-light">
-        <h5 class="fw-semibold mb-2 mb-md-3 small text-uppercase text-muted" style="letter-spacing: 0.5px;">Filtruj firmy</h5>
-        <div class="d-flex flex-nowrap flex-md-wrap gap-2 overflow-x-auto pb-2 pb-md-0" style="scrollbar-width: none; -webkit-overflow-scrolling: touch;">
-            @foreach($categories as $cat)
-                <div class="flex-shrink-0">
-                    <input type="checkbox" class="btn-check" value="{{ $cat->slug }}"
-                           id="cat-{{ $cat->id }}" wire:model.live="selectedCategories" autocomplete="off">
-                    <label class="btn btn-sm btn-outline-secondary text-nowrap" for="cat-{{ $cat->id }}">{{ $cat->name }}</label>
+        <div class="col-lg-12 col-xl-12 mb-4">
+            <div class="card border-0 rounded-4 shadow-sm bg-white sticky-top">
+                <div class="card-header bg-white border-0 pt-4 px-4 pb-2 fw-bold text-dark d-flex align-items-center gap-2" style="font-size: 1.05rem;">
+                    <i class="bi bi-folder2-open text-primary"></i> Categories
                 </div>
-            @endforeach
+                <div class="card-body px-4 pb-4 pt-2">
+                    <livewire:sidebar route="business.index" :categorySlug="$categorySlug" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
+                </div>
+            </div>
         </div>
     </div>
 
