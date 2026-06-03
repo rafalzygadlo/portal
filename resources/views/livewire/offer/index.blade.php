@@ -15,33 +15,8 @@
     @endif
 
     <!-- NOWOCZESNY, MINIMALISTYCZNY BREADCRUMB (Bez tła, czysta przestrzeń) -->
-    <nav aria-label="breadcrumb" class="mb-5">
-        <ol class="breadcrumb bg-transparent p-0 m-0 align-items-center" style="font-size: 0.9rem;">
-            @if (!empty($breadcrumb))
-                <li class="breadcrumb-item">
-                    <a href="{{ route('offers.index') }}" class="text-decoration-none text-muted text-hover-primary fw-medium">All Offers</a>
-                </li>
-                @foreach ($breadcrumb as $crumb)
-                    <li class="breadcrumb-item {{ $loop->last ? 'active text-dark fw-bold' : '' }}" @if($loop->last) aria-current="page" @endif>
-                        @if (!$loop->last)
-                            <a href="{{ route('offers.index', $crumb->slug) }}" class="text-decoration-none text-muted text-hover-primary fw-medium">{{ $crumb->name }}</a>
-                        @else
-                            {{ $crumb->name }}
-                        @endif
-                    </li>
-                @endforeach
-            @elseif (request()->has('category'))
-                <li class="breadcrumb-item">
-                    <a href="{{ route('offers.index') }}" class="text-decoration-none text-muted text-hover-primary fw-medium">All Offers</a>
-                </li>
-                <li class="breadcrumb-item active text-danger fw-semibold" aria-current="page">Category Not Found</li>
-            @else
-                <li class="breadcrumb-item active text-dark fw-bold" aria-current="page">
-                    <i class="bi bi-grid-fill me-1.5 small opacity-75"></i> All Offers
-                </li>
-            @endif
-        </ol>
-    </nav>
+    <livewire:offer.breadcrumb :category="$currentCategory" :key="'bc-'.$categorySlug" />
+
 
     <!-- GŁÓWNY UKŁAD: SIDEBAR + SIATKA -->
     <div class="row g-4">
@@ -52,7 +27,7 @@
                     <i class="bi bi-folder2-open text-primary"></i> Categories
                 </div>
                 <div class="card-body px-4 pb-4 pt-2">
-                    @include('livewire.offer.category', ['categories' => $categories])
+                    <livewire:offer.category-sidebar :categorySlug="$categorySlug" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
                 </div>
             </div>
         </div>

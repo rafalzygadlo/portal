@@ -10,7 +10,7 @@ class Login extends Component
 {
 
     public $email = "demo@example.com";
-    public $password ="demo";
+    public $password ="password";
 
     public function login()
     {

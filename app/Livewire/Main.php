@@ -31,6 +31,16 @@ class Main extends Component
             return redirect()->guest(route('login'));
         }
 
+        // Sprawdzamy czy użytkownik ma zweryfikowany adres email
+        if (! auth()->user()->hasVerifiedEmail()) {
+            session()->put('intended_modal', [
+                'component' => $component,
+                'title' => $title
+            ]);
+
+            return redirect()->route('verification.notice');
+        }
+
         // Jeśli zalogowany, otwórz modal od razu
         $this->dispatch('openModal', $component,  $title);
     }

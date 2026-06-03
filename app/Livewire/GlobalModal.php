@@ -14,10 +14,16 @@ class GlobalModal extends Component
 
     
     #[On('openModal')]
-    public function open($view, $title = '', $params = [])
+    public function open($view, $title = '', $params = [], $requiredAuth = true)
     {
-        if (Auth::guest())
-            return $this->redirect(route('login'));
+        if ($requiredAuth) 
+        {
+            if (Auth::guest())
+                return $this->redirect(route('login'));
+
+            if (! Auth::user()->hasVerifiedEmail())
+                return $this->redirect(route('verification.notice'));
+        }
         
         $this->view = $view;
         $this->title = $title;

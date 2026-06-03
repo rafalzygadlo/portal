@@ -15,6 +15,14 @@ class UserSeeder extends Seeder
     public function run()
     {
         $this->command->info('Creating users...');
+        
+        \App\Models\User::create([
+            'first_name' => ' Demo',
+            'last_name' => 'User',
+            'email' => 'demo@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
         $usersCount = 100;
         $this->command->getOutput()->progressStart($usersCount);
 

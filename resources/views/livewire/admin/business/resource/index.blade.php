@@ -1,4 +1,4 @@
-<div class="business-dashboard container py-4">
+<div class="col py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3">Resources</h1>
           <button  wire:click="$dispatch('openResourceModal')" class="btn btn-primary">+ Add</button>
