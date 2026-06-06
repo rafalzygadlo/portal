@@ -58,9 +58,11 @@
         </div>
     </nav>
 
-    <main>
-        {{ $slot }}
-    </main>
+    <main >
+            <div class="container-fluid bg-light py-4 px-lg-5">
+                {{ $slot }}
+            </div>
+        </main>
 
     <footer class="py-4 bg-light mt-5">
         <div class="container text-center">
