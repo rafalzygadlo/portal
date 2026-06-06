@@ -6,6 +6,12 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\Article;
+use App\Models\Offer;
+use App\Models\Business;
+use App\Models\Poll\Poll;
+use App\Models\Todo;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,24 +32,24 @@ class DatabaseSeeder extends Seeder
         
         // Create Articles
         $this->call(ArticleSeeder::class);
-        $this->seedVotesForModel(\App\Models\Article\Article::class, $users, 'Articles');
+        $this->seedVotesForModel(Article::class, $users, 'Articles');
         
         // Create Offers        
         $this->call(OfferSeeder::class);
-        $this->seedVotesForModel(\App\Models\Offer\Offer::class, $users, 'Offers');
+        $this->seedVotesForModel(Offer::class, $users, 'Offers');
         
         // Create Businesses with votes
         $this->call(BusinessSeeder::class);
-        $this->seedVotesForModel(\App\Models\Business::class, $users, 'Businesses');
+        $this->seedVotesForModel(Business::class, $users, 'Businesses');
         
         // Create Polls with votes
         $this->call(PollSeeder::class);
-        $this->seedVotesForModel(\App\Models\Poll\Poll::class, $users, 'Polls');
+        $this->seedVotesForModel(Poll::class, $users, 'Polls');
         $this->seedVotesForPollOptions($users);
         
         // Create Todos with votes
         $this->call(TodoSeeder::class);
-        $this->seedVotesForModel(\App\Models\Todo::class, $users, 'Todos');
+        $this->seedVotesForModel(Todo::class, $users, 'Todos');
     }
 
     /**

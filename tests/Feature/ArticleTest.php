@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use App\Models\Article\Article;
+use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -26,7 +26,7 @@ class ArticleTest extends TestCase
     {
         $article = Article::factory()->create();
         
-        $response = $this->get("/articles/{$article->id}");
+        $response = $this->get("/articles/{$article->slug}");
         
         $response->assertStatus(200);
     }

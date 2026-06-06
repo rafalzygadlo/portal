@@ -4,13 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\User;
 
 class Comment extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-    protected $fillable = ['user_id', 'commentable_id', 'commentable_type', 'parent_id', 'content'];
+
+    protected $fillable = ['user_id', 'commentable_id', 'commentable_type', 'parent_id', 'content', 'deletion_reason'];
+
+    public function delete($reason = null)
+    {
+        if ($reason) {
+            $this->update(['deletion_reason' => $reason]);
+        }
+
+        return parent::delete();
+    }
 
     public function user()
     {

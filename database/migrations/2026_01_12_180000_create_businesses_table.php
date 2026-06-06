@@ -17,12 +17,26 @@ return new class extends Migration
             $table->text('description')->nullable();;
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
-            //$table->string('website')->nullable();
-            //$table->decimal('latitude', 10, 7)->nullable();
-            //$table->decimal('longitude', 10, 7)->nullable();
+            $table->string('is_claimed')->default(false);
+            $table->string('website')->nullable();
+            $table->string('email')->nullable();
+            $table->string('logo')->nullable();
+            
             $table->string('subdomain')->unique();
             $table->json('business_hours')->nullable(); // {'mon': {'open': '09:00', 'close': '17:00'}, ...}
+            $table->string('deletion_reason')->nullable()->comment('spam, admin_deleted, reported, etc.');
+            
+            
             $table->timestamps();
+            $table->softDeletes();
+
+
+
+
+            $table->index('name');
+            $table->index('subdomain');
+            $table->index('email');
+
         });
     }
 

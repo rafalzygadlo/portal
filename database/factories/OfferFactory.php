@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories\Offer;
+namespace Database\Factories;
 
-use App\Models\Offer\Offer;
+use App\Models\Offer;
 use App\Models\Offer\Category;
 use App\Models\User;
 use Database\Factories\Offer\CategoryFactory;

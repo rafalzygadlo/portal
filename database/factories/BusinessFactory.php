@@ -31,7 +31,10 @@ class BusinessFactory extends Factory
             'description' => $this->faker->paragraphs(3, true),
             'address' => $this->faker->address,
             'phone' => $this->faker->phoneNumber,
-
+            'email' => $this->faker->unique()->companyEmail,
+            'website' => $this->faker->url,
+            'is_claimed' => $this->faker->boolean(30), // 30% chance of being claimed
+            'logo' => $this->faker->imageUrl(400, 400, 'business', true),
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Services;
 
-use App\Models\Offer\Offer;
+use App\Models\Offer;
 use App\Services\OfferImageService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;

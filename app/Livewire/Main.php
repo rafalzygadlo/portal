@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Offer\Offer;
-use App\Models\Article\Article;
+use App\Models\Offer;
+use App\Models\Article;
 use App\Models\Todo;
 use App\Models\Business;
 
@@ -16,7 +16,7 @@ class Main extends Component
     public function loadMore()
     {
         $this->perPage += 10;
-        sleep(1); // Opcjonalnie, aby zasymulować opóźnienie ładowania
+        //sleep(1); // Opcjonalnie, aby zasymulować opóźnienie ładowania
     }
 
     public function checkAuthAndOpenModal($component, $title)

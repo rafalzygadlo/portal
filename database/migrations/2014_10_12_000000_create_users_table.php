@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
@@ -24,6 +23,13 @@ return new class extends Migration
             $table->boolean('status')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+            $table->string('deletion_reason')->nullable()->comment('spam, admin_deleted, reported, etc.');
+            
+            
+            $table->index('first_name');
+            $table->index('last_name');
+            $table->index('email');
         });
     }
 

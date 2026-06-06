@@ -14,6 +14,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        
+        $usersCount = 10000;    
+        $chunkSize = 100;
+    
         $this->command->info('Creating users...');
         
         \App\Models\User::create([
@@ -23,11 +27,11 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        $usersCount = 100;
+        
         $this->command->getOutput()->progressStart($usersCount);
 
         $usersData = [];
-        $chunkSize = 100;
+        
         $password = bcrypt('password');
         $now = now();
 

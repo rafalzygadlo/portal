@@ -15,7 +15,13 @@ return new class extends Migration
             $table->text('description');
             $table->string('slug')->unique();
             $table->enum('status', ['pending', 'planned', 'completed'])->default('pending');
+            $table->string('deletion_reason')->nullable()->comment('spam, admin_deleted, reported, etc.');
             $table->timestamps();
+            $table->softDeletes();
+
+
+            $table->index('user_id');
+            $table->index('slug');
         });
     }
 

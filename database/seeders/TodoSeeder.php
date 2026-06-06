@@ -15,11 +15,14 @@ class TodoSeeder extends Seeder
     public function run()
     {
         // Disable query log to save memory on long running commands
+        $todosCount = 200000;
+        $chunkSize = 10;
+        
+        
         \Illuminate\Support\Facades\DB::disableQueryLog();
 
         $this->command->info('Generating todos...');
-        $todosCount = 20;
-        $chunkSize = 10;
+        
         $this->command->getOutput()->progressStart($todosCount);
 
         $todosData = [];

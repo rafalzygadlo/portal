@@ -3,7 +3,7 @@
 namespace App\Livewire\Article;
 
 use Livewire\Component;
-use App\Models\Article\Article;
+use App\Models\Article;
 
 class Show extends Component
 {

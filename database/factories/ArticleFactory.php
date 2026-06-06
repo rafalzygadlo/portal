@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Factories\Article;
+namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Article\Article;
+use App\Models\Article;
 use App\Models\User;
 
 /**

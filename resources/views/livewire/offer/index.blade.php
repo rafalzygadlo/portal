@@ -1,5 +1,5 @@
-<div class="col-12 px-1 px-md-3">
-    <!-- NAGŁÓWEK STRONY & STATUS -->
+
+<div class="col-12 px-1 px-md-3">    <!-- NAGŁÓWEK STRONY & STATUS -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-black fs-2 tracking-tight text-dark mb-1">Offers</h2>
@@ -15,7 +15,7 @@
     @endif
 
     <!-- NOWOCZESNY, MINIMALISTYCZNY BREADCRUMB (Bez tła, czysta przestrzeń) -->
-    <livewire:breadcrumb :category="$currentCategory" :key="'bc-'.$categorySlug" />
+    <livewire:breadcrumb route="offers.index" :category="$currentCategory" :key="'bc-'.$categorySlug" />
 
 
     <!-- GŁÓWNY UKŁAD: SIDEBAR + SIATKA -->
@@ -27,7 +27,7 @@
                     <i class="bi bi-folder2-open text-primary"></i> Categories
                 </div>
                 <div class="card-body px-4 pb-4 pt-2">
-                    <livewire:sidebar route="offers.index" :categorySlug="$categorySlug" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
+                    <livewire:category-bar route="offers.index" :categorySlug="$categorySlug" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
                 </div>
             </div>
         </div>

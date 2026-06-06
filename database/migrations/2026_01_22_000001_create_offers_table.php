@@ -18,8 +18,16 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->decimal('price', 10, 2)->nullable();
             $table->text('content');
+            $table->string('deletion_reason')->nullable()->comment('spam, admin_deleted, reported, etc.');
             $table->timestamps();
-        });
+            $table->softDeletes();
+
+            $table->index('user_id');
+            $table->index('slug');
+            $table->index('title');
+            $table->index('price');
+
+        }); 
     }
 
     /**

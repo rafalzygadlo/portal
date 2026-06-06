@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Article;
+use App\Models\User;
 
 class ArticleSeeder extends Seeder
 {
@@ -13,7 +15,7 @@ class ArticleSeeder extends Seeder
      */
     public function run()
     {
-        $articlesCount = 100;
+        $articlesCount = 10000;
         $chunkSize = 10;
 
         $this->command->info('Generating articles...');
@@ -21,7 +23,7 @@ class ArticleSeeder extends Seeder
 
 
         // Fetch a larger sample of users to be authors
-        $users = \App\Models\User::limit(1000)->get();
+        $users = User::limit(1000)->get();
         if ($users->isEmpty()) {
             $this->command->error('No users found. Please seed users first.');
             return;
@@ -30,21 +32,21 @@ class ArticleSeeder extends Seeder
         $articlesData = [];
         
         for ($i = 0; $i < $articlesCount; $i++) {
-            $articlesData[] = \App\Models\Article\Article::factory()->raw([
+            $articlesData[] = Article::factory()->raw([
                 'user_id' => $users->random()->id,
                 'created_at' => date('Y-m-d H:i:s', random_int(strtotime('-1 year'), strtotime('now'))),
                 'updated_at' => date('Y-m-d H:i:s', random_int(strtotime('-1 year'), strtotime('now'))),
             ]);
 
             if (count($articlesData) >= $chunkSize) {
-                \App\Models\Article\Article::insert($articlesData);
+                Article::insert($articlesData);
                 $articlesData = [];
                 $this->command->getOutput()->progressAdvance($chunkSize);
             }
         }
 
         if (!empty($articlesData)) {
-            \App\Models\Article\Article::insert($articlesData);
+            Article::insert($articlesData);
         }
 
         $this->command->getOutput()->progressFinish();

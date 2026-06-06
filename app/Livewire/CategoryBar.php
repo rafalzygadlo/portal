@@ -5,11 +5,11 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Category;
 
-class Sidebar extends Component
+class CategoryBar extends Component
 {
     public $categorySlug;
     public $currentCategory;
-    public $modelClass; // Pełna nazwa klasy modelu, np. \App\Models\Offer\Offer
+    public $modelClass; // Pełna nazwa klasy modelu, np. \App\Models\Offer
 
     public $route; // Nazwa trasy do generowania linków, np. 'offers.index'
 

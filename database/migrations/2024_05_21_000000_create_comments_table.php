@@ -15,6 +15,11 @@ return new class extends Migration
             $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade');
             $table->text('content');
             $table->timestamps();
+            $table->softDeletes();
+            $table->string('deletion_reason')->nullable()->comment('spam, admin_deleted, reported, etc.');
+
+            $table->index('user_id');
+            $table->index('parent_id');
         });
     }
 

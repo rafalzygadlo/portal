@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Article;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Article\Report;
+use App\Models\Report;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Comment;

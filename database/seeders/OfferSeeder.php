@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Offer\Offer;
+use App\Models\Offer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -22,76 +22,89 @@ class OfferSeeder extends Seeder
     public function run()
     {
 
+        $offersCount = 1000;
+
         $manager = new ImageManager(new Driver());
 
         $users = \App\Models\User::all();
         if ($users->isEmpty()) {
-            $users = \App\Models\User::factory()->count(10)->create();
+            $this->command->error('No users found. Please seed users first.');
+            return;
         }
 
         $categories = \App\Models\Category::all();
-        Offer::factory()
-            ->count(100)
-            ->create(function () use ($users) {
-                // Define random creation date and a subsequent update date
-                $createdAt = fake()->dateTimeBetween('-2 months', 'now');
-                $title = fake()->sentence(5);
 
-                return [
-                    'user_id' => $users->random()->id,
-                    'title' => $title,
-                    'slug' => Str::slug($title),
-                    'created_at' => $createdAt,
-                    'updated_at' => fake()->dateTimeBetween($createdAt, 'now'),
-                ];
-            })
-            ->each(function (Offer $offer) use ($categories, $manager) {
+        $this->command->info('Generating offers with images...');
+        $this->command->getOutput()->progressStart($offersCount);
+
+        $reasons = ['spam', 'reported', 'expired', 'admin_deleted'];
+
+        for ($i = 0; $i < $offersCount; $i++) 
+        {
+            $createdAt = fake()->dateTimeBetween('-2 months', 'now');
+            $isDeleted = fake()->boolean(15); // 15% szans na soft delete
+
+            $offer = Offer::factory()->create([
+                'user_id' => $users->random()->id,
+                'created_at' => $createdAt,
+                'updated_at' => fake()->dateTimeBetween($createdAt, 'now'),
+                'deleted_at' => $isDeleted ? now() : null,
+                'deletion_reason' => $isDeleted ? fake()->randomElement($reasons) : null,
+            ]);
+
+            // Obsługa kategorii
+            if ($categories->isNotEmpty()) {
                 // Attach categories after the model is created and saved
-                if ($categories->isNotEmpty()) {
-                    $numberOfCategories = rand(1, min(3, $categories->count()));
-                    $randomCategories = $categories->random($numberOfCategories);
-                    $offer->categories()->attach($randomCategories->pluck('id')->toArray());
-                }
+                $numberOfCategories = rand(1, min(3, $categories->count()));
+                $randomCategories = $categories->random($numberOfCategories);
+                $offer->categories()->attach($randomCategories->pluck('id')->toArray());
+            }
 
-                // 2. Generowanie obrazków z Canvasem
-                $offerId = $offer->id;
-                $dir = "offers/{$offerId}";
-                $thumbDir = "{$dir}/thumbnails";                                
-                
-                for ($i = 1; $i <= rand(1, 10); $i++) 
-                {
-                    $filename = "auto-{$i}.jpg";
+            // Generowanie obrazów przez funkcję
+            $this->generateOfferImages($offer, $manager);
 
-                    // Generujemy losowy kolor tła
-                    $color = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            $this->command->getOutput()->progressAdvance();
+        }
 
-                    
-                    $img = $manager->createImage(800, 600); 
-                    $img->fill($color);
+        $this->command->getOutput()->progressFinish();
+    }
 
-                    // Tworzymy "Canvas" (obraz główny)
-                    $img->text('Oferta: ' . $offer->title, 400, 300, function (FontFactory $font) {
-                        $font->size(20);
-                        $font->color('#ffffff');
-                        $font->align(Alignment::CENTER, Alignment::TOP);
-                        
-                    });
+    /**
+     * Generates and saves images for a given offer.
+     */
+    private function generateOfferImages(Offer $offer, ImageManager $manager): void
+    {
+        $offerId = $offer->id;
+        $dir = "offers/{$offerId}";
+        $thumbDir = "{$dir}/thumbnails";
 
-                    // Zapis oryginału
-                    Storage::disk('public')->put("{$dir}/{$filename}", (string) $img->encodeUsingFormat(FORMAT::JPEG, quality: 80));
+        for ($i = 1; $i <= rand(1, 5); $i++) {
+            $filename = "auto-{$i}.jpg";
+            $color = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
 
-                    // Tworzymy miniaturkę (Canvas - resize)
-                    $thumb = clone $img; // Klonujemy, żeby nie zepsuć oryginału
-                    $thumb->resize(200, 200);
+            $img = $manager->createImage(800, 600);
+            $img->fill($color);
 
-                    // Zapis miniatury
-                    Storage::disk('public')->put("{$thumbDir}/{$filename}", (string) $thumb->encodeUsingFormat(FORMAT::JPEG, quality: 80));
-
-                    // Zapis do bazy
-                    $offer->images()->create(['path' => "{$dir}/{$filename}"]);
-                }
-
-
+            $img->text('Oferta: ' . $offer->title, 400, 300, function (FontFactory $font) {
+                $font->size(20);
+                $font->color('#ffffff');
+                $font->align(Alignment::CENTER, Alignment::TOP);
             });
+
+            // Zapis oryginału
+            Storage::disk('public')->put("{$dir}/{$filename}", (string) $img->encodeUsingFormat(FORMAT::JPEG, quality: 80));
+
+            // Tworzymy miniaturkę
+            $thumb = clone $img;
+            $thumb->resize(200, 200);
+
+            // Zapis miniatury
+            Storage::disk('public')->put("{$thumbDir}/{$filename}", (string) $thumb->encodeUsingFormat(FORMAT::JPEG, quality: 80));
+
+            // Zapis do bazy
+            $offer->images()->create(['path' => "{$dir}/{$filename}"]);
+        }
     }
 }
+
+           

@@ -45,9 +45,9 @@
                     </div>
 
                     <div class="pt-4 border-top">
-                        <livewire:article.report :article="$article" />
+                        
                         <div class="mt-4">
-                            <livewire:comments :model="$article" />
+                           <livewire:comments :model="$article" />
                         </div>
                     </div>
                 </div>

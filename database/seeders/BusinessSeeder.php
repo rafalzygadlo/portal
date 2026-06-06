@@ -43,6 +43,7 @@ class BusinessSeeder extends Seeder
                 'description' => 'A professional business with a high standard of services.',
                 'address' => fake()->address(),
                 'phone' => fake()->phoneNumber(),
+                'is_claimed' => fake()->boolean(30), // 30% chance of being claimed
                 //'website' => 'https://' . Str::slug($businessData['name']) . config('app.business_domain'),
                 //'latitude' => fake()->latitude(51.5, 52.5),
                 //'longitude' => fake()->longitude(20.5, 21.5),

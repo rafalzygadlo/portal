@@ -1,8 +1,8 @@
-<div class="mt-5">
+<div>
     <h6 class="mb-4">Comments ({{ $model->comments()->count() }})</h6>
 
     @auth
-        <div class="card mb-4 shadow border-0">
+        <div class="card shadow border-1">
             <div class="card-body">
                 <form wire:submit.prevent="postComment">
                     <div style="display: none;">
@@ -35,13 +35,21 @@
 
     <div class="comments-list">
         @forelse($comments as $comment)
-            <x-comment-item :comment="$comment" />
+            @if($comment->trashed())
+                <x-comment-item-trashed :comment="$comment" />
+            @else
+                <x-comment-item-normal :comment="$comment" />
+            @endif
 
             @foreach($comment->replies as $reply)
-                <x-comment-item :comment="$reply" :isReply="true" />
+                @if($reply->trashed())
+                    <x-comment-item-trashed :comment="$reply" :isReply="true" />
+                @else
+                    <x-comment-item-normal :comment="$reply" :isReply="true" />
+                @endif
             @endforeach
         @empty
-            <p class="text-muted text-center">No comments yet. Be the first!</p>
+            <p class="text-muted text-center my-4">No comments yet. Be the first!</p>
         @endforelse
     </div>
 </div>

@@ -12,9 +12,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
+
 use App\Models\Business;
-use App\Models\Offer\Offer;
-use App\Models\Article\Article;
+use App\Models\Offer;
+use App\Models\Article;
 
 class User extends Authenticatable implements MustVerifyEmail
 {

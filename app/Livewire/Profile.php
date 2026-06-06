@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
-use App\Models\Article\Article;
+use App\Models\Article;
 
 class Profile extends Component
 {

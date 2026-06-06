@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Vote;
+use App\Models\Article;
+
 
 class VoteSeeder extends Seeder
 {
@@ -17,7 +20,7 @@ class VoteSeeder extends Seeder
         \Illuminate\Support\Facades\DB::disableQueryLog();
 
         $this->command->info('Generating votes...');
-        $articlesCount = \App\Models\Article\Article::count();
+        $articlesCount = Article::count();
         $this->command->getOutput()->progressStart($articlesCount);
 
         $votes = [];
@@ -25,7 +28,7 @@ class VoteSeeder extends Seeder
         $voteChunkSize = 1000;
 
         // Fetch user IDs to conserve memory instead of full models
-        $userIds = \App\Models\User::limit(1000)->pluck('id');
+        $userIds = User::limit(1000)->pluck('id');
         if ($userIds->isEmpty()) {
             $this->command->error('No users found. Please seed users first.');
             $this->command->getOutput()->progressFinish();
@@ -33,7 +36,7 @@ class VoteSeeder extends Seeder
         }
         $userCount = $userIds->count();
 
-        foreach (\App\Models\Article\Article::cursor() as $article)
+        foreach (Article::cursor() as $article)
         {
             // Skip if we don't have enough users to meet the minimum vote count
             if ($userCount < 5) {
@@ -52,16 +55,16 @@ class VoteSeeder extends Seeder
             foreach ($voterIds as $voterId)
             {
                 $votes[] = [
-                    'voteable_type' => 'App\\Models\\Article\\Article',
+                    'voteable_type' => 'App\\Models\\Article',
                     'voteable_id' => $article->id,
                     'user_id' => $voterId,
-                    'value' => rand(0, 1) ? 1 : -1,
+                    'value' => 1,
                     'created_at' => $now,
                     'updated_at' => $now,
                 ];
 
                 if (count($votes) >= $voteChunkSize) {
-                    \App\Models\Vote::insert($votes);
+                    Vote::insert($votes);
                     $votes = [];
                 }
             }
@@ -70,7 +73,7 @@ class VoteSeeder extends Seeder
 
 
         if (!empty($votes)) {
-            \App\Models\Vote::insert($votes);
+            Vote::insert($votes);
         }
 
         $this->command->getOutput()->progressFinish();

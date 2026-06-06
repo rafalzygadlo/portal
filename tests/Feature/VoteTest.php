@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use App\Models\Article\Article;
+use App\Models\Article;
 use App\Models\Vote;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

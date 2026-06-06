@@ -42,8 +42,7 @@ class Comments extends Component
             'content' => $this->content,
         ]);
 
-        //CommentCreated::dispatch(Auth::user(), $this->model, $comment->content);
-
+        
         $this->content = '';
         $this->replyToId = null;
     }
@@ -52,14 +51,16 @@ class Comments extends Component
     {
         $comment = Comment::findOrFail($commentId);
         $this->authorize('delete', $comment);
-        $comment->delete();
+        $comment->delete('Usunięte przez autora lub moderatora');
     }
 
     public function render()
     {
-        $comments = $this->model->comments()
+        $comments = $this->model->comments()->withTrashed()
             ->whereNull('parent_id')
-            ->with(['user', 'replies.user'])
+            ->with(['user', 'replies' => function ($query) {
+                $query->withTrashed()->with('user');
+            }])
             ->latest()
             ->get();
 

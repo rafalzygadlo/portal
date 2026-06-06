@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Offer\Offer;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;

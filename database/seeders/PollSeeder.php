@@ -16,11 +16,12 @@ class PollSeeder extends Seeder
      */
     public function run()
     {
+        $pollsCount = 20000;    
         // Disable query log to save memory on long running commands
         \Illuminate\Support\Facades\DB::disableQueryLog();
 
         $this->command->info('Generating polls...');
-        $pollsCount = 20;
+
         $this->command->getOutput()->progressStart($pollsCount);
 
         $now = now();

@@ -3,7 +3,7 @@
 namespace App\Livewire\Offer;
 
 use Livewire\Component;
-use App\Models\Offer\Offer;
+use App\Models\Offer;
 use Livewire\Attributes\Computed;
 
 class Show extends Component

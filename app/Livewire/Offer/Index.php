@@ -4,7 +4,7 @@ namespace App\Livewire\Offer;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Offer\Offer;
+use App\Models\Offer;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
