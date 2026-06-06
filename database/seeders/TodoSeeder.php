@@ -15,7 +15,7 @@ class TodoSeeder extends Seeder
     public function run()
     {
         // Disable query log to save memory on long running commands
-        $todosCount = 200000;
+        $todosCount = 200;
         $chunkSize = 10;
         
         

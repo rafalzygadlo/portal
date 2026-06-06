@@ -22,7 +22,7 @@ class OfferSeeder extends Seeder
     public function run()
     {
 
-        $offersCount = 1000;
+        $offersCount = 100;
 
         $manager = new ImageManager(new Driver());
 
