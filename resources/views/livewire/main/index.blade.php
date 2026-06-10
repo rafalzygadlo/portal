@@ -34,7 +34,14 @@
         </div>
         @endforeach
 
-        <div x-intersect="$wire.loadMore()" class="col-12 text-center p-4">
+        @if($hasMore)
+        <div class="col-12 text-center p-4">
+            <div wire:loading.remove wire:target="loadMore">
+                <button wire:click="loadMore" class="btn btn-outline-primary px-5 rounded-pill shadow-sm fw-bold">
+                    Załaduj więcej
+                </button>
+            </div>
+
             <div wire:loading wire:target="loadMore" class="text-center">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Ładowanie...</span>
@@ -42,6 +49,7 @@
                 <div class="mt-2 text-secondary small">Ładowanie kolejnych aktywności...</div>
             </div>
         </div>
+        @endif
         
     </div> 
 </div>

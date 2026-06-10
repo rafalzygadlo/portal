@@ -9,12 +9,14 @@ use App\Models\Category;
 use App\Models\User;
 use App\Models\Comment;
 use App\Traits\Voteable;
+use App\Traits\Favoritable;
 use App\Models\Image;
 
 class Article extends Model
 {
     use HasFactory;
     use Voteable;
+    use Favoritable;
 
         protected $fillable = [
 

@@ -33,10 +33,8 @@
                                 <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-10">{{ $article->category->name }}</span>
                             @endif
                         </div>
-                        <div>
-                            {{-- 
-                                <livewire:article.vote :model="$article" :key="'vote-single-'.$article->id" />
-                            --}}
+                        <div class="d-flex align-items-center gap-2">
+                            <livewire:favorite :model="$article" :key="'favorite-article-'.$article->id" />
                         </div>
                     </div>
 

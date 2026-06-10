@@ -81,6 +81,9 @@
                             </div>
 
                         </div>
+                        <div class="mt-3 d-flex justify-content-end border-top pt-2">
+                            <livewire:favorite :model="$todo" :key="'favorite-todo-list-'.$todo->id" />
+                        </div>
                     </div>
                 </div>
             </div>

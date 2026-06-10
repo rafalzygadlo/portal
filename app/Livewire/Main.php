@@ -11,7 +11,10 @@ use App\Models\Business;
 
 class Main extends Component
 {
-    public $perPage = 10; // Lepiej zacząć od 10 dla lepszego wypełnienia ekranu
+    #[Url]
+    public $perPage = 10; 
+
+    public $hasMore = true; 
 
     public function loadMore()
     {
@@ -59,8 +62,10 @@ class Main extends Component
 
     public function render()
     {
-        // Pobieramy dane z użyciem Eager Loading (with)
-        // Łączymy relacje w tablice, aby kod był czytelniejszy
+        Article::count() + Todo::count() + Business::count() + Offer::count() > $this->perPage
+            ? $this->hasMore = true
+            : $this->hasMore = false;   
+
         $articles = Article::with(['categories', 'images'])
             ->latest()
             ->limit($this->perPage)
@@ -87,7 +92,7 @@ class Main extends Component
         // Łączymy i sortujemy po dacie (created_at jest w data)
         $items = $articles->concat($todos)->concat($business)->concat($offers)
             ->sortByDesc('data.created_at')
-            ->take($this->perPage); // KLUCZOWA POPRAWKA: bierzemy tylko tyle, ile wynosi aktualny limit
+            ->take($this->perPage);
         
         return view('livewire.main.index', compact('items'));
     }

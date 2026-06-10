@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Comment;
 use App\Models\User;
 use App\Traits\Voteable;
+use App\Traits\Favoritable;
 
 class Todo extends Model
 {
     use HasFactory;
     use Voteable;
+    use Favoritable;
 
     protected $fillable = 
     [

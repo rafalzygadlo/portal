@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Announcement\Category;
 use App\Traits\Voteable;
+use App\Traits\Favoritable;
 
 class Announcement extends Model
 {
-    use HasFactory, Voteable;
+    use HasFactory, Voteable, Favoritable;
 
     protected $fillable = [
         'user_id',

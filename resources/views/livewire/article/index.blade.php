@@ -55,7 +55,7 @@
                         
                         <!-- Tytuł z dynamicznym rozmiarem fontu -->
                         <h3 class="{{ $loop->first ? 'fs-4' : 'fs-5' }} fw-bold mb-2 tracking-tight">
-                            <a href="{{ route('articles.show', $article) }}" class="text-decoration-none text-dark text-hover-primary">
+                            <a href="{{ route('articles.show', $article) }}" class="text-decoration-none text-dark text-hover-primary stretched-link">
                                 {{ $article->title }}
                             </a>
                         </h3>
@@ -85,21 +85,18 @@
                             </div>
 
                             <!-- Statystyki i Głosowanie spięte w nowoczesny blok -->
-                             {{-- 
+                             
                             <div class="d-flex align-items-center gap-3">
-                                <div class="small text-muted" title="Comments">
+                                <div class="bg-light px-2 py-0.5 d-flex align-items-center gap-1 border">
                                     <i class="bi bi-chat-square-text me-1"></i>{{ $article->comments_count ?? $article->comments()->count() }}
-                                </div>
-                                <div class="bg-light rounded-pill px-2 py-0.5 d-flex align-items-center gap-1 border">
-                                    <livewire:article.vote :model="$article" :key="'vote-'.$article->id" />
+                                    <livewire:vote :model="$article" :key="'vote-'.$article->id" />
+                                    <livewire:favorite :model="$article" :key="'favorite-article-list-'.$article->id" />
                                 </div>
                             </div>
-                            --}}
+                            
                         </div>
-                        
-
+                      
                     </div>
-
                 </div>
             </div>
         @empty

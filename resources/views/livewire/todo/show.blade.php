@@ -38,11 +38,9 @@
                                 <i class="bi bi-calendar3 me-1"></i> {{ $todo->created_at->format('d.m.Y H:i') }}
                             </span>
                         </div>
-                        {{--
-                        <div class="bg-light rounded-pill px-2 py-1">
-                            <livewire:article.vote :model="$todo" :key="'vote-single-'.$todo->id" />
+                        <div>
+                            <livewire:favorite :model="$todo" :key="'favorite-todo-'.$todo->id" />
                         </div>
-                        --}}
                     </div>
 
                          <div class="lh-base" style="text-align: justify;">

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Voteable;
+use App\Traits\Favoritable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Business extends Model
 {
-    use HasFactory, Voteable;
+    use HasFactory, Voteable, Favoritable;
 
     /**
      * The attributes that are mass assignable.

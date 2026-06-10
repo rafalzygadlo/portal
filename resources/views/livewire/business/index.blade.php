@@ -49,7 +49,7 @@
                     <div class="mb-3">
                         <div class="text-truncate">
                             <h5 class="mb-1 fw-semibold text-break fs-6 fs-md-5">
-                                <a href="{{ route('business.show', $business) }}" class="text-decoration-none text-dark link-primary-hover">{{ $business->name }}</a>
+                                <a href="{{ route('business.show', $business) }}" class="text-decoration-none text-dark link-primary-hover stretched-link">{{ $business->name }}</a>
                             </h5>
                             <div class="text-secondary" style="font-size: 0.75rem;">
                                 <i class="bi bi-calendar3 me-1"></i>{{ $business->created_at->diffForHumans() }}
@@ -78,6 +78,9 @@
                             </a>
                         </div>
                     @endif
+                    <div class="mt-3 pt-2 border-top d-flex justify-content-end">
+                        <livewire:favorite :model="$business" :key="'favorite-business-list-'.$business->id" />
+                    </div>
                 </div>
             </div>
         @empty

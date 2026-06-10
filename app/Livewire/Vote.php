@@ -70,6 +70,6 @@ class Vote extends Component
 
     public function render()
     {
-        return view('livewire.article.vote');
+        return view('livewire.vote');
     }
 }

@@ -67,7 +67,7 @@
 
                                 <!-- Tytuł oferty -->
                                 <h3 class="fs-5 fw-bold mb-2 tracking-tight">
-                                    <a href="{{ route('offers.show', $offer) }}" class="text-decoration-none text-dark text-hover-primary">
+                                    <a href="{{ route('offers.show', $offer) }}" class="text-decoration-none text-dark text-hover-primary stretched-link">
                                         {{ Str::limit($offer->title, 50) }}
                                     </a>
                                 </h3>
@@ -90,23 +90,9 @@
                                         <i class="bi bi-calendar3"></i> {{ $offer->created_at->translatedFormat('d M Y') }}
                                     </div>
 
-                                    <!-- Minimalistyczna grupa przycisków typu "Pill" -->
-                                    <div class="bg-light p-1 rounded-pill d-flex align-items-center gap-1 border" style="border-color: #e9ecef !important;">
-                                        <!-- Komentarze -->
-                                        <button class="btn btn-sm btn-transparent rounded-pill border-0 px-2.5 py-1 text-dark small d-flex align-items-center gap-1 transition-all"
-                                                wire:click="$emit('openComments', {{ $offer->id }})" style="font-size: 0.8rem;">
-                                            <i class="bi bi-chat-text text-secondary"></i>
-                                            <span class="fw-semibold">{{ $offer->comments_count ?? $offer->comments()->count() }}</span>
-                                        </button>
-
-                                        <!-- Polubienia -->
-                                        <button class="btn btn-sm rounded-pill border-0 px-2.5 py-1 d-flex align-items-center gap-1 transition-all {{ $offer->likes()->where('user_id', auth()->id())->exists() ? 'bg-danger text-white shadow-sm' : 'btn-transparent text-dark' }}"
-                                                wire:click="$emit('toggleLike', {{ $offer->id }})" style="font-size: 0.8rem;">
-                                            <i class="bi {{ $offer->likes()->where('user_id', auth()->id())->exists() ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-                                            <span class="fw-semibold">{{ $offer->likes_count ?? $offer->likes()->count() }}</span>
-                                        </button>
-                                    </div>
-
+                                </div>
+                                <div class="mt-3 d-flex justify-content-end">
+                                    <livewire:favorite :model="$offer" :key="'favorite-offer-list-'.$offer->id" />
                                 </div>
 
                             </div>
@@ -123,10 +109,24 @@
                 @endforelse
             </div>
 
-            <!-- Paginacja -->
-            <div class="d-flex justify-content-center mt-5">
-                {{ $offers->links() }}
+            <!-- Paginacja -->    
+            @if($offers->hasMorePages())
+            <div class="col-12 text-center p-4">
+                <div wire:loading.remove wire:target="loadMore">
+                    <button wire:click="loadMore" class="btn btn-outline-primary px-5 rounded-pill shadow-sm fw-bold">
+                        Załaduj więcej
+                    </button>
+                </div>
+
+                <div wire:loading wire:target="loadMore" class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Ładowanie...</span>
+                    </div>
+                    <div class="mt-2 text-secondary small">Ładowanie kolejnych aktywności...</div>
+                </div>
             </div>
+            @endif
+
         </div>
     </div>
 </div>

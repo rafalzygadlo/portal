@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Voteable;
+use App\Traits\Favoritable;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Comment;
@@ -12,7 +13,7 @@ use App\Models\Image;
 
 class Offer extends Model
 {
-    use HasFactory, Voteable;
+    use HasFactory, Voteable, Favoritable;
 
     protected $fillable = [
         'user_id',

@@ -27,7 +27,7 @@
     <!-- TREŚĆ KARTY -->
     <div class="card-body p-3 p-lg-4 d-flex flex-column col-8 col-lg-12">
         <!-- Tytuł -->
-         <a href="{{ route('offers.show', $item) }}" class="text-decoration-none text-dark hover-primary">
+         <a href="{{ route('offers.show', $item) }}" class="text-decoration-none text-dark hover-primary stretched-link">
             <h6 class="card-title fw-bold mb-1 mb-lg-2 line-clamp-2">
                 {{ $item->title }}
             </h6>
@@ -56,6 +56,9 @@
             <small class="text-muted fw-medium">
                 {{ $item->created_at->diffForHumans(null, true) }} {{-- Krótka forma czasu np. "2 dni temu" --}}
             </small>
+        </div>
+        <div class="mt-2 d-flex justify-content-end">
+            <livewire:favorite :model="$item" :key="'favorite-main-offer-'.$item->id" />
         </div>
     </div>
 

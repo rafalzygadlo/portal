@@ -88,6 +88,9 @@
                                 <h6 class="mb-0 fw-bold">{{ $offer->created_at->format('d.m.Y H:i') }}</h6>
                             </div>
                         </div>
+                        <div class="mt-4 pt-3 border-top d-flex justify-content-center">
+                            <livewire:favorite :model="$offer" :key="'favorite-offer-'.$offer->id" />
+                        </div>
                     </div>
                 </div>
             </div>

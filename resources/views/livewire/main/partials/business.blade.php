@@ -5,7 +5,7 @@
         <i class="bi bi-buildings fs-5"></i>
         Firma
     </span>    
-
+    
     <a href="{{ route('business.show', $item) }}" class="d-block flex-shrink-0 bg-light overflow-hidden" 
        style="min-height: 110px; height: 110px;"> 
        
@@ -52,6 +52,9 @@
                     {{ $item->created_at->diffForHumans(null, true) }}
                 </small>
             </div>
+        </div>
+        <div class="mt-2 d-flex justify-content-end">
+            <livewire:favorite :model="$item" :key="'favorite-main-business-'.$item->id" />
         </div>
     </div>
 </div>

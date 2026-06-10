@@ -52,6 +52,9 @@
                 {{ $item->created_at->diffForHumans(null, true) }} {{-- Krótka forma czasu np. "2 dni temu" --}}
             </small>
         </div>
+        <div class="mt-2 d-flex justify-content-end">
+            <livewire:favorite :model="$item" :key="'favorite-main-article-'.$item->id" />
+        </div>
     </div>
 
 </div>

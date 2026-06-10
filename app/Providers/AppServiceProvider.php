@@ -33,7 +33,9 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             'article' => 'App\Models\Article',
             'business' => 'App\Models\Business',
-            'offer'   => 'App\Models\Offer'
+            'offer'   => 'App\Models\Offer',
+            'todo'    => 'App\Models\Todo',
+            'announcement' => 'App\Models\Announcement',
         ]);
     }
 

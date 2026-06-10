@@ -37,6 +37,9 @@
                                 <i class="bi bi-calendar3 me-1"></i> Dodano: {{ $business->created_at->format('d.m.Y') }}
                             </span>
                         </div>
+                        <div>
+                            <livewire:favorite :model="$business" :key="'favorite-business-'.$business->id" />
+                        </div>
                     </div>
 
                     <div class="row g-4 mb-5">

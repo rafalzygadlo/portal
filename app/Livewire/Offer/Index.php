@@ -15,21 +15,16 @@ class Index extends Component
 
     public $categorySlug = null;
     public $currentCategory = null;
+    public $perPage = 10;
+
+    public function loadMore()
+    {
+        $this->perPage += 10;
+    }
 
     public function mount($categorySlug = null)
     {
         $this->categorySlug = $categorySlug;
-    }
-
-    public function render()
-    {
-        $this->currentCategory = $this->categorySlug 
-            ? Category::where('slug', $this->categorySlug)->first() 
-            : null;
-
-        return view('livewire.offer.index', [
-            'offers' => $this->getOffersQuery()->paginate(12),
-        ]);
     }
 
     private function getOffersQuery()
@@ -40,4 +35,17 @@ class Index extends Component
             ->when($this->categorySlug, fn($q) => $q->whereHas('categories', fn($query) => $query->whereIn('categories.id', $targetIds)))
             ->latest();
     }
+
+    public function render()
+    {
+        $this->currentCategory = $this->categorySlug 
+            ? Category::where('slug', $this->categorySlug)->first() 
+            : null;
+
+        return view('livewire.offer.index', [
+            'offers' => $this->getOffersQuery()->paginate($this->perPage),
+        ]);
+    }
+
+   
 }
