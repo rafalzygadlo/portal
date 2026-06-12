@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container min-vh-100 d-flex flex-column justify-content-center py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
 
@@ -8,9 +8,9 @@
 
                         <div class="row">
                             <!-- Left Column: Title, Description, Checkboxes -->
-                            <div class="col-md-6 d-flex flex-column justify-content-center p-4">
-                                <h1 class="box-header mb-3">{{ __('register.title') }}</h1>
-                                <p class="mb-4 text-muted">
+                            <div class="col-md-6 d-flex flex-column justify-content-center p-5">
+                                <h1 class="box-header mb-4">{{ __('register.title') }}</h1>
+                                <p class="mb-4 text-muted lead">
                                     {{ __('register.description') }}
                                 </p>
 
@@ -44,7 +44,7 @@
                             </div>
 
                             <!-- Right Column: Input Fields -->
-                            <div class="col-md-6 p-4">
+                            <div class="col-md-6 p-5">
                                 
                                 <div class="row">
                                     <div class="col-md-12">

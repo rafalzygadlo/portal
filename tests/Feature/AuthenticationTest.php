@@ -11,7 +11,7 @@ class AuthenticationTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function user_can_register()
+    public function test_user_can_register()
     {
         $response = $this->get('/register');
 
@@ -19,7 +19,7 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
-    public function user_can_view_login_page()
+    public function test_user_can_view_login_page()
     {
         $response = $this->get('/login');
 
@@ -28,7 +28,7 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
-    public function guest_redirected_to_login_when_accessing_protected_route()
+    public function test_guest_redirected_to_login_when_accessing_protected_route()
     {
         $response = $this->get('/profile');
 
@@ -36,7 +36,7 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_cannot_access_login_page()
+    public function test_authenticated_user_cannot_access_login_page()
     {
         $user = User::factory()->create();
 
@@ -47,7 +47,7 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
-    public function user_can_access_email_verification_page()
+    public function test_user_can_access_email_verification_page()
     {
         $user = User::factory()->unverified()->create();
 

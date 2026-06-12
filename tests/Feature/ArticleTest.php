@@ -12,7 +12,7 @@ class ArticleTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_view_articles_index_page()
+    public function test_it_can_view_articles_index_page()
     {
         Article::factory(3)->create();
         
@@ -22,7 +22,7 @@ class ArticleTest extends TestCase
     }
 
     /** @test */
-    public function it_can_view_article_show_page()
+    public function test_it_can_view_article_show_page()
     {
         $article = Article::factory()->create();
         

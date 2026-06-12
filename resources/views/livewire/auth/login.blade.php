@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container min-vh-100 d-flex flex-column justify-content-center py-5">
 
     <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -16,16 +16,16 @@
                         @csrf
                         <div class="row">
                             <!-- Left Column: Title & Description -->
-                            <div class="col-md-6 d-flex flex-column justify-content-center p-4">
-                                <h1 class="box-header mb-3">{{ __('login.title') }}</h1>
-                                <p class="mb-4 text-muted">
+                            <div class="col-md-6 d-flex flex-column justify-content-center p-5">
+                                <h1 class="box-header mb-4">{{ __('login.title') }}</h1>
+                                <p class="mb-0 text-muted lead">
                                     {{ __('login.welcome_message') }}
                                 </p>
 
                             </div>
 
                             <!-- Right Column: Login Form -->
-                            <div class="col-md-6 p-4">
+                            <div class="col-md-6 p-5">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="email" class="col-form-label">{{ __('login.email') }}</label>

@@ -11,7 +11,7 @@ class BusinessTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_should_return_a_successful_response_for_the_homepage()
+    public function test_it_should_return_a_successful_response_for_the_homepage()
     {
         Business::factory()->create();
         
@@ -21,17 +21,17 @@ class BusinessTest extends TestCase
     }
 
     /** @test */
-    public function it_can_view_business_index_page()
+    public function test_it_can_view_business_index_page()
     {
         Business::factory(2)->create();
         
-        $response = $this->get('/business');
+        $response = $this->get('/businesses');
         
         $response->assertStatus(200);
     }
 
     /** @test */
-    public function it_can_view_business_show_page()
+    public function test_it_can_view_business_show_page()
     {
         $business = Business::factory()->create();
         

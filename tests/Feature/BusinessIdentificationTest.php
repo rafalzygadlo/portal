@@ -12,7 +12,7 @@ class BusinessIdentificationTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_identifies_the_business_by_subdomain()
+    public function test_it_identifies_the_business_by_subdomain()
     {
         // 1. Create a User first (because business belongs to a user)
         $user = User::factory()->create();
@@ -36,9 +36,10 @@ class BusinessIdentificationTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_404_for_non_existent_subdomains()
+    public function test_it_returns_404_for_non_existent_subdomains()
     {
-        $url = 'http://fake-subdomain' . config('app.business_domain');
+        $url = 'http://fake-subdomain.' . config('app.business_domain');
+        
         $response = $this->get($url);
 
         $response->assertStatus(404);

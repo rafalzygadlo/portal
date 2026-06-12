@@ -72,10 +72,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->businesses()->wherePivot('owner', true);
     }
 
-    public function worksBusiness(Business $business): bool
-    {
-        return $this->businesses()->where('business_id', $business->id)->exists();
-    }
 
     public function offers(): HasMany
     {
@@ -86,6 +82,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Article::class);
     }
+
+    public function todos(): HasMany
+    {
+        return $this->hasMany(Todo::class);
+    }   
     
     public function notifications(): HasMany
     {

@@ -12,13 +12,13 @@ class CategoryTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_create_a_category()
+    public function test_it_can_create_a_category()
     {
         $category = Category::factory()->create([
             'name' => 'Technology',
             'slug' => 'technology',
         ]);
-
+        
         $this->assertDatabaseHas('categories', [
             'name' => 'Technology',
             'slug' => 'technology',
@@ -26,7 +26,7 @@ class CategoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_have_subcategories()
+    public function test_it_can_have_subcategories()
     {
         $parentCategory = Category::factory()->create([
             'name' => 'Technology',
@@ -41,7 +41,7 @@ class CategoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_articles_by_category()
+    public function test_it_can_get_articles_by_category()
     {
         $category = Category::factory()->create();
 
@@ -50,6 +50,6 @@ class CategoryTest extends TestCase
             $article->categories()->attach($category);
         });
 
-        $this->assertCount(3, $category->articles);
+        $this->assertCount(3, $category->fresh()->articles);
     }
 }
