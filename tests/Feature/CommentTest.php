@@ -15,19 +15,22 @@ class CommentTest extends TestCase
     /** @test */
     public function test_it_can_create_a_comment_on_article()
     {
+        // 1. Arrange
         $user = User::factory()->create();
         $article = Article::factory()->create();
 
-        $article->comments()->saveMany(
-            Comment::factory(2)->make([
-                'user_id' => $user->id,
-            ])
-        );
-        
-
-        $this->assertDatabaseHas('comments', [
-            'content' => $comment->content,
+        // 2. Act: Zamiast Comment::factory()->create(), 
+        // używamy relacji z artykułu. Laravel sam zajmie się polimorfiką.
+        $comment = $article->comments()->create([
+            'content' => 'Testowy komentarz',
             'user_id' => $user->id,
+        ]);
+
+        // 3. Assert
+        $this->assertDatabaseHas('comments', [
+            'id' => $comment->id,
+            'commentable_id' => $article->id,
+            'commentable_type' => "article", 
         ]);
     }
 
@@ -35,14 +38,6 @@ class CommentTest extends TestCase
     public function test_it_can_get_comments_for_article()
     {
         $article = Article::factory()->create();
-        Comment::factory(2)->create([
-            'user_id' => User::factory()->create()->id,
-            'commentable_id' => $article->id,
-            'commentable_type' => Article::class,
-            'content' => fake()->paragraph()
-        ]);
-
-        $comments = $article->comments;
         // Tworzenie przez relację automatycznie ustawia commentable_id i commentable_type
         $article->comments()->saveMany(
             Comment::factory(2)->make([
@@ -50,8 +45,7 @@ class CommentTest extends TestCase
             ])
         );
 
-        $this->assertCount(2, $comments);
-        $this->assertCount(2, $article->fresh()->comments);
+        $this->assertCount(2, $article->comments);
     }
 
     /** @test */

@@ -2,13 +2,11 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Article;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
- */
+
 class ArticleFactory extends Factory
 {
     protected $model = Article::class;
@@ -19,6 +17,7 @@ class ArticleFactory extends Factory
             'user_id' => User::factory(),
             'title' => $this->faker->sentence(),
             'content' => $this->faker->paragraphs(3, true),
+            'slug' => $this->faker->slug(),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => now(),
         ];

@@ -128,10 +128,14 @@
 
                 <h5 class="card-title fw-bold mb-3">Quick actions</h5>
                 <div class="d-grid gap-2">
+                    <a href="{{ route('offer.create') }}" class="btn btn-outline-primary text-start">
+                        <i class="bi bi-briefcase me-2"></i> Create new offer
+                    </a>
 
                     <a wire:click="$dispatch('openModal',['business.create'])" class="btn btn-outline-primary text-start">
                         <i class="bi bi-briefcase me-2"></i> Create new business
                     </a>
+
 
                     <a wire:click="$dispatch('openModal',['todo.create'])" class="btn btn-outline-primary text-start">
                         <i class="bi bi-lightbulb me-2"></i> Submit idea

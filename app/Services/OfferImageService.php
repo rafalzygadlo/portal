@@ -21,8 +21,8 @@ class OfferImageService
             
             //filename construction
             $titleSlug = Str::slug($offer->title); // Zamieni "Dom w Bolesławcu" na "dom-w-boleslawcu"
-            $timestamp = now()->format('YmdHis');
-            $filename = "{$titleSlug}-{$timestamp}-{$index}.jpg";
+            
+            $filename = "{$titleSlug}-{$index}.jpg";
 
             //directory construction
             $directory = "offers/{$offerId}";

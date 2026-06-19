@@ -3,9 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Offer;
-use App\Models\Offer\Category;
 use App\Models\User;
-use Database\Factories\Offer\CategoryFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OfferFactory extends Factory

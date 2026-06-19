@@ -55,7 +55,7 @@
                         
                         <!-- Tytuł z dynamicznym rozmiarem fontu -->
                         <h3 class="{{ $loop->first ? 'fs-4' : 'fs-5' }} fw-bold mb-2 tracking-tight">
-                            <a href="{{ route('articles.show', $article) }}" class="text-decoration-none text-dark text-hover-primary stretched-link">
+                            <a href="{{ route('article.show', $article) }}" class="text-decoration-none text-dark text-hover-primary stretched-link">
                                 {{ $article->title }}
                             </a>
                         </h3>

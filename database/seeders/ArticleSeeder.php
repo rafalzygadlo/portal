@@ -15,7 +15,7 @@ class ArticleSeeder extends Seeder
      */
     public function run()
     {
-        $articlesCount = 10000;
+        $articlesCount = 100;
         $chunkSize = 10;
 
         $this->command->info('Generating articles...');

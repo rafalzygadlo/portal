@@ -25,7 +25,7 @@ class VoteSeeder extends Seeder
 
         $votes = [];
         $now = now();
-        $voteChunkSize = 1000;
+        $voteChunkSize = 10;
 
         // Fetch user IDs to conserve memory instead of full models
         $userIds = User::limit(1000)->pluck('id');

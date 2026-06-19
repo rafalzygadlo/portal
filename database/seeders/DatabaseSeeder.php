@@ -124,7 +124,7 @@ class DatabaseSeeder extends Seeder
 
         $this->command->getOutput()->progressStart($pollOptionsCount);
         $now = now();
-        $voteChunkSize = 5000;
+        $voteChunkSize = 50;
         $userIds = $users->pluck('id')->toArray();
         $votes = [];
 

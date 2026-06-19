@@ -93,7 +93,7 @@ Route::get('/',App\Livewire\Main::class)->name('main.index');
 
 // Article routes
 Route::get('/articles', \App\Livewire\Article\Index::class)->name('articles.index');
-Route::get('/article/{article}', \App\Livewire\Article\Show::class)->name('article.show');
+Route::get('/article/{article:slug}', \App\Livewire\Article\Show::class)->name('article.show');
 
 // Business routes
 Route::get('/businesses/{categorySlug?}', \App\Livewire\Business\Index::class)->name('business.index');

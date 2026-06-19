@@ -14,22 +14,33 @@ class Create extends Component
 {
     use WithFileUploads;
 
+    public const MAX_PHOTOS = 10;
+
     public string $title = '';
     public string $content = '';    
     public ?int $category_id = null;
     public $photos = [];
     public $newPhotos = [];
     
-    
     public function updatedNewPhotos()
     {
+        $this->resetErrorBag('photos');
+
         $this->validate([
             'newPhotos.*' => 'image|max:8192',
         ]);
 
+        if (count($this->photos) + count($this->newPhotos) > self::MAX_PHOTOS) {
+            $this->addError('photos', "Maksymalnie " . self::MAX_PHOTOS . " zdjęć można dodać.");
+            $this->newPhotos = [];
+            return;
+        }
+
         foreach ($this->newPhotos as $photo) {
             $this->photos[] = $photo;
         }
+
+        $this->newPhotos = [];
     }
 
     public function mount(Offer $offer = null)
@@ -58,7 +69,40 @@ class Create extends Component
         unset($this->photos[$index]);
         $this->photos = array_values($this->photos);
     }
-    
+
+    public function movePhotoUp(int $index)
+    {
+        if ($index <= 0 || ! isset($this->photos[$index]) || ! isset($this->photos[$index - 1])) {
+            return;
+        }
+
+        $previous = $this->photos[$index - 1];
+        $this->photos[$index - 1] = $this->photos[$index];
+        $this->photos[$index] = $previous;
+    }
+
+    public function movePhotoDown(int $index)
+    {
+        if ($index < 0 || ! isset($this->photos[$index]) || ! isset($this->photos[$index + 1])) {
+            return;
+        }
+
+        $next = $this->photos[$index + 1];
+        $this->photos[$index + 1] = $this->photos[$index];
+        $this->photos[$index] = $next;
+    }
+
+    public function movePhoto(int $fromIndex, int $toIndex)
+    {
+        if (! isset($this->photos[$fromIndex]) || ! isset($this->photos[$toIndex])) {
+            return;
+        }
+
+        $photo = $this->photos[$fromIndex];
+        array_splice($this->photos, $fromIndex, 1);
+        array_splice($this->photos, $toIndex, 0, [$photo]);
+        $this->photos = array_values($this->photos);
+    }
 
     /**
      * Save the offer and process images.
