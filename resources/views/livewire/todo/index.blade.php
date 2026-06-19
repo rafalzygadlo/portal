@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0 fw-bold">
-                                        <a href="{{ route('todos.show', $todo) }}" class="text-decoration-none text-dark hover-primary line-clamp-2 stretched-link">
+                                        <a href="{{ route('todo.show', $todo) }}" class="text-decoration-none text-dark hover-primary line-clamp-2 stretched-link">
                                             {{ $todo->title }}
                                         </a>
                                     </h6>

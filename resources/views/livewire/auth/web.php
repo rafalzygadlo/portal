@@ -62,7 +62,7 @@ Route::get('/',App\Livewire\Main::class)->name('main.index');
 
 Route::get('/articles', \App\Livewire\Article\Index::class)->name('articles.index');
 Route::get('/articles/create', \App\Livewire\Article\Create::class)->name('articles.create')->middleware('auth');
-Route::get('/articles/{article}', \App\Livewire\Article\Show::class)->name('articles.show');
+Route::get('/articles/{article}', \App\Livewire\Article\Show::class)->name('article.show');
 
 // Business routes
 Route::get('/business', \App\Livewire\Business\Index::class)->name('business.index');
@@ -76,17 +76,17 @@ Route::get('/page/{page}', \App\Livewire\Page::class)
 // Todo routes
 Route::get('/todos', App\Livewire\Todo\Index::class)->name('todos.index');
 Route::get('/todos/create', App\Livewire\Todo\Create::class)->name('todos.create')->middleware('auth');
-Route::get('/todos/{todo}', App\Livewire\Todo\Show::class)->name('todos.show');
+Route::get('/todos/{todo}', App\Livewire\Todo\Show::class)->name('todo.show');
 
 // Offers
 Route::get('/offers', \App\Livewire\Offer\Index::class)->name('offers.index');
 Route::get('/offers/create', \App\Livewire\Offer\Create::class)->name('offers.create')->middleware('auth');
-Route::get('/offers/{offer}', \App\Livewire\Offer\Show::class)->name('offers.show');
+Route::get('/offers/{offer}', \App\Livewire\Offer\Show::class)->name('offer.show');
 
 // Polls
 Route::get('/polls', \App\Livewire\Poll\Index::class)->name('polls.index');
 Route::get('/polls/create', \App\Livewire\Poll\Create::class)->name('polls.create')->middleware('auth');
-Route::get('/polls/{poll}', \App\Livewire\Poll\Show::class)->name('polls.show');
+Route::get('/polls/{poll}', \App\Livewire\Poll\Show::class)->name('poll.show');
 
 Route::get('/notify',App\Livewire\Notifications::class)->name('notifications.index')->middleware('auth');
 

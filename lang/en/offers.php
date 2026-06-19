@@ -2,7 +2,7 @@
 
 return [
     'index' => 'Offers',
-    'add_new_offer' => 'Add New Offer',
+    'create' => 'Add New Offer',
     'title' => 'Title',
     'content' => 'Content',
     'photos' => 'Photos',

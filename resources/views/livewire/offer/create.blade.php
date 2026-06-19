@@ -1,4 +1,6 @@
-<div>
+
+<div class="container mt-4">
+    <h1 class="mb-4">{{ __('offers.create') }}</h1>
     <form wire:submit.prevent="save">
         <div class="mb-3">
             <label for="title" class="form-label">{{ __('offers.title') }}</label>
@@ -40,19 +42,7 @@
                                 </button>
                             </div>
                         @endforeach
-                    </div>
-                    <button type="button" 
-                            class="btn btn-info btn-sm" 
-                            wire:click="analyzePhoto"
-                            wire:loading.attr="disabled">
-                        <span wire:loading.remove>
-                            <i class="bi bi-lightbulb"></i> Analizuj zdjęcie
-                        </span>
-                        <span wire:loading>
-                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                            Analizuję...
-                        </span>
-                    </button>
+                    </div>                    
                 </div>
             @endif
         </div>

@@ -36,7 +36,7 @@
                                 </span>
                             @endif
                         </div>
-                        <a href="{{ route('polls.show', $poll->id) }}" class="stretched-link"></a>
+                        <a href="{{ route('poll.show', $poll->id) }}" class="stretched-link"></a>
                     </div>
                 </div>
             </div>

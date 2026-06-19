@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['verified'])->group(function () {
         Route::get('/profile', App\Livewire\Profile::class)->name('user.profile');
         Route::get('/notify', App\Livewire\Notifications::class)->name('notifications.index');
+        Route::get('/offer/create', App\Livewire\Offer\Create::class)->name('offer.create');
 
     });
 });
@@ -92,7 +93,7 @@ Route::get('/',App\Livewire\Main::class)->name('main.index');
 
 // Article routes
 Route::get('/articles', \App\Livewire\Article\Index::class)->name('articles.index');
-Route::get('/article/{article}', \App\Livewire\Article\Show::class)->name('articles.show');
+Route::get('/article/{article}', \App\Livewire\Article\Show::class)->name('article.show');
 
 // Business routes
 Route::get('/businesses/{categorySlug?}', \App\Livewire\Business\Index::class)->name('business.index');
@@ -103,15 +104,15 @@ Route::get('/page/{page}', \App\Livewire\Page::class)
 
 // Todo routes
 Route::get('/todos', App\Livewire\Todo\Index::class)->name('todos.index');
-Route::get('/todo/{todo:slug}', App\Livewire\Todo\Show::class)->name('todos.show');
+Route::get('/todo/{todo:slug}', App\Livewire\Todo\Show::class)->name('todo.show');
 
 // Offers
 Route::get('/offers/{categorySlug?}', \App\Livewire\Offer\Index::class)->name('offers.index');
-Route::get('/offer/{offer:slug}', \App\Livewire\Offer\Show::class)->name('offers.show');
+Route::get('/offer/{offer:slug}', \App\Livewire\Offer\Show::class)->name('offer.show');
 
 // Polls
 Route::get('/polls', \App\Livewire\Poll\Index::class)->name('polls.index');
-Route::get('/poll/{poll}', \App\Livewire\Poll\Show::class)->name('polls.show');
+Route::get('/poll/{poll}', \App\Livewire\Poll\Show::class)->name('poll.show');
 
 // Guest routes (Only for users not logged in)
 Route::middleware('guest')->group(function () 

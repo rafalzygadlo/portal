@@ -21,7 +21,7 @@
                         @foreach ($items as $item)
                             <tr>
                                 <td style="width:120px;">
-                                    <a href="{{ route('offers.show', $item) }}" class="d-block">
+                                    <a href="{{ route('offer.show', $item) }}" class="d-block">
                                         @if($item->images->isNotEmpty())
                                             <img loading="lazy" src="{{ asset('storage/' . $item->images->first()->path) }}" alt="{{ $item->title }}" class="img-fluid"
                                                 style="height:60px; width:100px; object-fit:cover;">
@@ -33,7 +33,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{ route('offers.show', $item) }}" class="text-decoration-none text-dark">{{ $item->title }}</a>
+                                    <a href="{{ route('offer.show', $item) }}" class="text-decoration-none text-dark">{{ $item->title }}</a>
                                 </td>
                                 <td>{{ Str::limit($item->content, 100) }}</td>
                                 <td>

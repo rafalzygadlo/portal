@@ -11,27 +11,27 @@
                     </h2>
                     <div id="collapseBusinesses" class="accordion-collapse collapse show" aria-labelledby="headingBusinesses" data-bs-parent="#profileAccordion">
                         <div class="accordion-body">
-                            <div class="row mb-5">
+                            <div class="list-group list-group-flush">
                                 @forelse($user->ownedBusinesses as $business)
-                                    <div class="col-md-3 mb-3">
-                                        <div class="card h-100 border-0 shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title fw-bold">{{ $business->name }}</h5>
-                                                <p class="card-text text-muted small mb-3">
-                                                    {{ \Illuminate\Support\Str::limit($business->description, 60) }}</p>
-                                                <div class="d-flex gap-2">
-                                                    <a href="{{ route('business.domain', ['subdomain' => $business->subdomain]) }}"
-                                                        class="btn btn-sm btn-outline-secondary" target="_blank">
-                                                        <i class="bi bi-globe"></i> Page
-                                                    </a>
-                                                    @if(Auth::id() === $user->id)
-                                                        <a href="{{ route('admin.business.dashboard', ['subdomain' => $business->subdomain]) }}"
-                                                            class="btn btn-sm btn-primary">
-                                                            <i class="bi bi-speedometer2"></i> Dashboard
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                            </div>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                        <div>
+                                            <h6 class="mb-1 fw-bold">{{ $business->name }}</h6>
+                                            <p class="text-muted small mb-0">{{ \Illuminate\Support\Str::limit($business->description, 100) }}</p>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <a href="{{ route('business.domain', ['subdomain' => $business->subdomain]) }}"
+                                                class="btn btn-sm btn-outline-secondary" target="_blank">
+                                                <i class="bi bi-globe"></i> Page
+                                            </a>
+                                            @if(Auth::id() === $user->id)
+                                                <a href="{{ route('admin.business.dashboard', ['subdomain' => $business->subdomain]) }}"
+                                                    class="btn btn-sm btn-primary">
+                                                    <i class="bi bi-speedometer2"></i> Dashboard
+                                                </a>
+                                                <button wire:click="$dispatch('openModal', { view: 'business.edit', title: 'Edit Business', params: { business: {{ $business->id }} } })" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                            @endif
                                         </div>
                                     </div>
                                 @empty
@@ -50,18 +50,22 @@
                     </h2>
                     <div id="collapseOffers" class="accordion-collapse collapse" aria-labelledby="headingOffers" data-bs-parent="#profileAccordion">
                         <div class="accordion-body">
-                            <div class="row mb-5">
+                            <div class="list-group list-group-flush">
                                 @forelse($user->offers as $offer)
-                                    <div class="col-md-3 mb-3">
-                                        <div class="card h-100 border-0 shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title fw-bold">{{ $offer->title }}</h5>
-                                                <p class="card-text text-muted small mb-3">
-                                                    {{ \Illuminate\Support\Str::limit($offer->content, 80) }}</p>
-                                                <a href="{{ route('offers.show', $offer) }}" class="btn btn-sm btn-outline-primary">
-                                                    View offer
-                                                </a>
-                                            </div>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                        <div>
+                                            <h6 class="mb-1 fw-bold">{{ $offer->title }}</h6>
+                                            <p class="text-muted small mb-0">{{ \Illuminate\Support\Str::limit($offer->content, 100) }}</p>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <a href="{{ route('offer.show', $offer) }}" class="btn btn-sm btn-outline-primary">
+                                                View offer
+                                            </a>
+                                            @if(Auth::id() === $user->id)
+                                                <button wire:click="$dispatch('openModal', { view: 'offer.create', title: 'Edit Offer', params: { offer: {{ $offer }} } })" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="bi bi-pencil"></i> Edit
+                                                </button>
+                                            @endif
                                         </div>
                                     </div>
                                 @empty
@@ -80,18 +84,22 @@
                     </h2>
                     <div id="collapseArticles" class="accordion-collapse collapse" aria-labelledby="headingArticles" data-bs-parent="#profileAccordion">
                         <div class="accordion-body">
-                            <div class="row mb-5">
+                            <div class="list-group list-group-flush">
                                 @forelse($user->articles as $article)
-                                    <div class="col mb-3">
-                                        <div class="card h-100 border-0 shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title fw-bold">{{ $article->title }}</h5>
-                                                <p class="card-text text-muted small mb-3">
-                                                    {{ \Illuminate\Support\Str::limit($article->content, 80) }}</p>
-                                                <a href="{{ route('articles.show', $article) }}" class="btn btn-sm btn-outline-primary">
-                                                    View article
-                                                </a>
-                                            </div>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                        <div>
+                                            <h6 class="mb-1 fw-bold">{{ $article->title }}</h6>
+                                            <p class="text-muted small mb-0">{{ \Illuminate\Support\Str::limit($article->content, 100) }}</p>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <a href="{{ route('article.show', $article) }}" class="btn btn-sm btn-outline-primary">
+                                                View article
+                                            </a>
+                                            @if(Auth::id() === $user->id)
+                                                <button wire:click="$dispatch('openModal', ['articles.edit', 'Edit Article', { article: {{ $article->id }} } ])}}" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="bi bi-pencil"></i> Edit
+                                                </button>
+                                            @endif
                                         </div>
                                     </div>
                                 @empty

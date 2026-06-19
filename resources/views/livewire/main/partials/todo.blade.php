@@ -9,7 +9,7 @@
         
         <div class="mb-3">
             <h4 class="h5 fw-bold mb-2 flex-grow-0">
-                <a href="{{ route('todos.show', $item)}}" class="text-decoration-none text-dark stretched-link hover-primary">
+                <a href="{{ route('todo.show', $item)}}" class="text-decoration-none text-dark stretched-link hover-primary">
                     {{ $item->title }}
                     <i class="bi bi-chevron-right small opacity-50 ms-1"></i>
                 </a>

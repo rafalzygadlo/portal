@@ -67,7 +67,7 @@
 
                                 <!-- Tytuł oferty -->
                                 <h3 class="fs-5 fw-bold mb-2 tracking-tight">
-                                    <a href="{{ route('offers.show', $offer) }}" class="text-decoration-none text-dark text-hover-primary stretched-link">
+                                    <a href="{{ route('offer.show', $offer) }}" class="text-decoration-none text-dark text-hover-primary stretched-link">
                                         {{ Str::limit($offer->title, 50) }}
                                     </a>
                                 </h3>
