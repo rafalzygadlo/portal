@@ -119,6 +119,5 @@ Route::middleware(['auth'])->group(function () {
     })->middleware(['throttle:6,1'])->name('verification.send');
 });
 
+// Profile routes are now in routes/web/main.php under verified middleware
 
-// Zabezpiecz trasę profilu, aby była dostępna tylko dla zweryfikowanych użytkowników
-Route::get('/profile', App\Livewire\Profile::class)->middleware(['auth', 'verified'])->name('user.profile');

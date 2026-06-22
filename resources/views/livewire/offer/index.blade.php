@@ -37,8 +37,8 @@
             <div class="row g-4">
                 @forelse ($offers as $offer)
                     <!-- KARTA OFERTY: Zmieniono z col-md-3 na col-md-6 col-xl-4 dla lepszej czytelności tekstu -->
-                    <div class="col-12 col-sm-6 col-md-6 col-xl-4 fade-in-card" wire:key="offer-{{ $offer->id }}" style="animation-delay: {{ $loop->index * 0.05 }}s">
-                        <div class="card h-100 border-0 rounded-4 bg-white shadow-sm transition-hover d-flex flex-column overflow-hidden">
+                    <div class="col-12 col-sm-6 col-md-6 col-xl-3 fade-in-card" wire:key="offer-{{ $offer->id }}" >
+                           <div class="card h-100 border-0 rounded-4 bg-white shadow-sm transition-hover d-flex flex-column overflow-hidden">
                             
                             <!-- Zdjęcie Oferty -->
                             <div class="position-relative overflow-hidden flex-shrink-0">
@@ -78,10 +78,16 @@
                                 </div>
 
                                 <!-- Opis oferty -->
+                                 {{--
                                 <p class="card-text text-muted flex-grow-1 mb-4" style="font-size: 0.9rem; line-height: 1.5; opacity: 0.85;">
                                     {!! nl2br(strip_tags(Str::limit($offer->content, 110), '<a>')) !!}
                                 </p>
-
+                                --}}
+                                
+                                <div class="price">
+                                    <strong>Cena: {{ number_format($offer->price, 2) }} PLN</strong>
+                                </div>
+                                
                                 <!-- Przyciski Aktywności (Komentarze + Polubienia) -->
                                 <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto" style="border-color: #f1f3f5 !important;">
                                     
@@ -90,9 +96,8 @@
                                         <i class="bi bi-calendar3"></i> {{ $offer->created_at->translatedFormat('d M Y') }}
                                     </div>
 
-                                </div>
-                                <div class="mt-3 d-flex justify-content-end">
                                     <livewire:favorite :model="$offer" :key="'favorite-offer-list-'.$offer->id" />
+                                    
                                 </div>
 
                             </div>

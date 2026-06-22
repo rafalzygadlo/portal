@@ -20,7 +20,7 @@ class OfferImageService
         {
             
             //filename construction
-            $titleSlug = Str::slug($offer->title); // Zamieni "Dom w Bolesławcu" na "dom-w-boleslawcu"
+            $titleSlug = Str::slug($offer->title); 
             
             $filename = "{$titleSlug}-{$index}.jpg";
 

@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Business;
 use App\Models\Offer;
 use App\Models\Article;
+use App\Models\Poll\Poll;
+use App\Models\Comment;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -101,6 +103,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function favorites(): HasMany
     {
         return $this->hasMany(Favorite::class);
+    }
+
+    public function polls(): HasMany
+    {
+        return $this->hasMany(Poll::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
 }

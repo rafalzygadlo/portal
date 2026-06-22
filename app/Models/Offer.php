@@ -21,6 +21,7 @@ class Offer extends Model
         'title',
         'content',
         'slug',
+        'price'
     ];
 
     public function user()
@@ -47,3 +48,4 @@ class Offer extends Model
         return $this->morphToMany(Category::class, 'categoryable');
     }
 }
+

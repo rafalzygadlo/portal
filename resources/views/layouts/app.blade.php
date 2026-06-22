@@ -22,7 +22,7 @@
         <nav class="navbar navbar-expand-lg bg-white sticky-top shadow">
             <div class="container-fluid px-4 px-lg-5">
                 <span class="logo-r">R</span>
-                <a class="navbar-brand d-flex align-items-center" href="/">
+                <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                     <span class="fw-bold tracking-tight">{{ config('app.name', '') }}</span>
                 </a>
 
