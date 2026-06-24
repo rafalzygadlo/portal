@@ -5,29 +5,12 @@
     </div>
 
     <div class="row g-3">
-        @foreach($existingPhotos as $index => $photo)
-            <div class="col-6 col-sm-4 col-md-3" wire:key="existing-{{ $index }}">
-                <div class="position-relative border rounded overflow-hidden" style="aspect-ratio: 1;">
-                    <img src="{{ Storage::url($photo['path']) }}" class="img-fluid w-100 h-100" style="object-fit: cover;">
-                    
-                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" wire:click="removeExistingPhoto({{ $index }})">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
+       
 
-                    @if($showReorder)
-                        <div class="position-absolute bottom-0 start-0 w-100 d-flex bg-dark bg-opacity-50">
-                            <button type="button" class="btn btn-sm btn-light flex-fill" wire:click="moveExistingPhotoUp({{ $index }})" @if($index == 0) disabled @endif><i class="bi bi-chevron-left"></i></button>
-                            <button type="button" class="btn btn-sm btn-light flex-fill" wire:click="moveExistingPhotoDown({{ $index }})" @if($index == count($existingPhotos)-1) disabled @endif><i class="bi bi-chevron-right"></i></button>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        @endforeach
-
-        @foreach($files as $index => $file)
-            <div class="col-6 col-sm-4 col-md-3" wire:key="new-{{ $index }}">
+        @foreach($allPhotos as $index => $photo)
+            <div class="col-6 col-sm-4 col-md-3" wire:key="{{ $photo->id }}">
                 <div class="position-relative border rounded overflow-hidden" style="aspect-ratio: 1;">
-                    <img src="{{ $file->temporaryUrl() }}" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                    <img src="{{ $photo->getUrl() }}" class="img-fluid w-100 h-100" style="object-fit: cover;">
                     
                     <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" wire:click="removePhoto({{ $index }})">
                         <i class="bi bi-x-lg"></i>
@@ -36,7 +19,7 @@
                     @if($showReorder)
                         <div class="position-absolute bottom-0 start-0 w-100 d-flex bg-dark bg-opacity-50">
                             <button type="button" class="btn btn-sm btn-light flex-fill" wire:click="movePhotoUp({{ $index }})" @if($index == 0) disabled @endif><i class="bi bi-chevron-left"></i></button>
-                            <button type="button" class="btn btn-sm btn-light flex-fill" wire:click="movePhotoDown({{ $index }})" @if($index == count($files)-1) disabled @endif><i class="bi bi-chevron-right"></i></button>
+                            <button type="button" class="btn btn-sm btn-light flex-fill" wire:click="movePhotoDown({{ $index }})" @if($index == count($allPhotos)-1) disabled @endif><i class="bi bi-chevron-right"></i></button>
                         </div>
                     @endif
                 </div>
@@ -56,7 +39,7 @@
                 
                 <input type="file" 
                        id="{{ $inputId }}" 
-                       wire:model="files" 
+                       wire:model.live="newUploads" 
                        multiple 
                        class="d-none" 
                        accept="image/*">

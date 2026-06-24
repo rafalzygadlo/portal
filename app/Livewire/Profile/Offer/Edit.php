@@ -20,10 +20,11 @@ class Edit extends Component
     public string $title = '';
     public string $content = '';
     public ?int $category_id = null;
+    public array $photos = []; 
     
     // Zgodnie z komponentem galerii:
     public array $existingPhotos = []; // Zdjęcia z bazy
-    public array $photos = [];         // Nowe zdjęcia (tymczasowe)
+    //public array $photos = [];         // Nowe zdjęcia (tymczasowe)
 
     public function mount(Offer $offer): void
     {
@@ -38,22 +39,6 @@ class Edit extends Component
         $this->existingPhotos = $offer->images()->get()->toArray();
     }
 
-    public function updatedPhotos(): void
-    {
-        $this->resetErrorBag('photos');
-
-        // Walidacja tylko dla nowych plików
-        $this->validate([
-            'photos.*' => 'image|max:8192',
-        ]);
-
-        $totalCount = count($this->existingPhotos) + count($this->photos);
-        if ($totalCount > self::MAX_PHOTOS) {
-            $this->addError('photos', 'Maksymalnie ' . self::MAX_PHOTOS . ' zdjęć łącznie.');
-            // Przycinamy tablicę nowych zdjęć do limitu
-            $this->photos = array_slice($this->photos, 0, max(0, self::MAX_PHOTOS - count($this->existingPhotos)));
-        }
-    }
 
     public function rules(): array
     {

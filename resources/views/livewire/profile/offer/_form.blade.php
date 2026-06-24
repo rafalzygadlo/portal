@@ -24,7 +24,6 @@
     <div class="mb-3">
         <label class="form-label fw-semibold">{{ __('offers.photos') }}</label>
 
-        <input type="file" class="d-none @if($errors->has('photos') || $errors->has('photos.*')) is-invalid @endif" id="offer-photos" wire:model="photos" multiple accept="image/*" @if($existingCount + count($photos) >= $maxPhotos) disabled @endif>
 
         <div wire:loading wire:target="photos" class="text-primary small mb-2">
             <div class="spinner-border spinner-border-sm me-2" role="status"></div>Przesyłanie zdjęć...

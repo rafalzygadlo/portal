@@ -2,30 +2,35 @@
 
 namespace App\Livewire\Upload;
 
-use Livewire\Attributes\Modelable;
+use App\Models\Photo;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
-use Illuminate\Support\Facades\Storage;
+use Livewire\WithFileUploads;
 
 class Gallery extends Component
 {
-    #[Modelable]
-    public array $files = [];
+    use WithFileUploads;
 
-    public array $existingPhotos = [];
-    public string $inputId = 'gallery-upload';
-    public int $maxPhotos = 10;
-    public string $title = 'Photos';
-    public ?string $field = null;
-    public array $errorFields = [];
-    public ?string $subtitle = null;
-    public bool $showReorder = true;
+    public array $allPhotos = [];
+
+    // Temporary property for new file uploads to allow appending.
+    #[Validate('image|max:10240')] // 10MB Max, validates each file.
+    public array $newUploads = [];
+
+    public string $inputId;
+    public int $maxPhotos;
+    public string $title;
+    public ?string $subtitle;
+    public bool $showReorder;
+    public ?string $field;
+    public array $errorFields;
 
     public function mount(
         string $inputId = 'gallery-upload',
         int $maxPhotos = 10,
         string $title = 'Photos',
         ?string $subtitle = null,
-        bool $showReorder = true,
+        bool $showReorder = false,
         ?string $field = null,
         array $existingPhotos = [],
         array $errorFields = []
@@ -36,45 +41,68 @@ class Gallery extends Component
         $this->subtitle = $subtitle;
         $this->showReorder = $showReorder;
         $this->field = $field;
-        $this->existingPhotos = $existingPhotos;
+        $this->allPhotos = array_map(
+            fn ($photo) => Photo::fromExisting($photo),
+            $existingPhotos
+        );
         $this->errorFields = $errorFields;
     }
 
-    // Usuwanie nowych plików
-    public function removePhoto(int $index): void
+    /**
+     * This method is called when new files are selected.
+     * It merges the new uploads with the existing `allPhotos` array.
+     */
+    public function updatedNewUploads(): void
     {
-        unset($this->files[$index]);
-        $this->files = array_values($this->files);
+        $this->validate(['newUploads.*' => 'image|max:10240']);
+
+        $newPhotos = array_map(
+            fn ($upload) => Photo::fromTemporaryUpload($upload),
+            $this->newUploads
+        );
+
+        $this->allPhotos = array_merge($this->allPhotos, $newPhotos);
+
+        if (count($this->allPhotos) > $this->maxPhotos) {
+            // Trim the array to respect the maxPhotos limit
+            $this->allPhotos = array_slice($this->allPhotos, 0, $this->maxPhotos);
+
+            // Optionally, add a custom error message to inform the user
+            $this->addError('newUploads', trans('validation.max.array', ['attribute' => 'photos', 'max' => $this->maxPhotos]));
+        }
+
+        // Clear the temporary property.
+        $this->newUploads = [];
     }
 
-    // Usuwanie istniejących (z bazy)
-    public function removeExistingPhoto(int $index): void
+    // Usuwanie zdjęć (nowych i istniejących)
+    public function removePhoto(int $index): void
     {
-        $photoId = $this->existingPhotos[$index]['id'] ?? null;
-        unset($this->existingPhotos[$index]);
-        $this->existingPhotos = array_values($this->existingPhotos);
-        $this->dispatch('photo-removed', photoId: $photoId);
+        unset($this->allPhotos[$index]);
+        $this->allPhotos = array_values($this->allPhotos);
     }
 
     // Logika przesuwania (używamy metody swap)
-    public function moveExistingPhotoUp(int $index): void { $this->swap($this->existingPhotos, $index, $index - 1); }
-    public function moveExistingPhotoDown(int $index): void { $this->swap($this->existingPhotos, $index, $index + 1); }
-    public function movePhotoUp(int $index): void { $this->swap($this->files, $index, $index - 1); }
-    public function movePhotoDown(int $index): void { $this->swap($this->files, $index, $index + 1); }
+    public function movePhotoUp(int $index): void
+    {
+        $this->swap($this->allPhotos, $index, $index - 1);
+    }
+    public function movePhotoDown(int $index): void
+    {
+        $this->swap($this->allPhotos, $index, $index + 1);
+    }
 
     private function swap(array &$array, int $a, int $b): void
     {
-        if (isset($array[$a]) && isset($array[$b])) {
-            $tmp = $array[$a];
-            $array[$a] = $array[$b];
-            $array[$b] = $tmp;
-        }
+        if (!isset($array[$a], $array[$b])) return;
+
+        [$array[$a], $array[$b]] = [$array[$b], $array[$a]];
     }
 
     public function render()
     {
         return view('livewire.upload.gallery', [
-            'fileCount' => count($this->files) + count($this->existingPhotos)
+            'fileCount' => count($this->allPhotos)
         ]);
     }
 }

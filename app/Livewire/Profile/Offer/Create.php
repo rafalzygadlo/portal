@@ -21,20 +21,7 @@ class Create extends Component
     public ?int $category_id = null;
     public $photos = [];
 
-    public function updatedPhotos()
-    {
-        $this->resetErrorBag('photos');
-
-        $this->validate([
-            'photos.*' => 'image|max:8192',
-        ]);
-
-        if (count($this->photos) > self::MAX_PHOTOS) {
-            $this->addError('photos', "Maksymalnie " . self::MAX_PHOTOS . " zdjęć można dodać.");
-            $this->photos = array_slice($this->photos, 0, self::MAX_PHOTOS);
-        }
-    }
-
+  
 
     public function rules()
     {
