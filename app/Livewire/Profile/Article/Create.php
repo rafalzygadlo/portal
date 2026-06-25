@@ -14,8 +14,6 @@ class Create extends Component
 {
     use WithFileUploads;
 
-    public const MAX_PHOTOS = 10;
-
     public $title;
     public $content;
     public $photos = [];
@@ -39,26 +37,7 @@ class Create extends Component
     
         $this->mode = 'preview';
     }
-
-    public function updatedPhotos()
-    {
-        $this->resetErrorBag('photos');
-
-        $this->validate([
-            'photos.*' => 'nullable|image|max:2048',
-        ]);
-
-        if (count($this->photos) > self::MAX_PHOTOS) {
-            $this->addError('photos', 'Maksymalnie ' . self::MAX_PHOTOS . ' zdjęć można dodać.');
-            $this->photos = array_slice($this->photos, 0, self::MAX_PHOTOS);
-        }
-    }
     
-    public function edit()
-    {
-        $this->mode = 'edit';
-    }
-
     public function save()
     {
         if(!empty($this->honey_pot)) {

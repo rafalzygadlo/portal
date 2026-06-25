@@ -14,12 +14,11 @@ class Create extends Component
 {
     use WithFileUploads;
 
-    public const MAX_PHOTOS = 10;
 
     public string $title = '';
     public string $content = '';    
     public ?int $category_id = null;
-    public $photos = [];
+    public array $allPhotos = [];
 
   
 
@@ -29,7 +28,7 @@ class Create extends Component
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:5000',
             'category_id' => 'required|exists:categories,id',
-            'photos.*' => 'required|image|max:8192',
+            'allPhotos.*' => 'required|image|max:8192',
         ];
     }
 
@@ -46,8 +45,7 @@ class Create extends Component
 
         $offer->categories()->attach($this->category_id);
         
-
-        $imageService->processAndAttach($offer, $this->photos);
+        $imageService->processAndAttach($offer, $this->allPhotos);
 
         session()->flash('status', 'Oferta została dodana!');
         return $this->redirect(route('user.profile'));

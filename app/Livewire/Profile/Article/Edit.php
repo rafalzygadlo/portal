@@ -13,8 +13,6 @@ class Edit extends Component
 {
     use WithFileUploads, AuthorizesRequests;
 
-    public const MAX_PHOTOS = 10;
-
     public Article $article;
     public $title;
     public $content;
@@ -34,16 +32,6 @@ class Edit extends Component
         $this->existingPhotos = $article->images()->get()->toArray();
     }
 
-    #[On('photo-removed')]
-    public function handlePhotoRemoved(int $photoId): void
-    {
-        $this->existingPhotos = array_filter($this->existingPhotos, function ($photo) use ($photoId) {
-            $id = is_array($photo) ? ($photo['id'] ?? null) : ($photo->id ?? null);
-            return $id !== $photoId;
-        });
-        $this->existingPhotos = array_values($this->existingPhotos);
-    }
-
     protected $rules = [
         'title' => 'required|min:5|max:255',
         'content' => 'required|min:10',
@@ -60,21 +48,6 @@ class Edit extends Component
         $this->mode = 'preview';
     }
 
-    public function updatedPhotos()
-    {
-        $this->resetErrorBag('photos');
-
-        $this->validate([
-            'photos.*' => 'nullable|image|max:2048',
-        ]);
-
-        $totalCount = count($this->existingPhotos) + count($this->photos);
-        if ($totalCount > self::MAX_PHOTOS) {
-            $this->addError('photos', 'Maksymalnie ' . self::MAX_PHOTOS . ' zdjęć łącznie.');
-            $this->photos = array_slice($this->photos, 0, max(0, self::MAX_PHOTOS - count($this->existingPhotos)));
-        }
-    }
-
     public function edit()
     {
         $this->mode = 'edit';
@@ -84,12 +57,7 @@ class Edit extends Component
     {
         $this->validate();
 
-        $totalCount = count($this->existingPhotos) + count($this->photos);
-        if ($totalCount > self::MAX_PHOTOS) {
-            $this->addError('photos', 'Maksymalnie ' . self::MAX_PHOTOS . ' zdjęć łącznie.');
-            return;
-        }
-
+     
         $this->article->update([
             'title' => $this->title,
             'content' => $this->content,

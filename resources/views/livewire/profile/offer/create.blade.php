@@ -9,9 +9,7 @@
                 <div class="card-body p-4">
                     @include('livewire.profile.offer._form', [
                         'isEdit' => false,
-                        'maxPhotos' => \App\Livewire\Profile\Offer\Create::MAX_PHOTOS,
-                        'existingPhotos' => [],
-                    ])
+                         'existingPhotos' => $allPhotos])
                 </div>
             </div>
         </div>

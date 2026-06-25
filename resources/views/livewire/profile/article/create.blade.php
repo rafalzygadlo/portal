@@ -48,7 +48,6 @@
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Photos</label>
-                                <input type="file" class="d-none @if($errors->has('photos') || $errors->has('photos.*')) is-invalid @endif" id="article-photos-create" wire:model="photos" multiple accept="image/*" @if(count($photos) >= \App\Livewire\Profile\Article\Create::MAX_PHOTOS) disabled @endif>
                                 <div wire:loading wire:target="photos" class="text-primary small mb-2">
                                     <div class="spinner-border spinner-border-sm me-2" role="status"></div>Przesyłanie zdjęć...
                                 </div>
@@ -56,7 +55,6 @@
                                     wire:model="photos"
                                     inputId="article-photos-create"
                                     field="photos"
-                                    :maxPhotos="\App\Livewire\Profile\Article\Create::MAX_PHOTOS"
                                     title="Article photos"
                                     :showReorder="true"
                                     :errorFields="['photos', 'photos.*']"

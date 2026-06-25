@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Profile;
 
 use Livewire\Component;
 use App\Models\Notification;
@@ -47,6 +47,6 @@ class Notifications extends Component
 
     public function render()
     {
-        return view('livewire.notifications');
+        return view('livewire.profile.notifications');
     }
 }

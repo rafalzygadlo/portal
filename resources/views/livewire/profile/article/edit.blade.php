@@ -63,7 +63,7 @@
                                 <livewire:upload.gallery
                                     wire:model="photos"
                                     :existingPhotos="is_array($existingPhotos) ? $existingPhotos : ($existingPhotos?->toArray() ?? [])"
-                                    inputId="article-photos-edit"
+                            
                                     field="photos"
                                     :maxPhotos="\App\Livewire\Profile\Article\Edit::MAX_PHOTOS"
                                     title="Edit photos"

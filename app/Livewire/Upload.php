@@ -1,51 +1,39 @@
 <?php
 
-namespace App\Livewire\Upload;
+namespace App\Livewire;
 
-use App\Models\Photo;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Modelable;
+use Illuminate\Support\Facades\Storage;
 
-class Gallery extends Component
+class Upload extends Component
 {
     use WithFileUploads;
 
+    #[Modelable]
     public array $allPhotos = [];
-
-    // Temporary property for new file uploads to allow appending.
-    #[Validate('image|max:10240')] // 10MB Max, validates each file.
     public array $newUploads = [];
-
-    public string $inputId;
     public int $maxPhotos;
-    public string $title;
-    public ?string $subtitle;
     public bool $showReorder;
-    public ?string $field;
     public array $errorFields;
+    public string $validationRules;
+    public array $existingPhotos = [];
 
     public function mount(
         string $inputId = 'gallery-upload',
-        int $maxPhotos = 10,
-        string $title = 'Photos',
-        ?string $subtitle = null,
-        bool $showReorder = false,
-        ?string $field = null,
+        int $maxPhotos = 5,
         array $existingPhotos = [],
         array $errorFields = []
     ): void {
-        $this->inputId = $inputId;
+    
+        $this->existingPhotos = $existingPhotos;
         $this->maxPhotos = $maxPhotos;
-        $this->title = $title;
-        $this->subtitle = $subtitle;
-        $this->showReorder = $showReorder;
-        $this->field = $field;
-        $this->allPhotos = array_map(
-            fn ($photo) => Photo::fromExisting($photo),
-            $existingPhotos
-        );
+        $this->showReorder = true;
+        $this->allPhotos = $existingPhotos;
         $this->errorFields = $errorFields;
+        $this->validationRules = 'image|max:10240';
     }
 
     /**
@@ -54,14 +42,21 @@ class Gallery extends Component
      */
     public function updatedNewUploads(): void
     {
-        $this->validate(['newUploads.*' => 'image|max:10240']);
+        $this->validate(['newUploads.*' => $this->validationRules]);
 
-        $newPhotos = array_map(
-            fn ($upload) => Photo::fromTemporaryUpload($upload),
-            $this->newUploads
-        );
+        $count = count($this->allPhotos) + count($this->newUploads);
+        foreach ($this->newUploads as $index => $file) 
+        {
+      
+                $this->allPhotos[] =  array(
+                'id' => $index + $count,   
+                'file' => $file,
+                'path' => $file->temporaryUrl(),
+                'isNew'=> true
+                );
+            
+        }
 
-        $this->allPhotos = array_merge($this->allPhotos, $newPhotos);
 
         if (count($this->allPhotos) > $this->maxPhotos) {
             // Trim the array to respect the maxPhotos limit
@@ -78,6 +73,7 @@ class Gallery extends Component
     // Usuwanie zdjęć (nowych i istniejących)
     public function removePhoto(int $index): void
     {
+        
         unset($this->allPhotos[$index]);
         $this->allPhotos = array_values($this->allPhotos);
     }

@@ -30,7 +30,7 @@ use Illuminate\Support\Str;
         // Verified Routes (User must be logged in AND have verified email)
         Route::middleware(['verified'])->group(function () {
             Route::get('/profile', App\Livewire\Profile\Index::class)->name('user.profile');
-            Route::get('/notify', App\Livewire\Notifications::class)->name('notifications.index');
+            Route::get('/notifications', App\Livewire\Profile\Notifications::class)->name('notifications.index');
 
             // Profile Management Routes
             Route::prefix('/profile')->group(function () {

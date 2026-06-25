@@ -3,6 +3,18 @@
 @endphp
 
 <form wire:submit.prevent="save">
+    {{-- Blok wyświetlający wszystkie błędy walidacji --}}
+    @if ($errors->any())
+        <div class="alert alert-danger mb-4">
+            <h5 class="alert-heading">Wystąpiły błędy!</h5>
+            <ul class="mb-0 ps-3">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="mb-3">
         <label for="title" class="form-label fw-semibold">{{ __('offers.title') }}</label>
         <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" wire:model.defer="title" placeholder="Offer title">
@@ -29,15 +41,11 @@
             <div class="spinner-border spinner-border-sm me-2" role="status"></div>Przesyłanie zdjęć...
         </div>
 
-        <livewire:upload.gallery
-            wire:model="photos"
-            :existingPhotos="is_array($existingPhotos) ? $existingPhotos : ($existingPhotos?->toArray() ?? [])"
+        <livewire:upload
+            wire:model.live="allPhotos"
             inputId="offer-photos"
-            field="photos"
-            :maxPhotos="$maxPhotos"
-            :title="$isEdit ? 'Edit photos' : 'Offer photos'"
-            :showReorder="true"
-            :errorFields="['photos', 'photos.*']"
+            :existingPhotos="$existingPhotos"
+            :errorFields="['allPhotos', 'allPhotos.*']"
             :key="'offer-upload-' . ($isEdit ? 'edit' : 'create')"
         />
     </div>

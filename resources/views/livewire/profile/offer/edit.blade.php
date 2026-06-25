@@ -8,11 +8,16 @@
                         <i class="bi bi-trash"></i> Delete
                     </button>
                 </div>
+                @if (session()->has('status'))
+                    <div class="alert alert-success m-4">
+                        {{ session('status') }}
+                    </div>
+                @endif
+                
                 <div class="card-body p-4">
                     @include('livewire.profile.offer._form', [
                         'isEdit' => true,
-                        'maxPhotos' => \App\Livewire\Profile\Offer\Edit::MAX_PHOTOS,
-                        'existingPhotos' => $existingPhotos,
+                        'existingPhotos' => $allPhotos,
                     ])
                 </div>
             </div>

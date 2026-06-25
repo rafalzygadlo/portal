@@ -1,16 +1,24 @@
 <div>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="mb-0">{{ $title }}</h6>
+    <div class="d-flex mb-3">
         <div class="badge bg-primary text-white">{{ $fileCount }} / {{ $maxPhotos }}</div>
     </div>
 
     <div class="row g-3">
-       
+        {{-- Blok wyświetlający wszystkie błędy walidacji --}}
+    @if ($errors->any())
+        <div class="alert alert-danger mb-4">
+            <ul class="mb-0 ps-3">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
         @foreach($allPhotos as $index => $photo)
-            <div class="col-6 col-sm-4 col-md-3" wire:key="{{ $photo->id }}">
+            <div class="col-6 col-sm-4 col-md-3" wire:key="{{ $photo['id'] }}">
                 <div class="position-relative border rounded overflow-hidden" style="aspect-ratio: 1;">
-                    <img src="{{ $photo->getUrl() }}" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                    <img src="{{ $photo['path'] }}" class="img-fluid w-100 h-100">
                     
                     <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" wire:click="removePhoto({{ $index }})">
                         <i class="bi bi-x-lg"></i>
@@ -30,7 +38,7 @@
 
         @if($fileCount < $maxPhotos)
             <div class="col-6 col-sm-4 col-md-3">
-                <label for="{{ $inputId }}" class="d-flex align-items-center justify-content-center border border-2 border-dashed rounded h-100 cursor-pointer" style="aspect-ratio: 1; cursor: pointer;">
+                <label for="input-id" class="d-flex align-items-center justify-content-center border border-2 border-dashed rounded h-100 cursor-pointer" style="aspect-ratio: 1; cursor: pointer;">
                     <div class="text-center">
                         <i class="bi bi-plus-lg fs-2"></i>
                         <div class="small">Dodaj</div>
@@ -38,7 +46,7 @@
                 </label>
                 
                 <input type="file" 
-                       id="{{ $inputId }}" 
+                       id="input-id" 
                        wire:model.live="newUploads" 
                        multiple 
                        class="d-none" 
