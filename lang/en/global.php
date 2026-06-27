@@ -18,5 +18,5 @@ return [
 	'faq' => 'FAQ',
 	'category' => 'Category',
 	'back' => 'Back',
-	'selected_category' => 'Selected category: :category',
+	'selected_category' => 'Selected category: ',
 ];

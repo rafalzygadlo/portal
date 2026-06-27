@@ -15,6 +15,12 @@ class CategorySelector extends Component
 
     public ?string $name = null;
 
+    public function mount($value = null)
+    {
+        if($value != null)
+            $this->selectCategory($value);
+    }
+
     public function selectCategory($id)
     {
         $category = Category::findOrFail($id);

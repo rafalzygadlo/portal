@@ -25,7 +25,7 @@ class Edit extends Component
 
     public function mount(Offer $offer): void
     {
-        //$this->authorize1('update', $offer);
+        $this->authorize('update', $offer);
     
         $this->offer = $offer;
         $this->title = $offer->title;

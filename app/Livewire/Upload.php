@@ -78,6 +78,20 @@ class Upload extends Component
         $this->allPhotos = array_values($this->allPhotos);
     }
 
+    /**
+     * Reorders photos based on the new order from SortableJS.
+     *
+     * @param array $orderedIds
+     */
+    public function reorderPhotos(array $orderedIds): void
+    {
+        $photosById = collect($this->allPhotos)->keyBy('id');
+
+        $this->allPhotos = collect($orderedIds)
+            ->map(fn ($item) => $photosById[$item['value']] ?? null)
+            ->filter() // Remove nulls if a photo was not found
+            ->values()->toArray();
+    }
     // Logika przesuwania (używamy metody swap)
     public function movePhotoUp(int $index): void
     {

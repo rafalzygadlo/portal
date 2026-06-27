@@ -1,5 +1,4 @@
 <div>
-     <label class="form-label">{{ __('global.category') }}</label>
     <div>
         @if($parentId)
             <button type="button" wire:click="goBack" class="btn bg-white border">
@@ -23,7 +22,8 @@
     @if($value)
         <input type="hidden" name="category_id" value="{{ $value }}">
         <div class="mt-2 py-1 px-2 small">
-            {{ __('global.selected_category', ['category' => $name]) }}
+            {{ __('global.selected_category') }}
+        <span class="badge bg-primary">{{ $name }}</span>
         </div>
     @endif
 

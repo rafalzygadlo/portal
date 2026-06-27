@@ -12,8 +12,7 @@ use App\Services\ImageAnalysisService;
 
 class Create extends Component
 {
-    use WithFileUploads;
-
+    
 
     public string $title = '';
     public string $content = '';    
@@ -28,7 +27,7 @@ class Create extends Component
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:5000',
             'category_id' => 'required|exists:categories,id',
-            'allPhotos.*' => 'required|image|max:8192',
+            //'allPhotos.*' => 'required|image|max:8192',
         ];
     }
 
