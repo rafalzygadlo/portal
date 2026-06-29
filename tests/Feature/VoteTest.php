@@ -13,7 +13,7 @@ class VoteTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_upvote_an_article()
+    public function test_it_can_upvote_an_article()
     {
         $user = User::factory()->create();
         $article = Article::factory()->create();
@@ -33,7 +33,7 @@ class VoteTest extends TestCase
     }
 
     /** @test */
-    public function it_can_downvote_an_article()
+    public function test_it_can_downvote_an_article()
     {
         $user = User::factory()->create();
         $article = Article::factory()->create();
@@ -52,7 +52,7 @@ class VoteTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_vote_count_for_article()
+    public function test_it_can_get_vote_count_for_article()
     {
         $article = Article::factory()->create();
         

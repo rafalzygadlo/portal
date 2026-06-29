@@ -11,7 +11,7 @@ class ProfileTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function authenticated_user_can_access_profile_page()
+    public function test_authenticated_user_can_access_profile_page()
     {
         $user = User::factory()->create([
             'email_verified_at' => now()
@@ -23,7 +23,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_can_access_notifications_page()
+    public function test_authenticated_user_can_access_notifications_page()
     {
         $user = User::factory()->create([
             'email_verified_at' => now()
@@ -35,7 +35,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticated_user_cannot_access_notifications_page()
+    public function test_unauthenticated_user_cannot_access_notifications_page()
     {
         $response = $this->get('/notify');
         

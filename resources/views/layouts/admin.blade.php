@@ -22,7 +22,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto">
-                    @can('manage-business', $business->subdomain)
+                    @can('manage', $business->subdomain)
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.business.dashboard', ['subdomain' => $business->subdomain]) }}">Dashboard</a>
                         </li>

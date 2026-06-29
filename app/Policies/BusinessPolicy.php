@@ -4,15 +4,24 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Business;
+use App\Policies\Concerns\ChecksBusinessOwnership;
 
 class BusinessPolicy
 {
+    use ChecksBusinessOwnership;
+
+
+    public function manage(User $user, Business $business): bool
+    {
+        return $this->userOwnsBusiness($user, $business);
+
+    }
     /**
      * Whether the user can manage the business.
      */
     public function update(User $user, Business $business): bool
     {
-        return $user->id === $business->user_id;
+        return $this->userOwnsBusiness($user, $business);
     }
 
     /**
@@ -20,7 +29,7 @@ class BusinessPolicy
      */
     public function delete(User $user, Business $business): bool
     {
-        return $user->id === $business->user_id;
+        return $this->userOwnsBusiness($user, $business);
     }
 
     /**
@@ -28,6 +37,6 @@ class BusinessPolicy
      */
     public function viewReservations(User $user, Business $business): bool
     {
-        return $user->id === $business->user_id || $user->worksBusiness($business);
+        return $this->userOwnsBusiness($user, $business);
     }
 }

@@ -11,7 +11,7 @@ class OfferTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_view_offers_index_page()
+    public function test_it_can_view_offers_index_page()
     {
         Offer::factory(3)->create();
         
@@ -21,7 +21,7 @@ class OfferTest extends TestCase
     }
 
     /** @test */
-    public function it_can_view_offer_show_page()
+    public function test_it_can_view_offer_show_page()
     {
         $offer = Offer::factory()->create();
         

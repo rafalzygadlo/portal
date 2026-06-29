@@ -41,6 +41,11 @@ class AppServiceProvider extends ServiceProvider
 
     private function registerGates()
     {
+        // Użytkownik może dodawać zgłoszenia tylko jeśli ma dodatnią reputację
+        Gate::define('create-report', function (User $user) {
+            // Używamy progu z pliku konfiguracyjnego
+            return $user->reputation_score > config('reputation.thresholds.can_create_content', 0);
+        });
        
         Gate::define('manage-business', function (User $user, string $subdomain) {
             return Business::where('subdomain', $subdomain)

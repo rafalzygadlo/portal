@@ -11,7 +11,7 @@ class PollTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_view_polls_index_page()
+    public function test_it_can_view_polls_index_page()
     {
         Poll::factory(3)->create();
         
@@ -21,7 +21,7 @@ class PollTest extends TestCase
     }
 
     /** @test */
-    public function it_can_view_poll_show_page()
+    public function test_it_can_view_poll_show_page()
     {
         $poll = Poll::factory()->create();
         

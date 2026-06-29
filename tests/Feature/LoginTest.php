@@ -11,7 +11,7 @@ class LoginTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_should_allow_a_user_to_see_the_login_page()
+    public function test_it_should_allow_a_user_to_see_the_login_page()
     {
         $response = $this->get('/login');
 
@@ -20,7 +20,7 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticated_user_cannot_access_profile_page()
+    public function test_unauthenticated_user_cannot_access_profile_page()
     {
         $response = $this->get('/profile');
         
@@ -28,7 +28,7 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    public function user_can_logout()
+    public function test_user_can_logout()
     {
         $user = User::factory()->create();
         

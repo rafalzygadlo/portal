@@ -21,6 +21,12 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\CommentCreated::class => [
             \App\Listeners\SendCommentNotification::class,
         ],
+        \App\Events\ReportApproved::class => [
+            \App\Listeners\UpdateReputationOnReportApproval::class,
+        ],
+        \App\Events\ReportRejected::class => [
+            \App\Listeners\UpdateReputationOnReportRejection::class,
+        ],
         \App\Events\VoteCreated::class => [
             \App\Listeners\SendVoteNotification::class,
         ],

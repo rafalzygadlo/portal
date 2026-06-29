@@ -12,7 +12,7 @@ class NotificationTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function authenticated_user_can_view_notifications()
+    public function test_authenticated_user_can_view_notifications()
     {
         $user = User::factory()->create([
             'email_verified_at' => now()
@@ -28,7 +28,7 @@ class NotificationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_notification()
+    public function test_it_can_create_a_notification()
     {
         $user = User::factory()->create();
 
@@ -45,7 +45,7 @@ class NotificationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_mark_notification_as_read()
+    public function test_it_can_mark_notification_as_read()
     {
         $user = User::factory()->create();
 

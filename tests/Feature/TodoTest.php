@@ -11,7 +11,7 @@ class TodoTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_view_todos_index_page()
+    public function test_it_can_view_todos_index_page()
     {
         Todo::factory(3)->create();
         
