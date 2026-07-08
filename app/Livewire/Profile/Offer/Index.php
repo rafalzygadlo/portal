@@ -9,7 +9,7 @@ class Index extends Component
 {
     public function render()
     {
-        $offers = auth()->user()->offers()->latest()->get();
+        $offers = auth()->user()->offers()->with('categories')->latest()->get();
         
         return view('livewire.profile.offer.index', [
             'offers' => $offers

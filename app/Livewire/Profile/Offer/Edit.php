@@ -19,7 +19,7 @@ class Edit extends Component
     public Offer $offer;
     public string $title = '';
     public string $content = '';
-    public ?int $category_id = null;
+    public array $categories = [1,2];
     public array $allPhotos;
     public array $initialData = [];
 
@@ -30,7 +30,8 @@ class Edit extends Component
         $this->offer = $offer;
         $this->title = $offer->title;
         $this->content = $offer->content;
-        $this->category_id = $offer->categories()->first()?->id;
+        $this->categories = $offer->categories()->pluck('id')->toArray();
+
         
         $this->allPhotos = $offer->images()->get()->map(fn(Image $image) => [
             'id' => $image->id,
@@ -46,8 +47,9 @@ class Edit extends Component
         return [
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:5000',
-            'category_id' => 'required|exists:categories,id',
-            //'allPhotos.*' => 'nullable|image|max:8192',
+            'categories' => 'required|array|min:1',
+            'categories.*' => 'exists:categories,id',
+            // 'allPhotos.*' => 'nullable|image|max:8192',
         ];
     }
 
@@ -64,9 +66,8 @@ class Edit extends Component
             'slug' => \Str::slug($this->title),
         ]);
         
-        $this->offer->categories()->sync([$this->category_id]);
+        $this->offer->categories()->sync($this->categories);
 
-        dd($this->allPhotos);
         $existingPhotos = array_filter($this->allPhotos, 'is_array');
         $newPhotos = array_filter($this->allPhotos, fn($photo) => !is_array($photo));
 

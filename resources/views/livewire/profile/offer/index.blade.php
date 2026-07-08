@@ -7,8 +7,13 @@
                         <div class="flex-grow-1">
                             <h6 class="mb-1 fw-bold">{{ $offer->title }}</h6>
                             <p class="text-muted small mb-2">{{ Str::limit($offer->content, 100) }}</p>
-                            <small class="text-muted">Created: {{ $offer->created_at->format('d.m.Y H:i') }}</small>
+                           
+                            @foreach ($offer->categories as $category)
+                                <span class="badge bg-secondary">{{ $category->name }}</span>
+                            @endforeach
+                            <br> <small class="text-muted">Created: {{ $offer->created_at->format('d.m.Y H:i') }}</small>
                         </div>
+                        
                         <div class="d-flex gap-2 ms-2">
                             <a href="{{ route('offer.show', $offer) }}" class="btn btn-sm btn-outline-primary" target="_blank">
                                 <i class="bi bi-eye"></i> View

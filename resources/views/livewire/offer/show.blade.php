@@ -68,13 +68,15 @@
                             <div>
                                 <p class="text-muted small mb-0">Kategoria</p>
                                 <h6 class="mb-0 fw-bold">
-                                    @if($offer->categories->isNotEmpty())
-                                        <a href="{{ route('offers.index', $offer->categories->first()->slug) }}" class="text-decoration-none text-dark">
-                                            {{ $offer->categories->first()->name }}
-                                        </a>
-                                    @else
-                                        Brak kategorii
-                                    @endif
+                                     @if($offer->categories->isNotEmpty())
+                                    <div class="mb-2 d-flex flex-wrap gap-1">
+                                        @foreach($offer->categories as $category)
+                                            <a href="{{ route('offers.index', $category->slug) }}" class="text-decoration-none">
+                                                <span class="badge bg-primary-subtle text-primary border-0 rounded-pill px-2.5 py-1" style="font-size: 0.75rem; fw-semibold;">{{ $category->name }}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @endif
                                 </h6>
                             </div>
                         </div>

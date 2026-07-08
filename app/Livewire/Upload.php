@@ -19,7 +19,7 @@ class Upload extends Component
     public bool $showReorder;
     public array $errorFields;
     public string $validationRules;
-    public array $existingPhotos = [];
+    //public array $existingPhotos1 = [];
 
     public function mount(
         string $inputId = 'gallery-upload',
@@ -28,7 +28,7 @@ class Upload extends Component
         array $errorFields = []
     ): void {
     
-        $this->existingPhotos = $existingPhotos;
+        //$this->existingPhotos = $existingPhotos;
         $this->maxPhotos = $maxPhotos;
         $this->showReorder = true;
         $this->allPhotos = $existingPhotos;

@@ -29,7 +29,7 @@ class CategoryBar extends Component
             $this->attachRecursiveCounts($categories);
         }
 
-        return view('livewire.sidebar', [
+        return view('livewire.category-bar', [
             'categories' => $categories
         ]);
     }

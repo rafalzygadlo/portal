@@ -16,7 +16,7 @@ class Create extends Component
 
     public string $title = '';
     public string $content = '';    
-    public ?int $category_id = null;
+    public array $categories = [];
     public array $allPhotos = [];
 
   
@@ -26,7 +26,8 @@ class Create extends Component
         return [
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:5000',
-            'category_id' => 'required|exists:categories,id',
+            'categories' => 'required|array',
+            'categories.*' => 'required|exists:categories,id',
             //'allPhotos.*' => 'required|image|max:8192',
         ];
     }
@@ -42,7 +43,7 @@ class Create extends Component
             'slug' => \Str::slug($this->title),
         ]);
 
-        $offer->categories()->attach($this->category_id);
+        $offer->categories()->attach($this->categories);
         
         $imageService->processAndAttach($offer, $this->allPhotos);
 
