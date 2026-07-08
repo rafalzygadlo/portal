@@ -64,8 +64,10 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Autor i Czas (Desktop) -->
+                             {{-- 
+                                en: Author and Time 
+                                de: Autor und Zeit
+                             --}}
                             <div class="col-md-3 d-none d-md-flex align-items-center text-muted small">
                                 <i class="bi bi-person-circle me-2"></i>
                                 <span class="text-truncate">{{ $todo->user->first_name }}</span>
@@ -76,14 +78,14 @@
                             <!-- Statystyki -->
                             <div class="col-12 col-md-3 d-flex justify-content-start justify-content-md-end gap-3 text-muted small">
                                 <span title="Komentarze"><i class="bi bi-chat me-1"></i>{{ $todo->comments_count }}</span>
-                                {{-- <span title="Wyświetlenia"><i class="bi bi-eye me-1"></i>{{ $todo->views_count }}</span> --}}
                                 <span title="Polubienia"><i class="bi bi-hand-thumbs-up me-1"></i>{{ $todo->likes_count }}</span>
+                                <livewire:favorite :model="$todo" :key="'favorite-todo-list-'.$todo->id" />
+                        
                             </div>
 
+
                         </div>
-                        <div class="mt-3 d-flex justify-content-end border-top pt-2">
-                            <livewire:favorite :model="$todo" :key="'favorite-todo-list-'.$todo->id" />
-                        </div>
+                        
                     </div>
                 </div>
             </div>

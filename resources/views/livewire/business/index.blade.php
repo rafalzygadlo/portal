@@ -22,6 +22,14 @@
     <!-- NOWOCZESNY, MINIMALISTYCZNY BREADCRUMB (Bez tła, czysta przestrzeń) -->
     <livewire:breadcrumb route="business.index" :category="$currentCategory" :key="'bc-'.$categorySlug" />
 
+    <!-- Pole wyszukiwania -->
+    <div class="my-4">
+        <div class="input-group input-group-lg">
+            <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
+            <input wire:model.live.debounce.300ms="search" type="text" class="form-control bg-light border-0" placeholder="Szukaj firmy ...">
+        </div>
+    </div>
+
 
     <div class="rounded-1 bg-light">
         <div class="col-lg-12 col-xl-12 mb-4">
@@ -38,48 +46,43 @@
     <div class="row g-3 g-md-4">
         @forelse ($businesses as $business)
             <div :class="view === 'grid' ? 'col-12 col-md-6 col-xl-4' : 'col-12'">
-                
-                <div class="h-100 p-3 p-md-4 d-flex flex-column bg-white rounded-1 border border-secondary-subtle shadow-sm position-relative">
+                <div class="card h-100 shadow-sm border-0 rounded-3 transition-hover">
+                    <div class="card-body d-flex flex-column p-3 p-md-4">
                     @if($business->is_claimed)
                         <i class="bi bi-patch-check-fill text-primary position-absolute" style="top: 0.5rem; right: 0.5rem; font-size: 1.25rem;" title="Verified"></i>
                     @else
                         <i class="bi bi-patch-exclamation-fill text-secondary position-absolute" style="top: 0.5rem; right: 0.5rem; font-size: 1.25rem;" title="Not Verified"></i>
                     @endif
-                    
-                    <div class="mb-3">
-                        <div class="text-truncate">
-                            <h5 class="mb-1 fw-semibold text-break fs-6 fs-md-5">
-                                <a href="{{ route('business.show', $business) }}" class="text-decoration-none text-dark link-primary-hover stretched-link">{{ $business->name }}</a>
+
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="fw-bold mb-0 me-3">
+                                <a href="{{ route('business.show', $business) }}" class="text-dark text-decoration-none stretched-link">{{ $business->name }}</a>
                             </h5>
-                            <div class="text-secondary" style="font-size: 0.75rem;">
-                                <i class="bi bi-calendar3 me-1"></i>{{ $business->created_at->diffForHumans() }}
+                        </div>
+
+                        <p class="text-muted small mb-3">{{ Str::limit($business->description, 100) }}</p>
+
+                        @if($business->categories->isNotEmpty())
+                            <div class="mb-3 d-flex flex-wrap gap-1">
+                                @foreach($business->categories as $category)
+                                    <span class="badge bg-primary bg-opacity-10 text-primary-emphasis fw-normal" style="font-size: 0.7rem;">
+                                        {{ $category->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        <div class="mt-auto d-flex justify-content-between align-items-center pt-2 border-top">
+                            <div class="small text-muted">
+                                <i class="bi bi-clock-history"></i> {{ $business->created_at->diffForHumans() }}
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                @if($business->subdomain)
+                                    <a href="https://{{ $business->subdomain }}.{{ env('DOMAIN_NAME') }}" target="_blank" class="btn btn-sm btn-light border-0" title="{{ $business->subdomain }}.{{ env('DOMAIN_NAME') }}"><i class="bi bi-globe"></i></a>
+                                @endif
+                                <livewire:favorite :model="$business" :key="'favorite-business-list-'.$business->id" />
                             </div>
                         </div>
-                    </div>
-
-                    <p class="text-secondary mb-3" style="font-size: 0.9rem; line-height: 1.4;">
-                        {{ Str::limit($business->description, 120) }}
-                    </p>
-
-                    @if($business->categories->isNotEmpty())
-                        <div class="mb-3 d-flex flex-wrap gap-1">
-                            @foreach($business->categories as $category)
-                                <span class="badge bg-light text-dark rounded-1 py-1 px-2 border border-light-subtle" style="font-size: 0.7rem;">
-                                    {{ $category->name }}
-                                </span>
-                            @endforeach
-                        </div>
-                    @endif
-
-                    @if($business->subdomain)
-                        <div class="mb-0 mt-auto pt-2 border-top border-light small text-secondary">
-                            <a href="https://{{ $business->subdomain }}.{{ env('DOMAIN_NAME') }}" target="_blank" class="text-decoration-none text-primary fw-medium d-block text-truncate">
-                                <i class="bi bi-globe me-1"></i>{{ $business->subdomain }}.{{ env('DOMAIN_NAME') }}
-                            </a>
-                        </div>
-                    @endif
-                    <div class="mt-3 pt-2 border-top d-flex justify-content-end">
-                        <livewire:favorite :model="$business" :key="'favorite-business-list-'.$business->id" />
                     </div>
                 </div>
             </div>
