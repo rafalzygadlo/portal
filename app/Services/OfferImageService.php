@@ -3,7 +3,8 @@
 namespace App\Services;
 
 use App\Models\Offer;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Image;
+
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -32,7 +33,7 @@ class OfferImageService
             $thumbnailsDirectory = "{$directory}/thumbnails";
 
             // Decode the image from the temporary path
-            $image = $manager->decodePath($photo->getRealPath());
+            $image = $manager->decodePath($photo['realPath']);
 
             // 1200px is a common width for web images to balance quality and performance
             $image->scaleDown(width: 1200);
@@ -54,5 +55,39 @@ class OfferImageService
             
         
         }
+    }
+
+    /**
+     * Deletes all images and directories associated with a given offer.
+     *
+     * @param Offer $offer
+     * @return void
+     */
+    public function deleteForOffer(Offer $offer): void
+    {
+        $directory = "offers/{$offer->id}";
+        Storage::disk('public')->deleteDirectory($directory);
+    }
+
+    /**
+     * Deletes a single image and its variants (small, thumbnail) from storage,
+     * and removes its record from the database.
+     *
+     * @param Image $image
+     * @return void
+     */
+    public function deleteImage(Image $image): void
+    {
+        $basePath = dirname($image->path); // np. "offers/123"
+        $filename = basename($image->path); // np. "tytul-oferty-0.jpg"
+
+        $pathsToDelete = [
+            $image->path, // "offers/123/tytul-oferty-0.jpg"
+            "{$basePath}/small/{$filename}",
+            "{$basePath}/thumbnails/{$filename}",
+        ];
+
+        Storage::disk('public')->delete($pathsToDelete);
+        $image->delete();
     }
 }

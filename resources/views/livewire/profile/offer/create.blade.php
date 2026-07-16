@@ -9,7 +9,8 @@
                 <div class="card-body p-4">
                     @include('livewire.profile.offer._form', [
                         'isEdit' => false,
-                         'existingPhotos' => $allPhotos])
+                         'existingPhotos' => $allPhotos
+                        ])
                 </div>
             </div>
         </div>

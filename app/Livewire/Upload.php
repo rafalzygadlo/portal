@@ -19,7 +19,7 @@ class Upload extends Component
     public bool $showReorder;
     public array $errorFields;
     public string $validationRules;
-    //public array $existingPhotos1 = [];
+    
 
     public function mount(
         string $inputId = 'gallery-upload',
@@ -28,9 +28,8 @@ class Upload extends Component
         array $errorFields = []
     ): void {
     
-        //$this->existingPhotos = $existingPhotos;
         $this->maxPhotos = $maxPhotos;
-        $this->showReorder = true;
+        $this->showReorder = false;
         $this->allPhotos = $existingPhotos;
         $this->errorFields = $errorFields;
         $this->validationRules = 'image|max:10240';
@@ -42,23 +41,25 @@ class Upload extends Component
      */
     public function updatedNewUploads(): void
     {
+        
         $this->validate(['newUploads.*' => $this->validationRules]);
 
         $count = count($this->allPhotos) + count($this->newUploads);
         foreach ($this->newUploads as $index => $file) 
         {
       
-                $this->allPhotos[] =  array(
+                $this->allPhotos[] = array(
                 'id' => $index + $count,   
                 'file' => $file,
-                'path' => $file->temporaryUrl(),
+                'previewPath' => $file->temporaryUrl(),
+                'realPath' => $file->getRealPath(),
                 'isNew'=> true
                 );
             
         }
 
-
-        if (count($this->allPhotos) > $this->maxPhotos) {
+        if (count($this->allPhotos) > $this->maxPhotos) 
+        {
             // Trim the array to respect the maxPhotos limit
             $this->allPhotos = array_slice($this->allPhotos, 0, $this->maxPhotos);
 

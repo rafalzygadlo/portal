@@ -31,11 +31,11 @@ class Edit extends Component
         $this->title = $offer->title;
         $this->content = $offer->content;
         $this->categories = $offer->categories()->pluck('id')->toArray();
+        //$this->allPhotos = $offer->images()->get()->toArray();
 
-        
         $this->allPhotos = $offer->images()->get()->map(fn(Image $image) => [
             'id' => $image->id,
-            'path' => Storage::url($image->path),
+            'previewPath' => Storage::url($image->path),
             'isNew' => false
         ])->toArray();
 
@@ -57,7 +57,6 @@ class Edit extends Component
     public function save(OfferImageService $imageService)
     {
 
-        //dd($this->allPhotos);
         $this->validate();
  
         $this->offer->update([
@@ -68,25 +67,29 @@ class Edit extends Component
         
         $this->offer->categories()->sync($this->categories);
 
-        $existingPhotos = array_filter($this->allPhotos, 'is_array');
-        $newPhotos = array_filter($this->allPhotos, fn($photo) => !is_array($photo));
-
+        //dd($this->allPhotos);
+        // move this to a service class for better separation of concerns
+        $existingPhotos = array_filter($this->allPhotos, fn($photo) => $photo['isNew'] == false);
+        $newPhotos = array_filter($this->allPhotos, fn($photo) => $photo['isNew'] == true);
 
         // 1. Logika usuwania zdjęć (usuwamy te, których nie ma już w $existingPhotos)
         $existingIds = array_column($existingPhotos, 'id');
         $originalIds = $this->offer->images()->pluck('id')->toArray();
         $idsToDelete = array_diff($originalIds, $existingIds);
 
-        foreach ($idsToDelete as $imageId) {
+        foreach ($idsToDelete as $imageId) 
+        {
             $image = $this->offer->images()->find($imageId);
-            if ($image) {
+            if ($image) 
+            {
                 Storage::disk('public')->delete($image->path);
                 $image->delete();
             }
         }
 
         // 2. Dodawanie nowych zdjęć
-        if (!empty($newPhotos)) {
+        if (!empty($newPhotos)) 
+        {
             $imageService->processAndAttach($this->offer, $newPhotos);
         }
 

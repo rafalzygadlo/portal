@@ -18,13 +18,13 @@
         @foreach($allPhotos as $index => $photo)
             <div class="col-6 col-sm-4 col-md-3" wire:key="{{ $photo['id'] }}">
                 <div class="position-relative border rounded overflow-hidden" style="aspect-ratio: 1;">
-                    <img src="{{ $photo['path'] }}" class="img-fluid w-100 h-100">
+                    <img src="{{ $photo['previewPath'] }}" class="img-fluid w-100 h-100">
                     
                     <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" wire:click="removePhoto({{ $index }})">
                         <i class="bi bi-x-lg"></i>
                     </button>
 
-                    @if($showReorder)
+                    @if($showReorder == false)
                         <div class="position-absolute bottom-0 start-0 w-100 d-flex bg-dark bg-opacity-50">
                             <button type="button" class="btn btn-sm btn-light flex-fill" wire:click="movePhotoUp({{ $index }})" @if($index == 0) disabled @endif><i class="bi bi-chevron-left"></i></button>
                             <button type="button" class="btn btn-sm btn-light flex-fill" wire:click="movePhotoDown({{ $index }})" @if($index == count($allPhotos)-1) disabled @endif><i class="bi bi-chevron-right"></i></button>
