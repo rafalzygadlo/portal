@@ -78,7 +78,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 @if($business->subdomain)
-                                    <a href="https://{{ $business->subdomain }}.{{ env('DOMAIN_NAME') }}" target="_blank" class="btn btn-sm btn-light border-0" title="{{ $business->subdomain }}.{{ env('DOMAIN_NAME') }}"><i class="bi bi-globe"></i></a>
+                                    <a style="position: relative; z-index: 1;" href="https://{{ $business->subdomain }}.{{ env('DOMAIN_NAME') }}" target="_blank" class="btn btn-sm btn-light border-0" title="{{ $business->subdomain }}.{{ env('DOMAIN_NAME') }}"><i class="bi bi-globe"></i></a>
                                 @endif
                                 <livewire:favorite :model="$business" :key="'favorite-business-list-'.$business->id" />
                             </div>

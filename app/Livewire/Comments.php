@@ -1,16 +1,13 @@
 <?php
 
 namespace App\Livewire;
-
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
 use Illuminate\Validation\ValidationException;
 use App\Events\CommentCreated;
-
 use App\Rules\Profanity;
 
-class Comments extends Component
+class Comments extends AuthComponent
 {
     public $model;
     public $content;
@@ -32,11 +29,8 @@ class Comments extends Component
 
         $this->validate();
 
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
-        $comment = $this->model->comments()->create([
+        if ($this->checkAuth()) {
+            $this->model->comments()->create([
             'user_id' => Auth::id(),
             'parent_id' => $this->replyToId,
             'content' => $this->content,
@@ -45,6 +39,7 @@ class Comments extends Component
         
         $this->content = '';
         $this->replyToId = null;
+        }
     }
 
     public function delete($commentId)

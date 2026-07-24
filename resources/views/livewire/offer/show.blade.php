@@ -22,7 +22,7 @@
                     <div class="offer-content py-3">
                         <h4 class="fw-semibold mb-3 border-start border-primary border-4 ps-3">Opis oferty</h4>
                         <div class="fs-5 text-secondary lh-base">
-                            {!! nl2br(strip_tags($offer->content, '<a>')) !!}
+                            {!! nl2br($offer->content) !!}
                         </div>
                     </div>
 

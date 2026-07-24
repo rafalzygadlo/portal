@@ -18,7 +18,11 @@ class Login extends Component
 
         if($true)
         {
-            return redirect()->intended('/profile');
+            // en: Redirect to the intended page, or fall back to the homepage.
+            // de: Leite zur beabsichtigten Seite weiter oder falle auf die Startseite zurück.
+            $this->dispatch('closeModal');
+            $this->dispatch('authChanged');
+            return;
         }
 
         $this->addError('email', __('auth.failed'));

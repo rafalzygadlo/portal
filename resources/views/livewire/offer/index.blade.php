@@ -40,6 +40,12 @@
                     <div class="col-12 col-sm-6 col-md-6 col-xl-3 fade-in-card" wire:key="offer-{{ $offer->id }}" >
                            <div class="card h-100 border-0 rounded-4 bg-white shadow-sm transition-hover d-flex flex-column overflow-hidden">
                             
+                            {{-- Oznaczenie promowanej oferty --}}
+                            @if($offer->isPromoted())
+                                <div class="position-absolute top-0 end-0 m-2" style="z-index: 10;">
+                                    <span class="badge bg-warning text-dark shadow-sm"><i class="bi bi-star-fill me-1"></i> Promowane</span>
+                                </div>
+                            @endif
                             <!-- Zdjęcie Oferty -->
                             <div class="position-relative overflow-hidden flex-shrink-0">
                                 @if($offer->images->isNotEmpty())
@@ -96,7 +102,10 @@
                                         <i class="bi bi-calendar3"></i> {{ $offer->created_at->translatedFormat('d M Y') }}
                                     </div>
 
-                                    <livewire:favorite :model="$offer" :key="'favorite-offer-list-'.$offer->id" />
+                                    <div class="d-flex gap-2">
+                                        <livewire:promote :model="$offer" :key="'promote-offer-'.$offer->id" />
+                                        <livewire:favorite :model="$offer" :key="'favorite-offer-list-'.$offer->id" />
+                                    </div>
                                     
                                 </div>
 

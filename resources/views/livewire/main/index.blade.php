@@ -1,4 +1,7 @@
 <div class="container-fluid">
+
+
+
     @include('livewire/main/partials/header')
     <div class="row g-3 g-md-6">
         @foreach ($items as $item)

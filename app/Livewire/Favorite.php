@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Livewire;
-
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use Livewire\Attributes\On;
 
-class Favorite extends Component
+class Favorite extends AuthComponent
 {
-    public $model;
+    public Model $model;
     public $isFavorite = false;
     public $count = 0;
 
@@ -18,8 +18,12 @@ class Favorite extends Component
 
     public function toggle()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
+        if (!$this->checkAuth([
+                'action' => 'toggle_favorite',
+                'model_class' => get_class($this->model),
+                'model_id' => $this->model->id,
+            ])) {
+            return;
         }
 
         if ($this->model->isFavoritedBy(Auth::id())) {
@@ -29,6 +33,18 @@ class Favorite extends Component
         }
 
         $this->loadFavoriteState();
+    }
+
+    #[On('executeFavoriteToggle')]
+    public function executeToggle($modelClass, $modelId)
+    {
+        if (get_class($this->model) === $modelClass && $this->model->id === $modelId) {
+            if (!$this->model->isFavoritedBy(Auth::id())) {
+                $this->model->favorites()->create(['user_id' => Auth::id()]);
+            }
+            $this->loadFavoriteState();
+            $this->dispatch('toast', message: 'Dodano do ulubionych!');
+        }
     }
 
     protected function loadFavoriteState(): void

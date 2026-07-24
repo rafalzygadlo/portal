@@ -82,8 +82,8 @@ use Illuminate\Support\Str;
     // Guest routes (Only for users not logged in)
     Route::middleware('guest')->group(function () 
     {
-        Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
-        Route::post('/login', [App\Livewire\Auth\Login::class, 'login']);
+        //Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
+        //Route::post('/login', [App\Livewire\Auth\Login::class, 'login']);
         Route::get('/register', App\Livewire\Auth\Register::class)->name('register');
         Route::post('/register', [App\Livewire\Auth\Register::class, 'register']);
 

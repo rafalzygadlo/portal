@@ -19,7 +19,7 @@
                     <!-- Główny kontener na Twój wyczyszczony formularz -->
                     <div class="modal-body">
                         @if($view)
-                            @livewire($view, $params, key($view))
+                            @livewire($view, $params)
                         @endif
                     </div>
 

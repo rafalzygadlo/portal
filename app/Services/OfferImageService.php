@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Format;
+use Illuminate\Support\Facades\Storage;
 
 class OfferImageService
 {
