@@ -23,8 +23,9 @@ class Show extends Component
 
     public function vote()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
+        if (!Auth::check()) 
+        {
+            //return redirect()->route('login');
         }
 
         $this->validate([

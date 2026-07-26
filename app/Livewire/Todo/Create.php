@@ -24,8 +24,9 @@ class Create extends Component
     {
         $this->validate();
 
-        if (!Auth::check()) {
-            return redirect()->route('login');
+        if (!Auth::check()) 
+        {
+           // return redirect()->route('login');
         }
 
         Todo::create([

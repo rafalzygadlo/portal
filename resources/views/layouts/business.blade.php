@@ -50,7 +50,7 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Zaloguj się</a>
+                            <a class="nav-link" href="">Zaloguj się</a>
                         </li>
                     @endauth
                 </ul>

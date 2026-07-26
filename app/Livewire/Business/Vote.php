@@ -32,7 +32,7 @@ class Vote extends Component
 
         if (!Auth::check()) 
         {
-            return redirect()->route('login');
+            //return redirect()->route('login');
         }
 
         if (isset($this->model->user_id) && $this->model->user_id === Auth::id()) 

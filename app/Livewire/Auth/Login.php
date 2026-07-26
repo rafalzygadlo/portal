@@ -22,7 +22,7 @@ class Login extends Component
             // de: Leite zur beabsichtigten Seite weiter oder falle auf die Startseite zurück.
             $this->dispatch('closeModal');
             $this->dispatch('authChanged');
-            return;
+
         }
 
         $this->addError('email', __('auth.failed'));
@@ -31,7 +31,9 @@ class Login extends Component
     public function logout()
     {
         Auth::guard()->logout();
-        return redirect()->route('login');
+        $this->dispatch('authChanged');
+
+        return redirect()->route('main.index');
     }
 
     public function render()

@@ -33,7 +33,7 @@ class Main extends AuthComponent
                 'title' => $title
             ]);
 
-            return redirect()->guest(route('login'));
+            return;// redirect()->guest(route('login'));
         }
 
         // Sprawdzamy czy użytkownik ma zweryfikowany adres email

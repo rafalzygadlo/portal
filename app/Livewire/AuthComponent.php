@@ -24,7 +24,8 @@ abstract class AuthComponent extends Component
             session()->put('intended_action', $intendedAction);
         }
 
-        $this->dispatch('openModal', data: ['view' => 'auth.login', 'title' => 'Zaloguj się']);
+        
+        $this->dispatch('openModal', 'auth.login', ['title' => __('login.title')]);
 
         return false;
     }

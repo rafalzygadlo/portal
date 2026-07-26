@@ -12,7 +12,7 @@ class Authenticate extends Middleware
      * Get the path the user should be redirected to when they are not authenticated.
      */
    protected function redirectTo($request)
-{
+    {
     if ($request->expectsJson()) {
         return null;
     }
@@ -26,11 +26,12 @@ class Authenticate extends Middleware
 
         // Wykluczamy subdomenę 'app' (główną aplikację)
         if ($subdomain !== 'app') {
-            return route('login', ['subdomain' => $subdomain]);
+            return; //route('login', ['subdomain' => $subdomain]);
         }
     }
 
     // Domyślne logowanie dla domeny głównej lub subdomeny 'app'
-    return route('login');
+    
+    return; //route('login');
 }
 }

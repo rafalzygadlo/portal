@@ -21,7 +21,7 @@ class Report extends Component
     {
         if (!Auth::check()) 
         {
-            return redirect()->route('login');
+            //return redirect()->route('login');
         }
         $this->showForm = !$this->showForm;
     }
@@ -30,7 +30,7 @@ class Report extends Component
     {
         if (!Auth::check()) 
         {
-            return redirect()->route('login');
+            //return redirect()->route('login');
         }
 
         $this->validate();

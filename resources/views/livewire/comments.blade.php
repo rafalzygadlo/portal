@@ -29,7 +29,7 @@
         </div>
     @else
         <div class="alert alert-light border text-center">
-            <a href="{{ route('login') }}">Log in</a> to add a comment.
+            <a href="">Log in</a> to add a comment.
         </div>
     @endauth
 
