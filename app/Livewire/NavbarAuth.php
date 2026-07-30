@@ -7,7 +7,7 @@ use Livewire\Attributes\On; // Upewnij
 class NavbarAuth extends Component
 {
  
-    #[On('authChanged')]
+    #[On('loginSuccess')]
     public function refresh()
     {
         //dd();
@@ -17,11 +17,6 @@ class NavbarAuth extends Component
     }
 
   
-public function openLoginModal()
-    {
-        $this->dispatch('openLoginModal');
-    }
-
     public function render()
     {
         return view('livewire.navbar-auth');

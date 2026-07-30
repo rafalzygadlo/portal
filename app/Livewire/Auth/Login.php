@@ -22,6 +22,7 @@ class Login extends Component
             // de: Leite zur beabsichtigten Seite weiter oder falle auf die Startseite zurück.
             $this->dispatch('closeModal');
             $this->dispatch('loginSuccess');
+            $this->dispatch('showToast', __('auth.login_success'), 'success');
             return;
         }
 

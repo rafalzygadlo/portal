@@ -53,9 +53,6 @@
             </div>
         </nav>
 
-        {{-- Global Modal --}}
-        @livewire('global-modal')
-
         <!-- MAIN CONTENT -->
         <main >
             <div class="container-fluid bg-light py-4 px-lg-5">
@@ -107,6 +104,10 @@
 
     </div>
     
+
+    @livewire('toast')
+       @livewire('global-modal')
+
     <!-- Scripts -->
     <script src="{{ asset('/js/bootstrap.bundle.min.js') }}"></script>
     @livewireScripts
