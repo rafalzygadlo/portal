@@ -12,7 +12,7 @@
                             <a href="{{ route('poll.show', $poll) }}" class="btn btn-sm btn-outline-primary" target="_blank">
                                 <i class="bi bi-eye"></i> View
                             </a>
-                            <a href="{{ route('profile.poll.show', $poll) }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('profile.poll.edit', $poll) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
                         </div>

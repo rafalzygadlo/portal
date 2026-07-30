@@ -6,7 +6,7 @@ use App\Models\Poll\Poll;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
-class Show extends Component
+class Edit extends Component
 {
     use AuthorizesRequests;
 
@@ -68,6 +68,6 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.profile.poll.show');
+        return view('livewire.profile.poll.edit');
     }
 }

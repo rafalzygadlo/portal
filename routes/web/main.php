@@ -43,12 +43,12 @@ use Illuminate\Support\Str;
                 Route::get('/article/{article}', App\Livewire\Profile\Article\Edit::class)->name('profile.article.edit');
 
                 // Business
-                Route::get('/business/create', App\Livewire\Profile\Business\Create::class)->name('profile.business.create');
-                Route::get('/business/{business}', App\Livewire\Profile\Business\Show::class)->name('profile.business.show');
+                Route::get('/business/create', App\Livewire\Business\Create::class)->name('business.create');
+                Route::get('/business/{business}', App\Livewire\Business\Edit::class)->name('business.edit');
 
                 // Polls
                 Route::get('/poll/create', App\Livewire\Profile\Poll\Create::class)->name('profile.poll.create');
-                Route::get('/poll/{poll}', App\Livewire\Profile\Poll\Show::class)->name('profile.poll.show');
+                Route::get('/poll/{poll}', App\Livewire\Profile\Poll\Edit::class)->name('profile.poll.edit');
             });
         });
     });
@@ -82,8 +82,8 @@ use Illuminate\Support\Str;
     // Guest routes (Only for users not logged in)
     Route::middleware('guest')->group(function () 
     {
-        //Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
-        //Route::post('/login', [App\Livewire\Auth\Login::class, 'login']);
+        Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
+        Route::post('/login', [App\Livewire\Auth\Login::class, 'login']);
         Route::get('/register', App\Livewire\Auth\Register::class)->name('register');
         Route::post('/register', [App\Livewire\Auth\Register::class, 'register']);
 

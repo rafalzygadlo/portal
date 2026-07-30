@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Profile\Business;
+namespace App\Livewire\Business;
 
 use App\Models\Business;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
-class Show extends Component
+class Edit extends Component
 {
     use AuthorizesRequests;
 
@@ -52,6 +52,6 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.profile.business.show');
+        return view('livewire.business.edit');
     }
 }

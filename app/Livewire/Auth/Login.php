@@ -21,18 +21,22 @@ class Login extends Component
             // en: Redirect to the intended page, or fall back to the homepage.
             // de: Leite zur beabsichtigten Seite weiter oder falle auf die Startseite zurück.
             $this->dispatch('closeModal');
-            $this->dispatch('authChanged');
-
+            $this->dispatch('loginSuccess');
+            return;
         }
 
+        // en: Add an error message if authentication fails.
+        // de: Füge eine Fehlermeldung hinzu, wenn die Authentifizierung fehlschlägt.
         $this->addError('email', __('auth.failed'));
     }
 
     public function logout()
     {
+        // en: Log the user out and redirect to the homepage.
+        // de: Melde den Benutzer ab und leite zur Startseite weiter.
+        $this->dispatch('logoutSuccess');
         Auth::guard()->logout();
-        $this->dispatch('authChanged');
-
+       
         return redirect()->route('main.index');
     }
 

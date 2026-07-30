@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Profile\Business;
+namespace App\Livewire\Business;
 
 use App\Models\Business;
 use App\Models\Category;
@@ -44,6 +44,6 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.profile.business.create');
+        return view('livewire.business.create');
     }
 }

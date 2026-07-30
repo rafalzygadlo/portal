@@ -53,12 +53,12 @@ class Main extends AuthComponent
     public function mount()
     {
         // Sprawdzamy czy w sesji czeka modal do otwarcia (wywoływane po powrocie z logowania)
-        if (session()->has('intended_modal')) {
-            $modal = session()->pull('intended_modal');
+        //if (session()->has('intended_modal')) {
+        //    $modal = session()->pull('intended_modal');
         
             // Wyzwalany zdarzenie otwarcia modala
-            $this->dispatch('openModal', $modal['component'], $modal['title']);
-        }
+        //    $this->dispatch('openModal', $modal['component'], $modal['title']);
+        //}
     }
 
 

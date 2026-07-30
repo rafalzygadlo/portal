@@ -1,6 +1,6 @@
 <div>
     @guest
-        <a wire:click="openLoginModal" class="btn btn-primary btn-pill fw-semibold nav-link" style="cursor: pointer;">
+        <a href="{{ route('login') }}" class="btn btn-primary fw-semibold nav-link" style="cursor: pointer;">
             Login
         </a>
     @else
