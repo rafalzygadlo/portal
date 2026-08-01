@@ -20,7 +20,7 @@
                         <i class="bi bi-briefcase me-2"></i> Create offer
                     </a>
 
-                    <a href="{{ route('profile.business.create') }}" class="btn btn-outline-primary text-start">
+                    <a href="{{ route('business.create') }}" class="btn btn-outline-primary text-start">
                         <i class="bi bi-building me-2"></i> Create business
                     </a>
 

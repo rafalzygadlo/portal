@@ -35,7 +35,7 @@
                     @endif
                 @else
                     <div class="alert alert-light text-center border">
-                        <a href="{{ route('login') }}">Zaloguj się</a> aby dodać pomysł.
+                        <a href="{{  }}">Zaloguj się</a> aby dodać pomysł.
                     </div>
                 @endauth
             </div>

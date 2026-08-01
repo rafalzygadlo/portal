@@ -32,6 +32,7 @@ class Favorite extends AuthComponent
             $this->model->favorites()->create(['user_id' => Auth::id()]);
         }
 
+        $this->dispatch('showToast', message: $this->model->isFavoritedBy(Auth::id()) ? 'Dodano do ulubionych!' : 'Usunięto z ulubionych!');
         $this->loadFavoriteState();
     }
 

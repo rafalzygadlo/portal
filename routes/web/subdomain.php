@@ -27,7 +27,7 @@ use Illuminate\Support\Str;
     });
     
     
-    Route::prefix('admin')->middleware(['auth', 'verified', 'can:manage,subdomain'])->group(function () {
+    Route::prefix('admin')->middleware(['auth', 'verified', 'can:manage-business,subdomain'])->group(function () {
         // Dashboard routes
         Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('admin.business.dashboard');
         
@@ -41,5 +41,3 @@ use Illuminate\Support\Str;
         // Reservations routes
 
     });
-
-

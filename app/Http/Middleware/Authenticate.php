@@ -27,11 +27,13 @@ class Authenticate extends Middleware
         // Wykluczamy subdomenę 'app' (główną aplikację)
         if ($subdomain !== 'app') {
             return; //route('login', ['subdomain' => $subdomain]);
+            return route('login', ['subdomain' => $subdomain]);
         }
     }
 
     // Domyślne logowanie dla domeny głównej lub subdomeny 'app'
     
     return; //route('login');
+    return route('login');
 }
 }

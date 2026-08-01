@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use Illuminate\Http\Request;
 use Livewire\Component;
 use Auth;
 
@@ -31,13 +32,18 @@ class Login extends Component
         $this->addError('email', __('auth.failed'));
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
+        
         // en: Log the user out and redirect to the homepage.
         // de: Melde den Benutzer ab und leite zur Startseite weiter.
-        $this->dispatch('logoutSuccess');
-        Auth::guard()->logout();
-       
+        Auth::guard('web')->logout();
+
+        // Unieważnienie sesji i wygenerowanie nowego tokenu CSRF
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        $this->dispatch('logoutSuccess'); // To zdarzenie może być przydatne dla front-endu
         return redirect()->route('main.index');
     }
 

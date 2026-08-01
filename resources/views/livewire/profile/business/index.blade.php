@@ -13,7 +13,7 @@
                             <a href="https://{{ $business->subdomain }}.{{ config('app.business_domain') }}" class="btn btn-sm btn-outline-primary" target="_blank">
                                 <i class="bi bi-globe"></i> View
                             </a>
-                            <a href="{{ route('profile.business.edit', $business) }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('business.edit', $business) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
                         </div>

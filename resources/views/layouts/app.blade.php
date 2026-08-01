@@ -106,7 +106,7 @@
     
 
     @livewire('toast')
-       @livewire('global-modal')
+    @livewire('global-modal')
 
     <!-- Scripts -->
     <script src="{{ asset('/js/bootstrap.bundle.min.js') }}"></script>

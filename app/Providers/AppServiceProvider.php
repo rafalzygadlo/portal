@@ -47,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
             return $user->reputation_score > config('reputation.thresholds.can_create_content', 0);
         });
        
+        // shows admin panel button if user is owner of business with subdomain
         Gate::define('manage-business', function (User $user, string $subdomain) {
             return Business::where('subdomain', $subdomain)
                 ->whereHas('users', function ($query) use ($user) {
@@ -54,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
                 })
                 ->exists();
         });
+        
     }
 }
     

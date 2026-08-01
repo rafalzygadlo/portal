@@ -5,8 +5,9 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Illuminate\Database\Eloquent\Model;
+use Livewire\Component;
 
-class Promote extends AuthComponent
+class Promote extends Component
 {
     public Model $model;
     public bool $isPromoted = false;
@@ -38,15 +39,11 @@ class Promote extends AuthComponent
      */
     public function openPromoteForm()
     {
-        if (!$this->checkAuth()) {
-            return;
-        }
-
+       
         $this->dispatch('openModal', data: [
             'view' => 'promote-form',
             'title' => 'Promuj swoją treść',
-            'params' => ['modelId' => $this->model->id, 'modelClass' => get_class($this->model)],
-            'requiredAuth' => true
+            'params' => ['modelId' => $this->model->id, 'modelClass' => get_class($this->model)]
         ]);
     }
 
