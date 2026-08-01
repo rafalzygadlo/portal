@@ -1,7 +1,7 @@
 <div class="container min-vh-100 d-flex flex-column justify-content-center ">
 
     <div class="row justify-content-center">
-        <div class="col">
+        <div class="col-md-6 col-lg-5">
             @if ($errors->any())
                 <div class="text-danger">
                     @foreach ($errors->all() as $error)

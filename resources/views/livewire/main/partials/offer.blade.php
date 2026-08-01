@@ -4,11 +4,11 @@
     <!-- MINIATURKA / ZDJĘCIE -->
     <a href="{{ route('offer.show', $item) }}"
         class="position-relative d-block flex-shrink-0 bg-light overflow-hidden"
-        style="min-height: 110px; max-height: 120px;">
+        style="max-height: 120px;">
         @if (!empty($item->images))
 
             @if($item->images->isNotEmpty())
-                <img loading="lazy" src="{{ asset('storage/' . $item->images->skip(0)->first()->path) }}"
+                <img loading="lazy" src="{{ asset('storage/' . $item->images->skip(0)->first()->getThumbnailPath()) }}"
                     class="justify-content-center align-items-center  w-100" alt="{{ $item->title }}">
             @else
                 <div

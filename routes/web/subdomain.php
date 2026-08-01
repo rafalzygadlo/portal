@@ -18,7 +18,8 @@ use Illuminate\Support\Str;
     // and will not be developed further in this iteration.
     // Routes remain commented out until the feature is ready for implementation.
     
-    Route::prefix('booking')->group(function () {
+    Route::prefix('booking')->group(function () 
+    {
         Route::get('/', \App\Livewire\Business\Booking\StartBooking::class)->name('business.booking');
         Route::get('/{flow}/step1', \App\Livewire\Business\Booking\Step1::class)->name('booking.step1');
         Route::get('/{flow}/step2', \App\Livewire\Business\Booking\Step2::class)->name('booking.step2');
@@ -26,8 +27,13 @@ use Illuminate\Support\Str;
         Route::get('/{flow}/step4', \App\Livewire\Business\Booking\Step4::class)->name('booking.step4');
     });
     
+    Route::middleware('guest')->group(function () 
+    {
+        Route::get('/login', App\Livewire\Auth\Login::class)->name('login.subdomain');
+    });
     
-    Route::prefix('admin')->middleware(['auth', 'verified', 'can:manage-business,subdomain'])->group(function () {
+    Route::prefix('admin')->middleware(['auth', 'verified', 'can:manage-business,subdomain'])->group(function () 
+    {
         // Dashboard routes
         Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('admin.business.dashboard');
         

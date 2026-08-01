@@ -24,32 +24,6 @@ class Main extends AuthComponent
         //sleep(1); // Opcjonalnie, aby zasymulować opóźnienie ładowania
     }
 
-    public function __checkAuthAndOpenModal($component, $title)
-    {
-        if (auth()->guest()) {
-            // Zapisujemy parametry modala w sesji przed przekierowaniem
-            session()->put('intended_modal', [
-                'component' => $component,
-                'title' => $title
-            ]);
-
-            return;// redirect()->guest(route('login'));
-        }
-
-        // Sprawdzamy czy użytkownik ma zweryfikowany adres email
-        if (! auth()->user()->hasVerifiedEmail()) {
-            session()->put('intended_modal', [
-                'component' => $component,
-                'title' => $title
-            ]);
-
-            return redirect()->route('verification.notice');
-        }
-
-        // Jeśli zalogowany, otwórz modal od razu
-        $this->dispatch('openModal', $component,  $title);
-    }
-
     public function mount()
     {
         // Sprawdzamy czy w sesji czeka modal do otwarcia (wywoływane po powrocie z logowania)

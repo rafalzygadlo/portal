@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Profile\Offer;
+namespace App\Livewire\Offer;
 
 use Livewire\Component;
 use App\Models\Offer;
@@ -12,15 +12,17 @@ use App\Services\ImageAnalysisService;
 
 class Create extends Component
 {
-    
+  
 
     public string $title = '';
+    
     public string $content = '';    
+    
     public array $categories = [];
+    
     public array $allPhotos = [];
 
   
-
     public function rules()
     {
         return [
@@ -28,7 +30,6 @@ class Create extends Component
             'content' => 'required|string|max:5000',
             'categories' => 'required|array',
             'categories.*' => 'required|exists:categories,id',
-            //'allPhotos.*' => 'required|image|max:8192',
         ];
     }
 
@@ -55,8 +56,10 @@ class Create extends Component
     {
         $categories = Category::whereNull('parent_id')->get();
 
-        return view('livewire.profile.offer.create', [
-            'categories' => $categories
+        return view('livewire.offer.form', [
+            'categories' => $categories,
+            'isEdit' => false,
+            'existingPhotos' => $this->allPhotos,
         ]);
     }
 }

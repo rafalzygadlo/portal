@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Profile\Offer;
+namespace App\Livewire\Offer;
 
 use App\Models\Category;
 use App\Models\Image;
@@ -100,8 +100,10 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.profile.offer.edit', [
+        return view('livewire.offer.form', [
             'categories' => Category::whereNull('parent_id')->get(),
+            'isEdit' => true,
+            'existingPhotos' => $this->allPhotos,
         ]);
     }
 }

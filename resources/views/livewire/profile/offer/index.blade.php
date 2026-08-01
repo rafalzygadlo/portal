@@ -18,7 +18,7 @@
                             <a href="{{ route('offer.show', $offer) }}" class="btn btn-sm btn-outline-primary" target="_blank">
                                 <i class="bi bi-eye"></i> View
                             </a>
-                            <a href="{{ route('profile.offer.edit', $offer) }}" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ route('offer.edit', $offer) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
                         </div>
@@ -29,7 +29,7 @@
             <div class="alert alert-light text-center py-5">
                 <i class="bi bi-briefcase text-muted" style="font-size: 2rem;"></i>
                 <p class="mt-3 text-muted">You haven't created any offers yet.</p>
-                <a href="{{ route('profile.offer.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('offer.create') }}" class="btn btn-primary btn-sm">
                     <i class="bi bi-plus-lg"></i> Create your first offer
                 </a>
             </div>

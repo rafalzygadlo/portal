@@ -60,7 +60,7 @@
                                             {{ __('passwords.send_link') }}
                                         </button>
 
-                                        <a class="btn btn-link d-block text-center mt-2" href="{{ }}">
+                                        <a class="btn btn-link d-block text-center mt-2" href="{{route('login')}}">
                                             {{ __('login.back_to_login') }}
                                         </a>
                                     </div>

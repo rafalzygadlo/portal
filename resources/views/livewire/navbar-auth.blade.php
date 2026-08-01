@@ -1,6 +1,6 @@
 <div>
     @guest
-        <a wire:click="$dispatch('openModal', 'auth.login')" class="btn btn-primary fw-semibold nav-link" style="cursor: pointer;">
+        <a href="{{ route('login') }}" class="btn btn-primary fw-semibold nav-link" style="cursor: pointer;">
             Login
         </a>
     @else

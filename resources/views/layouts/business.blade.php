@@ -26,7 +26,7 @@
                             href="{{ route('business.booking', ['subdomain' => $business->subdomain]) }}">Zarezerwuj
                             wizytę</a>
                     </li>
-                       @livewire('navbar-auth')
+                      
 
                 </ul>
 
@@ -60,7 +60,8 @@
                             </ul>
                         </li>
                     @else
-                        <a wire:click="$dispatch('openModal', 'auth.login')" class="btn btn-primary fw-semibold nav-link"
+                        <a href="{{ route('login.subdomain', ['subdomain' => $business->subdomain]) }}"
+                           class="btn btn-primary fw-semibold nav-link"
                             style="cursor: pointer;">
                             Login
                         </a>

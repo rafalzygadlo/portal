@@ -31,25 +31,23 @@ use Illuminate\Support\Str;
         Route::middleware(['verified'])->group(function () {
             Route::get('/profile', App\Livewire\Profile\Index::class)->name('user.profile');
             Route::get('/notifications', App\Livewire\Profile\Notifications::class)->name('notifications.index');
+            
+            // Offers
+            Route::get('/offer/create', App\Livewire\Offer\Create::class)->name('offer.create');
+            Route::get('/offer/edit/{offer}', App\Livewire\Offer\Edit::class)->name('offer.edit');
 
-            // Profile Management Routes
-            Route::prefix('/profile')->group(function () {
-                // Offers
-                Route::get('/offer/create', App\Livewire\Profile\Offer\Create::class)->name('profile.offer.create');
-                Route::get('/offer/{offer}', App\Livewire\Profile\Offer\Edit::class)->name('profile.offer.edit');
+            // Articles
+            Route::get('/article/create', App\Livewire\Profile\Article\Create::class)->name('profile.article.create');
+            Route::get('/article/{article}', App\Livewire\Profile\Article\Edit::class)->name('profile.article.edit');
 
-                // Articles
-                Route::get('/article/create', App\Livewire\Profile\Article\Create::class)->name('profile.article.create');
-                Route::get('/article/{article}', App\Livewire\Profile\Article\Edit::class)->name('profile.article.edit');
+            // Business
+            Route::get('/business/create', App\Livewire\Business\Create::class)->name('business.create');
+            Route::get('/business/edit/{business}', App\Livewire\Business\Edit::class)->name('business.edit');
 
-                // Business
-                Route::get('/business/create', App\Livewire\Business\Create::class)->name('business.create');
-                Route::get('/business/{business}', App\Livewire\Business\Edit::class)->name('business.edit');
-
-                // Polls
-                Route::get('/poll/create', App\Livewire\Profile\Poll\Create::class)->name('profile.poll.create');
-                Route::get('/poll/{poll}', App\Livewire\Profile\Poll\Edit::class)->name('profile.poll.edit');
-            });
+            // Polls
+            Route::get('/poll/create', App\Livewire\Profile\Poll\Create::class)->name('profile.poll.create');
+            Route::get('/poll/{poll}', App\Livewire\Profile\Poll\Edit::class)->name('profile.poll.edit');
+            
         });
     });
 
@@ -82,7 +80,7 @@ use Illuminate\Support\Str;
     // Guest routes (Only for users not logged in)
     Route::middleware('guest')->group(function () 
     {
-        Route::get('/login', App\Livewire\Auth\Login::class)->name('login1');
+        Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
         //Route::post('/login', [App\Livewire\Auth\Login::class, 'login']);
         Route::get('/register', App\Livewire\Auth\Register::class)->name('register');
         Route::post('/register', [App\Livewire\Auth\Register::class, 'register']);

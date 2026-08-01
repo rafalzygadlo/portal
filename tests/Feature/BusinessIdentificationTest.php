@@ -27,7 +27,7 @@ class BusinessIdentificationTest extends TestCase
         ]);
 
         // 3. Act: Visit the subdomain
-        $url = 'http://marcin' . config('app.business_domain'); // make sure the domain is set in .env
+        $url = 'https://marcin.' . config('app.business_domain'); // make sure the domain is set in .env
         $response = $this->get($url);
 
         // 4. Assert

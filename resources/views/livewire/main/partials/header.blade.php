@@ -18,25 +18,19 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2 p-2">
                         <li>
-                            <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2" 
-                             wire:click="$dispatch('openModal', {'view': 'profile.offer.create', 'title': 'Dodaj ogłoszenie'})" 
-                               href="#">
+                            <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2"  href="{{ route('offer.create') }}">
                                 <i class="bi bi-megaphone-fill text-primary fs-5"></i> 
                                 <span class="fw-medium">Dodaj ogłoszenie</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2" 
-                               wire:click="$dispatch('openModal', {'view': 'business.create', 'title': 'Dodaj firmę'})" 
-                               href="#">
+                            <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2" href="{{ route('business.create') }}">
                                 <i class="bi bi-buildings-fill text-success fs-5"></i> 
                                 <span class="fw-medium">Dodaj firmę</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2" 
-                               wire:click="$dispatch('openModal', {'view': 'todo.create', 'title': 'Dodaj zadanie'})" 
-                               href="#">
+                            <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2" href="{{ route('todos.index') }}">
                                 <i class="bi bi-check-circle-fill text-info fs-5"></i> 
                                 <span class="fw-medium">Dodaj zadanie</span>
                             </a>

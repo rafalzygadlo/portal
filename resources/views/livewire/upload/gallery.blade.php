@@ -24,7 +24,7 @@
                         <i class="bi bi-x-lg"></i>
                     </button>
 
-                    @if($showReorder == false)
+                    @if($showReorder == true)
                         <div class="position-absolute bottom-0 start-0 w-100 d-flex bg-dark bg-opacity-50">
                             <button type="button" class="btn btn-sm btn-light flex-fill" wire:click="movePhotoUp({{ $index }})" @if($index == 0) disabled @endif><i class="bi bi-chevron-left"></i></button>
                             <button type="button" class="btn btn-sm btn-light flex-fill" wire:click="movePhotoDown({{ $index }})" @if($index == count($allPhotos)-1) disabled @endif><i class="bi bi-chevron-right"></i></button>

@@ -26,7 +26,7 @@ class ArticleTest extends TestCase
     {
         $article = Article::factory()->create();
         
-        $response = $this->get("/articles/{$article->slug}");
+        $response = $this->get("/article/{$article->slug}");
         
         $response->assertStatus(200);
     }
