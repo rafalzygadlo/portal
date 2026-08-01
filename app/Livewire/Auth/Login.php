@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Support\Domain;
 use Illuminate\Http\Request;
 use Livewire\Component;
 use Auth;
@@ -24,7 +25,7 @@ class Login extends Component
             $this->dispatch('closeModal');
             $this->dispatch('loginSuccess');
             
-            return redirect()->intended(route('main.index'));
+            return redirect()->intended(Domain::defaultRedirectUrl());
         }
 
         // en: Add an error message if authentication fails.
@@ -44,7 +45,7 @@ class Login extends Component
         $request->session()->regenerateToken();
 
         $this->dispatch('logoutSuccess'); // To zdarzenie może być przydatne dla front-endu
-        return redirect()->route('main.index');
+        return redirect(Domain::defaultRedirectUrl());
     }
 
     public function render()

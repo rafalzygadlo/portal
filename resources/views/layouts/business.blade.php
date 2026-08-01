@@ -13,13 +13,17 @@
 
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom">
-        <div class="container">
+        <div class="container-fluid px-4 px-lg-5">
             <a class="navbar-brand fw-bold"
                 href="{{ route('business.domain', ['subdomain' => $business->subdomain]) }}">
                 {{ $business->name }}
             </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+             </button>
 
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link"
@@ -61,8 +65,8 @@
                         </li>
                     @else
                         <a href="{{ route('login.subdomain', ['subdomain' => $business->subdomain]) }}"
-                           class="btn btn-primary fw-semibold nav-link"
-                            style="cursor: pointer;">
+                           class="btn btn-primary fw-semibold"
+>
                             Login
                         </a>
                     @endauth

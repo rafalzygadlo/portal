@@ -15,6 +15,10 @@ if (empty($domain))
     throw new \Exception('SYSTEM ERROR: The DOMAIN_NAME value in .env is empty. Configure it so subdomains work correctly.');
 }
 
+Route::post('/logout', [App\Livewire\Auth\Login::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+
 //main domain routes
 Route::domain($domain)
     ->group(base_path('routes/web/main.php'));

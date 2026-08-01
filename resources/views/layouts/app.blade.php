@@ -32,7 +32,13 @@
 
                 <div class="collapse navbar-collapse" id="mainNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item px-lg-2">
+                            <a class="nav-link fw-semibold" href="{{ route('articles.index') }}">Artykuły</a>
+                        </li>
                 
+                        <li class="nav-item px-lg-2">
+                            <a class="nav-link fw-semibold" href="{{ route('polls.index') }}">Sondaże</a>
+                        </li>
                         <li class="nav-item px-lg-2">
                             <a class="nav-link fw-semibold" href="{{ route('offers.index') }}">Ogłoszenia</a>
                         </li>
@@ -43,7 +49,28 @@
 
                     <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
                           
-                        @livewire('navbar-auth')
+                    @guest
+                    <a href="{{ route('login') }}" class="btn btn-primary fw-semibold " style="cursor: pointer;">
+                        Login
+                    </a>
+                    @else
+                    
+        <div class="dropdown">
+            <button class="btn btn-primary btn-pill dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ Auth::user()->first_name ?? Auth::user()->name }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                <li><a class="dropdown-item" href="{{ route('user.profile', Auth::user()) }}">Profil</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    @endguest
 
                         <a class="btn btn-primary btn-pill fw-semibold" href="{{ route('todos.index') }}">
                             <i class="bi bi-rocket-takeoff me-1"></i> Projekt R

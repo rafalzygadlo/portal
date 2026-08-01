@@ -17,6 +17,8 @@
     <env name="MAIL_MAILER" value="array"/>
     <env name="QUEUE_CONNECTION" value="sync"/>
     <env name="SESSION_DRIVER" value="array"/>
+    <env name="DOMAIN_NAME" value="localhost"/>
+    <env name="SESSION_DOMAIN" value=".localhost"/>
     <env name="TELESCOPE_ENABLED" value="false"/>
   </php>
   <source>
