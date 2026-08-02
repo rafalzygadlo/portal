@@ -24,7 +24,7 @@
                         <i class="bi bi-building me-2"></i> Create business
                     </a>
 
-                    <a href="{{ route('profile.article.create') }}" class="btn btn-outline-primary text-start">
+                    <a href="{{ route('article.create') }}" class="btn btn-outline-primary text-start">
                         <i class="bi bi-newspaper me-2"></i> Write article
                     </a>
 

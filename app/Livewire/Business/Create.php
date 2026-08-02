@@ -44,6 +44,8 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.business.create');
+        return view('livewire.business.form',
+            ['isEdit' => false]
+        );
     }
 }

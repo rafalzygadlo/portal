@@ -18,7 +18,7 @@ class Create extends Component
     public $photos = [];
     public $categories = [];
     public $mode = 'edit';
-    public $honey_pot;
+    public $photo;
 
     protected $rules = [
         'title' => 'required|min:5|max:255',
@@ -47,25 +47,8 @@ class Create extends Component
     
     public function save()
     {
-        if(!empty($this->honey_pot)) {
-            return null;
-        }
+    
         $this->validate();
-
-        foreach ($this->photos as $photo) 
-        {
-            $filename = $photo->hashName();
-
-            // W wersji 2 używamy make() oraz resize() z funkcją zachowania proporcji
-            $img = Image::make($photo->getRealPath())->resize(1200, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-
-            // Enkodujemy do formatu JPG i zapisujemy
-            Storage::disk('public')->put('articles/' . $filename, (string) $img->encode('jpg', 80));
-            $article->images()->create(['path' => 'articles/' . $filename]);
-        }
 
         $article = Article::create([
             'user_id' => Auth::id(),

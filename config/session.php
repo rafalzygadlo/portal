@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', env('DOMAIN_NAME') ? '.'.ltrim(env('DOMAIN_NAME'), '.') : null),
+    'domain' => env('SESSION_DOMAIN',null),
 
     /*
     |--------------------------------------------------------------------------

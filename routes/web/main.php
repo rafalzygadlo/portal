@@ -35,8 +35,8 @@ use Illuminate\Support\Str;
             Route::get('/offer/edit/{offer}', App\Livewire\Offer\Edit::class)->name('offer.edit');
 
             // Articles
-            Route::get('/article/create', App\Livewire\Profile\Article\Create::class)->name('profile.article.create');
-            Route::get('/article/{article}', App\Livewire\Profile\Article\Edit::class)->name('profile.article.edit');
+            Route::get('/article/create', App\Livewire\Profile\Article\Create::class)->name('article.create');
+            Route::get('/article/edit/{article}', App\Livewire\Profile\Article\Edit::class)->name('article.edit');
 
             // Business
             Route::get('/business/create', App\Livewire\Business\Create::class)->name('business.create');
@@ -44,7 +44,7 @@ use Illuminate\Support\Str;
 
             // Polls
             Route::get('/poll/create', App\Livewire\Profile\Poll\Create::class)->name('profile.poll.create');
-            Route::get('/poll/{poll}', App\Livewire\Profile\Poll\Edit::class)->name('profile.poll.edit');
+            Route::get('/poll/edit/{poll}', App\Livewire\Profile\Poll\Edit::class)->name('profile.poll.edit');
             
         });
     });

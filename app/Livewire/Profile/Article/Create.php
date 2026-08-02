@@ -71,7 +71,7 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.profile.article.create', [
+        return view('livewire.article.create', [
             'allCategories' => Category::where('slug', '!=', 'spam')->get()
         ]);
     }

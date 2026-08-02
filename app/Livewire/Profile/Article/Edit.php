@@ -107,7 +107,7 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.profile.article.edit', [
+        return view('livewire.article.edit', [
             'allCategories' => Category::where('slug', '!=', 'spam')->get(),
             'existingPhotos' => $this->existingPhotos,
         ]);
