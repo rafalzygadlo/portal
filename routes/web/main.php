@@ -29,6 +29,7 @@ use Illuminate\Support\Str;
         Route::middleware(['verified'])->group(function () {
             Route::get('/profile', App\Livewire\Profile\Index::class)->name('user.profile');
             Route::get('/notifications', App\Livewire\Profile\Notifications::class)->name('notifications.index');
+            Route::get('/notify', App\Livewire\Profile\Notifications::class)->name('notifications.legacy');
             
             // Offers
             Route::get('/offer/create', App\Livewire\Offer\Create::class)->name('offer.create');
@@ -73,7 +74,7 @@ use Illuminate\Support\Str;
 
     // Polls
     Route::get('/polls', \App\Livewire\Poll\Index::class)->name('polls.index');
-    Route::get('/poll/{poll}', \App\Livewire\Poll\Show::class)->name('poll.show');
+    Route::get('/polls/{poll}', \App\Livewire\Poll\Show::class)->name('poll.show');
 
     // Guest routes (Only for users not logged in)
     Route::middleware('guest')->group(function () 

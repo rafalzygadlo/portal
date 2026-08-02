@@ -20,17 +20,33 @@ class Domain
             return null;
         }
 
-        $host = $request->getHost();
+        $candidates = array_filter([
+            $request->getHost(),
+            $request->getHttpHost(),
+            $request->header('host'),
+            $request->server->get('HTTP_HOST'),
+        ]);
 
-        if ($host === $domain) {
-            return null;
+        $uri = $request->getUri();
+        if (is_string($uri) && preg_match('#https?://([^/]+)#', $uri, $matches)) {
+            $candidates[] = $matches[1];
         }
 
-        if (! str_ends_with($host, '.'.$domain)) {
-            return null;
+        foreach ($candidates as $host) {
+            $host = (string) $host;
+
+            if ($host === $domain) {
+                continue;
+            }
+
+            if (! str_ends_with($host, '.'.$domain)) {
+                continue;
+            }
+
+            return str($host)->before('.'.$domain)->toString();
         }
 
-        return str($host)->before('.'.$domain)->toString();
+        return null;
     }
 
     public static function isSubdomainRequest(?Request $request = null): bool
@@ -40,9 +56,17 @@ class Domain
 
     public static function defaultRedirectUrl(?Request $request = null): string
     {
+        $request ??= request();
         $subdomain = self::subdomainFromRequest($request);
 
         if ($subdomain) {
+            $scheme = $request->getScheme();
+            $host = $request->getHost();
+
+            if (str_contains($host, '.')) {
+                return $scheme.'://'.$host.'/';
+            }
+
             return route('business.domain', ['subdomain' => $subdomain]);
         }
 

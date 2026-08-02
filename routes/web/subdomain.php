@@ -31,6 +31,10 @@ use Illuminate\Support\Str;
     {
         Route::get('/login', App\Livewire\Auth\Login::class)->name('login.subdomain');
     });
+
+    Route::middleware('auth')->group(function () {
+        Route::post('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout.subdomain');
+    });
     
     Route::prefix('admin')->middleware(['auth', 'verified', 'can:manage-business,subdomain'])->group(function () 
     {

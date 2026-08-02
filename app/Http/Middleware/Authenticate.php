@@ -17,10 +17,13 @@ class Authenticate extends Middleware
             return null;
         }
 
-        $subdomain = Domain::subdomainFromRequest($request);
+        $subdomain = $request->route('subdomain') ?? Domain::subdomainFromRequest($request);
 
         if ($subdomain) {
-            return route('login.subdomain', ['subdomain' => $subdomain]);
+            $domain = Domain::businessDomain();
+            $host = $subdomain.'.'.$domain;
+
+            return $request->getScheme().'://'.$host.'/login';
         }
 
         return route('login');

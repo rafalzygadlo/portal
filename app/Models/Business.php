@@ -20,6 +20,7 @@ class Business extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'name',
         'subdomain',
         'description',
@@ -32,6 +33,14 @@ class Business extends Model
         'business_hours' => 'array',
         'is_approved' => 'boolean',
     ];
+
+    /**
+     * The user who owns the business.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * The owners that belong to the business.

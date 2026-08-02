@@ -51,17 +51,17 @@ class Login extends Component
 
     public function logout(Request $request)
     {
-        
         // en: Log the user out and redirect to the homepage.
         // de: Melde den Benutzer ab und leite zur Startseite weiter.
-        Auth::guard('web')->logout();
+        $guard = config('auth.defaults.guard', 'web');
+        Auth::guard($guard)->logout();
 
-        // Unieważnienie sesji i wygenerowanie nowego tokenu CSRF
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        $this->dispatch('logoutSuccess'); // To zdarzenie może być przydatne dla front-endu
-        return redirect(Domain::defaultRedirectUrl());
+        $this->dispatch('logoutSuccess');
+
+        return redirect()->to(Domain::defaultRedirectUrl($request));
     }
 
     public function render()

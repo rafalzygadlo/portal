@@ -24,7 +24,7 @@
             <div class="alert alert-light text-center py-5">
                 <i class="bi bi-building text-muted" style="font-size: 2rem;"></i>
                 <p class="mt-3 text-muted">You haven't created any businesses yet.</p>
-                <a href="{{ route('profile.business.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('business.create') }}" class="btn btn-primary btn-sm">
                     <i class="bi bi-plus-lg"></i> Create your first business
                 </a>
             </div>

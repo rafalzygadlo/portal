@@ -51,11 +51,11 @@ class NotificationTest extends TestCase
 
         $notification = Notification::factory()->create([
             'user_id' => $user->id,
-            'read_at' => null,
+            'read' => false,
         ]);
 
-        $notification->update(['read_at' => now()]);
+        $notification->update(['read' => true]);
 
-        $this->assertNotNull($notification->read_at);
+        $this->assertTrue((bool) $notification->fresh()->read);
     }
 }

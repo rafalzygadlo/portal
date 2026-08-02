@@ -51,11 +51,10 @@ class LoginRedirectTest extends TestCase
         $this->get('/profile')
             ->assertRedirect('/login'); // First, assert redirection to login
 
-        Livewire::withQueryParams() // This ensures Livewire sees the 'redirect_to' query parameter
-            ->test(Login::class)
+        Livewire::test(Login::class, ['queryParams' => ['redirect' => '/profile']])
             ->set('email', $user->email)
             ->set('password', 'password123')
             ->call('login')
-            ->assertRedirect('/profile'); // 3. Assert: Check redirection to the intended URL
+            ->assertRedirect('/profile');
     }
 }

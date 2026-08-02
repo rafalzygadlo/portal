@@ -52,4 +52,9 @@ class Article extends Model
         {
             return $this->morphMany(Image::class, 'imageable');
         }
+
+        public function votes()
+        {
+            return $this->morphMany(Vote::class, 'voteable');
+        }
 }

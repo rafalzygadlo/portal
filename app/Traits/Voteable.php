@@ -6,6 +6,11 @@ use App\Models\Vote;
 
 trait Voteable
 {
+    public function getMorphClass()
+    {
+        return static::class;
+    }
+
     public function votes()
     {
         return $this->morphMany(Vote::class, 'voteable');
