@@ -46,7 +46,7 @@
                             <input type="file" class="form-control form-control-lg @error('photo') is-invalid @enderror" id="photo" wire:model="photo">
                             @error('photo') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
-                            @if ($photo)
+                            @if (!empty($photo) && method_exists($photo, 'temporaryUrl'))
                                 <img loading="lazy" src="{{ $photo->temporaryUrl() }}" class="img-fluid mt-2" style="max-height: 200px;" alt="Preview image">
                             @endif
                         </div>

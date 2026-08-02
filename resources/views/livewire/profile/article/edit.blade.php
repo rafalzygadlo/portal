@@ -55,22 +55,13 @@
                                 @endphp
                                 <label for="content" class="form-label fw-semibold">Photos</label>
 
-                                <input type="file" class="d-none @if($errors->has('photos') || $errors->has('photos.*')) is-invalid @endif" id="article-photos-edit" wire:model="photos" multiple accept="image/*" @if($existingCount + count($photos) >= \App\Livewire\Profile\Article\Edit::MAX_PHOTOS) disabled @endif>
+                                <input type="file" class="form-control @if($errors->has('photos') || $errors->has('photos.*')) is-invalid @endif" id="article-photos-edit" wire:model="photos" multiple accept="image/*" @if($existingCount + count($photos) >= \App\Livewire\Profile\Article\Edit::MAX_PHOTOS) disabled @endif>
                                 <div wire:loading wire:target="photos" class="text-primary small mb-2">
                                     <div class="spinner-border spinner-border-sm me-2" role="status"></div>Przesyłanie zdjęć...
                                 </div>
-
-                                <livewire:upload.gallery
-                                    wire:model="photos"
-                                    :existingPhotos="is_array($existingPhotos) ? $existingPhotos : ($existingPhotos?->toArray() ?? [])"
-                            
-                                    field="photos"
-                                    :maxPhotos="\App\Livewire\Profile\Article\Edit::MAX_PHOTOS"
-                                    title="Edit photos"
-                                    :showReorder="true"
-                                    :errorFields="['photos', 'photos.*']"
-                                    :key="'article-upload-edit-' . $article->id"
-                                />
+                                @if(!empty($photos))
+                                    <div class="mt-2 small text-muted">Wybrano {{ count($photos) }} nowych zdjęć.</div>
+                                @endif
                             </div>
 
                             <div class="d-flex justify-content-between gap-2 mt-4">

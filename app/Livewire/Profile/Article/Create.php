@@ -8,6 +8,8 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Format;
 use Illuminate\Support\Facades\Storage;
 
 class Create extends Component
@@ -20,6 +22,7 @@ class Create extends Component
     public $categories = [];
     public $mode = 'edit';
     public $honey_pot;
+    public $photo;
 
     protected $rules = [
         'title' => 'required|min:5|max:255',
@@ -51,15 +54,16 @@ class Create extends Component
             'content' => $this->content
         ]);
 
+        $manager = new ImageManager(new Driver());
+
         foreach ($this->photos as $photo) 
         {
             $filename = $photo->hashName();
-            $img = \Intervention\Image\ImageManager::gd()->read($photo->getRealPath())->resize(1200, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
+            $image = $manager->read($photo->getRealPath());
+            $image->scaleDown(width: 1200);
+            $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 80);
 
-            Storage::disk('public')->put('articles/' . $filename, (string) $img->encode('jpg', 80));
+            Storage::disk('public')->put('articles/' . $filename, $encoded);
             $article->images()->create(['path' => 'articles/' . $filename]);
         }
 

@@ -6,12 +6,17 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Format;
+use Intervention\Image\ImageManager;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
     use WithFileUploads, AuthorizesRequests;
+
+    public const MAX_PHOTOS = 10;
 
     public Article $article;
     public $title;
@@ -79,14 +84,15 @@ class Edit extends Component
             }
         }
 
+        $manager = new ImageManager(new Driver());
+
         foreach ($this->photos as $photo) {
             $filename = $photo->hashName();
-            $img = \Intervention\Image\ImageManager::gd()->read($photo->getRealPath())->resize(1200, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
+            $image = $manager->read($photo->getRealPath());
+            $image->scaleDown(width: 1200);
+            $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 80);
 
-            Storage::disk('public')->put('articles/' . $filename, (string) $img->encode('jpg', 80));
+            Storage::disk('public')->put('articles/' . $filename, $encoded);
             $this->article->images()->create(['path' => 'articles/' . $filename]);
         }
 
@@ -107,7 +113,7 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.article.edit', [
+        return view('livewire.profile.article.edit', [
             'allCategories' => Category::where('slug', '!=', 'spam')->get(),
             'existingPhotos' => $this->existingPhotos,
         ]);

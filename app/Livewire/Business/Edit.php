@@ -32,7 +32,7 @@ class Edit extends Component
 
         $this->validate([
             'name' => 'required|min:3|max:255',
-            'description' => 'required|min:10|max:5000',
+            'description' => 'nullable|min:10|max:5000',
             'subdomain' => 'required|min:3|max:50|alpha_dash|unique:businesses,subdomain,' . $this->business->id,
         ]);
 
