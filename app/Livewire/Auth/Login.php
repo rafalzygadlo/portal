@@ -12,14 +12,25 @@ class Login extends Component
 {
 
     public $email = "demo@example.com";
+    
     public $password ="password";
+
+    public $remember = false;
 
     public function login()
     {
-        $true = Auth::guard()->attempt(['email' => $this->email, 'password' => $this->password]);
+
+        $credentials = $this->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        
+        $true = Auth::attempt($credentials, $this->remember);
 
         if($true)
         {
+
+            session()->regenerate();
             // en: Redirect to the intended page, or fall back to the homepage.
             // de: Leite zur beabsichtigten Seite weiter oder falle auf die Startseite zurück.
             $this->dispatch('closeModal');
@@ -30,6 +41,11 @@ class Login extends Component
 
         // en: Add an error message if authentication fails.
         // de: Füge eine Fehlermeldung hinzu, wenn die Authentifizierung fehlschlägt.
+
+        return back()
+            ->withErrors(['email' => 'The provided credentials do not match our records.'])
+            ->onlyInput('email');
+        
         $this->addError('email', __('auth.failed'));
     }
 
