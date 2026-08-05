@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Auth;
 
-use App\Support\Domain;
 use Illuminate\Http\Request;
 use Livewire\Component;
 use Auth;
@@ -12,7 +11,6 @@ class Login extends Component
 {
 
     public $email = "demo@example.com";
-    
     public $password ="password";
 
     public $remember = false;
@@ -33,18 +31,11 @@ class Login extends Component
             session()->regenerate();
             // en: Redirect to the intended page, or fall back to the homepage.
             // de: Leite zur beabsichtigten Seite weiter oder falle auf die Startseite zurück.
-            $this->dispatch('closeModal');
-            $this->dispatch('loginSuccess');
             
-            return redirect()->intended(Domain::defaultRedirectUrl());
+            //Domain::defaultRedirectUrl()
+            return redirect()->intended();
         }
 
-        // en: Add an error message if authentication fails.
-        // de: Füge eine Fehlermeldung hinzu, wenn die Authentifizierung fehlschlägt.
-
-        return back()
-            ->withErrors(['email' => 'The provided credentials do not match our records.'])
-            ->onlyInput('email');
         
         $this->addError('email', __('auth.failed'));
     }
@@ -59,9 +50,8 @@ class Login extends Component
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        $this->dispatch('logoutSuccess');
 
-        return redirect()->to(Domain::defaultRedirectUrl($request));
+        return redirect()->to($request->headers->get('referer'));
     }
 
     public function render()

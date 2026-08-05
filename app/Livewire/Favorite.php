@@ -3,9 +3,10 @@
 namespace App\Livewire;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use Livewire\Attributes\On;
+use Livewire\Component;
 
-class Favorite extends AuthComponent
+
+class Favorite extends Component
 {
     public Model $model;
     public $isFavorite = false;
@@ -18,15 +19,15 @@ class Favorite extends AuthComponent
 
     public function toggle()
     {
-        if (!$this->checkAuth([
-                'action' => 'toggle_favorite',
-                'model_class' => get_class($this->model),
-                'model_id' => $this->model->id,
-            ])) {
-            return;
+        if (!Auth::check()) 
+        {
+            //session()->put('url.intended', url()->full());
+
+            return $this->redirect(route('login'), navigate: true);
         }
 
-        if ($this->model->isFavoritedBy(Auth::id())) {
+        if ($this->model->isFavoritedBy(Auth::id())) 
+        {
             $this->model->favorites()->where('user_id', Auth::id())->delete();
         } else {
             $this->model->favorites()->create(['user_id' => Auth::id()]);
@@ -34,18 +35,6 @@ class Favorite extends AuthComponent
 
         $this->dispatch('showToast', message: $this->model->isFavoritedBy(Auth::id()) ? 'Dodano do ulubionych!' : 'Usunięto z ulubionych!');
         $this->loadFavoriteState();
-    }
-
-    #[On('executeFavoriteToggle')]
-    public function executeToggle($modelClass, $modelId)
-    {
-        if (get_class($this->model) === $modelClass && $this->model->id === $modelId) {
-            if (!$this->model->isFavoritedBy(Auth::id())) {
-                $this->model->favorites()->create(['user_id' => Auth::id()]);
-            }
-            $this->loadFavoriteState();
-            $this->dispatch('toast', message: 'Dodano do ulubionych!');
-        }
     }
 
     protected function loadFavoriteState(): void
