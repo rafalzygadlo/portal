@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode
 _data/*
 .phpunit.cache/test-results
+.phpunit.cache/test-results
