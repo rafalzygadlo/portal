@@ -6,8 +6,9 @@ use App\Models\Comment;
 use Illuminate\Validation\ValidationException;
 use App\Events\CommentCreated;
 use App\Rules\Profanity;
+use Livewire\Component;
 
-class Comments extends AuthComponent
+class Comments extends Component
 {
     public $model;
     public $content;
@@ -58,6 +59,7 @@ class Comments extends AuthComponent
             }])
             ->latest()
             ->get();
+        //dd($comments);    
 
         return view('livewire.comments', [
             'comments' => $comments,

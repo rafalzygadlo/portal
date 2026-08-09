@@ -11,7 +11,7 @@ use App\Models\Business;
 
 
 use Livewire\Attributes\On;
-class Main extends AuthComponent
+class Main extends Component
 {
     #[Url]
     public $perPage = 10; 

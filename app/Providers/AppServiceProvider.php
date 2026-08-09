@@ -24,18 +24,18 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->registerMorphMap();
+        //$this->registerMorphMap();
         $this->registerGates();
     }
 
     private function registerMorphMap()
     {
-        Relation::morphMap([
-            'article' => 'App\Models\Article',
-            'business' => 'App\Models\Business',
-            'offer'   => 'App\Models\Offer',
-            'todo'    => 'App\Models\Todo',
-            'announcement' => 'App\Models\Announcement',
+        Relation::enforceMorphMap([
+            'article' => \App\Models\Article::class,
+            'offer' => \App\Models\Offer::class,
+            'todo' => \App\Models\Todo::class,
+            'promotion' => \App\Models\Promotion::class,
+            'business' => \App\Models\Business::class,
         ]);
     }
 

@@ -26,23 +26,23 @@ class Index extends Component
     private function resolveTypeClass(string $type): ?string
     {
         return match ($type) {
-            'offer' => Offer::class,
-            'article' => Article::class,
-            'business' => Business::class,
-            'todo' => Todo::class,
-            'poll' => Poll::class,
+            'App\Models\Offer' => Offer::class,
+            'App\Models\Article' => Article::class,
+            'App\Models\Business' => Business::class,
+            'App\Models\Todo' => Todo::class,
+            'App\Models\Poll' => Poll::class,
             default => null,
         };
     }
 
     public function render()
     {
-        $typeClass = $this->resolveTypeClass($this->type);
+        //$typeClass = $this->resolveTypeClass($this->type);
 
         $favorites = auth()->user()
             ->favorites()
             ->with('favoritable')
-            ->when($typeClass, fn($q) => $q->where('favoritable_type', $typeClass))
+            //->when($typeClass, fn($q) => $q->where('favoritable_type', $typeClass))
             ->latest()
             ->paginate(10);
 
