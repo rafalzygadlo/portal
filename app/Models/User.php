@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,6 +37,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'user_type',
         'subdomain',
+        'credits',
+        'referral_code',
+        'referred_by_user_id',
+        'welcome_bonus_received',
     ];
 
     /**
@@ -56,12 +61,125 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'credits' => 'integer',
+        'welcome_bonus_received' => 'boolean',
     ];
 
+    protected static function booted(): void
+    {
+        static::creating(function (self $user) {
+            if (empty($user->referral_code)) {
+                $user->referral_code = $user->generateReferralCode();
+            }
+        });
+    }
 
     public function getNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function referredBy(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'referred_by_user_id');
+    }
+
+    public function referrals(): HasMany
+    {
+        return $this->hasMany(self::class, 'referred_by_user_id');
+    }
+
+    public function creditTransactions(): HasMany
+    {
+        return $this->hasMany(CreditTransaction::class);
+    }
+
+    public function generateReferralCode(): string
+    {
+        do {
+            $code = strtoupper(Str::random(6));
+        } while (self::query()->where('referral_code', $code)->exists());
+
+        return $code;
+    }
+
+    public function addCredits(int $amount, string $type = 'manual', ?string $description = null, $relatedModel = null): int
+    {
+        if ($amount <= 0) {
+            return (int) $this->credits;
+        }
+
+        $this->increment('credits', $amount);
+
+        $this->creditTransactions()->create([
+            'user_id' => $this->id,
+            'type' => $type,
+            'amount' => $amount,
+            'description' => $description ?? 'Dodano kredyty',
+            'related_type' => $relatedModel ? get_class($relatedModel) : null,
+            'related_id' => $relatedModel?->id,
+        ]);
+
+        return (int) $this->fresh()->credits;
+    }
+
+    public function spendCredits(int $amount, string $type = 'promotion', ?string $description = null, $relatedModel = null): bool
+    {
+        if ($amount <= 0) {
+            return true;
+        }
+
+        if ($this->credits < $amount) {
+            return false;
+        }
+
+        $this->decrement('credits', $amount);
+
+        $this->creditTransactions()->create([
+            'user_id' => $this->id,
+            'type' => $type,
+            'amount' => -$amount,
+            'description' => $description ?? 'Wydano kredyty',
+            'related_type' => $relatedModel ? get_class($relatedModel) : null,
+            'related_id' => $relatedModel?->id,
+        ]);
+
+        return true;
+    }
+
+    public function applyReferralCode(string $code): bool
+    {
+        $code = trim(strtoupper($code));
+
+        if ($code === '' || $this->referred_by_user_id !== null || $this->referral_code === $code) {
+            return false;
+        }
+
+        $referrer = self::query()->where('referral_code', $code)->first();
+
+        if (! $referrer || $referrer->id === $this->id) {
+            return false;
+        }
+
+        $this->referred_by_user_id = $referrer->id;
+        $this->save();
+
+        $referrer->addCredits(50, 'referral', 'Polecenie znajomego: ' . $this->email, $this);
+
+        return true;
+    }
+
+    public function grantWelcomeBonusIfNeeded(): bool
+    {
+        if ($this->welcome_bonus_received) {
+            return false;
+        }
+
+        $this->welcome_bonus_received = true;
+        $this->save();
+        $this->addCredits(50, 'welcome_bonus', 'Bonus powitalny za pierwsze logowanie', $this);
+
+        return true;
     }
     
     public function businesses(): BelongsToMany

@@ -23,50 +23,37 @@ class GlobalModal extends Component
 
     #[On('openModal')]
     public function open($view, $title = '', $auth = true, $params = [])
-    {   
-        //if($auth && !Auth::check()) {
-        //    $this->view = 'auth.login'; 
-        //    $this->title = 'Login Required';
-        //    $this->isOpen = true;
-        //    return;
-        //}
-
-        $this->view = $view; 
+    {
+        
+        $this->view = $view;
         $this->title = $title;
-        
+        $this->params = $params;
         $this->isOpen = true;
-        
+
+
         if (auth()->guest()) {
-            // Zapisujemy parametry modala w sesji przed przekierowaniem
-                $this->view = 'auth.login'; 
+            $this->view = 'auth.login';
             $this->title = 'Login Required';
-        
+
             session()->put('intended_modal', [
                 'component' => $view,
-                'title' => $title
+                'title' => $title,
+                'params' => $params,
             ]);
 
-            return;  //redirect()->guest(route('login'));
+            return;
         }
 
-        // Sprawdzamy czy użytkownik ma zweryfikowany adres email
         if (! auth()->user()->hasVerifiedEmail()) {
-            $this->view = 'auth.login'; 
+            $this->view = 'auth.login';
             $this->title = 'Login Required';
-            
-        
-        session()->put('intended_modal', [
+
+            session()->put('intended_modal', [
                 'component' => $view,
-                'title' => $title
+                'title' => $title,
+                'params' => $params,
             ]);
-
-            //return redirect()->route('verification.notice');
         }
-
-
-
-
-     
     }
 
    

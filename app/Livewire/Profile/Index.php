@@ -9,6 +9,7 @@ class Index extends Component
 {
     public User $user;
     public string $activeTab = 'overview';
+    public string $referralCode = '';
 
     public function mount()
     {
@@ -18,13 +19,29 @@ class Index extends Component
             'articles',
             'polls',
             'comments',
-            'favorites'
+            'favorites',
+            'creditTransactions'
         ]);
+        $this->referralCode = '';
     }
 
     public function switchTab(string $tab)
     {
         $this->activeTab = $tab;
+    }
+
+    public function applyReferralCode(): void
+    {
+        $user = auth()->user();
+
+        if ($user->applyReferralCode($this->referralCode)) {
+            $this->user->refresh();
+            $this->dispatch('toast', message: 'Kod polecający został aktywowany. Otrzymano 50 punktów.', type: 'success');
+            $this->referralCode = '';
+            return;
+        }
+
+        $this->dispatch('toast', message: 'Nie można aktywować tego kodu.', type: 'error');
     }
 
     public function render()

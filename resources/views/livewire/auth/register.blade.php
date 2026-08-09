@@ -83,6 +83,15 @@
                                     </div>
                                 </div>
 
+                                <div class="row mb-2">
+                                    <div class="col-md-12">
+                                        <label for="referral-code" class="col-form-label">Kod polecającego (opcjonalnie)</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input id="referral-code" type="text" class="form-control form-control-lg" wire:model.defer="referral_code" placeholder="np. ABC123" maxlength="32">
+                                    </div>
+                                </div>
+
                                 <div class="row mt-3">
                                     <div class="col-md-12">
                                         <button type="submit" class="btn btn-primary w-100">

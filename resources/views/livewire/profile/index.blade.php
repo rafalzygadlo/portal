@@ -14,6 +14,27 @@
                 <p class="text-muted">Joined: {{ $user->created_at->format('d.m.Y') }}</p>
                 <p>{{ $user->email }}</p>
 
+                <div class="card bg-primary-subtle border-0 mb-3">
+                    <div class="card-body">
+                        <div class="small text-uppercase text-muted">Saldo kredytów</div>
+                        <div class="display-6 fw-bold text-primary">{{ $user->credits }} pkt</div>
+                        <div class="small text-muted d-flex align-items-center justify-content-between gap-2 mt-2">
+                            <span>Twój kod polecający: <strong>{{ $user->referral_code }}</strong></span>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="navigator.clipboard.writeText('{{ $user->referral_code }}').then(() => this.innerText = 'Skopiowano').catch(() => this.innerText = 'Błąd');">
+                                Kopiuj
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <form wire:submit.prevent="applyReferralCode" class="mb-3">
+                    <label for="referralCode" class="form-label small text-muted">Dodaj kod polecającego</label>
+                    <div class="input-group">
+                        <input id="referralCode" type="text" class="form-control" wire:model.defer="referralCode" placeholder="np. ABC123" maxlength="32">
+                        <button class="btn btn-outline-primary" type="submit">Aktywuj</button>
+                    </div>
+                </form>
+
                 <h5 class="card-title fw-bold mb-3">Quick actions</h5>
                 <div class="d-grid gap-2">
                     <a href="{{ route('offer.create') }}" class="btn btn-outline-primary text-start">
@@ -156,6 +177,42 @@
                                 <span class="badge bg-danger rounded-pill">{{ $user->favorites->count() }}</span>
                             </li>
                         </ul>
+
+                        <div class="mt-4">
+                            <h6 class="fw-bold mb-3">Historia kredytów</h6>
+                            @if($user->creditTransactions->isEmpty())
+                                <div class="alert alert-light border mb-0">Brak transakcji kredytowych.</div>
+                            @else
+                                <div class="table-responsive">
+                                    <table class="table table-sm align-middle mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Typ</th>
+                                                <th>Opis</th>
+                                                <th class="text-end">Kwota</th>
+                                                <th class="text-end">Data</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($user->creditTransactions()->latest()->take(10)->get() as $transaction)
+                                                <tr>
+                                                    <td>
+                                                        <span class="badge {{ $transaction->amount > 0 ? 'bg-success' : 'bg-secondary' }} rounded-pill">
+                                                            {{ $transaction->type }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-muted small">{{ $transaction->description ?? 'Transakcja' }}</td>
+                                                    <td class="text-end fw-bold {{ $transaction->amount > 0 ? 'text-success' : 'text-secondary' }}">
+                                                        {{ $transaction->amount > 0 ? '+' : '' }}{{ $transaction->amount }} pkt
+                                                    </td>
+                                                    <td class="text-end text-muted small">{{ $transaction->created_at->format('d.m.Y H:i') }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
 

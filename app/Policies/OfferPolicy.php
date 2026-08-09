@@ -22,4 +22,9 @@ class OfferPolicy
     {
         return $user->id === $offer->user_id;
     }
+
+    public function promote(User $user, Offer $offer): bool
+    {
+        return $user->id === $offer->user_id;
+    }
 }

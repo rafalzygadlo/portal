@@ -17,10 +17,12 @@ class Register extends Component
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
+    public string $referral_code = '';
 
     protected $rules = [
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'password' => ['required', 'string', 'min:8', 'confirmed'],
+        'referral_code' => ['nullable', 'string', 'max:32'],
     ];
 
     public function register()
@@ -28,17 +30,21 @@ class Register extends Component
         $validatedData = $this->validate();
 
         $user = DB::transaction(function () use ($validatedData) {
-            
             $user = User::create([
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'first_name' => Factory::create()->firstName,
-                'last_name' => Factory::create()->lastName
+                'last_name' => Factory::create()->lastName,
+                'referral_code' => $validatedData['referral_code'] ?? null,
             ]);
-           
+
+            if (! empty($validatedData['referral_code'])) {
+                $user->applyReferralCode($validatedData['referral_code']);
+            }
+
             return $user;
         });
-            
+
         event(new Registered($user));
         Auth::guard('user')->login($user);
 

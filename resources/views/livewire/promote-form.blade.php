@@ -12,7 +12,7 @@
                         <input type="radio" wire:model.live="duration" name="duration" value="{{ $days }}" class="form-check-input me-2">
                         <strong>{{ $days }} dni</strong>
                     </span>
-                    <span class="badge bg-primary rounded-pill">{{ number_format($price, 2) }} PLN</span>
+                    <span class="badge bg-primary rounded-pill">{{ $price }} pkt</span>
                 </label>
             @endforeach
         </div>
@@ -20,7 +20,7 @@
 
     <div class="alert alert-info d-flex justify-content-between align-items-center">
         <span class="fw-bold">Całkowity koszt:</span>
-        <span class="fs-4 fw-bolder">{{ number_format($cost, 2) }} PLN</span>
+        <span class="fs-4 fw-bolder">{{ $cost }} pkt</span>
     </div>
 
     <div class="d-flex justify-content-end mt-4">

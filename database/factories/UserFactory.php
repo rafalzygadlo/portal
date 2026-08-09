@@ -21,7 +21,9 @@ class UserFactory extends Factory
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
-            'password' => '123456789'
+            'password' => '123456789',
+            'credits' => 0,
+            'referral_code' => strtoupper(fake()->bothify('??###')),
         ];
     }
 

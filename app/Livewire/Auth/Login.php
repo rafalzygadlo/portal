@@ -27,11 +27,13 @@ class Login extends Component
 
         if($true)
         {
+            $user = Auth::user();
+            $user->grantWelcomeBonusIfNeeded();
 
             session()->regenerate();
             // en: Redirect to the intended page, or fall back to the homepage.
             // de: Leite zur beabsichtigten Seite weiter oder falle auf die Startseite zurück.
-            
+
             //Domain::defaultRedirectUrl()
             return redirect()->intended();
         }

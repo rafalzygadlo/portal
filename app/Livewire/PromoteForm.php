@@ -9,14 +9,13 @@ use Illuminate\Support\Facades\Gate;
 class PromoteForm extends Component
 {
     public Model $model;
-    public int $duration = 7; // Domyślny czas trwania
-    public float $cost = 0.0;
+    public int $duration = 7;
+    public int $cost = 0;
 
-    // Definicja opcji promocji i ich cen
     public array $options = [
-        7  => 7.00, 
-        14 => 14.00, 
-        30 => 30.00, 
+        7  => 7,
+        14 => 14,
+        30 => 30,
     ];
 
     public function mount($modelId, $modelClass)
@@ -40,7 +39,7 @@ class PromoteForm extends Component
      */
     public function calculateCost(): void
     {
-        $this->cost = $this->options[$this->duration] ?? 0.0;
+        $this->cost = $this->options[$this->duration] ?? 0;
     }
 
     /**
@@ -60,13 +59,20 @@ class PromoteForm extends Component
             return;
         }
 
-        // W przyszłości tutaj znajdzie się logika płatności.
-        // Na razie po prostu tworzymy promocję.
+        $user = auth()->user();
+
+        if ($user->credits < $this->cost) {
+            $this->dispatch('toast', message: 'Masz za mało kredytów na tę promocję.', type: 'error');
+            return;
+        }
+
+        $user->spendCredits($this->cost, 'promotion', "Promocja treści na {$this->duration} dni", $this->model);
+
         $this->model->promotions()->create([
             'expires_at' => now()->addDays($this->duration),
         ]);
 
-        $this->dispatch('toast', message: "Treść została wypromowana na {$this->duration} dni!");
+        $this->dispatch('toast', message: "Treść została wypromowana na {$this->duration} dni! Koszt: {$this->cost} pkt.");
         $this->dispatch('closeModal');
         $this->dispatch('promotionUpdated'); // Odświeża inne komponenty (np. przycisk)
     }

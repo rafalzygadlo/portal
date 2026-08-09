@@ -48,5 +48,18 @@ services:
       - "8025:8025"
     restart: unless-stopped
 
+  phpmyadmin:
+    container_name: portal.phpmyadmin
+    image: phpmyadmin:latest
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    restart: unless-stopped
+
 volumes:
   mariadb_data:
