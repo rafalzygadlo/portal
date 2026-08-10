@@ -5,7 +5,6 @@ namespace App\Livewire\Admin\Business;
 use App\Models\Business;
 use App\Models\Service;
 use App\Models\Reservation;
-use App\Traits\ResolvesCurrentBusiness;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
@@ -13,11 +12,9 @@ use Livewire\Attributes\Url;
 
 class Dashboard extends Component
 {
-    use WithPagination, ResolvesCurrentBusiness;
+    use WithPagination;
 
     public Business $business;
-    #[Url]
-    public string $tab = 'services'; // services, reservations, settings
     public bool $showServiceModal = false;
     public string $serviceName = '';
     public string $serviceDescription = '';
@@ -26,9 +23,9 @@ class Dashboard extends Component
     public string $serviceBuffer = '15';
     public ?Reservation $editingService = null;
 
-    public function mount()
+    public function mount($business)
     {
-        $this->business = $this->resolveCurrentBusiness();
+        $this->business = $business;
     }
 
     public function openServiceModal(?Reservation $service = null)

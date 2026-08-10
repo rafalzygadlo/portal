@@ -3,23 +3,21 @@
 namespace App\Livewire\Admin\Business\Resource;
 
 use App\Models\Business;
-use App\Traits\ResolvesCurrentBusiness;
 use Livewire\Component;
 
 class Index extends Component
 {
-    use ResolvesCurrentBusiness;
 
     public Business $business;
 
-     protected $listeners = 
+    protected $listeners = 
     [
         'resourceCreated' => '$refresh',
     ];
 
-    public function mount()
+    public function mount($business)
     {
-        $this->business = $this->resolveCurrentBusiness();
+        $this->business = $business;
     }
 
     public function render()

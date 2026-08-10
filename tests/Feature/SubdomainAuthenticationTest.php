@@ -38,4 +38,23 @@ class SubdomainAuthenticationTest extends TestCase
 
         $response->assertRedirect('http://marcin.'.config('app.business_domain').'/login');
     }
+
+    /** @test */
+    public function test_business_owner_can_access_subdomain_admin_route_with_subdomain_parameter(): void
+    {
+        $user = User::factory()->create([
+            'email_verified_at' => now(),
+        ]);
+
+        Business::factory()->create([
+            'user_id' => $user->id,
+            'subdomain' => 'marcin',
+        ]);
+
+        $url = 'http://marcin.'.config('app.business_domain').'/admin/dashboard';
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertStatus(200);
+    }
 }

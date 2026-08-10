@@ -40,6 +40,21 @@ class PolicyBusinessAndSpecialCasesTest extends TestCase
         }
     }
 
+    public function test_business_manage_policy_uses_business_model_not_subdomain_string(): void
+    {
+        $owner = $this->makeUser(10);
+        $other = $this->makeUser(11);
+        $business = $this->makeBusinessWithOwners([$owner]);
+        $business->subdomain = 'demo';
+
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($owner)->allows('manage', $business));
+        $this->assertFalse(\Illuminate\Support\Facades\Gate::forUser($other)->allows('manage', $business));
+
+        $url = route('admin.business.dashboard', ['business' => $business]);
+        $this->assertStringContainsString('demo', $url);
+        $this->assertStringContainsString('/admin/dashboard', $url);
+    }
+
     public function test_business_linked_policies_deny_when_business_relation_is_missing(): void
     {
         $user = $this->makeUser(5);

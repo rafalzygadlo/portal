@@ -44,5 +44,5 @@
         </table>
     </div>
 
-    <livewire:admin.business.resource.create />
+    <livewire:admin.business.resource.create :business="$business"/> 
 </div>

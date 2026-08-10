@@ -9,10 +9,9 @@ class Domain extends Component
 {
     public Business $business;
 
-    public function mount($subdomain)
+    public function mount($business)
     {
-        $this->business = Business::where('subdomain', $subdomain)->firstOrFail();
-        
+        $this->business = $business;
     }
 
     public function render()

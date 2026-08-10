@@ -3,12 +3,11 @@
 namespace App\Livewire\Admin\Business\Resource;
 
 use App\Models\Business;
-use App\Traits\ResolvesCurrentBusiness;
 use Livewire\Component;
 
 class Table extends Component
 {
-    use ResolvesCurrentBusiness;
+
 
     public Business $business;
 
@@ -17,12 +16,13 @@ class Table extends Component
         'resourceCreated' => '$refresh',
     ];
 
-    public function mount()
+    public function mount($business)
     {
-        $this->business = $this->resolveCurrentBusiness();
+        $this->business = $business;
     }
 
     public function render()
+    {   
         return view('livewire.admin.business.resource.index', [
             'resources' => $this->business->resources()->get(),
         ])->layout('layouts.admin', ['business' => $this->business]);

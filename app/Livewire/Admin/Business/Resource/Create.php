@@ -4,18 +4,16 @@ namespace App\Livewire\Admin\Business\Resource;
 
 use App\Models\Business;
 use App\Models\Resource;
-use App\Traits\ResolvesCurrentBusiness;
 use Livewire\Component;
 
 class Create extends Component
 {
-    use ResolvesCurrentBusiness;
 
     public Business $business;
     public string $name = '';
     public string $type = 'person';
 
-    public bool $open = false;
+    public bool $open = true;
     
     protected $listeners = 
     [
@@ -24,9 +22,9 @@ class Create extends Component
         'saveResource'
     ];
 
-    public function mount()
+    public function mount($business)
     {
-        $this->business = $this->resolveCurrentBusiness();
+        //$this->business = $business;
     }
 
     public function openResourceModal()
@@ -61,7 +59,7 @@ class Create extends Component
     public function render()
     {
         return view('livewire.admin.business.resource.create', [
-            'open' => $this->open])
-        ->layout('layouts.admin', ['business' => $this->business]);
+            'open' => $this->open]);
+       
     }
 }

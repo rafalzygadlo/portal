@@ -3,13 +3,11 @@
 namespace App\Livewire\Admin\Business\Service;
 
 use App\Models\Business;
-use App\Traits\ResolvesCurrentBusiness;
-use App\Traits\WithLivewireSorting;
 use Livewire\Component;
 
 class Index extends Component
 {
-    use ResolvesCurrentBusiness;
+
 
     public Business $business;
     
@@ -18,9 +16,9 @@ class Index extends Component
         'serviceCreated' => '$refresh',
     ];
 
-    public function mount()
+    public function mount($business)
     {
-        $this->business = $this->resolveCurrentBusiness();
+        $this->business = $business;
     }
     
     public function render()

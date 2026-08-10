@@ -36,7 +36,7 @@ use Illuminate\Support\Str;
         Route::post('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout.subdomain');
     });
     
-    Route::prefix('admin')->middleware(['auth', 'verified', 'can:manage-business,subdomain'])->group(function () 
+    Route::prefix('admin')->middleware(['auth', 'verified', 'can:manage,business'])->group(function () 
     {
         // Dashboard routes
         Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('admin.business.dashboard');

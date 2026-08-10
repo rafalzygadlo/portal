@@ -15,7 +15,7 @@
     <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom">
         <div class="container-fluid px-4 px-lg-5">
             <a class="navbar-brand fw-bold"
-                href="{{ route('business.domain', ['subdomain' => $business->subdomain]) }}">
+                href="{{ route('business.domain', ['business' => $business]) }}">
                 {{ $business->name }}
             </a>
             
@@ -27,7 +27,7 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link"
-                            href="{{ route('business.booking', ['subdomain' => $business->subdomain]) }}">Zarezerwuj
+                            href="{{ route('business.booking', ['business' => $business]) }}">Zarezerwuj
                             wizytę</a>
                     </li>
                       
@@ -36,10 +36,10 @@
 
                 <ul class="navbar-nav ms-auto">
                     @auth
-                        @can('manage-business', $business->subdomain)
+                        @can('manage', $business)
                             <li class="nav-item">
                                 <a class="btn btn-outline-primary me-2"
-                                    href="{{ route('admin.business.dashboard', ['subdomain' => $business->subdomain]) }}">
+                                    href="{{ route('admin.business.dashboard', ['business' => $business]) }}">
                                     Panel Admina
                                 </a>
                             </li>
@@ -64,7 +64,7 @@
                             </ul>
                         </li>
                     @else
-                        <a href="{{ route('login.subdomain', ['subdomain' => $business->subdomain]) }}"
+                        <a href="{{ route('login.subdomain', ['business' => $business]) }}"
                            class="btn btn-primary fw-semibold"
 >
                             Login

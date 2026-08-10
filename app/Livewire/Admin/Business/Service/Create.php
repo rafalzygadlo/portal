@@ -4,12 +4,10 @@ namespace App\Livewire\Admin\Business\Service;
 
 use App\Models\Business;
 use App\Models\Service;
-use App\Traits\ResolvesCurrentBusiness;
 use Livewire\Component;
 
 class Create extends Component
 {
-    use ResolvesCurrentBusiness;
 
     public Business $business;
     
@@ -31,7 +29,8 @@ class Create extends Component
     
     public function mount()
     {
-        $this->business = $this->resolveCurrentBusiness();
+        //dd($business);
+        //$this->business = $business;
         $this->editingService = null;
     }
 
@@ -87,6 +86,7 @@ class Create extends Component
         } 
         else 
         {
+            dd($this->business);
              $this->business->services()->create([
                 'name' => $this->name,
                 'description' => $this->description,
@@ -103,9 +103,9 @@ class Create extends Component
     }
 
     public function render()
-    {
+    {   
         return view('livewire.admin.business.service.create', [
-            'open' => $this->open,
-        ])->layout('layouts.admin', ['business' => $this->business]);
+            'open' => $this->open
+        ]);
     }
 }

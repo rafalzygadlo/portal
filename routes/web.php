@@ -24,7 +24,8 @@ Route::domain($domain)
     ->group(base_path('routes/web/main.php'));
 
 //subdomain routes
-Route::domain('{subdomain}.' . $domain)
+Route::domain('{business:subdomain}.' . $domain)
+    ->scopeBindings()
     ->group(base_path('routes/web/subdomain.php'));
 
 

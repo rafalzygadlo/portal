@@ -64,7 +64,7 @@
             </table>
         </div>
 
-        <livewire:admin.business.service.create />
+        <livewire:admin.business.service.create  :business="$business" />
         </div>
     
         
