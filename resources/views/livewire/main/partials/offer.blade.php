@@ -1,5 +1,11 @@
 
- <div class="card h-100 bg-white border-0 rounded-4 overflow-hidden transition-hover shadow-sm d-flex flex-column position-relative">
+ <div class="card h-100 bg-white border-0 rounded-4 overflow-hidden transition-hover shadow-sm d-flex flex-column position-relative{{ ! empty($isPromoted) ? ' border border-warning shadow-lg' : '' }}">
+    @if(! empty($isPromoted))
+        <span class="position-absolute top-0 start-0 m-3 badge bg-warning-subtle text-warning border border-warning rounded-pill px-2 py-1" style="z-index: 10;">
+            <i class="bi bi-megaphone-fill me-1"></i>
+            Promoted
+        </span>
+    @endif
 
     <!-- MINIATURKA / ZDJĘCIE -->
     <a href="{{ route('offer.show', $item) }}"

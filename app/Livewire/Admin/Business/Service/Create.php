@@ -86,7 +86,7 @@ class Create extends Component
         } 
         else 
         {
-            dd($this->business);
+            
              $this->business->services()->create([
                 'name' => $this->name,
                 'description' => $this->description,
@@ -104,8 +104,12 @@ class Create extends Component
 
     public function render()
     {   
-        return view('livewire.admin.business.service.create', [
+        $html = view('livewire.admin.business.service.create', [
             'open' => $this->open
         ]);
+
+        //print $html;
+        //print $html->render();
+        return $html;
     }
 }
