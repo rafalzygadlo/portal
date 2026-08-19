@@ -32,13 +32,19 @@
 
                 <div class="collapse navbar-collapse" id="mainNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item px-lg-2">
-                            <a class="nav-link fw-semibold" href="{{ route('articles.index') }}">Artykuły</a>
+
+                        @if(config('modules.article'))
+                        <li class="nav-item px-lg-2">
+                            <a class="nav-link fw-semibold" href="{{  route('articles.index') }}">Artykuły</a>
                         </li>
-                
+                        @endif
+
+                        @if(config('modules.poll'))
                         <li class="nav-item px-lg-2">
                             <a class="nav-link fw-semibold" href="{{ route('polls.index') }}">Sondaże</a>
                         </li>
+                        @endif
+
                         <li class="nav-item px-lg-2">
                             <a class="nav-link fw-semibold" href="{{ route('offers.index') }}">Ogłoszenia</a>
                         </li>
@@ -106,11 +112,17 @@
                     <div class="col-6 col-lg-2 offset-lg-2">
                         <h6 class="fw-bold mb-3 small text-uppercase tracking-wider">Gazeta</h6>
                         <ul class="list-unstyled small">
-                            <li class="mb-2"><a href="{{ route('articles.index') }}" class="text-secondary text-decoration-none">Artykuły</a></li>
+                            @if(config('modules.article'))
+                            <li class="mb-2"><a href="{{route('articles.index') }}" class="text-secondary text-decoration-none">Artykuły</a></li>
+                            @endif
+
                             <li class="mb-2"><a href="{{ route('business.index') }}" class="text-secondary text-decoration-none">Firmy</a></li>
                             <li class="mb-2"><a href="{{ route('offers.index') }}" class="text-secondary text-decoration-none">Ogłoszenia</a></li>
                             <li class="mb-2"><a href="{{ route('todos.index') }}" class="text-secondary text-decoration-none">Roadmapa</a></li>
+                            
+                            @if(config('modules.poll'))
                             <li class="mb-2"><a href="{{ route('polls.index') }}" class="text-secondary text-decoration-none">Sondaże</a></li>
+                            @endif
                         </ul>
                     </div>
                     <div class="col-6 col-lg-2">

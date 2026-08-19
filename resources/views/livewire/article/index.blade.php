@@ -55,9 +55,12 @@
                         
                         <!-- Tytuł z dynamicznym rozmiarem fontu -->
                         <h3 class="{{ $loop->first ? 'fs-4' : 'fs-5' }} fw-bold mb-2 tracking-tight">
+                            <span class="badge bg-primary-subtle text-primary small me-1">{{ $article->category->name ?? 'General' }}</span>
+                           @if(config('modules.article'))
                             <a href="{{ route('article.show', $article) }}" class="text-decoration-none text-dark text-hover-primary stretched-link">
                                 {{ $article->title }}
                             </a>
+                            @endif
                         </h3>
 
                         <!-- Skrócony Opis -->

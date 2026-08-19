@@ -44,14 +44,16 @@
                     <a href="{{ route('business.create') }}" class="btn btn-outline-primary text-start">
                         <i class="bi bi-building me-2"></i> Create business
                     </a>
-
+                    @if(config('modules.article'))
                     <a href="{{ route('article.create') }}" class="btn btn-outline-primary text-start">
                         <i class="bi bi-newspaper me-2"></i> Write article
                     </a>
-
-                    <a href="{{ route('profile.poll.create') }}" class="btn btn-outline-primary text-start">
+                    @endif
+                    @if(config('modules.poll'))
+                    <a href="{{ route('poll.create') }}" class="btn btn-outline-primary text-start">
                         <i class="bi bi-bar-chart me-2"></i> Create poll
                     </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -241,13 +243,14 @@
                 </div>
 
                 <!-- Polls Tab -->
+                 @if(config('modules.poll'))
                 <div class="tab-pane fade @if($activeTab === 'polls') show active @endif" 
                      id="polls-panel" 
                      role="tabpanel" 
                      aria-labelledby="polls-tab">
                     <livewire:profile.poll.index />
                 </div>
-
+                @endif
                 <!-- Comments Tab -->
                 <div class="tab-pane fade @if($activeTab === 'comments') show active @endif"
                      id="comments-panel"

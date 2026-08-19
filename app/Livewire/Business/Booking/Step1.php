@@ -46,7 +46,7 @@ class Step1 extends Component
         ]);
 
         return redirect()->route('booking.step2', 
-        ['flow' => $this->flow->id, 'subdomain' => $this->business->subdomain
+        ['flow' => $this->flow->id, 'business' => $this->business
         ]);
     }
 

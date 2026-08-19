@@ -67,7 +67,6 @@ class Edit extends Component
         
         $this->offer->categories()->sync($this->categories);
 
-        //dd($this->allPhotos);
         // move this to a service class for better separation of concerns
         $existingPhotos = array_filter($this->allPhotos, fn($photo) => $photo['isNew'] == false);
         $newPhotos = array_filter($this->allPhotos, fn($photo) => $photo['isNew'] == true);

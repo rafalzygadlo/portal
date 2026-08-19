@@ -14,6 +14,17 @@ class Comments extends Component
     public $content;
     public $replyToId = null;
     public $honey_pot;
+    public $expandedReplies = [];
+
+    public function toggleReplies($commentId)
+    {
+        if (in_array($commentId, $this->expandedReplies)) {
+            $this->expandedReplies = array_values(array_diff($this->expandedReplies, [$commentId]));
+            return;
+        }
+
+        $this->expandedReplies[] = $commentId;
+    }
 
     protected function rules()
     {
@@ -24,13 +35,10 @@ class Comments extends Component
 
     public function postComment()
     {
-        if(!empty($this->honey_pot)) {
-            return null;
-        }
-
+        
         $this->validate();
 
-        if ($this->checkAuth()) {
+        if (Auth::check()) {
             $this->model->comments()->create([
             'user_id' => Auth::id(),
             'parent_id' => $this->replyToId,

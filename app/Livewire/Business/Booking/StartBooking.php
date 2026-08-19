@@ -17,9 +17,9 @@ use Illuminate\Database\Eloquent\Collection;
 class StartBooking extends Component
 {
     
-    public function mount(string $subdomain)
+    public function mount(Business $business)
     {
-        $business = Business::where('subdomain', $subdomain)->firstOrFail();
+        //usiness = Business::where('subdomain', $subdomain)->firstOrFail();
         
         $flow = BookingFlow::create([
             'business_id' => $business->id,
@@ -28,7 +28,7 @@ class StartBooking extends Component
         ]);
         
         return redirect()->route('booking.step1', [
-            'subdomain' => $subdomain,
+            'business' => $business,
             'flow' => $flow->id,
         ]);
     }

@@ -30,7 +30,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2" href="{{ route('todos.index') }}">
+                            <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2" href="{{ route('todo.create') }}">
                                 <i class="bi bi-check-circle-fill text-info fs-5"></i> 
                                 <span class="fw-medium">Dodaj zadanie</span>
                             </a>

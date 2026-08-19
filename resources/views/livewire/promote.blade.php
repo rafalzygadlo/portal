@@ -1,7 +1,7 @@
 <div style="z-index:1">
     @if (!$isPromoted)
        
-
+        @if(Auth::user()->can('promote', $model))
         <button  wire:click="openPromoteForm" wire:loading.attr="disabled" class="btn btn-sm btn-outline-warning">
             <span wire:loading.remove wire:target="promote">
                 <i class="bi bi-star me-1"></i>
@@ -9,5 +9,6 @@
             </span>
             <span wire:loading wire:target="promote" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         </button>
+      @endif  
     @endif
 </div>

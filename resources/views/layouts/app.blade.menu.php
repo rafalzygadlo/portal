@@ -184,7 +184,9 @@
                         <ul class="list-unstyled small">
                             <li class="mb-2"><a href="{{ route('business.index') }}" class="text-secondary text-decoration-none">Firmy</a></li>
                             <li class="mb-2"><a href="{{ route('todos.index') }}" class="text-secondary text-decoration-none">Roadmapa</a></li>
+                            @if(config('modules.poll'))
                             <li class="mb-2"><a href="{{ route('polls.index') }}" class="text-secondary text-decoration-none">Sondaże</a></li>
+                            @endif
                         </ul>
                     </div>
                     <div class="col-6 col-lg-2">

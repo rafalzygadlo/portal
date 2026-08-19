@@ -10,12 +10,14 @@
                             <small class="text-muted">Created: {{ $article->created_at->format('d.m.Y H:i') }}</small>
                         </div>
                         <div class="d-flex gap-2 ms-2">
+                            @if(config('modules.article'))
                             <a href="{{ route('article.show', $article) }}" class="btn btn-sm btn-outline-primary" target="_blank">
                                 <i class="bi bi-eye"></i> View
                             </a>
                             <a href="{{ route('article.edit', $article) }}" class="btn btn-sm btn-outline-secondary">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
+                            @endif  
                         </div>
                     </div>
                 @endforeach
@@ -24,9 +26,11 @@
             <div class="alert alert-light text-center py-5">
                 <i class="bi bi-newspaper text-muted" style="font-size: 2rem;"></i>
                 <p class="mt-3 text-muted">You haven't written any articles yet.</p>
-                <a href="{{ route('article.create') }}" class="btn btn-primary btn-sm">
-                    <i class="bi bi-plus-lg"></i> Write your first article
-                </a>
+                @if(config('modules.article'))
+                    <a href="{{ route('article.create') }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-lg"></i> Write your first article
+                    </a>
+                @endif
             </div>
         @endif
     </div>

@@ -21,15 +21,16 @@ class Favorite extends Component
     {
         if (!Auth::check()) 
         {
-            //session()->put('url.intended', url()->full());
-
+            session(['url.intended' => request()->url()]);
             return $this->redirect(route('login'), navigate: true);
         }
 
         if ($this->model->isFavoritedBy(Auth::id())) 
         {
             $this->model->favorites()->where('user_id', Auth::id())->delete();
-        } else {
+        } 
+        else 
+        {
             $this->model->favorites()->create(['user_id' => Auth::id()]);
         }
 
@@ -39,7 +40,11 @@ class Favorite extends Component
 
     protected function loadFavoriteState(): void
     {
-        $this->isFavorite = $this->model->isFavoritedBy(Auth::id());
+        if (Auth::check()) {
+            $this->isFavorite = $this->model->isFavoritedBy(Auth::id());
+        } else {
+            $this->isFavorite = false;
+        }
         $this->count = $this->model->favorites()->count();
     }
 

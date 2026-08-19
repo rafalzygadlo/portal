@@ -5,10 +5,10 @@
     $initial = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($commenter, 0, 1));
 @endphp
 
-<div class="card mb-3 comment-card border-0 @if($isReply) comment-reply @endif">
-    <div class="card-body py-3">
-        <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
-            <div class="d-flex align-items-center gap-3">
+<div class="card mb-2 comment-card border-0 @if($isReply) comment-reply ms-4 @endif">
+    <div class="card-body py-2">
+        <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+            <div class="d-flex align-items-center gap-2">
                 <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px;">
                     {{ $initial }}
                 </div>

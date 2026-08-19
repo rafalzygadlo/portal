@@ -36,17 +36,24 @@ use Illuminate\Support\Str;
             Route::get('/offer/edit/{offer}', App\Livewire\Offer\Edit::class)->name('offer.edit');
 
             // Articles
-            Route::get('/article/create', App\Livewire\Profile\Article\Create::class)->name('article.create');
-            Route::get('/article/edit/{article}', App\Livewire\Profile\Article\Edit::class)->name('article.edit');
-
+            if(config('modules.article'))
+            {
+                Route::get('/article/create', App\Livewire\Profile\Article\Create::class)->name('article.create');
+                Route::get('/article/edit/{article}', App\Livewire\Profile\Article\Edit::class)->name('article.edit');
+            }
             // Business
             Route::get('/business/create', App\Livewire\Business\Create::class)->name('business.create');
             Route::get('/business/edit/{business}', App\Livewire\Business\Edit::class)->name('business.edit');
 
+            // Todos
+            Route::get('/todo/create', App\Livewire\Todo\Create::class)->name('todo.create');
+            //Route::get('/todo/edit/{todo}', App\Livewire\Todo\Edit::class)->name('todo.edit');
             // Polls
-            Route::get('/poll/create', App\Livewire\Profile\Poll\Create::class)->name('profile.poll.create');
-            Route::get('/poll/edit/{poll}', App\Livewire\Profile\Poll\Edit::class)->name('profile.poll.edit');
-            
+            if(config('modules.poll'))
+            {
+                Route::get('/poll/create', App\Livewire\Profile\Poll\Create::class)->name('poll.create');
+                Route::get('/poll/edit/{poll}', App\Livewire\Profile\Poll\Edit::class)->name('poll.edit');
+            }
         });
     });
 
@@ -54,9 +61,11 @@ use Illuminate\Support\Str;
     Route::get('/',App\Livewire\Main::class)->name('main.index');
 
     // Article routes
-    Route::get('/articles', \App\Livewire\Article\Index::class)->name('articles.index');
-    Route::get('/article/{article:slug}', \App\Livewire\Article\Show::class)->name('article.show');
-
+    if(config('modules.article'))
+    {
+        Route::get('/articles', \App\Livewire\Article\Index::class)->name('articles.index');
+        Route::get('/article/{article:slug}', \App\Livewire\Article\Show::class)->name('article.show');
+    }
     // Business routes
     Route::get('/businesses/{categorySlug?}', \App\Livewire\Business\Index::class)->name('business.index');
     Route::get('/business/{business:subdomain}', \App\Livewire\Business\Show::class)->name('business.show');
@@ -73,9 +82,12 @@ use Illuminate\Support\Str;
     Route::get('/offer/{offer:slug}', \App\Livewire\Offer\Show::class)->name('offer.show');
 
     // Polls
-    Route::get('/polls', \App\Livewire\Poll\Index::class)->name('polls.index');
-    Route::get('/polls/{poll}', \App\Livewire\Poll\Show::class)->name('poll.show');
-
+    if(config('modules.poll'))
+    {
+        Route::get('/polls', \App\Livewire\Poll\Index::class)->name('polls.index');
+        Route::get('/polls/{poll}', \App\Livewire\Poll\Show::class)->name('poll.show');
+    }
+    
     // Guest routes (Only for users not logged in)
     Route::middleware('guest')->group(function () 
     {

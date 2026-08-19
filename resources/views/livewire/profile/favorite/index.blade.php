@@ -40,7 +40,9 @@
                                 @if($favorite->favoritable_type === App\Models\Offer::class)
                                     <a href="{{ route('offer.show', $item) }}" class="btn btn-sm btn-outline-primary" target="_blank">Open</a>
                                 @elseif($favorite->favoritable_type === App\Models\Article::class)
-                                    <a href="{{ route('article.show', $item) }}" class="btn btn-sm btn-outline-primary" target="_blank">Open</a>
+                                    @if(config('modules.article'))
+                                        <a href="{{route('article.show', $item) }}" class="btn btn-sm btn-outline-primary" target="_blank">Open</a>
+                                    @endif
                                 @elseif($favorite->favoritable_type === App\Models\Business::class)
                                     <a href="{{ route('business.show', $item) }}" class="btn btn-sm btn-outline-primary" target="_blank">Open</a>
                                 @elseif($favorite->favoritable_type === App\Models\Todo::class)

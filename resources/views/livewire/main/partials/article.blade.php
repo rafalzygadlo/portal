@@ -6,7 +6,8 @@
         </span>
     @endif
 
-    <a href="{{ route('article.show', $item)}}" class="position-relative d-block flex-shrink-0 bg-light overflow-hidden"
+    @if(config('modules.article'))
+    <a href="{{route('article.show', $item) }}" class="position-relative d-block flex-shrink-0 bg-light overflow-hidden"
         style="min-height: 110px; max-height: 100%; height: auto; lg-height: 180px;">
         
             @if($item->images->isNotEmpty())
@@ -20,6 +21,7 @@
                 </div>
             @endif
     </a>
+    @endif
     
     <span class="position-absolute top-0 end-0 m-3 badge text-dark ">
          <i class="bi bi-sticky fs-5"></i>
@@ -30,10 +32,12 @@
     <div class="card-body p-3 p-lg-4 d-flex flex-column col-8 col-lg-12">
         <!-- Tytuł -->
         <h6 class="card-title fw-bold mb-1 mb-lg-2 flex-grow-0">
-            <a href="{{ route('article.show', $item) }}" class="text-decoration-none text-dark stretched-link hover-primary line-clamp-2">
+            @if(config('modules.article'))
+            <a href="{{route('article.show', $item) }}" class="text-decoration-none text-dark stretched-link hover-primary line-clamp-2">
                 {{ $item->title }}
                 <i class="bi bi-chevron-right small opacity-50 ms-1"></i>
             </a>
+            @endif
         </h6>
 
         <!-- Krótki opis (Ukryty na bardzo małych ekranach dla oszczędności miejsca) -->
