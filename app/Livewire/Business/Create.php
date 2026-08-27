@@ -28,7 +28,6 @@ class Create extends Component
         $this->validate();
 
         $business = Business::create([
-            'user_id' => Auth::id(),
             'name' => $this->name,
             'subdomain' => $this->subdomain,
             'description' => 'Default description for ' . $this->name
