@@ -71,6 +71,10 @@ class User extends Authenticatable implements MustVerifyEmail
             if (empty($user->referral_code)) {
                 $user->referral_code = $user->generateReferralCode();
             }
+
+            if ($user->welcome_bonus_received === null) {
+                $user->welcome_bonus_received = false;
+            }
         });
     }
 

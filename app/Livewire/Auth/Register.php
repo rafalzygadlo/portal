@@ -35,7 +35,6 @@ class Register extends Component
                 'password' => Hash::make($validatedData['password']),
                 'first_name' => Factory::create()->firstName,
                 'last_name' => Factory::create()->lastName,
-                'referral_code' => $validatedData['referral_code'] ?? null,
             ]);
 
             if (! empty($validatedData['referral_code'])) {

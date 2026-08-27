@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
+use App\Livewire\Auth\Register;
 
 class AuthenticationTest extends TestCase
 {
@@ -16,6 +18,25 @@ class AuthenticationTest extends TestCase
         $response = $this->get('/register');
 
         $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function test_registration_applies_referral_code_without_reusing_it(): void
+    {
+        $referrer = User::factory()->create(['referral_code' => 'ABC123']);
+
+        Livewire::test(Register::class)
+            ->set('email', 'new-user@example.com')
+            ->set('password', 'password')
+            ->set('password_confirmation', 'password')
+            ->set('referral_code', 'ABC123')
+            ->call('register')
+            ->assertRedirect(route('user.profile'));
+
+        $user = User::where('email', 'new-user@example.com')->firstOrFail();
+
+        $this->assertSame($referrer->id, $user->referred_by_user_id);
+        $this->assertNotSame('ABC123', $user->referral_code);
     }
 
     /** @test */
