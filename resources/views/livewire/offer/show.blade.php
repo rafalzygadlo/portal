@@ -92,6 +92,12 @@
                         </div>
                         <div class="mt-4 pt-3 border-top d-flex justify-content-center">
                             <livewire:favorite :model="$offer" :key="'favorite-offer-'.$offer->id" />
+                        @can('update', $offer)
+                            <a href="{{ route('offer.edit', $offer) }}" class="btn btn-outline-primary ms-2">
+                                <i class="bi bi-pencil me-1"></i> Edytuj
+                            </a>
+                        @endcan
+
                         </div>
                     </div>
                 </div>
