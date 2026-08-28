@@ -3,14 +3,9 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Offer;
-use App\Models\Article;
-use App\Models\Todo;
-use App\Models\Business;
-use App\Services\MainFeedService;
+use App\Models\Feed;
 
-
-use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 class Main extends Component
 {
     #[Url]
@@ -20,30 +15,47 @@ class Main extends Component
 
     public function loadMore()
     {
-        $this->perPage += 10;
-        //sleep(1); // Opcjonalnie, aby zasymulować opóźnienie ładowania
+        $this->perPage += 10;    
     }
-
-    public function mount()
-    {
-        // Sprawdzamy czy w sesji czeka modal do otwarcia (wywoływane po powrocie z logowania)
-        //if (session()->has('intended_modal')) {
-        //    $modal = session()->pull('intended_modal');
-        
-            // Wyzwalany zdarzenie otwarcia modala
-        //    $this->dispatch('openModal', $modal['component'], $modal['title']);
-        //}
-    }
-
 
     public function render()
     {
-        $feed = (new MainFeedService())->buildFeed($this->perPage, 6);
+        $promotedItems = Feed::query()
+            ->where('is_promoted', true)
+            ->inRandomOrder()
+            ->limit(6)
+            ->get();
 
+        $promotedIdsByType = $promotedItems->groupBy('type')
+            ->map(fn ($items) => $items->pluck('item_id')->all())
+            ->all();
+
+        $regularQuery = Feed::query()->where(function ($query) use ($promotedIdsByType) {
+            foreach (['article', 'todo', 'business', 'offer'] as $type) {
+                $query->orWhere(function ($query) use ($type, $promotedIdsByType) {
+                    $query->where('type', $type)
+                        ->when(isset($promotedIdsByType[$type]), fn ($query) => $query->whereNotIn('item_id', $promotedIdsByType[$type]));
+                });
+            }
+        });
+
+        $regularCount = (clone $regularQuery)->count();
+        $regularItems = $regularQuery
+            ->latest('created_at')
+            ->limit($this->perPage)
+            ->get()
+            ->map(fn (Feed $item) => ['type' => $item->type, 'data' => $item->item])
+            ->filter(fn ($item) => $item['data'] !== null)
+            ->values();
+
+        
         return view('livewire.main.index', [
-            'promotedItems' => $feed['promotedItems'],
-            'regularItems' => $feed['regularItems'],
-            'hasMore' => $feed['hasMore'],
+            'promotedItems' => $promotedItems
+                ->map(fn (Feed $item) => ['type' => $item->type, 'data' => $item->item])
+                ->filter(fn ($item) => $item['data'] !== null)
+                ->values(),
+            'regularItems' => $regularItems,
+            'hasMore' => $regularCount > $regularItems->count(),
         ]);
     }
 }

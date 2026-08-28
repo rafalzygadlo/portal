@@ -13,7 +13,12 @@
             <div class="row gx-3 gy-4">
                 @foreach ($promotedItems as $item)
                     <div class="col-12 col-md-6">
-                        @include('livewire.admin.business.dashboard', ['item' => $item['data'], 'isPromoted' => true])
+
+                       <a href="{{ route($item->type . '.show', $item->slug) }}" class="text-decoration-none text-dark stretched-link hover-primary line-clamp-2">
+                            {{ $item->title }}
+                            <i class="bi bi-chevron-right small opacity-50 ms-1"></i>
+                        </a>
+                       
                     </div>
                 @endforeach
             </div>
@@ -43,9 +48,9 @@
                 @endphp
 
                 <div class="{{ $colClass }}">
-                    @if (view()->exists($viewPath))
-                        @include('livewire.admin.business.dashboard', ['item' => $item['data'], 'isPromoted' => false])
-                    @endif
+                    {{ $item->title }}
+                    {{-- @include('livewire.feed.item', ['item' => $item, 'isPromoted' => false]) --}}
+                  {{--   @include('livewire.feed.item', ['item' => $item, 'isPromoted' => false]) --}} 
                 </div>
             @endforeach
         @endif

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Article;
 use App\Models\Business;
+use App\Models\Feed;
 use App\Models\Offer;
 use App\Models\Promotion;
 use App\Models\Todo;
@@ -43,37 +44,43 @@ class MainFeedService
 
     public function getRegularItems(array $promotedIdsByType, int $limit = 10): Collection
     {
-        $articles = Article::with(['categories', 'images'])
-            ->when(isset($promotedIdsByType['article']), fn ($query) => $query->whereNotIn('id', $promotedIdsByType['article']))
-            ->latest()
-            ->limit($limit)
-            ->get()
-            ->map(fn ($item) => ['type' => 'article', 'data' => $item]);
+        $modelConfig = [
+            'article' => [Article::class, ['categories', 'images']],
+            'todo' => [Todo::class, []],
+            'business' => [Business::class, ['categories']],
+            'offer' => [Offer::class, ['categories', 'images']],
+        ];
 
-        $todos = Todo::latest()
-            ->when(isset($promotedIdsByType['todo']), fn ($query) => $query->whereNotIn('id', $promotedIdsByType['todo']))
+        $feedItems = Feed::query()
+            ->where(function ($query) use ($promotedIdsByType) {
+                foreach (array_keys($promotedIdsByType + [
+                    'article' => [],
+                    'todo' => [],
+                    'business' => [],
+                    'offer' => [],
+                ]) as $type) {
+                    $query->orWhere(function ($query) use ($type, $promotedIdsByType) {
+                        $query->where('type', $type)
+                            ->when(isset($promotedIdsByType[$type]), fn ($query) => $query->whereNotIn('item_id', $promotedIdsByType[$type]));
+                    });
+                }
+            })
+            ->latest('created_at')
             ->limit($limit)
-            ->get()
-            ->map(fn ($item) => ['type' => 'todo', 'data' => $item]);
+            ->get();
 
-        $business = Business::with(['categories'])
-            ->when(isset($promotedIdsByType['business']), fn ($query) => $query->whereNotIn('id', $promotedIdsByType['business']))
-            ->latest()
-            ->limit($limit)
-            ->get()
-            ->map(fn ($item) => ['type' => 'business', 'data' => $item]);
+        $itemsByType = collect($modelConfig)->mapWithKeys(function (array $config, string $type) use ($feedItems) {
+            [$model, $relations] = $config;
+            $ids = $feedItems->where('type', $type)->pluck('item_id');
 
-        $offers = Offer::with(['categories', 'images'])
-            ->when(isset($promotedIdsByType['offer']), fn ($query) => $query->whereNotIn('id', $promotedIdsByType['offer']))
-            ->latest()
-            ->limit($limit)
-            ->get()
-            ->map(fn ($item) => ['type' => 'offer', 'data' => $item]);
+            return [$type => $model::with($relations)->whereIn('id', $ids)->get()->keyBy('id')];
+        });
 
-        return $articles->concat($todos)->concat($business)->concat($offers)
-            ->sortByDesc('data.created_at')
-            ->unique(fn ($item) => $item['type'] . '-' . $item['data']->id)
-            ->take($limit);
+        return $feedItems->map(function (Feed $feedItem) use ($itemsByType) {
+            $item = $itemsByType[$feedItem->type]->get($feedItem->item_id);
+
+            return $item ? ['type' => $feedItem->type, 'data' => $item] : null;
+        })->filter()->values();
     }
 
     public function countRegularItems(array $promotedIdsByType): int

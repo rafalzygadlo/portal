@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Feed;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -58,7 +59,7 @@ use Illuminate\Support\Str;
     });
 
 
-    Route::get('/',App\Livewire\Main::class)->name('main.index');
+    Route::get('/',App\Livewire\Feed\Index::class)->name('feed.index');
 
     // Article routes
     if(config('modules.article'))
