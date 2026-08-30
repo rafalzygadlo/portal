@@ -29,8 +29,6 @@ class Create extends Component
     
     public function mount()
     {
-        //dd($business);
-        //$this->business = $business;
         $this->editingService = null;
     }
 
@@ -42,22 +40,27 @@ class Create extends Component
     
     public function openServiceModal($serviceId = null)
     {
+    
         $this->open = true;
 
-        if ($serviceId) {
+        if ($serviceId) 
+        {
             $serviceModel = Service::find($serviceId);
         } else {
             $serviceModel = null;
         }
 
-        if ($serviceModel) {
+        if ($serviceModel) 
+        {
             $this->editingService = $serviceModel;
             $this->name = $serviceModel->name;
             $this->description = $serviceModel->description;
             $this->duration = $serviceModel->duration;
             $this->price = $serviceModel->price;
             $this->buffer = $serviceModel->buffer;
-        } else {
+        } 
+        else 
+        {
             $this->editingService = null;
             $this->reset('name', 'description', 'duration', 'price', 'buffer');
         }
@@ -104,12 +107,9 @@ class Create extends Component
 
     public function render()
     {   
-        $html = view('livewire.admin.business.service.create', [
+        return  view('livewire.admin.business.service.create', [
             'open' => $this->open
         ]);
 
-        //print $html;
-        //print $html->render();
-        return $html;
     }
 }

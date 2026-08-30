@@ -40,6 +40,7 @@ use Illuminate\Support\Str;
     {
         // Dashboard routes
         Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('admin.business.dashboard');
+        Route::get('/subscription', \App\Livewire\Admin\Business\Subscription::class)->name('admin.business.subscription');
         
         // Services routes
         Route::get('/services', \App\Livewire\Admin\Business\Service\Index::class)->name('admin.business.services.index');

@@ -13,7 +13,7 @@ class Create extends Component
     public string $name = '';
     public string $type = 'person';
 
-    public bool $open = true;
+    public bool $open = false;
     
     protected $listeners = 
     [
@@ -22,13 +22,11 @@ class Create extends Component
         'saveResource'
     ];
 
-    public function mount($business)
-    {
-        //$this->business = $business;
-    }
 
-    public function openResourceModal()
+
+    public function openResourceModal($id = null)
     {
+        dd($id);
         $this->open = true;
     }
 

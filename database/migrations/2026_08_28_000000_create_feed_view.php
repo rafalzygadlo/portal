@@ -7,6 +7,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+        DB::statement('DROP VIEW feed');
         DB::statement(<<<'SQL'
             CREATE VIEW feed AS
             SELECT
@@ -95,6 +96,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        DB::statement('DROP VIEW IF EXISTS feed');
+        DB::statement('DROP VIEW feed');
     }
 };

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('duration'); // duration
             $table->integer('buffer')->default(0); // buffer time between reservations
             $table->boolean('is_active')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

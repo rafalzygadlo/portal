@@ -11,12 +11,14 @@ use App\Models\Comment;
 use App\Traits\Voteable;
 use App\Traits\Favoritable;
 use App\Models\Image;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
     use HasFactory;
     use Voteable;
     use Favoritable;
+    use SoftDeletes;
 
         protected $fillable = [
 

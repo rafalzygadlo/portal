@@ -7,11 +7,10 @@ use Livewire\Component;
 
 class Index extends Component
 {
-
     public Business $business;
-    
-    protected $listeners = 
-    [
+    public bool $showDeleted = false;
+
+    protected $listeners = [
         'serviceCreated' => '$refresh',
     ];
 
@@ -19,12 +18,59 @@ class Index extends Component
     {
         $this->business = $business;
     }
-    
+
+    public function toggleDeletedView()
+    {
+        $this->showDeleted = ! $this->showDeleted;
+    }
+
+    public function deleteService($serviceId)
+    {
+        $service = $this->business->services()->withoutTrashed()->find($serviceId);
+
+        if (! $service) {
+            session()->flash('error', 'Service not found.');
+            return;
+        }
+
+        $service->delete();
+        session()->flash('success', 'Service has been deleted.');
+    }
+
+    public function restoreService($serviceId)
+    {
+        $service = $this->business->services()->withTrashed()->find($serviceId);
+
+        if (! $service || ! $service->trashed()) {
+            session()->flash('error', 'Deleted service not found.');
+            return;
+        }
+
+        $service->restore();
+        session()->flash('success', 'Service has been restored.');
+    }
+
+    public function forceDeleteService($serviceId)
+    {
+        $service = $this->business->services()->withTrashed()->find($serviceId);
+
+        if (! $service) {
+            session()->flash('error', 'Service not found.');
+            return;
+        }
+
+        $service->forceDelete();
+        session()->flash('success', 'Service has been permanently deleted.');
+    }
+
     public function render()
     {
+        $services = $this->showDeleted
+            ? $this->business->services()->onlyTrashed()->latest()->get()
+            : $this->business->services()->latest()->get();
 
         return view('livewire.admin.business.service.index', [
-            'services' => $this->business->services()->get(),
+            'services' => $services,
         ])->layout('layouts.admin', ['business' => $this->business]);
     }
 }

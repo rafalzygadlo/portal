@@ -14,7 +14,7 @@
                 @foreach ($promotedItems as $item)
                     <div class="col-12 col-md-6">
 
-                       <a href="{{ route($item->type . '.show', $item->slug) }}" class="text-decoration-none text-dark stretched-link hover-primary line-clamp-2">
+                       <a href="{{ route($item->type . '.show', $item->slug) }}" class="text-decoration-none text-dark hover-primary line-clamp-2">
                             {{ $item->title }}
                             <i class="bi bi-chevron-right small opacity-50 ms-1"></i>
                         </a>
@@ -48,7 +48,11 @@
                 @endphp
 
                 <div class="{{ $colClass }}">
-                    {{ $item->title }}
+                    
+                     <a href="{{ route($item->type . '.show', $item->slug) }}" class="text-decoration-none text-dark hover-primary line-clamp-2">
+                            {{ $item->title }}
+                            <i class="bi bi-chevron-right small opacity-50 ms-1"></i>
+                        </a>
                     {{-- @include('livewire.feed.item', ['item' => $item, 'isPromoted' => false]) --}}
                   {{--   @include('livewire.feed.item', ['item' => $item, 'isPromoted' => false]) --}} 
                 </div>

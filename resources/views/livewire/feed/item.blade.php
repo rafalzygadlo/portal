@@ -7,8 +7,7 @@
         </span>
     @endif
 
-    <a href="{{ route($item->type . '.show', $item->slug) }}" class="position-relative d-block flex-shrink-0 bg-light overflow-hidden"
-        style="min-height: 110px; max-height: 100%; height: auto; lg-height: 180px;">
+    <a href="{{ route($item->type . '.show', $item->slug) }}" class1="d-block flex-shrink-0 bg-light">
         
             @if($images->isNotEmpty())
                 <img loading="lazy" src="{{ asset('storage/' . $images->skip(0)->first()->path) }}"

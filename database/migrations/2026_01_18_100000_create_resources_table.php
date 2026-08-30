@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('type'); // e.g., 'person', 'facility', 'equipment'
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->boolean('is_active')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
