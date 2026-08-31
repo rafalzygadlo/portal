@@ -22,11 +22,8 @@ class Create extends Component
         'saveResource'
     ];
 
-
-
     public function openResourceModal($id = null)
     {
-        dd($id);
         $this->open = true;
     }
 
@@ -38,6 +35,7 @@ class Create extends Component
 
     public function save()
     {
+        $this->authorize('create', $this->business);
         $this->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|in:person,facility,equipment'
