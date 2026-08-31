@@ -20,6 +20,8 @@
     <env name="DOMAIN_NAME" value="localhost"/>
     <env name="SESSION_DOMAIN" value=".localhost"/>
     <env name="TELESCOPE_ENABLED" value="false"/>
+    <env name="WITH_ARTICLE" value="true"/>
+    <env name="WITH_POLL" value="true"/>
   </php>
   <source>
     <include>

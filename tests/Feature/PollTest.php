@@ -13,20 +13,27 @@ class PollTest extends TestCase
     /** @test */
     public function test_it_can_view_polls_index_page()
     {
+        if (!config('modules_poll')) {    
+            $this->markTestSkipped('Nie uruchamiamy testu, ponieważ moduł Poll jest wyłączony w konfiguracji.');
+        }
+
         Poll::factory(3)->create();
+            $response = $this->get('/polls');
+            $response->assertStatus(200);
         
-        $response = $this->get('/polls');
-        
-        $response->assertStatus(200);
     }
 
     /** @test */
     public function test_it_can_view_poll_show_page()
     {
+        if (!config('modules_poll')) {
+            $this->markTestSkipped('Nie uruchamiamy testu, ponieważ moduł Poll jest wyłączony w konfiguracji.');
+        }
+
         $poll = Poll::factory()->create();
-        
+
         $response = $this->get("/polls/{$poll->id}");
-        
+
         $response->assertStatus(200);
     }
 }

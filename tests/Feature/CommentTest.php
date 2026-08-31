@@ -30,7 +30,7 @@ class CommentTest extends TestCase
         $this->assertDatabaseHas('comments', [
             'id' => $comment->id,
             'commentable_id' => $article->id,
-            'commentable_type' => "article", 
+            'commentable_type' => "App\\Models\\Article", 
         ]);
     }
 
@@ -57,14 +57,14 @@ class CommentTest extends TestCase
         $parentComment = Comment::factory()->create([
             'user_id' => $user->id,
             'commentable_id' => $article->id,
-            'commentable_type' => Article::class,
+            'commentable_type' => "App\\Models\\Article",
         ]);
 
         $reply = Comment::factory()->create([
             'parent_id' => $parentComment->id,
             'user_id' => $user->id,
             'commentable_id' => $article->id,
-            'commentable_type' => Article::class,
+            'commentable_type' => "App\\Models\\Article",
         ]);
 
         $this->assertEquals($parentComment->id, $reply->parent_id);
