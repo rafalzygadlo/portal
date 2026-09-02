@@ -31,8 +31,8 @@
     <div class="card-body p-3 p-lg-4 d-flex flex-column col-8 col-lg-12">
         <!-- Tytuł -->
         <h6 class="card-title fw-bold mb-1 mb-lg-2 flex-grow-0">
-            <a href="{{ route($item->type . '.show', $item->slug) }}" class="text-decoration-none text-dark stretched-link hover-primary line-clamp-2">
-                {{ $data->title }}
+            <a href="{{ route1($item->type . '.show', $item->slug) }}" class="text-decoration-none text-dark stretched-link hover-primary line-clamp-2">
+                {{ $item->title }}
                 <i class="bi bi-chevron-right small opacity-50 ms-1"></i>
             </a>
         </h6>
@@ -46,7 +46,7 @@
             </small>
         </div>
         <div class="mt-2 d-flex justify-content-end">
-            <livewire:favorite :model="$data" :key="'favorite-feed-'.$item->type.'-'.$item->item_id" />
+            <livewire:favorite :model="$item" :key="'favorite-feed-'.$item->type.'-'.$item->item_id" />
         </div>
     </div>
 

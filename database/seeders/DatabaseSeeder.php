@@ -30,9 +30,10 @@ class DatabaseSeeder extends Seeder
         $users = \App\Models\User::all();
         
         
-        // Create Articles
-        $this->call(ArticleSeeder::class);
-        $this->seedVotesForModel(Article::class, $users, 'Articles');
+        if(config('modules.article')) {
+            $this->call(ArticleSeeder::class);
+            $this->seedVotesForModel(Article::class, $users, 'Articles');
+        }
         
         // Create Offers        
         $this->call(OfferSeeder::class);

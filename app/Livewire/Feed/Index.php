@@ -22,26 +22,26 @@ class Index extends Component
     {
         $promotedItems = Feed::query()
             ->where('is_promoted', true)
-            ->when(! config('modules.article'), fn ($query) => $query->where('type', '!=', 'article'))
             ->inRandomOrder()
-            ->limit(6)
+            ->limit(9)
             ->get()
-            ->filter(fn (Feed $item) => $item->item !== null)
             ->values();
 
-        $items = Feed::query()->
-        when(! config('modules.article'), fn ($query) => $query->where('type', '!=', 'article'))
-        ->orderBy('created_at', 'desc')
-        ->limit($this->perPage)
-        ->get()
-        ->filter(fn (Feed $item) => $item->item !== null)
-        ->values();
+        $items = Feed::query()
+            ->orderBy('created_at', 'desc')
+            ->limit($this->perPage + 1)
+            ->get()
+            ->values();
+
+        $this->hasMore = $items->count() > $this->perPage;
+        $items = $items->take($this->perPage)->values();
   
 
         return view('livewire.feed.index', [
             'promotedItems' => $promotedItems,
             'regularItems' => $items,
-            'hasMore' => true,
+            'hasMore' => $this->hasMore,
+            'countAll' => Feed::count(),
         ]);
     }
 }
