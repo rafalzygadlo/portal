@@ -4,11 +4,12 @@ namespace App\Livewire\Feed;
 
 use Livewire\Component;
 use App\Models\Feed;
+use Livewire\Attributes\Session;
 
 use Livewire\Attributes\Url;
 class Index extends Component
 {
-    #[Url]
+    #[Session('perPage')]
     public $perPage = 10; 
 
     public $hasMore = true; 

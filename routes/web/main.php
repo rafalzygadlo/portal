@@ -79,7 +79,7 @@ use Illuminate\Support\Str;
     Route::get('/todo/{todo:slug}', App\Livewire\Todo\Show::class)->name('todo.show');
 
     // Offers
-    Route::get('/offers/{categorySlug?}', \App\Livewire\Offer\Index::class)->name('offers.index');
+    Route::get('/offers', \App\Livewire\Offer\Index::class)->name('offers.index');
     Route::get('/offer/{offer:slug}', \App\Livewire\Offer\Show::class)->name('offer.show');
 
     // Polls

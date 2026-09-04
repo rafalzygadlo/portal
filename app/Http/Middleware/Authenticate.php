@@ -16,6 +16,10 @@ class Authenticate extends Middleware
             return null;
         }
 
-        return route('login');
+        $business = $request->route('business');
+
+        return $business
+            ? route('login.subdomain', ['business' => $business])
+            : route('login');
     }
 }

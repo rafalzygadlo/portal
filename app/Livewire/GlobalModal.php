@@ -17,17 +17,25 @@ class GlobalModal extends Component
     #[On('authChanged')]
     public function authChanged()
     {
-        dd("authChanged event received in GlobalModal");
-        dd($this->view);
+        $intendedModal = session()->pull('intended_modal');
+
+        if (!$intendedModal) {
+            return;
+        }
+
+        $this->view = $intendedModal['component'];
+        $this->title = $intendedModal['title'] ?? '';
+        $this->params = $intendedModal['params'] ?? [];
+        $this->isOpen = true;
     }
 
     #[On('openModal')]
-    public function open($view, $title = '', $auth = true, $params = [])
+    public function open($view, $title = '', $auth = true, $modalParams = [])
     {
         
         $this->view = $view;
         $this->title = $title;
-        $this->params = $params;
+        $this->params = $modalParams;
         $this->isOpen = true;
 
 
@@ -38,7 +46,7 @@ class GlobalModal extends Component
             session()->put('intended_modal', [
                 'component' => $view,
                 'title' => $title,
-                'params' => $params,
+                'params' => $modalParams,
             ]);
 
             return;
@@ -51,7 +59,7 @@ class GlobalModal extends Component
             session()->put('intended_modal', [
                 'component' => $view,
                 'title' => $title,
-                'params' => $params,
+                'params' => $modalParams,
             ]);
         }
     }

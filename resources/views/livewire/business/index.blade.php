@@ -20,7 +20,7 @@
     @endif
 
     <!-- NOWOCZESNY, MINIMALISTYCZNY BREADCRUMB (Bez tła, czysta przestrzeń) -->
-    <livewire:breadcrumb route="business.index" :category="$currentCategory" :key="'bc-'.$categorySlug" />
+    <livewire:breadcrumb selectEvent="business-category-selected" :category="$currentCategory" :key="'bc-'.$categorySlug" />
 
     <!-- Pole wyszukiwania -->
     <div class="my-4">
@@ -31,17 +31,24 @@
     </div>
 
 
-    <div class="rounded-1 bg-light">
-        <div class="col-lg-12 col-xl-12 mb-4">
-            <div class="card border-0 rounded-4 shadow-sm bg-white sticky-top">
-                <div class="card-header bg-white border-0 pt-4 px-4 pb-2 fw-bold text-dark d-flex align-items-center gap-2" style="font-size: 1.05rem;">
-                    <i class="bi bi-folder2-open text-primary"></i> Categories
+    <div class="row g-4 align-items-start">
+        <aside class="col-12">
+            <details class="border-bottom border-top py-3" open>
+                <summary class="d-flex align-items-center justify-content-between gap-2 fw-bold text-dark" style="cursor: pointer; list-style: none;">
+                    <span class="d-flex align-items-center gap-2">
+                        <i class="bi bi-folder2-open text-primary"></i>
+                        Filtr kategorii
+                    </span>
+                    <span class="d-flex align-items-center gap-2 text-muted small">
+                        <span class="d-none d-sm-inline">Zwiń</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </span>
+                </summary>
+                <div class="pt-3">
+                    <livewire:category-bar orientation="horizontal" selectEvent="business-category-selected" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
                 </div>
-                <div class="card-body px-4 pb-4 pt-2">
-                    <livewire:category-bar route="business.index" :categorySlug="$categorySlug" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
-                </div>
-            </div>
-        </div>
+            </details>
+        </aside>
 
     <div class="row g-3 g-md-4">
         @forelse ($businesses as $business)

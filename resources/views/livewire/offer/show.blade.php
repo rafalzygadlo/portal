@@ -4,7 +4,7 @@
             <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('offers.index') }}" class="text-decoration-none">Offers</a></li>
             @foreach($this->breadcrumb as $cat)
-                <li class="breadcrumb-item"><a href="{{ route('offers.index', $cat->slug) }}" class="text-decoration-none">{{ $cat->name }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('offers.index') }}" class="text-decoration-none">{{ $cat->name }}</a></li>
             @endforeach
             <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($offer->title, 40) }}</li>
         </ol>
@@ -71,7 +71,7 @@
                                      @if($offer->categories->isNotEmpty())
                                     <div class="mb-2 d-flex flex-wrap gap-1">
                                         @foreach($offer->categories as $category)
-                                            <a href="{{ route('offers.index', $category->slug) }}" class="text-decoration-none">
+                                            <a href="{{ route('offers.index') }}" class="text-decoration-none">
                                                 <span class="badge bg-primary-subtle text-primary border-0 rounded-pill px-2.5 py-1" style="font-size: 0.75rem; fw-semibold;">{{ $category->name }}</span>
                                             </a>
                                         @endforeach

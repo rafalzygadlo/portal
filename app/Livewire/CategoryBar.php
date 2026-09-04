@@ -7,27 +7,16 @@ use App\Models\Category;
 
 class CategoryBar extends Component
 {
-    public $categorySlug;
+
     public $currentCategory;
-    public $modelClass; // Pełna nazwa klasy modelu, np. \App\Models\Offer
 
-    public $route; // Nazwa trasy do generowania linków, np. 'offers.index'
+    public string $selectEvent;
+    public string $orientation = 'vertical';
 
-    public function mount($route = null, $categorySlug = null, $currentCategory = null, $modelClass = null)
-    {
-        $this->route = $route;
-        $this->categorySlug = $categorySlug;
-        $this->currentCategory = $currentCategory;
-        $this->modelClass = $modelClass;
-    }
 
     public function render()
     {
         $categories = $this->getSidebarCategories();
-        
-        if ($this->modelClass) {
-            $this->attachRecursiveCounts($categories);
-        }
 
         return view('livewire.category-bar', [
             'categories' => $categories
@@ -36,6 +25,7 @@ class CategoryBar extends Component
 
     private function getSidebarCategories()
     {
+
         if (!$this->currentCategory) {
             return Category::whereNull('parent_id')->withCount('children')->get();
         }
@@ -47,11 +37,5 @@ class CategoryBar extends Component
             : Category::where('parent_id', $this->currentCategory->parent_id)->withCount('children')->get();
     }
 
-    private function attachRecursiveCounts($categories)
-    {
-        foreach ($categories as $item) {
-            $allChildIds = Category::getAllChildrenIds($item->id);
-            $item->recursive_count = $this->modelClass::whereHas('categories', fn($q) => $q->whereIn('categories.id', $allChildIds))->count();
-        }
-    }
+
 }

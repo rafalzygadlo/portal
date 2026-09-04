@@ -40,10 +40,10 @@ class Promote extends Component
     public function openPromoteForm()
     {
         
-        $this->dispatch('openModal', 
-                view: 'promote-form', 
-                title: 'Promuj swoją treść', 
-                params: [
+        $this->dispatch('openModal',
+            view: 'promote-form',
+            title: 'Promuj swoją treść',
+                modalParams: [
                     'modelId' => $this->model->id, 
                     'modelClass' => get_class($this->model)
                     ]);

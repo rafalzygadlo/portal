@@ -10,11 +10,11 @@ class Breadcrumb extends Component
 {
     public $category;
     public $path = [];
-    public $route;
+    public string $selectEvent;
 
-    public function mount($route, $category = null)
+    public function mount($selectEvent, $category = null)
     {
-        $this->route = $route;
+        $this->selectEvent = $selectEvent;
         if ($category) {
             $this->path = $category->getBreadcrumbs()->all();
         }

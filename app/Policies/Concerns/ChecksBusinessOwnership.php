@@ -13,6 +13,10 @@ trait ChecksBusinessOwnership
             return false;
         }
 
+        if ((int) $business->user_id === (int) $user->id) {
+            return true;
+        }
+
         if ($business->relationLoaded('owners')) {
             return $business->owners->contains(fn (User $owner) => (int) $owner->id === (int) $user->id);
         }

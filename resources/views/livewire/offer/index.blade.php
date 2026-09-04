@@ -15,110 +15,72 @@
     @endif
 
     <!-- NOWOCZESNY, MINIMALISTYCZNY BREADCRUMB (Bez tła, czysta przestrzeń) -->
-    <livewire:breadcrumb route="offers.index" :category="$currentCategory" :key="'bc-'.$categorySlug" />
+    <livewire:breadcrumb selectEvent="offer-category-selected" :category="$currentCategory" :key="'bc-'.$categorySlug" />
 
-
-    <!-- GŁÓWNY UKŁAD: SIDEBAR + SIATKA -->
-    <div class="row g-4">
-        {{-- Nowoczesny Sidebar z Kategoriami --}}
-        <div class="col-lg-12 col-xl-12 mb-4">
-            <div class="card border-0 rounded-4 shadow-sm bg-white sticky-top">
-                <div class="card-header bg-white border-0 pt-4 px-4 pb-2 fw-bold text-dark d-flex align-items-center gap-2" style="font-size: 1.05rem;">
-                    <i class="bi bi-folder2-open text-primary"></i> Categories
+    <div class="row g-4 align-items-start">
+        <aside class="col-12">
+            <details class="border-bottom border-top py-3" open>
+                <summary class="d-flex align-items-center justify-content-between gap-2 fw-bold text-dark" style="cursor: pointer; list-style: none;">
+                    <span class="d-flex align-items-center gap-2">
+                        <i class="bi bi-folder2-open text-primary"></i>
+                        Filtr kategorii
+                    </span>
+                    <span class="d-flex align-items-center gap-2 text-muted small">
+                        <span class="d-none d-sm-inline">Zwiń</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </span>
+                </summary>
+                <div class="pt-3">
+                    <livewire:category-bar orientation="horizontal" selectEvent="offer-category-selected" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
                 </div>
-                <div class="card-body px-4 pb-4 pt-2">
-                    <livewire:category-bar route="offers.index" :categorySlug="$categorySlug" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
-                </div>
-            </div>
-        </div>
+            </details>
+        </aside>
 
-        {{-- Główna Treść (Siatka Ofert) --}}
-        <div class="col-lg-12 col-xl-12">
-            <div class="row g-4">
+        {{-- Główna treść ofert w układzie listy --}}
+        <div class="col-12">
+            <div class="border-top">
                 @forelse ($offers as $offer)
-                    <!-- KARTA OFERTY: Zmieniono z col-md-3 na col-md-6 col-xl-4 dla lepszej czytelności tekstu -->
-                    <div class="col-12 col-sm-6 col-md-6 col-xl-3 fade-in-card" wire:key="offer-{{ $offer->id }}" >
-                           <div class="card h-100 border-0 rounded-4 bg-white shadow-sm transition-hover d-flex flex-column overflow-hidden">
-                            
-                            {{-- Oznaczenie promowanej oferty --}}
-                            @if($offer->isPromoted())
-                                <div class="position-absolute top-0 end-0 m-2" style="z-index: 10;">
-                                    <span class="badge bg-warning text-dark shadow-sm"><i class="bi bi-star-fill me-1"></i> Promowane</span>
-                                </div>
+                    <article class="d-flex align-items-center gap-3 gap-md-4 py-3 border-bottom" wire:key="offer-{{ $offer->id }}">
+                        <a href="{{ route('offer.show', $offer) }}" class="d-flex align-items-center justify-content-center flex-shrink-0 bg-light overflow-hidden" style="width: 5.5rem; height: 4.5rem;">
+                            @if($offer->images->isNotEmpty())
+                                <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="w-100 h-100 object-fit-cover" alt="{{ $offer->title }}">
+                            @else
+                                <i class="bi bi-tag text-muted fs-3"></i>
                             @endif
-                            <!-- Zdjęcie Oferty -->
-                            <div class="position-relative overflow-hidden flex-shrink-0">
-                                @if($offer->images->isNotEmpty())
-                                    <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->path) }}" class="w-100 img-fluid transition-zoom" alt="{{ $offer->title }}" style="height: 200px; object-fit: cover;">
-                                @else
-                                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                        <i class="bi bi-tag text-muted opacity-40" style="font-size: 2.5rem;"></i>
-                                    </div>
-                                @endif
-                            </div>
+                        </a>
 
-                            <!-- Treść Karty -->
-                            <div class="card-body p-4 d-flex flex-column flex-grow-1">
-                                
-                                <!-- Kategorie (Tagi) przeniesione na górę treści – ułatwia skanowanie wzrokiem -->
+                        <div class="flex-grow-1 min-width-0">
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                @if($offer->isPromoted())
+                                    <span class="badge bg-warning-subtle text-warning border border-warning"><i class="bi bi-star-fill me-1"></i> Promowane</span>
+                                @endif
                                 @if($offer->categories->isNotEmpty())
-                                    <div class="mb-2 d-flex flex-wrap gap-1">
-                                        @foreach($offer->categories as $category)
-                                            <a href="{{ route('offers.index', $category->slug) }}" class="text-decoration-none">
-                                                <span class="badge bg-primary-subtle text-primary border-0 rounded-pill px-2.5 py-1" style="font-size: 0.75rem; fw-semibold;">{{ $category->name }}</span>
-                                            </a>
-                                        @endforeach
-                                    </div>
+                                    <span class="text-muted small">{{ $offer->categories->pluck('name')->join(', ') }}</span>
                                 @endif
-
-                                <!-- Tytuł oferty -->
-                                <h3 class="fs-5 fw-bold mb-2 tracking-tight">
-                                    <a href="{{ route('offer.show', $offer) }}" class="text-decoration-none text-dark text-hover-primary stretched-link">
-                                        {{ Str::limit($offer->title, 50) }}
-                                    </a>
-                                </h3>
-
-                                <!-- Czas relatywny (np. 2 hours ago) -->
-                                <div class="text-muted small mb-3 d-flex align-items-center gap-1" style="font-size: 0.8rem; opacity: 0.8;">
-                                    <i class="bi bi-clock-history"></i> {{ $offer->created_at->diffForHumans() }}
-                                </div>
-
-                                <!-- Opis oferty -->
-                                 {{--
-                                <p class="card-text text-muted flex-grow-1 mb-4" style="font-size: 0.9rem; line-height: 1.5; opacity: 0.85;">
-                                    {!! nl2br(strip_tags(Str::limit($offer->content, 110), '<a>')) !!}
-                                </p>
-                                --}}
-                                
-                                <div class="price">
-                                    <strong>Cena: {{ number_format($offer->price, 2) }} PLN</strong>
-                                </div>
-                                
-                                <!-- Przyciski Aktywności (Komentarze + Polubienia) -->
-                                <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto" style="border-color: #f1f3f5 !important;">
-                                    
-                                    <!-- Data w pełnym formacie po lewej (Dyskretna) -->
-                                    <div class="text-muted small d-flex align-items-center gap-1" style="font-size: 0.75rem;">
-                                        <i class="bi bi-calendar3"></i> {{ $offer->created_at->translatedFormat('d M Y') }}
-                                    </div>
-
-                                    <div class="d-flex gap-2">
-                                        <livewire:promote :model="$offer" :key="'promote-offer-'.$offer->id" />
-                                        <livewire:favorite :model="$offer" :key="'favorite-offer-list-'.$offer->id" />
-                                    </div>
-                                    
-                                </div>
-
+                            </div>
+                            <h3 class="h6 fw-bold mb-1 text-truncate">
+                                <a href="{{ route('offer.show', $offer) }}" class="text-decoration-none text-dark hover-primary">{{ Str::limit($offer->title, 70) }}</a>
+                            </h3>
+                            <div class="d-flex flex-wrap align-items-center gap-2 text-muted small">
+                                <strong class="text-dark">{{ number_format($offer->price, 2) }} PLN</strong>
+                                <span aria-hidden="true">·</span>
+                                <time datetime="{{ $offer->created_at->toIso8601String() }}">{{ $offer->created_at->diffForHumans() }}</time>
                             </div>
                         </div>
-                    </div>
-                @empty
-                    <div class="col-12">
-                        <div class="text-center py-5 bg-light rounded-4 border border-dashed">
-                            <i class="bi bi-inbox display-4 d-block mb-3 text-muted" style="opacity: 0.6;"></i>
-                            <h5 class="fw-semibold text-dark">No offers available</h5>
-                            <p class="text-muted small mb-0">Check back later or browse other categories.</p>
+
+                        <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                            <livewire:promote :model="$offer" :key="'promote-offer-'.$offer->id" />
+                            <livewire:favorite :model="$offer" :key="'favorite-offer-list-'.$offer->id" />
+                            <a href="{{ route('offer.show', $offer) }}" class="btn btn-sm btn-light rounded-circle d-none d-sm-inline-flex align-items-center justify-content-center" aria-label="Otwórz ofertę">
+                                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                            </a>
                         </div>
+                    </article>
+                @empty
+                    <div class="text-center py-5 border-bottom">
+                        <i class="bi bi-inbox display-6 d-block mb-3 text-muted"></i>
+                        <h5 class="fw-semibold text-dark">No offers available</h5>
+                        <p class="text-muted small mb-0">Check back later or browse other categories.</p>
                     </div>
                 @endforelse
             </div>

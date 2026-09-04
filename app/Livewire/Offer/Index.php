@@ -11,25 +11,29 @@ use Illuminate\Http\Request;
 class Index extends Component
 {
     use WithPagination;
-    //protected $paginationTheme = 'bootstrap';
 
     public $categorySlug = null;
-    public $currentCategory = null;
     public $perPage = 10;
+
+    protected $listeners = [
+        'offer-category-selected' => 'selectCategory',
+    ];
 
     public function loadMore()
     {
         $this->perPage += 10;
     }
 
-    public function mount($categorySlug = null)
+    public function selectCategory($slug = null)
     {
-        $this->categorySlug = $categorySlug;
+        $this->categorySlug = $slug;
+        $this->resetPage();
     }
 
-    private function getOffersQuery()
+
+    private function getQuery(?Category $currentCategory)
     {
-        $targetIds = $this->currentCategory ? Category::getAllChildrenIds($this->currentCategory->id) : [];
+        $targetIds = $currentCategory ? Category::getAllChildrenIds($currentCategory->id) : [];
 
         return Offer::with(['user', 'categories', 'images'])
             ->when($this->categorySlug, fn($q) => $q->whereHas('categories', fn($query) => $query->whereIn('categories.id', $targetIds)))
@@ -38,12 +42,13 @@ class Index extends Component
 
     public function render()
     {
-        $this->currentCategory = $this->categorySlug 
+        $currentCategory = $this->categorySlug
             ? Category::where('slug', $this->categorySlug)->first() 
             : null;
 
         return view('livewire.offer.index', [
-            'offers' => $this->getOffersQuery()->paginate($this->perPage),
+            'currentCategory' => $currentCategory,
+            'offers' => $this->getQuery($currentCategory)->paginate($this->perPage),
         ]);
     }
 

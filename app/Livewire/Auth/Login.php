@@ -53,7 +53,9 @@ class Login extends Component
         $request->session()->regenerateToken();
 
 
-        return redirect()->to($request->headers->get('referer'));
+        $fallbackUrl = $request->getSchemeAndHttpHost() . '/';
+
+        return redirect()->to($request->headers->get('referer') ?: $fallbackUrl);
     }
 
     public function render()
