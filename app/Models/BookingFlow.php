@@ -18,7 +18,7 @@ class BookingFlow extends Model
 
     protected $fillable = [
         'id',
-        'business_id',
+        'company_id',
         'status',
         'data',
         'expires_at',
@@ -29,8 +29,8 @@ class BookingFlow extends Model
         'expires_at' => 'datetime',
     ];
 
-    public function business()
+    public function company()
     {
-        return $this->belongsTo(Business::class);
+        return $this->belongsTo(Company::class);
     }
 }

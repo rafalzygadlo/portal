@@ -13,7 +13,7 @@ class Reservation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'business_id',
+        'company_id',
         'service_id',
         'resource_id',
         'user_id',
@@ -32,11 +32,11 @@ class Reservation extends Model
     ];
 
     /**
-     * Business to which the reservation belongs.
+     * Company to which the reservation belongs.
      */
-    public function business(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Business::class);
+        return $this->belongsTo(Company::class);
     }
 
     /**
@@ -68,7 +68,7 @@ class Reservation extends Model
      * Check slot availability.
      */
     public static function isTimeSlotAvailable(
-        int $businessId,
+        int $companyId,
         int $serviceId,
         string $startTime,
         string $endTime,
@@ -79,7 +79,7 @@ class Reservation extends Model
             return false;
         }
 
-        $query = self::where('business_id', $businessId)
+        $query = self::where('company_id', $companyId)
             ->where('service_id', $serviceId)
             ->where('status', '!=', 'cancelled')
             ->where(function ($q) use ($startTime, $endTime) {

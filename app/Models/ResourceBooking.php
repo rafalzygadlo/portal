@@ -11,7 +11,7 @@ class ResourceBooking extends Model
     use HasFactory;
 
     protected $fillable = [
-        'business_id',
+        'company_id',
         'resource_id',
         'resource_ids',
         'user_id',
@@ -31,9 +31,9 @@ class ResourceBooking extends Model
         'total_price' => 'decimal:2',
     ];
 
-    public function business(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Business::class);
+        return $this->belongsTo(Company::class);
     }
 
     public function resource(): BelongsTo

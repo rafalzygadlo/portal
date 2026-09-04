@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * DEPRECATED - Booking module temporarily disabled
+ * This component is part of the booking system that is not being developed in the current iteration.
+ * DO NOT USE - Routes for this component are commented out in routes/web.php
+ */
+
+namespace App\Livewire\Company\Booking;
+
+use App\Models\ReservationService;
+use Livewire\Component;
+use Carbon\Carbon;
+
+class Step4 extends Component
+{
+    public ?ReservationService $selectedService;
+    public string $selectedDate;
+    public string $selectedTime;
+    public string $clientName;
+    public string $clientEmail;
+
+    public function mount(?ReservationService $selectedService, string $selectedDate, string $selectedTime, string $clientName, string $clientEmail)
+    {
+        $this->selectedService = $selectedService;
+        $this->selectedDate = $selectedDate;
+        $this->selectedTime = $selectedTime;
+        $this->clientName = $clientName;
+        $this->clientEmail = $clientEmail;
+    }
+
+    public function render()
+    {
+        return view('livewire.company.booking.step4');
+    }
+}

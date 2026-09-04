@@ -13,7 +13,7 @@
             <div class="row gx-3 gy-4">
                 @foreach ($promotedItems as $item)
                     <div class="col-12 col-md-6">
-                        @include('livewire.admin.business.dashboard', ['item' => $item['data'], 'isPromoted' => true])
+                        @include('livewire.admin.company.dashboard', ['item' => $item['data'], 'isPromoted' => true])
                     </div>
                 @endforeach
             </div>
@@ -44,7 +44,7 @@
 
                 <div class="{{ $colClass }}">
                     @if (view()->exists($viewPath))
-                        @include('livewire.admin.business.dashboard', ['item' => $item['data'], 'isPromoted' => false])
+                        @include('livewire.admin.company.dashboard', ['item' => $item['data'], 'isPromoted' => false])
                     @endif
                 </div>
             @endforeach

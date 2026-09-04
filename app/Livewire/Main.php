@@ -31,7 +31,7 @@ class Main extends Component
             ->all();
 
         $regularQuery = Feed::query()->where(function ($query) use ($promotedIdsByType) {
-            foreach (['article', 'todo', 'business', 'offer'] as $type) {
+            foreach (['article', 'todo', 'company', 'offer'] as $type) {
                 $query->orWhere(function ($query) use ($type, $promotedIdsByType) {
                     $query->where('type', $type)
                         ->when(isset($promotedIdsByType[$type]), fn ($query) => $query->whereNotIn('item_id', $promotedIdsByType[$type]));

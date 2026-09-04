@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-// Subdomains - business pages and bookings
+// Subdomains - company pages and bookings
 
 
-    Route::get('/', \App\Livewire\Business\Domain::class)->name('business.domain');
-    Route::get('/equipment', \App\Livewire\Business\BookEquipment::class)->name('business.booking.equipment');
+    Route::get('/', \App\Livewire\Company\Domain::class)->name('company.domain');
+    Route::get('/equipment', \App\Livewire\Company\BookEquipment::class)->name('company.booking.equipment');
     
     // TODO: Booking module - temporarily disabled
     // The booking system with multi-step flow (Step1-Step4) is under development
@@ -21,11 +21,11 @@ use Illuminate\Support\Str;
     
     Route::prefix('booking')->group(function () 
     {
-        Route::get('/', \App\Livewire\Business\BookService::class)->name('business.booking.services');
-        Route::get('/{flow}/step1', \App\Livewire\Business\Booking\Step1::class)->name('booking.step1');
-        Route::get('/{flow}/step2', \App\Livewire\Business\Booking\Step2::class)->name('booking.step2');
-        Route::get('/{flow}/step3', \App\Livewire\Business\Booking\Step3::class)->name('booking.step3');
-        Route::get('/{flow}/step4', \App\Livewire\Business\Booking\Step4::class)->name('booking.step4');
+        Route::get('/', \App\Livewire\Company\BookService::class)->name('company.booking.services');
+        Route::get('/{flow}/step1', \App\Livewire\Company\Booking\Step1::class)->name('booking.step1');
+        Route::get('/{flow}/step2', \App\Livewire\Company\Booking\Step2::class)->name('booking.step2');
+        Route::get('/{flow}/step3', \App\Livewire\Company\Booking\Step3::class)->name('booking.step3');
+        Route::get('/{flow}/step4', \App\Livewire\Company\Booking\Step4::class)->name('booking.step4');
     });
     
     Route::middleware('guest')->group(function () 
@@ -37,22 +37,24 @@ use Illuminate\Support\Str;
         Route::post('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout.subdomain');
     });
     
-    Route::prefix('admin')->middleware(['auth', 'verified', 'can:manage,business'])->group(function () 
+    Route::prefix('admin')->middleware(['auth', 'verified', 'can:manage,company'])->group(function () 
     {
         // Dashboard routes
-        Route::get('/dashboard', \App\Livewire\Admin\Business\Dashboard::class)->name('admin.business.dashboard');
-        Route::get('/subscription', \App\Livewire\Admin\Business\Subscription::class)->name('admin.business.subscription');
-        Route::get('/working-hours', \App\Livewire\Admin\Business\WorkingHours::class)->name('admin.business.settings.working-hours');
+        Route::get('/dashboard', \App\Livewire\Admin\Company\Dashboard::class)->name('admin.company.dashboard');
+        Route::get('/my-tasks', \App\Livewire\Admin\Company\MyTasks\Index::class)->name('admin.company.my-tasks');
+        Route::get('/users', \App\Livewire\Admin\Company\User\Index::class)->name('admin.company.users');
+        Route::get('/subscription', \App\Livewire\Admin\Company\Subscription::class)->name('admin.company.subscription');
+        Route::get('/working-hours', \App\Livewire\Admin\Company\WorkingHours::class)->name('admin.company.settings.working-hours');
         
         // Services routes
-        Route::get('/services', \App\Livewire\Admin\Business\Service\Index::class)->name('admin.business.services');
-        //Route::get('/services/create', \App\Livewire\Admin\Business\Service\Create::class)->name('admin.business.services.create')->can('update,business');
+        Route::get('/services', \App\Livewire\Admin\Company\Service\Index::class)->name('admin.company.services');
+        //Route::get('/services/create', \App\Livewire\Admin\Company\Service\Create::class)->name('admin.company.services.create')->can('update,company');
         // Resource routes
-        Route::get('/resources', \App\Livewire\Admin\Business\Resource\Index::class)->name('admin.business.resources');
-        Route::get('/resource-bookings', \App\Livewire\Admin\Business\ResourceBooking\Index::class)->name('admin.business.reservations.resources');
-        Route::get('/reservations', \App\Livewire\Admin\Business\ServiceReservations\Index::class)->name('admin.business.reservations.services');
-        // ->can('update,business');
-        //Route::get('/resources/create', \App\Livewire\Admin\Business\Resource\Create::class)->name('admin.business.resources.create')->can('update,business');
+        Route::get('/resources', \App\Livewire\Admin\Company\Resource\Index::class)->name('admin.company.resources');
+        Route::get('/resource-bookings', \App\Livewire\Admin\Company\ResourceBooking\Index::class)->name('admin.company.reservations.resources');
+        Route::get('/reservations', \App\Livewire\Admin\Company\ServiceBooking\Index::class)->name('admin.company.reservations.services');
+        // ->can('update,company');
+        //Route::get('/resources/create', \App\Livewire\Admin\Company\Resource\Create::class)->name('admin.company.resources.create')->can('update,company');
         // Reservations routes
 
     });

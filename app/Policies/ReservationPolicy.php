@@ -2,31 +2,31 @@
 
 namespace App\Policies;
 
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Reservation;
 use App\Models\User;
-use App\Policies\Concerns\ChecksBusinessOwnership;
+use App\Policies\Concerns\ChecksCompanyOwnership;
 
 class ReservationPolicy
 {
-    use ChecksBusinessOwnership;
+    use ChecksCompanyOwnership;
 
     public function view(User $user, Reservation $reservation): bool
     {
         return $this->isReservationOwner($user, $reservation)
-            || $this->userOwnsBusiness($user, $this->resolveBusiness($reservation));
+            || $this->userOwnsCompany($user, $this->resolveCompany($reservation));
     }
 
     public function update(User $user, Reservation $reservation): bool
     {
         return $this->isReservationOwner($user, $reservation)
-            || $this->userOwnsBusiness($user, $this->resolveBusiness($reservation));
+            || $this->userOwnsCompany($user, $this->resolveCompany($reservation));
     }
 
     public function delete(User $user, Reservation $reservation): bool
     {
         return $this->isReservationOwner($user, $reservation)
-            || $this->userOwnsBusiness($user, $this->resolveBusiness($reservation));
+            || $this->userOwnsCompany($user, $this->resolveCompany($reservation));
     }
 
     private function isReservationOwner(User $user, Reservation $reservation): bool
@@ -34,16 +34,16 @@ class ReservationPolicy
         return (int) $user->id === (int) $reservation->user_id;
     }
 
-    private function resolveBusiness(Reservation $reservation): ?Business
+    private function resolveCompany(Reservation $reservation): ?Company
     {
-        if ($reservation->relationLoaded('business')) {
-            return $reservation->getRelation('business');
+        if ($reservation->relationLoaded('company')) {
+            return $reservation->getRelation('company');
         }
 
-        if (!$reservation->business_id) {
+        if (!$reservation->company_id) {
             return null;
         }
 
-        return $reservation->business;
+        return $reservation->company;
     }
 }

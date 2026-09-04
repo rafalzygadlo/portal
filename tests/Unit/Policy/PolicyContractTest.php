@@ -5,7 +5,7 @@ namespace Tests\Unit\Policy;
 use App\Models\Announcement;
 use App\Models\Article;
 use App\Models\BookingFlow;
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Favorite;
@@ -24,7 +24,7 @@ use App\Models\Vote;
 use App\Policies\AnnouncementPolicy;
 use App\Policies\ArticlePolicy;
 use App\Policies\BookingFlowPolicy;
-use App\Policies\BusinessPolicy;
+use App\Policies\CompanyPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\CommentPolicy;
 use App\Policies\FavoritePolicy;
@@ -40,17 +40,20 @@ use App\Policies\ServicePolicy;
 use App\Policies\TodoPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\VotePolicy;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PolicyContractTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_policies_expose_expected_ability_methods(): void
     {
         $expectations = [
             AnnouncementPolicy::class => ['update', 'delete'],
             ArticlePolicy::class => ['update', 'delete'],
             BookingFlowPolicy::class => ['update', 'delete'],
-            BusinessPolicy::class => ['manage', 'update', 'delete', 'viewReservations'],
+            CompanyPolicy::class => ['manage', 'update', 'delete', 'viewReservations'],
             CategoryPolicy::class => ['update', 'delete'],
             CommentPolicy::class => ['update', 'delete'],
             FavoritePolicy::class => ['update', 'delete'],
@@ -79,14 +82,14 @@ class PolicyContractTest extends TestCase
     {
         $user = $this->makeUser(1);
         $other = $this->makeUser(2, 'admin');
-        $business = new Business();
-        $business->setRelation('owners', collect([$user]));
+        $company = new Company();
+        $company->setRelation('owners', collect([$user]));
 
         $cases = [
             [new AnnouncementPolicy(), 'update', (new Announcement())->forceFill(['user_id' => 1])],
             [new ArticlePolicy(), 'delete', (new Article())->forceFill(['user_id' => 1])],
-            [new BookingFlowPolicy(), 'update', tap((new BookingFlow())->forceFill(['business_id' => 1]), fn ($m) => $m->setRelation('business', $business))],
-            [new BusinessPolicy(), 'manage', $business],
+            [new BookingFlowPolicy(), 'update', tap((new BookingFlow())->forceFill(['company_id' => 1]), fn ($m) => $m->setRelation('company', $company))],
+            [new CompanyPolicy(), 'manage', $company],
             [new CategoryPolicy(), 'update', new Category()],
             [new CommentPolicy(), 'update', (new Comment())->forceFill(['user_id' => 1])],
             [new FavoritePolicy(), 'delete', (new Favorite())->forceFill(['user_id' => 1])],
@@ -96,9 +99,9 @@ class PolicyContractTest extends TestCase
             [new PollOptionPolicy(), 'delete', tap(new PollOption(), fn ($m) => $m->setRelation('poll', (new Poll())->forceFill(['user_id' => 1])))],
             [new PollPolicy(), 'update', (new Poll())->forceFill(['user_id' => 1])],
             [new ReportPolicy(), 'update', (new Report())->forceFill(['user_id' => 1])],
-            [new ReservationPolicy(), 'view', tap((new Reservation())->forceFill(['business_id' => 1, 'user_id' => 9]), fn ($m) => $m->setRelation('business', $business))],
-            [new ResourcePolicy(), 'update', tap((new Resource())->forceFill(['business_id' => 1]), fn ($m) => $m->setRelation('business', $business))],
-            [new ServicePolicy(), 'delete', tap((new Service())->forceFill(['business_id' => 1]), fn ($m) => $m->setRelation('business', $business))],
+            [new ReservationPolicy(), 'view', tap((new Reservation())->forceFill(['company_id' => 1, 'user_id' => 9]), fn ($m) => $m->setRelation('company', $company))],
+            [new ResourcePolicy(), 'update', tap((new Resource())->forceFill(['company_id' => 1]), fn ($m) => $m->setRelation('company', $company))],
+            [new ServicePolicy(), 'delete', tap((new Service())->forceFill(['company_id' => 1]), fn ($m) => $m->setRelation('company', $company))],
             [new TodoPolicy(), 'update', (new Todo())->forceFill(['user_id' => 1])],
             [new UserPolicy(), 'view', $this->makeUser(1)],
             [new VotePolicy(), 'delete', (new Vote())->forceFill(['user_id' => 1])],

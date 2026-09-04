@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 use App\Models\User;
-use App\Models\Business; // Assuming you have a Business model
+use App\Models\Company; // Assuming you have a Company model
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Relations\Relation;
 

@@ -7,7 +7,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use App\Models\Announcement;
 use App\Models\Article;
 use App\Models\BookingFlow;
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Favorite;
@@ -24,7 +24,7 @@ use App\Models\Vote;
 use App\Models\Poll\Poll;
 use App\Models\Poll\PollOption;
 use App\Policies\AnnouncementPolicy;
-use App\Policies\BusinessPolicy;
+use App\Policies\CompanyPolicy;
 use App\Policies\ArticlePolicy;
 use App\Policies\BookingFlowPolicy;
 use App\Policies\CategoryPolicy;
@@ -54,7 +54,7 @@ class AuthServiceProvider extends ServiceProvider
         Announcement::class => AnnouncementPolicy::class,
         Article::class => ArticlePolicy::class,
         BookingFlow::class => BookingFlowPolicy::class,
-        Business::class => BusinessPolicy::class,
+        Company::class => CompanyPolicy::class,
         Category::class => CategoryPolicy::class,
         Comment::class => CommentPolicy::class,
         Favorite::class => FavoritePolicy::class,

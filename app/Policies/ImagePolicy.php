@@ -2,14 +2,14 @@
 
 namespace App\Policies;
 
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Image;
 use App\Models\User;
-use App\Policies\Concerns\ChecksBusinessOwnership;
+use App\Policies\Concerns\ChecksCompanyOwnership;
 
 class ImagePolicy
 {
-    use ChecksBusinessOwnership;
+    use ChecksCompanyOwnership;
 
     public function update(User $user, Image $image): bool
     {
@@ -33,8 +33,8 @@ class ImagePolicy
             return (int) $user->id === (int) $imageable->user_id;
         }
 
-        if ($imageable instanceof Business) {
-            return $this->userOwnsBusiness($user, $imageable);
+        if ($imageable instanceof Company) {
+            return $this->userOwnsCompany($user, $imageable);
         }
 
         return false;

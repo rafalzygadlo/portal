@@ -14,7 +14,7 @@ class Index extends Component
     public function mount()
     {
         $this->user = auth()->user()->loadMissing([
-            'ownedBusinesses',
+            'ownedCompanies',
             'offers',
             'articles',
             'polls',

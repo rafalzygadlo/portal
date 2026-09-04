@@ -2,35 +2,35 @@
 
 namespace App\Policies;
 
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Service;
 use App\Models\User;
-use App\Policies\Concerns\ChecksBusinessOwnership;
+use App\Policies\Concerns\ChecksCompanyOwnership;
 
 class ServicePolicy
 {
-    use ChecksBusinessOwnership;
+    use ChecksCompanyOwnership;
 
     public function update(User $user, Service $service): bool
     {
-        return $this->userOwnsBusiness($user, $this->resolveBusiness($service));
+        return $this->userOwnsCompany($user, $this->resolveCompany($service));
     }
 
     public function delete(User $user, Service $service): bool
     {
-        return $this->userOwnsBusiness($user, $this->resolveBusiness($service));
+        return $this->userOwnsCompany($user, $this->resolveCompany($service));
     }
 
-    private function resolveBusiness(Service $service): ?Business
+    private function resolveCompany(Service $service): ?Company
     {
-        if ($service->relationLoaded('business')) {
-            return $service->getRelation('business');
+        if ($service->relationLoaded('company')) {
+            return $service->getRelation('company');
         }
 
-        if (!$service->business_id) {
+        if (!$service->company_id) {
             return null;
         }
 
-        return $service->business;
+        return $service->company;
     }
 }

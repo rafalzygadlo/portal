@@ -49,7 +49,7 @@
                             <a class="nav-link fw-semibold" href="{{ route('offers.index') }}">Ogłoszenia</a>
                         </li>
                         <li class="nav-item px-lg-2">
-                            <a class="nav-link fw-semibold" href="{{ route('business.index') }}">Firmy</a>
+                            <a class="nav-link fw-semibold" href="{{ route('company.index') }}">Firmy</a>
                         </li>
                     </ul>
 
@@ -116,7 +116,7 @@
                             <li class="mb-2"><a href="{{route('articles.index') }}" class="text-secondary text-decoration-none">Artykuły</a></li>
                             @endif
 
-                            <li class="mb-2"><a href="{{ route('business.index') }}" class="text-secondary text-decoration-none">Firmy</a></li>
+                            <li class="mb-2"><a href="{{ route('company.index') }}" class="text-secondary text-decoration-none">Firmy</a></li>
                             <li class="mb-2"><a href="{{ route('offers.index') }}" class="text-secondary text-decoration-none">Ogłoszenia</a></li>
                             <li class="mb-2"><a href="{{ route('todos.index') }}" class="text-secondary text-decoration-none">Roadmapa</a></li>
                             

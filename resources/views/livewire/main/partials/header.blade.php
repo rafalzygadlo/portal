@@ -24,7 +24,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2" href="{{ route('business.create') }}">
+                            <a class="dropdown-item py-2.5 rounded-2 d-flex align-items-center gap-2" href="{{ route('company.create') }}">
                                 <i class="bi bi-buildings-fill text-success fs-5"></i> 
                                 <span class="fw-medium">Dodaj firmę</span>
                             </a>

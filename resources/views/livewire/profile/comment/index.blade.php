@@ -5,7 +5,7 @@
                 <option value="all">All types</option>
                 <option value="offer">Offer</option>
                 <option value="article">Article</option>
-                <option value="business">Business</option>
+                <option value="company">Company</option>
                 <option value="todo">Todo</option>
                 <option value="poll">Poll</option>
             </select>
@@ -35,8 +35,8 @@
                                         <a href="{{ route('offer.show', $commentable) }}" class="btn btn-sm btn-outline-primary" target="_blank">Go to item</a>
                                     @elseif($comment->commentable_type === App\Models\Article::class)
                                         <a href="{{ route('article.show', $commentable) }}" class="btn btn-sm btn-outline-primary" target="_blank">Go to item</a>
-                                    @elseif($comment->commentable_type === App\Models\Business::class)
-                                        <a href="{{ route('business.show', $commentable) }}" class="btn btn-sm btn-outline-primary" target="_blank">Go to item</a>
+                                    @elseif($comment->commentable_type === App\Models\Company::class)
+                                        <a href="{{ route('company.show', $commentable) }}" class="btn btn-sm btn-outline-primary" target="_blank">Go to item</a>
                                     @elseif($comment->commentable_type === App\Models\Todo::class)
                                         <a href="{{ route('todo.show', $commentable) }}" class="btn btn-sm btn-outline-primary" target="_blank">Go to item</a>
                                     @elseif($comment->commentable_type === App\Models\Poll\Poll::class)

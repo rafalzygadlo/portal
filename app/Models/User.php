@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Offer;
 use App\Models\Article;
 use App\Models\Poll\Poll;
@@ -186,14 +186,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return true;
     }
     
-    public function businesses(): BelongsToMany
+    public function companies(): BelongsToMany
     {
-        return $this->belongsToMany(Business::class, 'business_user');
+        return $this->belongsToMany(Company::class, 'company_user');
     }
 
-    public function ownedBusinesses(): BelongsToMany
+    public function ownedCompanies(): BelongsToMany
     {
-        return $this->businesses()->wherePivot('owner', true);
+        return $this->companies()->wherePivot('owner', true);
     }
 
 

@@ -15,7 +15,7 @@ class Service extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'business_id',
+        'company_id',
         'name',
         'description',
         'price',
@@ -30,11 +30,11 @@ class Service extends Model
     ];
 
     /**
-     * The business that owns this service.
+     * The company that owns this service.
      */
-    public function business(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Business::class);
+        return $this->belongsTo(Company::class);
     }
 
     /**

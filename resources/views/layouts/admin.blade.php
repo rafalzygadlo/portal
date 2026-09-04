@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - {{ $business->name }}</title>
+    <title>Admin - {{ $company->name }}</title>
 
     <!-- CSS Files -->
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -14,7 +14,7 @@
     <nav class="navbar navbar-expand-md bg-white shadow">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold">
-                Admin - {{ $business->name }}
+                Admin - {{ $company->name }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
@@ -22,9 +22,9 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto">
-                    @can('manage', $business)
+                    @can('manage', $company)
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.business.dashboard', ['business' => $business]) }}">Dashboard</a>
+                            <a class="nav-link" href="{{ route('admin.company.dashboard', ['company' => $company]) }}">Dashboard</a>
                         </li>
                     @endauth
                 </ul>

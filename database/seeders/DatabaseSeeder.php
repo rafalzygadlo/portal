@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Article;
 use App\Models\Offer;
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Poll\Poll;
 use App\Models\Todo;
 
@@ -39,9 +39,9 @@ class DatabaseSeeder extends Seeder
         $this->call(OfferSeeder::class);
         $this->seedVotesForModel(Offer::class, $users, 'Offers');
         
-        // Create Businesses with votes
-        $this->call(BusinessSeeder::class);
-        $this->seedVotesForModel(Business::class, $users, 'Businesses');
+        // Create Companies with votes
+        $this->call(CompanySeeder::class);
+        $this->seedVotesForModel(Company::class, $users, 'Companies');
         
         // Create Polls with votes
         $this->call(PollSeeder::class);

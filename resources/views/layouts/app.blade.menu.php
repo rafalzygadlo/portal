@@ -74,7 +74,7 @@
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <span class="mega-menu-title text-success">Katalog Firm</span>
-                                            <a class="dropdown-item" href="{{ route('business.index') }}"><i class="bi bi-buildings me-2 text-success"></i> Zakłady i Fabryki</a>
+                                            <a class="dropdown-item" href="{{ route('company.index') }}"><i class="bi bi-buildings me-2 text-success"></i> Zakłady i Fabryki</a>
                                             <a class="dropdown-item" href="#"><i class="bi bi-shop me-2 text-success"></i> Usługi i Handel</a>
                                         </div>
                                         <div class="col-lg-3 border-start">
@@ -182,7 +182,7 @@
                     <div class="col-6 col-lg-2 offset-lg-2">
                         <h6 class="fw-bold mb-3 small text-uppercase tracking-wider">Portal</h6>
                         <ul class="list-unstyled small">
-                            <li class="mb-2"><a href="{{ route('business.index') }}" class="text-secondary text-decoration-none">Firmy</a></li>
+                            <li class="mb-2"><a href="{{ route('company.index') }}" class="text-secondary text-decoration-none">Firmy</a></li>
                             <li class="mb-2"><a href="{{ route('todos.index') }}" class="text-secondary text-decoration-none">Roadmapa</a></li>
                             @if(config('modules.poll'))
                             <li class="mb-2"><a href="{{ route('polls.index') }}" class="text-secondary text-decoration-none">Sondaże</a></li>

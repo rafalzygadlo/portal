@@ -2,25 +2,25 @@
 
 namespace App\Policies;
 
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Resource;
 use App\Models\User;
-use App\Policies\Concerns\ChecksBusinessOwnership;
+use App\Policies\Concerns\ChecksCompanyOwnership;
 
 class ResourcePolicy
 {
-    use ChecksBusinessOwnership;
+    use ChecksCompanyOwnership;
 
     public function update(User $user, Resource $resource): bool
     {
         return $this->isResourceOwner($user, $resource)
-            || $this->userOwnsBusiness($user, $this->resolveBusiness($resource));
+            || $this->userOwnsCompany($user, $this->resolveCompany($resource));
     }
 
     public function delete(User $user, Resource $resource): bool
     {
         return $this->isResourceOwner($user, $resource)
-            || $this->userOwnsBusiness($user, $this->resolveBusiness($resource));
+            || $this->userOwnsCompany($user, $this->resolveCompany($resource));
     }
 
     private function isResourceOwner(User $user, Resource $resource): bool
@@ -28,16 +28,16 @@ class ResourcePolicy
         return !empty($resource->user_id) && (int) $user->id === (int) $resource->user_id;
     }
 
-    private function resolveBusiness(Resource $resource): ?Business
+    private function resolveCompany(Resource $resource): ?Company
     {
-        if ($resource->relationLoaded('business')) {
-            return $resource->getRelation('business');
+        if ($resource->relationLoaded('company')) {
+            return $resource->getRelation('company');
         }
 
-        if (!$resource->business_id) {
+        if (!$resource->company_id) {
             return null;
         }
 
-        return $resource->business;
+        return $resource->company;
     }
 }

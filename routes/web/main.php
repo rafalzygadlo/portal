@@ -42,9 +42,9 @@ use Illuminate\Support\Str;
                 Route::get('/article/create', App\Livewire\Profile\Article\Create::class)->name('article.create');
                 Route::get('/article/edit/{article}', App\Livewire\Profile\Article\Edit::class)->name('article.edit');
             }
-            // Business
-            Route::get('/business/create', App\Livewire\Business\Create::class)->name('business.create');
-            Route::get('/business/edit/{business}', App\Livewire\Business\Edit::class)->name('business.edit');
+            // Company
+            Route::get('/company/create', App\Livewire\Company\Create::class)->name('company.create');
+            Route::get('/company/edit/{company}', App\Livewire\Company\Edit::class)->name('company.edit');
 
             // Todos
             Route::get('/todo/create', App\Livewire\Todo\Create::class)->name('todo.create');
@@ -67,9 +67,9 @@ use Illuminate\Support\Str;
         Route::get('/articles', \App\Livewire\Article\Index::class)->name('articles.index');
         Route::get('/article/{article:slug}', \App\Livewire\Article\Show::class)->name('article.show');
     }
-    // Business routes
-    Route::get('/businesses/{categorySlug?}', \App\Livewire\Business\Index::class)->name('business.index');
-    Route::get('/business/{business:subdomain}', \App\Livewire\Business\Show::class)->name('business.show');
+    // Company routes
+    Route::get('/companies/{categorySlug?}', \App\Livewire\Company\Index::class)->name('company.index');
+    Route::get('/company/{company:subdomain}', \App\Livewire\Company\Show::class)->name('company.show');
 
     Route::get('/page/{page}', \App\Livewire\Page::class)
         ->where('page', 'privacy|terms|faq')->name('page');

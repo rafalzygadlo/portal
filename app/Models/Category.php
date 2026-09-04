@@ -42,11 +42,11 @@ class Category extends Model
     }
 
     /**
-     * Get all of the businesses that are assigned this category.
+     * Get all of the companies that are assigned this category.
      */
-    public function businesses()
+    public function companies()
     {
-        return $this->morphedByMany(Business::class, 'categoryable');
+        return $this->morphedByMany(Company::class, 'categoryable');
     }
 
     /**

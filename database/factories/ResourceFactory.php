@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Resource;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -26,7 +26,7 @@ class ResourceFactory extends Factory
     public function definition(): array
     {
         return [
-            'business_id' => Business::factory(), // By default creates a new business if no ID is provided
+            'company_id' => Company::factory(), // By default creates a new company if no ID is provided
             'name' => fake()->name(),
             'type' => fake()->randomElement(['person', 'equipment', 'room']),
             'user_id' => null, // Can be overridden

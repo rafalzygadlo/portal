@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Article;
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Feed;
 use App\Models\Offer;
 use App\Models\Promotion;
@@ -47,7 +47,7 @@ class MainFeedService
         $modelConfig = [
             'article' => [Article::class, ['categories', 'images']],
             'todo' => [Todo::class, []],
-            'business' => [Business::class, ['categories']],
+            'company' => [Company::class, ['categories']],
             'offer' => [Offer::class, ['categories', 'images']],
         ];
 
@@ -56,7 +56,7 @@ class MainFeedService
                 foreach (array_keys($promotedIdsByType + [
                     'article' => [],
                     'todo' => [],
-                    'business' => [],
+                    'company' => [],
                     'offer' => [],
                 ]) as $type) {
                     $query->orWhere(function ($query) use ($type, $promotedIdsByType) {
@@ -87,7 +87,7 @@ class MainFeedService
     {
         return Article::when(isset($promotedIdsByType['article']), fn ($query) => $query->whereNotIn('id', $promotedIdsByType['article']))->count()
             + Todo::when(isset($promotedIdsByType['todo']), fn ($query) => $query->whereNotIn('id', $promotedIdsByType['todo']))->count()
-            + Business::when(isset($promotedIdsByType['business']), fn ($query) => $query->whereNotIn('id', $promotedIdsByType['business']))->count()
+            + Company::when(isset($promotedIdsByType['company']), fn ($query) => $query->whereNotIn('id', $promotedIdsByType['company']))->count()
             + Offer::when(isset($promotedIdsByType['offer']), fn ($query) => $query->whereNotIn('id', $promotedIdsByType['offer']))->count();
     }
 

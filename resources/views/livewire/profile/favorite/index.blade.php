@@ -5,7 +5,7 @@
                 <option value="all">All types</option>
                 <option value="offer">Offer</option>
                 <option value="article">Article</option>
-                <option value="business">Business</option>
+                <option value="company">Company</option>
                 <option value="todo">Todo</option>
                 <option value="poll">Poll</option>
             </select>
@@ -43,8 +43,8 @@
                                     @if(config('modules.article'))
                                         <a href="{{route('article.show', $item) }}" class="btn btn-sm btn-outline-primary" target="_blank">Open</a>
                                     @endif
-                                @elseif($favorite->favoritable_type === App\Models\Business::class)
-                                    <a href="{{ route('business.show', $item) }}" class="btn btn-sm btn-outline-primary" target="_blank">Open</a>
+                                @elseif($favorite->favoritable_type === App\Models\Company::class)
+                                    <a href="{{ route('company.show', $item) }}" class="btn btn-sm btn-outline-primary" target="_blank">Open</a>
                                 @elseif($favorite->favoritable_type === App\Models\Todo::class)
                                     <a href="{{ route('todo.show', $item) }}" class="btn btn-sm btn-outline-primary" target="_blank">Open</a>
                                 @elseif($favorite->favoritable_type === App\Models\Poll\Poll::class)

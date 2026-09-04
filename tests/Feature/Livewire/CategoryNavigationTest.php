@@ -6,7 +6,7 @@ use App\Livewire\Breadcrumb;
 use App\Livewire\CategoryBar;
 use App\Livewire\GlobalModal;
 use App\Livewire\Promote;
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\User;
@@ -24,7 +24,7 @@ class CategoryNavigationTest extends TestCase
         $child = Category::factory()->create(['parent_id' => $root->id]);
 
         Livewire::test(CategoryBar::class, [
-            'selectEvent' => 'business-category-selected',
+            'selectEvent' => 'company-category-selected',
             'orientation' => 'horizontal',
         ])
             ->assertSee($root->name)
@@ -53,7 +53,7 @@ class CategoryNavigationTest extends TestCase
 
         Livewire::test(CategoryBar::class, [
             'currentCategory' => $selected,
-            'selectEvent' => 'business-category-selected',
+            'selectEvent' => 'company-category-selected',
         ])
             ->assertSee($sibling->name)
             ->assertSee('Back');
@@ -81,22 +81,22 @@ class CategoryNavigationTest extends TestCase
         $leaf = Category::factory()->create(['parent_id' => $child->id]);
 
         Livewire::test(Breadcrumb::class, [
-            'selectEvent' => 'business-category-selected',
+            'selectEvent' => 'company-category-selected',
             'category' => $leaf,
         ])
-            ->assertSeeHtml('wire:click.prevent="$dispatch(\'business-category-selected\'');
+            ->assertSeeHtml('wire:click.prevent="$dispatch(\'company-category-selected\'');
     }
 
-    public function test_business_index_filters_by_category_and_descendants(): void
+    public function test_company_index_filters_by_category_and_descendants(): void
     {
         $root = Category::factory()->create();
         $child = Category::factory()->create(['parent_id' => $root->id]);
-        $included = Business::factory()->create(['name' => 'Included business']);
-        $excluded = Business::factory()->create(['name' => 'Excluded business']);
+        $included = Company::factory()->create(['name' => 'Included company']);
+        $excluded = Company::factory()->create(['name' => 'Excluded company']);
         $included->categories()->attach($child);
         $excluded->categories()->attach(Category::factory()->create());
 
-        Livewire::test(\App\Livewire\Business\Index::class)
+        Livewire::test(\App\Livewire\Company\Index::class)
             ->set('categorySlug', $root->slug)
             ->assertSee($included->name)
             ->assertDontSee($excluded->name);

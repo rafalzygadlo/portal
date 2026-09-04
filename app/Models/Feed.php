@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Article;
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Offer;
 use App\Models\Todo;
 use Illuminate\Database\Eloquent\Model;
@@ -39,7 +39,7 @@ class Feed extends Model
         $modelConfig = [
             'article' => [Article::class, ['categories', 'images']],
             'todo' => [Todo::class, []],
-            'business' => [Business::class, ['categories', 'images']],
+            'company' => [Company::class, ['categories', 'images']],
             'offer' => [Offer::class, ['categories', 'images']],
         ];
 

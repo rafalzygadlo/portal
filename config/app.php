@@ -187,5 +187,5 @@ return [
     ])->toArray(),
 
 
-    'business_domain' => env('DOMAIN_NAME', ''),
+    'company_domain' => env('DOMAIN_NAME', ''),
 ];

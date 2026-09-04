@@ -5,7 +5,7 @@ namespace Tests\Unit\Policy;
 use App\Models\Announcement;
 use App\Models\Article;
 use App\Models\BookingFlow;
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Favorite;
@@ -24,7 +24,7 @@ use App\Models\Vote;
 use App\Policies\AnnouncementPolicy;
 use App\Policies\ArticlePolicy;
 use App\Policies\BookingFlowPolicy;
-use App\Policies\BusinessPolicy;
+use App\Policies\CompanyPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\CommentPolicy;
 use App\Policies\FavoritePolicy;
@@ -41,10 +41,13 @@ use App\Policies\TodoPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\VotePolicy;
 use App\Providers\AuthServiceProvider;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PolicyCoverageTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_all_model_policy_mappings_are_registered(): void
     {
         $provider = new AuthServiceProvider(app());
@@ -57,7 +60,7 @@ class PolicyCoverageTest extends TestCase
             Announcement::class => AnnouncementPolicy::class,
             Article::class => ArticlePolicy::class,
             BookingFlow::class => BookingFlowPolicy::class,
-            Business::class => BusinessPolicy::class,
+            Company::class => CompanyPolicy::class,
             Category::class => CategoryPolicy::class,
             Comment::class => CommentPolicy::class,
             Favorite::class => FavoritePolicy::class,
@@ -139,34 +142,34 @@ class PolicyCoverageTest extends TestCase
         $this->assertFalse($votePolicy->update($other, $vote));
     }
 
-    public function test_business_owner_based_policies_allow_owner_and_deny_other(): void
+    public function test_company_owner_based_policies_allow_owner_and_deny_other(): void
     {
         $owner = $this->makeUser(1);
         $other = $this->makeUser(2);
 
-        $business = new Business();
-        $business->setRelation('owners', collect([$owner]));
+        $company = new Company();
+        $company->setRelation('owners', collect([$owner]));
 
-        $bookingFlow = (new BookingFlow())->forceFill(['business_id' => 10]);
-        $bookingFlow->setRelation('business', $business);
+        $bookingFlow = (new BookingFlow())->forceFill(['company_id' => 10]);
+        $bookingFlow->setRelation('company', $company);
 
-        $resource = (new Resource())->forceFill(['business_id' => 10]);
-        $resource->setRelation('business', $business);
+        $resource = (new Resource())->forceFill(['company_id' => 10]);
+        $resource->setRelation('company', $company);
 
-        $service = (new Service())->forceFill(['business_id' => 10]);
-        $service->setRelation('business', $business);
+        $service = (new Service())->forceFill(['company_id' => 10]);
+        $service->setRelation('company', $company);
 
-        $reservation = (new Reservation())->forceFill(['business_id' => 10, 'user_id' => 99]);
-        $reservation->setRelation('business', $business);
+        $reservation = (new Reservation())->forceFill(['company_id' => 10, 'user_id' => 99]);
+        $reservation->setRelation('company', $company);
 
-        $businessPolicy = new BusinessPolicy();
+        $companyPolicy = new CompanyPolicy();
         $bookingFlowPolicy = new BookingFlowPolicy();
         $resourcePolicy = new ResourcePolicy();
         $servicePolicy = new ServicePolicy();
         $reservationPolicy = new ReservationPolicy();
 
-        $this->assertTrue($businessPolicy->manage($owner, $business));
-        $this->assertFalse($businessPolicy->manage($other, $business));
+        $this->assertTrue($companyPolicy->manage($owner, $company));
+        $this->assertFalse($companyPolicy->manage($other, $company));
 
         $this->assertTrue($bookingFlowPolicy->update($owner, $bookingFlow));
         $this->assertFalse($bookingFlowPolicy->update($other, $bookingFlow));

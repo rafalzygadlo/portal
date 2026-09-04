@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Offer;
 use App\Models\Article;
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Todo;
 use App\Models\Poll\Poll;
 
@@ -28,7 +28,7 @@ class Index extends Component
         return match ($type) {
             'offer' => Offer::class,
             'article' => Article::class,
-            'business' => Business::class,
+            'company' => Company::class,
             'todo' => Todo::class,
             'poll' => Poll::class,
             default => null,

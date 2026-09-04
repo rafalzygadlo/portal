@@ -41,8 +41,8 @@
                         <i class="bi bi-briefcase me-2"></i> Create offer
                     </a>
 
-                    <a href="{{ route('business.create') }}" class="btn btn-outline-primary text-start">
-                        <i class="bi bi-building me-2"></i> Create business
+                    <a href="{{ route('company.create') }}" class="btn btn-outline-primary text-start">
+                        <i class="bi bi-building me-2"></i> Create company
                     </a>
                     @if(config('modules.article'))
                     <a href="{{ route('article.create') }}" class="btn btn-outline-primary text-start">
@@ -86,14 +86,14 @@
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link @if($activeTab === 'businesses') active @endif" 
-                                id="businesses-tab" 
-                                wire:click="switchTab('businesses')" 
+                        <button class="nav-link @if($activeTab === 'companies') active @endif" 
+                                id="companies-tab" 
+                                wire:click="switchTab('companies')" 
                                 type="button" 
                                 role="tab" 
-                                aria-controls="businesses-panel" 
-                                aria-selected="{{ $activeTab === 'businesses' ? 'true' : 'false' }}">
-                            <i class="bi bi-building me-2"></i> Businesses ({{ $user->ownedBusinesses->count() }})
+                                aria-controls="companies-panel" 
+                                aria-selected="{{ $activeTab === 'companies' ? 'true' : 'false' }}">
+                            <i class="bi bi-building me-2"></i> Companies ({{ $user->ownedCompanies->count() }})
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -159,8 +159,8 @@
                                 <span class="badge bg-primary rounded-pill">{{ $user->offers->count() }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Businesses
-                                <span class="badge bg-success rounded-pill">{{ $user->ownedBusinesses->count() }}</span>
+                                Companies
+                                <span class="badge bg-success rounded-pill">{{ $user->ownedCompanies->count() }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Articles
@@ -226,12 +226,12 @@
                     <livewire:profile.offer.index />
                 </div>
 
-                <!-- Businesses Tab -->
-                <div class="tab-pane fade @if($activeTab === 'businesses') show active @endif" 
-                     id="businesses-panel" 
+                <!-- Companies Tab -->
+                <div class="tab-pane fade @if($activeTab === 'companies') show active @endif" 
+                     id="companies-panel" 
                      role="tabpanel" 
-                     aria-labelledby="businesses-tab">
-                    <livewire:profile.business.index />
+                     aria-labelledby="companies-tab">
+                    <livewire:profile.company.index />
                 </div>
 
                 <!-- Articles Tab -->

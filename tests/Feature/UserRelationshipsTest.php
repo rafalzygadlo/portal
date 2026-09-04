@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\Article;
-use App\Models\Business;
+use App\Models\Company;
 use App\Models\Todo;
 use App\Models\Offer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -48,13 +48,13 @@ class UserRelationshipsTest extends TestCase
         $this->assertCount(5, $user->offers);
     }
 
-    public function test_user_can_own_business()
+    public function test_user_can_own_company()
     {
         $user = User::factory()->create();
 
-        $business = Business::factory()->create();
-        $business->users()->attach($user);
+        $company = Company::factory()->create();
+        $company->users()->attach($user);
 
-        $this->assertTrue($user->businesses()->where('business_id', $business->id)->exists());
+        $this->assertTrue($user->companies()->where('company_id', $company->id)->exists());
     }
 }

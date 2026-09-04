@@ -14,22 +14,23 @@ class Resource extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable = [
-        'business_id',
+        'company_id',
         'name',
         'type',
         'hourly_rate',
         'user_id',
+        'assigned_user_id',
         'is_active',
         'working_hours',
         'unavailable_periods',
     ];
 
     /**
-     * The business that this resource belongs to.
+     * The company that this resource belongs to.
      */
-    public function business(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Business::class);
+        return $this->belongsTo(Company::class);
     }
 
     /**
@@ -48,6 +49,11 @@ class Resource extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function assignedUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_user_id');
+    }
+
     public function bookings()
     {
         return $this->hasMany(ResourceBooking::class);
@@ -62,7 +68,7 @@ class Resource extends Model
 
     public function getWorkingHours(): array
     {
-        return $this->working_hours ?: $this->business->getBusinessHours();
+        return $this->working_hours ?: $this->company->getCompanyHours();
     }
 
     public function isAvailableAt(Carbon $start, Carbon $end): bool
