@@ -15,6 +15,7 @@ class Reservation extends Model
     protected $fillable = [
         'business_id',
         'service_id',
+        'resource_id',
         'user_id',
         'client_name',
         'client_email',
@@ -41,9 +42,14 @@ class Reservation extends Model
     /**
      * Service rezerwacji.
      */
-    public function service(): BelongsToMany
+    public function service(): BelongsTo
     {
-        return $this->belongsToMany(Service::class);
+        return $this->belongsTo(Service::class);
+    }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'reservation_service');
     }
     /**
      * User (if logged in).
@@ -51,6 +57,11 @@ class Reservation extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function resource(): BelongsTo
+    {
+        return $this->belongsTo(Resource::class);
     }
 
     /**

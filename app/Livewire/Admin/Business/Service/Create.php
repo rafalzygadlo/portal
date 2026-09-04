@@ -17,6 +17,7 @@ class Create extends Component
     public int $duration = 60;        
     public float $price = 100.00;
     public int $buffer = 15;
+    public array $resourceIds = [];
     
     public bool $open = false;
     public ?Service $editingService = null;
@@ -33,7 +34,7 @@ class Create extends Component
     public function close()
     {
         $this->open = false;
-        $this->reset('name', 'description', 'duration', 'price', 'buffer', 'editingService');
+        $this->reset('name', 'description', 'duration', 'price', 'buffer', 'resourceIds', 'editingService');
     }
     
     public function open($serviceId = null)
@@ -56,11 +57,12 @@ class Create extends Component
             $this->duration = $serviceModel->duration;
             $this->price = $serviceModel->price;
             $this->buffer = $serviceModel->buffer;
+            $this->resourceIds = $serviceModel->resources()->where('type', 'person')->pluck('resources.id')->map(fn ($id) => (string) $id)->all();
         } 
         else 
         {
             $this->editingService = null;
-            $this->reset('name', 'description', 'duration', 'price', 'buffer');
+            $this->reset('name', 'description', 'duration', 'price', 'buffer', 'resourceIds');
         }
     }
 
@@ -100,11 +102,13 @@ class Create extends Component
                 'duration' => $this->duration,
                 'buffer' => $this->buffer,
             ]);
+            $allowedResourceIds = $this->business->resources()->where('type', 'person')->whereIn('id', $this->resourceIds)->pluck('id')->all();
+            $this->editingService->resources()->sync($allowedResourceIds);
         } 
         else 
         {
             
-             $this->business->services()->create([
+            $service = $this->business->services()->create([
                 'name' => $this->name,
                 'description' => $this->description,
                 'duration' => $this->duration,
@@ -112,6 +116,8 @@ class Create extends Component
                 'buffer' => $this->buffer,
                 'is_active' => true,
             ]);
+            $allowedResourceIds = $this->business->resources()->where('type', 'person')->whereIn('id', $this->resourceIds)->pluck('id')->all();
+            $service->resources()->sync($allowedResourceIds);
         }
 
         $this->close();
@@ -121,7 +127,8 @@ class Create extends Component
     public function render()
     {   
         return  view('livewire.admin.business.service.create', [
-            'open' => $this->open
+            'open' => $this->open,
+            'people' => $this->business->resources()->where('type', 'person')->where('is_active', true)->orderBy('name')->get(),
         ]);
 
     }

@@ -1,7 +1,12 @@
 <div class="col py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3">Resources</h1>
-          <button  wire:click="$dispatch('open',[])" class="btn btn-primary">+ Add</button>
+        <div class="d-flex align-items-center gap-2">
+            <a href="{{ route('admin.business.dashboard', ['business' => $business]) }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Back
+            </a>
+            <button wire:click="$dispatch('open',[])" class="btn btn-primary">+ Add</button>
+        </div>
     </div>
 
     <div class="table-responsive border shadow bg-white">
@@ -25,12 +30,12 @@
                             </span>
                         </td>
                         <td class="text-end">
-                            <button
-                                wire:click="$dispatch('open', [{{ $resource->id }}])"
-                                class="btn btn-sm btn-outline-primary"
-                            >
-                                Manage
+                            <button wire:click="$dispatch('open', [{{ $resource->id }}])" class="btn btn-sm btn-outline-secondary me-1">
+                                Edit
                             </button>
+                            @if (!$resource->is_active)
+                                <span class="text-muted small">Inactive</span>
+                            @endif
                         </td>
                     </tr>
                 @empty

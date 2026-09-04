@@ -26,15 +26,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.business.dashboard', ['business' => $business]) }}">Dashboard</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.business.services.index', ['business' => $business]) }}">Usługi</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.business.resources.index', ['business' => $business]) }}">Zasoby</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('business.domain', ['business' => $business]) }}" target="_blank">Page</a>
-                        </li>
                     @endauth
                 </ul>
 

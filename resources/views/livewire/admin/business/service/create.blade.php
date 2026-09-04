@@ -47,6 +47,18 @@
                                 <input type="number" wire:model="price" step="0.01" min="0" class="form-control">
                             </div>
 
+                            <div class="mb-3">
+                                <label class="form-label">People who provide this service</label>
+                                @forelse ($people as $person)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{ $person->id }}" wire:model="resourceIds" id="person-{{ $person->id }}">
+                                        <label class="form-check-label" for="person-{{ $person->id }}">{{ $person->name }}</label>
+                                    </div>
+                                @empty
+                                    <div class="form-text">Add a resource of type Person first.</div>
+                                @endforelse
+                            </div>
+
                             
                             <div class="d-flex justify-content-end gap-2">
                                 <button type="submit" class="btn btn-primary">Save</button>

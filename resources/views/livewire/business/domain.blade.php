@@ -50,7 +50,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="h2 fw-bold">Available services</h2>
                 @if($business->subdomain)
-                    <a href="https://{{ $business->subdomain }}.localhost/booking" class="btn btn-primary px-4 py-2">
+                    <a href="{{ route('business.booking.services', ['business' => $business]) }}" class="btn btn-primary px-4 py-2">
                         Zarezerwuj termin
                     </a>
                 @endif
@@ -73,7 +73,7 @@
                                 </div>
 
                                 @if($business->subdomain)
-                                    <a href="https://{{ $business->subdomain }}.localhost/booking" class="btn btn-primary-subtle w-100">
+                                    <a href="{{ route('business.booking.services', ['business' => $business]) }}" class="btn btn-primary-subtle w-100">
                                         Zarezerwuj
                                     </a>
                                 @endif
@@ -82,6 +82,18 @@
                     </div>
                 @endforeach
             </div>
+        </div>
+    @endif
+
+    @if($business->resources()->where('type', 'equipment')->where('is_active', true)->exists())
+        <div class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h4 fw-bold mb-0">Equipment rental</h2>
+                <a href="{{ route('business.booking.equipment', ['business' => $business]) }}" class="btn btn-outline-primary">
+                    Rent equipment
+                </a>
+            </div>
+            <p class="text-muted mb-0">Rent available equipment independently from a service booking.</p>
         </div>
     @endif
 

@@ -3,6 +3,9 @@
         <h1 class="h3">Services</h1>
 
         <div class="d-flex align-items-center gap-2">
+            <a href="{{ route('admin.business.dashboard', ['business' => $business]) }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Back
+            </a>
             <div class="btn-group btn-group-sm" role="group">
                 <button
                     type="button"
@@ -60,14 +63,14 @@
                             @if ($service->trashed())
                                 <button
                                     type="button"
-                                    wire:click="restoreService({{ $service->id }})"
+                                    wire:click="restore({{ $service->id }})"
                                     class="btn btn-sm btn-outline-success me-1 px-2 py-1"
                                 >
                                     Restore
                                 </button>
                                 <button
                                     type="button"
-                                    wire:click="forceDeleteService({{ $service->id }})"
+                                    wire:click="forceDelete({{ $service->id }})"
                                     class="btn btn-sm btn-outline-danger px-2 py-1"
                                     wire:confirm="Permanently delete this service?"
                                 >
@@ -75,7 +78,7 @@
                                 </button>
                             @else
                                 <button
-                                    wire:click="toggleServiceActive({{ $service->id }})"
+                                    wire:click="toggleActive({{ $service->id }})"
                                     class="btn btn-sm {{ $service->is_active ? 'btn-success' : 'btn-outline-secondary' }} me-1 px-2 py-1"
                                 >
                                     {{ $service->is_active ? 'Deactivate' : 'Activate' }}

@@ -116,6 +116,11 @@ class Business extends Model
         return $this->hasMany(Resource::class);
     }
 
+    public function resourceBookings(): HasMany
+    {
+        return $this->hasMany(ResourceBooking::class);
+    }
+
     /**
      * Shift of business hours for a given day (0 = Monday).
      */

@@ -24,7 +24,21 @@ class Index extends Component
         $this->showDeleted = ! $this->showDeleted;
     }
 
-    public function deleteService($serviceId)
+    public function toggleActive($serviceId)
+    {
+        $service = $this->business->services()->withoutTrashed()->find($serviceId);
+
+        if (! $service) {
+            session()->flash('error', 'Service not found.');
+            return;
+        }
+
+        $service->is_active = ! $service->is_active;
+        $service->save();
+
+        session()->flash('success', 'Service status has been updated.');
+    }
+    public function delete($serviceId)
     {
         $service = $this->business->services()->withoutTrashed()->find($serviceId);
 
@@ -37,7 +51,7 @@ class Index extends Component
         session()->flash('success', 'Service has been deleted.');
     }
 
-    public function restoreService($serviceId)
+    public function restore($serviceId)
     {
         $service = $this->business->services()->withTrashed()->find($serviceId);
 
@@ -50,7 +64,7 @@ class Index extends Component
         session()->flash('success', 'Service has been restored.');
     }
 
-    public function forceDeleteService($serviceId)
+    public function forceDelete($serviceId)
     {
         $service = $this->business->services()->withTrashed()->find($serviceId);
 

@@ -25,12 +25,7 @@
 
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                            href="{{ route('business.booking', ['business' => $business]) }}">Zarezerwuj
-                            wizytę</a>
-                    </li>
-                      
+                                        
 
                 </ul>
 
