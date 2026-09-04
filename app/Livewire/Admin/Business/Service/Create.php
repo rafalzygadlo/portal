@@ -22,9 +22,7 @@ class Create extends Component
     public ?Service $editingService = null;
     protected $listeners = 
     [
-        'openServiceModal',
-        'closeServiceModal', 
-        'saveService'
+        'open',
     ];
     
     public function mount()
@@ -32,13 +30,13 @@ class Create extends Component
         $this->editingService = null;
     }
 
-    public function closeServiceModal()
+    public function close()
     {
         $this->open = false;
         $this->reset('name', 'description', 'duration', 'price', 'buffer', 'editingService');
     }
     
-    public function openServiceModal($serviceId = null)
+    public function open($serviceId = null)
     {
     
         $this->open = true;
@@ -66,7 +64,22 @@ class Create extends Component
         }
     }
 
-    public function saveService()
+    public function toggleServiceActive($serviceId)
+    {
+        $service = Service::find($serviceId);
+        if ($service) 
+        {
+            $service->is_active = !$service->is_active;
+            $service->save();
+            session()->flash('success', 'Service status updated.');
+        } 
+        else 
+        {
+            session()->flash('error', 'Service not found.');
+        }
+    }
+
+    public function save()
     {
         $this->validate([
             'name' => 'required|string|max:255',
@@ -79,6 +92,7 @@ class Create extends Component
 
         if ($this->editingService) 
         {
+            $this->authorize('update', $this->editingService);
             $this->editingService->update([
                 'name' => $this->name,
                 'description' => $this->description,
@@ -100,8 +114,7 @@ class Create extends Component
             ]);
         }
 
-        session()->flash('success', 'Resource has been added.');
-        $this->closeServiceModal();
+        $this->close();
         $this->dispatch('serviceCreated');
     }
 

@@ -7,10 +7,10 @@
                         <h5 class="modal-title">
                             {{ $editingService ? 'Edit service' : 'New service' }}
                         </h5>
-                        <button type="button" class="btn-close" wire:click="closeServiceModal"></button>
+                        <button type="button" class="btn-close" wire:click="close"></button>
                     </div>
                     <div class="modal-body">
-                        <form wire:submit="$dispatch('saveService')">
+                        <form wire:submit="save">
                             <div class="mb-3">
                                 <label class="form-label">Nazwa</label>
                                 <input type="text" wire:model="name" class="form-control">
@@ -50,7 +50,7 @@
                             
                             <div class="d-flex justify-content-end gap-2">
                                 <button type="submit" class="btn btn-primary">Save</button>
-                                <button type="button" wire:click="closeServiceModal" class="btn btn-secondary">Cancel</button>
+                                <button type="button" wire:click="close" class="btn btn-secondary">Cancel</button>
                             </div>
                         </form>
                     </div>

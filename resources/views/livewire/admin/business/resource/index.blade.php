@@ -1,10 +1,10 @@
 <div class="col py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3">Resources</h1>
-          <button  wire:click="$dispatch('openResourceModal',[])" class="btn btn-primary">+ Add</button>
+          <button  wire:click="$dispatch('open',[])" class="btn btn-primary">+ Add</button>
     </div>
 
-    <div class="table-responsive border rounded shadow bg-white">
+    <div class="table-responsive border shadow bg-white">
         <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
                 <tr>
@@ -26,7 +26,7 @@
                         </td>
                         <td class="text-end">
                             <button
-                                wire:click="$dispatch('openResourceModal', [{{ $resource->id }}])"
+                                wire:click="$dispatch('open', [{{ $resource->id }}])"
                                 class="btn btn-sm btn-outline-primary"
                             >
                                 Manage

@@ -21,7 +21,7 @@
             </div>
 
             @unless ($showDeleted)
-                <button wire:click="$dispatch('openServiceModal', [])" class="btn btn-sm btn-primary">+ Add</button>
+                <button wire:click="$dispatch('open', [])" class="btn btn-sm btn-primary">+ Add</button>
             @endunless
         </div>
     </div>
@@ -81,14 +81,14 @@
                                     {{ $service->is_active ? 'Deactivate' : 'Activate' }}
                                 </button>
                                 <button
-                                    wire:click="$dispatch('openServiceModal', [{{ $service->id }}])"
+                                    wire:click="$dispatch('open', [{{ $service->id }}])"
                                     class="btn btn-sm btn-outline-primary me-1 px-2 py-1"
                                 >
                                     Edit
                                 </button>
                                 <button
                                     type="button"
-                                    wire:click="deleteService({{ $service->id }})"
+                                    wire:click="delete({{ $service->id }})"
                                     class="btn btn-sm btn-outline-danger px-2 py-1"
                                     wire:confirm="Are you sure you want to delete this service?"
                                 >

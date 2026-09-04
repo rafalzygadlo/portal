@@ -17,17 +17,15 @@ class Create extends Component
     
     protected $listeners = 
     [
-        'openResourceModal',
-        'closeResourceModal', 
-        'saveResource'
+        'open',
     ];
 
-    public function openResourceModal($id = null)
+    public function open($id = null)
     {
         $this->open = true;
     }
 
-    public function closeResourceModal()
+    public function close()
     {
         $this->open = false;
         $this->reset('name', 'type');
@@ -35,7 +33,7 @@ class Create extends Component
 
     public function save()
     {
-        $this->authorize('create', $this->business);
+    
         $this->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|in:person,facility,equipment'
@@ -47,7 +45,7 @@ class Create extends Component
         ]);
 
         session()->flash('success', 'Resource has been added.');
-        $this->closeResourceModal();
+        $this->close();
         $this->dispatch('resourceCreated');
 
     }
