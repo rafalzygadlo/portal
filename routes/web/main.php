@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 
 // Authenticated routes (User must be logged in)
     Route::middleware(['auth'])->group(function () {
+
+        Route::post('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout');
         // Email Verification Routes
         Route::get('/email/verify', \App\Livewire\Auth\Verify::class)->name('verification.notice');
 
@@ -102,6 +104,8 @@ use Illuminate\Support\Str;
         Route::get('/reset-password/{token}', \App\Livewire\Auth\Password\Reset::class)->name('password.reset');
         Route::post('/reset-password', [\App\Livewire\Auth\Password\Reset::class, 'resetPassword'])->name('password.update');
     });
+    
+
 
 
 

@@ -22,7 +22,7 @@ return new class extends Migration
                 EXISTS (
                     SELECT 1 FROM promotions
                     WHERE promotions.promotable_id = articles.id
-                      AND promotions.promotable_type = 'App\Models\Article'
+                      AND promotions.promotable_type = 'App\\Models\\Article'
                       AND promotions.expires_at > CURRENT_TIMESTAMP
                 ) AS is_promoted
             FROM articles
@@ -42,7 +42,7 @@ return new class extends Migration
                 EXISTS (
                     SELECT 1 FROM promotions
                     WHERE promotions.promotable_id = todos.id
-                      AND promotions.promotable_type = 'App\Models\Todo'
+                      AND promotions.promotable_type = 'App\\Models\\Todo'
                       AND promotions.expires_at > CURRENT_TIMESTAMP
                 ) AS is_promoted
             FROM todos
@@ -62,7 +62,7 @@ return new class extends Migration
                 EXISTS (
                     SELECT 1 FROM promotions
                     WHERE promotions.promotable_id = companies.id
-                      AND promotions.promotable_type = 'App\Models\Company'
+                      AND promotions.promotable_type = 'App\\Models\\Company'
                       AND promotions.expires_at > CURRENT_TIMESTAMP
                 ) AS is_promoted
             FROM companies
@@ -82,7 +82,7 @@ return new class extends Migration
                 EXISTS (
                     SELECT 1 FROM promotions
                     WHERE promotions.promotable_id = offers.id
-                      AND promotions.promotable_type = 'App\Models\Offer'
+                      AND promotions.promotable_type = 'App\\Models\\Offer'
                       AND promotions.expires_at > CURRENT_TIMESTAMP
                 ) AS is_promoted
             FROM offers
