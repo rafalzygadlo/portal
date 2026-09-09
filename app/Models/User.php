@@ -188,7 +188,10 @@ class User extends Authenticatable implements MustVerifyEmail
     
     public function companies(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class, 'company_user');
+        return $this->belongsToMany(Company::class, 'company_user')
+                ->using(CompanyUser::class)
+                ->withPivot(['owner', 'working_hours', 'unavailable_periods'])
+                ->withTimestamps();
     }
 
     public function ownedCompanies(): BelongsToMany

@@ -43,24 +43,20 @@
                     @error('durationHours') <div class="text-danger small">{{ $message }}</div> @enderror
                 </div>
                 <div class="mb-3">
+                    <label class="form-label fw-semibold">Choose a day</label>
+                    @include('livewire.company.partials.calendar')
+                </div>
+                <div class="mb-3">
                     <label class="form-label fw-semibold">Choose available time</label>
-                    <div class="d-flex align-items-stretch gap-2">
-                        <button type="button" wire:click="shiftAvailableTimes(-1)" class="btn btn-outline-secondary px-2" @disabled($availabilityOffset === 0)><i class="bi bi-chevron-left"></i></button>
-                        <div class="row g-2 flex-grow-1">
-                            @forelse ($availableTimes as $availableTime)
-                                @php($availableDate = \Carbon\Carbon::createFromFormat('Y-m-d\\TH:i', $availableTime)->locale('pl'))
-                                <div class="col-sm-6 col-lg">
-                                    <button type="button" wire:click="selectTime('{{ $availableTime }}')" class="btn {{ $startTime === $availableTime ? 'btn-primary' : 'btn-outline-primary' }} w-100 h-100 py-2">
-                                        <span class="d-block small">{{ $availableDate->translatedFormat('l') }}</span>
-                                        <span class="d-block fw-semibold">{{ $availableDate->translatedFormat('j F') }}</span>
-                                        <span class="d-block">{{ $availableDate->format('H:i') }}</span>
-                                    </button>
-                                </div>
-                            @empty
-                                <div class="col"><div class="text-muted border rounded p-3 text-center">No available times.</div></div>
-                            @endforelse
-                        </div>
-                        <button type="button" wire:click="shiftAvailableTimes(1)" class="btn btn-outline-secondary px-2"><i class="bi bi-chevron-right"></i></button>
+                    <div class="d-flex flex-wrap gap-2">
+                        @forelse ($availableTimes as $availableTime)
+                            @php($availableDate = \Carbon\Carbon::createFromFormat('Y-m-d\\TH:i', $availableTime)->locale('pl'))
+                            <button type="button" wire:click="selectTime('{{ $availableTime }}')" class="btn btn-sm rounded-pill {{ $startTime === $availableTime ? 'btn-primary' : 'btn-outline-primary' }} px-3">
+                                {{ $availableDate->format('H:i') }}
+                            </button>
+                        @empty
+                            <div class="text-muted border rounded p-3 text-center w-100">{{ $selectedDate ? 'No available times on this day.' : 'Choose a day to see available times.' }}</div>
+                        @endforelse
                     </div>
                     @error('startTime') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
                 </div>

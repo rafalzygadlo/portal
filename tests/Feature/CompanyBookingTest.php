@@ -3,8 +3,9 @@
 namespace Tests\Feature;
 
 use App\Livewire\Company\BookService;
-use App\Livewire\Company\BookEquipment;
+use App\Livewire\Company\BookResource;
 use App\Models\Company;
+use App\Models\CompanyUser;
 use App\Models\Reservation;
 use App\Models\Resource;
 use App\Models\ResourceBooking;
@@ -29,48 +30,6 @@ class CompanyBookingTest extends TestCase
     {
         Carbon::setTestNow();
         parent::tearDown();
-    }
-
-    public function test_resource_is_available_inside_its_schedule(): void
-    {
-        $company = Company::factory()->create(['company_hours' => $this->companyHours()]);
-        $resource = Resource::factory()->create([
-            'company_id' => $company->id,
-            'working_hours' => $this->companyHours(),
-        ]);
-
-        $this->assertTrue($resource->isAvailableAt($this->time('09:00'), $this->time('10:00')));
-        $this->assertFalse($resource->isAvailableAt($this->time('16:30'), $this->time('17:30')));
-    }
-
-    public function test_resource_inherits_company_schedule_when_no_custom_schedule_exists(): void
-    {
-        $company = Company::factory()->create(['company_hours' => $this->companyHours()]);
-        $resource = Resource::factory()->create(['company_id' => $company->id, 'working_hours' => null]);
-
-        $this->assertSame($company->getCompanyHours(), $resource->getWorkingHours());
-    }
-
-    public function test_closed_day_makes_resource_unavailable(): void
-    {
-        $hours = $this->companyHours();
-        $hours['fri']['closed'] = true;
-        $company = Company::factory()->create(['company_hours' => $hours]);
-        $resource = Resource::factory()->create(['company_id' => $company->id, 'working_hours' => $hours]);
-
-        $this->assertFalse($resource->isAvailableAt($this->time('10:00'), $this->time('11:00')));
-    }
-
-    public function test_time_off_makes_resource_unavailable_for_the_whole_day(): void
-    {
-        $company = Company::factory()->create(['company_hours' => $this->companyHours()]);
-        $resource = Resource::factory()->create([
-            'company_id' => $company->id,
-            'working_hours' => $this->companyHours(),
-            'unavailable_periods' => [['start' => '2026-09-04', 'end' => '2026-09-04']],
-        ]);
-
-        $this->assertFalse($resource->isAvailableAt($this->time('10:00'), $this->time('11:00')));
     }
 
     public function test_overlapping_resource_booking_is_detected(): void
@@ -133,14 +92,20 @@ class CompanyBookingTest extends TestCase
         $company = Company::factory()->create();
         $first = Service::create(['company_id' => $company->id, 'name' => 'Oil change', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
         $second = Service::create(['company_id' => $company->id, 'name' => 'Inspection', 'duration' => 30, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
-        $mechanic = Resource::factory()->create(['company_id' => $company->id, 'type' => 'person']);
-        $other = Resource::factory()->create(['company_id' => $company->id, 'type' => 'person']);
-        $first->resources()->attach([$mechanic->id, $other->id]);
-        $second->resources()->attach($mechanic->id);
 
-        $this->assertTrue($mechanic->services()->whereKey($first->id)->exists());
-        $this->assertTrue($mechanic->services()->whereKey($second->id)->exists());
-        $this->assertFalse($other->services()->whereKey($second->id)->exists());
+        $mechanicUser = User::factory()->create();
+        $otherUser = User::factory()->create();
+        $company->users()->attach($mechanicUser, ['owner' => false]);
+        $company->users()->attach($otherUser, ['owner' => false]);
+
+        $mechanicCompanyUser = $this->companyUserFor($company, $mechanicUser);
+        $otherCompanyUser = $this->companyUserFor($company, $otherUser);
+        $mechanicCompanyUser->services()->attach([$first->id, $second->id]);
+        $otherCompanyUser->services()->attach($first->id);
+
+        $this->assertTrue($mechanicCompanyUser->services()->whereKey($first->id)->exists());
+        $this->assertTrue($mechanicCompanyUser->services()->whereKey($second->id)->exists());
+        $this->assertFalse($otherCompanyUser->services()->whereKey($second->id)->exists());
     }
 
     public function test_multi_service_booking_stores_every_selected_service(): void
@@ -149,14 +114,12 @@ class CompanyBookingTest extends TestCase
         $company = Company::factory()->create(['company_hours' => $this->companyHours()]);
         $first = Service::create(['company_id' => $company->id, 'name' => 'Oil change', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
         $second = Service::create(['company_id' => $company->id, 'name' => 'Inspection', 'duration' => 30, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
-        $person = Resource::factory()->create(['company_id' => $company->id, 'type' => 'person', 'working_hours' => $this->companyHours()]);
-        $first->resources()->attach($person->id);
-        $second->resources()->attach($person->id);
+        $person = $this->makeQualifiedPerson($company, [$first->id, $second->id], ['working_hours' => $this->companyHours()]);
 
         Livewire::actingAs($user)->test(BookService::class, ['company' => $company])
             ->set('serviceIds', [$first->id, $second->id])
             ->set('serviceId', (string) $first->id)
-            ->set('resourceId', (string) $person->id)
+            ->set('companyUserId', (string) $person->id)
             ->set('startTime', '2026-09-04T10:00')
             ->call('confirmBooking');
 
@@ -175,14 +138,12 @@ class CompanyBookingTest extends TestCase
         $company = Company::factory()->create(['company_hours' => $hours]);
         $first = Service::create(['company_id' => $company->id, 'name' => 'Oil change', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
         $second = Service::create(['company_id' => $company->id, 'name' => 'Inspection', 'duration' => 30, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
-        $person = Resource::factory()->create(['company_id' => $company->id, 'type' => 'person', 'working_hours' => $hours]);
-        $first->resources()->attach($person->id);
-        $second->resources()->attach($person->id);
+        $person = $this->makeQualifiedPerson($company, [$first->id, $second->id], ['working_hours' => $hours]);
 
         Reservation::create([
             'company_id' => $company->id,
             'service_id' => $first->id,
-            'resource_id' => $person->id,
+            'company_user_id' => $person->id,
             'client_name' => 'Existing client',
             'client_email' => 'existing@example.com',
             'start_time' => $this->time('12:30'),
@@ -193,7 +154,7 @@ class CompanyBookingTest extends TestCase
         Livewire::test(BookService::class, ['company' => $company])
             ->set('serviceIds', [$first->id, $second->id])
             ->set('serviceId', (string) $first->id)
-            ->set('resourceId', (string) $person->id)
+            ->set('companyUserId', (string) $person->id)
             ->set('startTime', '2026-09-04T14:00')
             ->call('previousAvailable')
             ->assertSet('startTime', '2026-09-04T11:00');
@@ -203,13 +164,12 @@ class CompanyBookingTest extends TestCase
     {
         $company = Company::factory()->create(['company_hours' => $this->companyHours()]);
         $service = Service::create(['company_id' => $company->id, 'name' => 'Meeting', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
-        $person = Resource::factory()->create(['company_id' => $company->id, 'type' => 'person', 'working_hours' => $this->companyHours()]);
-        $service->resources()->attach($person->id);
+        $person = $this->makeQualifiedPerson($company, [$service->id], ['working_hours' => $this->companyHours()]);
 
         Livewire::test(BookService::class, ['company' => $company])
             ->set('serviceIds', [$service->id])
             ->set('serviceId', (string) $service->id)
-            ->set('resourceId', (string) $person->id)
+            ->set('companyUserId', (string) $person->id)
             ->set('startTime', '2026-09-05T12:30')
             ->call('previousAvailable')
             ->assertSet('startTime', '2026-09-05T12:00');
@@ -219,12 +179,11 @@ class CompanyBookingTest extends TestCase
     {
         $company = Company::factory()->create(['company_hours' => $this->companyHours()]);
         $service = Service::create(['company_id' => $company->id, 'name' => 'Meeting', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
-        $person = Resource::factory()->create(['company_id' => $company->id, 'type' => 'person', 'working_hours' => $this->companyHours()]);
-        $service->resources()->attach($person->id);
+        $person = $this->makeQualifiedPerson($company, [$service->id], ['working_hours' => $this->companyHours()]);
         Reservation::create([
             'company_id' => $company->id,
             'service_id' => $service->id,
-            'resource_id' => $person->id,
+            'company_user_id' => $person->id,
             'client_name' => 'Existing client',
             'client_email' => 'existing@example.com',
             'start_time' => $this->time('10:00'),
@@ -235,7 +194,7 @@ class CompanyBookingTest extends TestCase
         Livewire::test(BookService::class, ['company' => $company])
             ->set('serviceIds', [$service->id])
             ->set('serviceId', (string) $service->id)
-            ->set('resourceId', (string) $person->id)
+            ->set('companyUserId', (string) $person->id)
             ->set('startTime', '2026-09-04T10:30')
             ->call('continueBooking')
             ->assertHasErrors('startTime');
@@ -245,18 +204,14 @@ class CompanyBookingTest extends TestCase
     {
         $company = Company::factory()->create(['company_hours' => $this->companyHours()]);
         $service = Service::create(['company_id' => $company->id, 'name' => 'Meeting', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
-        $person = Resource::factory()->create(['company_id' => $company->id, 'type' => 'person', 'working_hours' => $this->companyHours()]);
-        $service->resources()->attach($person->id);
+        $person = $this->makeQualifiedPerson($company, [$service->id], ['working_hours' => $this->companyHours()]);
 
         Livewire::test(BookService::class, ['company' => $company])
             ->set('serviceIds', [$service->id])
             ->set('serviceId', (string) $service->id)
-            ->set('resourceId', (string) $person->id)
-            ->assertViewHas('availableTimes', fn (array $times) => count($times) === 5)
-            ->call('shiftAvailableTimes', 1)
-            ->assertSet('availabilityOffset', 1)
-            ->call('shiftAvailableTimes', -1)
-            ->assertSet('availabilityOffset', 0)
+            ->set('companyUserId', (string) $person->id)
+            ->call('selectDate', '2026-09-04')
+            ->assertViewHas('availableTimes', fn (array $times) => count($times) > 0)
             ->call('selectTime', '2026-09-04T10:00')
             ->assertSet('startTime', '2026-09-04T10:00');
     }
@@ -268,7 +223,7 @@ class CompanyBookingTest extends TestCase
         $first = Resource::factory()->create(['company_id' => $company->id, 'type' => 'equipment', 'hourly_rate' => 25]);
         $second = Resource::factory()->create(['company_id' => $company->id, 'type' => 'equipment', 'hourly_rate' => 15]);
 
-        Livewire::actingAs($user)->test(BookEquipment::class, ['company' => $company])
+        Livewire::actingAs($user)->test(BookResource::class, ['company' => $company])
             ->set('resourceIds', [$first->id, $second->id])
             ->set('durationHours', '2')
             ->set('startTime', '2026-09-04T10:00')
@@ -278,6 +233,25 @@ class CompanyBookingTest extends TestCase
         $this->assertNotNull($booking);
         $this->assertEqualsCanonicalizing([$first->id, $second->id], $booking->resource_ids);
         $this->assertEquals(80, $booking->total_price);
+    }
+
+    private function companyUserFor(Company $company, User $user): CompanyUser
+    {
+        if (!$company->users()->whereKey($user->id)->exists()) {
+            $company->users()->attach($user, ['owner' => false]);
+        }
+
+        return CompanyUser::where('company_id', $company->id)->where('user_id', $user->id)->firstOrFail();
+    }
+
+    private function makeQualifiedPerson(Company $company, array $serviceIds, array $companyUserAttributes = []): CompanyUser
+    {
+        $user = User::factory()->create();
+        $companyUser = $this->companyUserFor($company, $user);
+        $companyUser->services()->attach($serviceIds);
+        $companyUser->update($companyUserAttributes);
+
+        return $companyUser;
     }
 
     private function companyHours(): array

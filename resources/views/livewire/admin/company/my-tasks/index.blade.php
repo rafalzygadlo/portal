@@ -17,7 +17,7 @@
                     <tr>
                         <th>Service</th>
                         <th>Client</th>
-                        <th>Resource</th>
+                        <th>Employee</th>
                         <th>Period</th>
                         <th>Status</th>
                     </tr>
@@ -27,7 +27,7 @@
                         <tr>
                             <td class="fw-semibold">{{ $reservation->service?->name ?? 'Service' }}</td>
                             <td>{{ $reservation->client_name }}<div class="small text-muted">{{ $reservation->client_email }}</div></td>
-                            <td>{{ $reservation->resource?->name ?? '-' }}</td>
+                            <td>{{ $reservation->companyUser?->user?->name ?? '-' }}</td>
                             <td>
                                 {{ $reservation->start_time->format('d.m.Y H:i') }}<br>
                                 <span class="text-muted">to {{ $reservation->end_time->format('H:i') }}</span>

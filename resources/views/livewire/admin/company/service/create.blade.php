@@ -48,14 +48,14 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">People who provide this service</label>
+                                <label class="form-label">Employees who provide this service</label>
                                 @forelse ($people as $person)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{ $person->id }}" wire:model="resourceIds" id="person-{{ $person->id }}">
+                                        <input class="form-check-input" type="checkbox" value="{{ $person->id }}" wire:model="userIds" id="person-{{ $person->id }}">
                                         <label class="form-check-label" for="person-{{ $person->id }}">{{ $person->name }}</label>
                                     </div>
                                 @empty
-                                    <div class="form-text">Add a resource of type Person first.</div>
+                                    <div class="form-text">Add an employee to the company first.</div>
                                 @endforelse
                             </div>
 

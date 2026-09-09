@@ -57,8 +57,8 @@
                     @forelse ($availablePeople as $personOption)
                         @if ($personOption['nextStart'])
                             <div class="col-md-6">
-                                <button type="button" wire:click="selectPerson({{ $personOption['resource']->id }}, '{{ $personOption['nextStart'] }}')" class="btn {{ $resourceId == $personOption['resource']->id ? 'btn-primary' : 'btn-outline-primary' }} w-100 text-start">
-                                    <span class="d-block fw-semibold">{{ $personOption['resource']->name }}</span>
+                                <button type="button" wire:click="selectPerson({{ $personOption['companyUser']->id }}, '{{ $personOption['nextStart'] }}')" class="btn {{ $companyUserId == $personOption['companyUser']->id ? 'btn-primary' : 'btn-outline-primary' }} w-100 text-start">
+                                    <span class="d-block fw-semibold">{{ $personOption['companyUser']->user->name }}</span>
                                     <span class="small">First available: {{ \Carbon\Carbon::createFromFormat('Y-m-d\\TH:i', $personOption['nextStart'])->locale('pl')->translatedFormat('l, j F Y, H:i') }}</span>
                                 </button>
                             </div>
@@ -67,36 +67,25 @@
                         <div class="col-12"><div class="alert alert-secondary">No people are assigned to this service.</div></div>
                     @endforelse
                 </div>
-                @error('resourceId') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                @error('companyUserId') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Choose a day</label>
+                @include('livewire.company.partials.calendar')
             </div>
             <div class="mb-3">
                 <label class="form-label fw-semibold">Choose an available time</label>
-                @if ($availableTimes)
-                    <div class="d-flex align-items-stretch gap-2">
-                        <button type="button" wire:click="shiftAvailableTimes(-1)" class="btn btn-outline-secondary px-2" @disabled($availabilityOffset === 0) title="Previous available times">
-                            <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                <div class="d-flex flex-wrap gap-2">
+                    @forelse ($availableTimes as $availableTime)
+                        @php($availableDate = \Carbon\Carbon::createFromFormat('Y-m-d\\TH:i', $availableTime)->locale('pl'))
+                        <button type="button" wire:click="selectTime('{{ $availableTime }}')" class="btn btn-sm rounded-pill {{ $startTime === $availableTime ? 'btn-primary' : 'btn-outline-primary' }} px-3">
+                            {{ $availableDate->format('H:i') }}
                         </button>
-                        <div class="row g-2 flex-grow-1">
-                        @foreach ($availableTimes as $availableTime)
-                            @php($availableDate = \Carbon\Carbon::createFromFormat('Y-m-d\\TH:i', $availableTime)->locale('pl'))
-                            <div class="col-sm-6 col-lg">
-                                <button type="button" wire:click="selectTime('{{ $availableTime }}')" class="btn {{ $startTime === $availableTime ? 'btn-primary' : 'btn-outline-primary' }} w-100 h-100 py-2">
-                                    <span class="d-block small">{{ $availableDate->translatedFormat('l') }}</span>
-                                    <span class="d-block fw-semibold">{{ $availableDate->translatedFormat('j F') }}</span>
-                                    <span class="d-block">{{ $availableDate->format('H:i') }}</span>
-                                </button>
-                            </div>
-                        @endforeach
-                        </div>
-                        <button type="button" wire:click="shiftAvailableTimes(1)" class="btn btn-outline-secondary px-2" title="Next available times">
-                            <i class="bi bi-chevron-right" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                @else
-                    <div class="text-muted border rounded p-3 text-center">Choose a person to see available times.</div>
-                @endif
+                    @empty
+                        <div class="text-muted border rounded p-3 text-center w-100">{{ $selectedDate ? 'No available times on this day.' : 'Choose a day to see available times.' }}</div>
+                    @endforelse
+                </div>
                 @error('startTime') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
-                <div class="form-text">Choose one of the five nearest available times.</div>
             </div>
             <div class="d-flex justify-content-between mt-4">
                 <button type="button" wire:click="$set('step', 1)" class="btn btn-outline-secondary">Back</button>
@@ -108,7 +97,7 @@
             <h2 class="h5 mb-4">Booking summary</h2>
             <dl class="row mb-0">
                 <dt class="col-sm-4">Services</dt><dd class="col-sm-8">{{ $selectedServices->pluck('name')->join(', ') }}</dd>
-                <dt class="col-sm-4">Person</dt><dd class="col-sm-8">{{ $selectedService->resources()->whereKey($resourceId)->first()->name }}</dd>
+                <dt class="col-sm-4">Person</dt><dd class="col-sm-8">{{ $selectedService->companyUsers()->whereKey($companyUserId)->first()->user->name }}</dd>
                 <dt class="col-sm-4">Start</dt><dd class="col-sm-8">{{ \Carbon\Carbon::createFromFormat('Y-m-d\\TH:i', $startTime)->locale('pl')->translatedFormat('l, j F Y, H:i') }}</dd>
                 <dt class="col-sm-4">Account</dt><dd class="col-sm-8">{{ auth()->user()->email }}</dd>
             </dl>

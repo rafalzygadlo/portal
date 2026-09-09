@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Company\MyTasks;
 
 use App\Models\Company;
+use App\Models\CompanyUser;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -20,16 +21,22 @@ class Index extends Component
 
     public function render()
     {
+        $companyUser = CompanyUser::where('company_id', $this->company->id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        $reservations = $companyUser
+            ? $this->company->reservations()
+                ->where('company_user_id', $companyUser->id)
+                ->with(['service', 'companyUser.user'])
+                ->where('status', '!=', 'cancelled')
+                ->orderBy('start_time')
+                ->get()
+            : collect();
+
         $resourceIds = $this->company->resources()
             ->where('assigned_user_id', auth()->id())
             ->pluck('id');
-
-        $reservations = $this->company->reservations()
-            ->whereIn('resource_id', $resourceIds)
-            ->with(['service', 'resource'])
-            ->where('status', '!=', 'cancelled')
-            ->orderBy('start_time')
-            ->get();
 
         $bookings = $this->company->resourceBookings()
             ->whereIn('resource_id', $resourceIds)

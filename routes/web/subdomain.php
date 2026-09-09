@@ -12,21 +12,9 @@ use Illuminate\Support\Str;
 
 
     Route::get('/', \App\Livewire\Company\Domain::class)->name('company.domain');
-    Route::get('/equipment', \App\Livewire\Company\BookEquipment::class)->name('company.booking.equipment');
-    
-    // TODO: Booking module - temporarily disabled
-    // The booking system with multi-step flow (Step1-Step4) is under development
-    // and will not be developed further in this iteration.
-    // Routes remain commented out until the feature is ready for implementation.
-    
-    Route::prefix('booking')->group(function () 
-    {
-        Route::get('/', \App\Livewire\Company\BookService::class)->name('company.booking.services');
-        Route::get('/{flow}/step1', \App\Livewire\Company\Booking\Step1::class)->name('booking.step1');
-        Route::get('/{flow}/step2', \App\Livewire\Company\Booking\Step2::class)->name('booking.step2');
-        Route::get('/{flow}/step3', \App\Livewire\Company\Booking\Step3::class)->name('booking.step3');
-        Route::get('/{flow}/step4', \App\Livewire\Company\Booking\Step4::class)->name('booking.step4');
-    });
+    Route::get('/book-equipment', \App\Livewire\Company\BookResource::class)->name('company.booking.equipment');
+    Route::get('/book-service', \App\Livewire\Company\BookService::class)->name('company.booking.services');
+        
     
     Route::middleware('guest')->group(function () 
     {

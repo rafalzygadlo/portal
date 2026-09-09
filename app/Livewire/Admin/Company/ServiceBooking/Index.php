@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Company\ServiceBooking;
 
 use App\Models\Company;
+use App\Models\CompanyUser;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -11,7 +12,7 @@ class Index extends Component
     use AuthorizesRequests;
 
     public Company $company;
-    public string $resourceFilter = '';
+    public string $companyUserFilter = '';
     public string $statusFilter = '';
 
     public function mount(Company $company): void
@@ -46,11 +47,11 @@ class Index extends Component
     public function render()
     {
         $query = $this->company->reservations()
-            ->with(['service', 'services', 'resource'])
+            ->with(['service', 'services', 'companyUser.user'])
             ->orderBy('start_time');
 
-        if ($this->resourceFilter) {
-            $query->where('resource_id', $this->resourceFilter);
+        if ($this->companyUserFilter) {
+            $query->where('company_user_id', $this->companyUserFilter);
         }
 
         if ($this->statusFilter) {
@@ -59,7 +60,7 @@ class Index extends Component
 
         return view('livewire.admin.company.service-booking.index', [
             'reservations' => $query->get(),
-            'people' => $this->company->resources()->where('type', 'person')->orderBy('name')->get(),
+            'people' => CompanyUser::where('company_id', $this->company->id)->with('user')->get(),
         ])->layout('layouts.admin', ['company' => $this->company]);
     }
 }

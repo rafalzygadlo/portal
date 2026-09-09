@@ -8,18 +8,20 @@ use App\Models\ResourceBooking;
 use Carbon\Carbon;
 use Livewire\Component;
 
-class BookEquipment extends Component
+class BookResource extends Component
 {
     public Company $company;
     public int $step = 1;
     public array $resourceIds = [];
     public string $durationHours = '1';
+    public string $selectedDate = '';
     public string $startTime = '';
-    public int $availabilityOffset = 0;
+    public string $calendarMonth = '';
 
     public function mount(Company $company): void
     {
         $this->company = $company;
+        $this->calendarMonth = now('Europe/Warsaw')->format('Y-m');
 
         if (auth()->check() && ($draft = session()->pull($this->draftKey()))) {
             $this->resourceIds = $draft['resource_ids'] ?? [$draft['resource_id']];
@@ -39,8 +41,8 @@ class BookEquipment extends Component
             $this->resourceIds[] = $resource->id;
         }
         $this->resourceIds = array_map('intval', $this->resourceIds);
+        $this->selectedDate = '';
         $this->startTime = '';
-        $this->availabilityOffset = 0;
     }
 
     public function continueResources(): void
@@ -49,32 +51,33 @@ class BookEquipment extends Component
         $this->step = 2;
     }
 
+    public function selectDate(string $date): void
+    {
+        $this->selectedDate = $date;
+        $this->startTime = '';
+    }
+
     public function selectTime(string $startTime): void
     {
         $this->startTime = $startTime;
     }
 
-    public function shiftAvailableTimes(int $direction): void
+    public function previousMonth(): void
     {
-        $this->availabilityOffset = max(0, $this->availabilityOffset + $direction);
+        $current = Carbon::createFromFormat('Y-m', $this->calendarMonth, 'Europe/Warsaw')->startOfMonth();
+        $previous = $current->copy()->subMonth();
+
+        if ($previous->lt(now('Europe/Warsaw')->startOfMonth())) {
+            return;
+        }
+
+        $this->calendarMonth = $previous->format('Y-m');
     }
 
-    public function nextAvailable(): void
+    public function nextMonth(): void
     {
-        $this->validate([
-            'resourceIds' => 'required|array|min:1',
-            'durationHours' => 'required|integer|min:1|max:24',
-        ]);
-
-        $after = $this->startTime
-            ? $this->startDate()->addMinutes(30)
-            : null;
-
-        $this->startTime = $this->findNextAvailableStart(
-            $this->resourceIds,
-            (int) $this->durationHours,
-            $after
-        );
+        $current = Carbon::createFromFormat('Y-m', $this->calendarMonth, 'Europe/Warsaw')->startOfMonth();
+        $this->calendarMonth = $current->copy()->addMonth()->format('Y-m');
     }
 
     public function updatedDurationHours(): void
@@ -160,7 +163,8 @@ class BookEquipment extends Component
         return view('livewire.company.resource-booking', [
             'equipment' => $this->equipment()->orderBy('name')->get(),
             'selectedResources' => $this->resourceIds ? Resource::whereIn('id', $this->resourceIds)->get() : collect(),
-            'availableTimes' => $this->availableTimes(),
+            'calendarDays' => $this->calendarDays(),
+            'availableTimes' => $this->availableTimesForSelectedDate(),
         ])->layout('layouts.company', ['company' => $this->company]);
     }
 
@@ -195,8 +199,8 @@ class BookEquipment extends Component
 
     private function resourcesAreAvailable(Carbon $start, Carbon $end): bool
     {
-        foreach (Resource::whereIn('id', $this->resourceIds)->get() as $resource) {
-            if (!$resource->isAvailableAt($start, $end) || !$this->isAvailable($resource->id, $start, $end)) {
+        foreach ($this->resourceIds as $resourceId) {
+            if (!$this->isAvailable($resourceId, $start, $end)) {
                 return false;
             }
         }
@@ -208,61 +212,74 @@ class BookEquipment extends Component
         return (float) Resource::whereIn('id', $this->resourceIds)->sum('hourly_rate') * (int) $this->durationHours;
     }
 
-    private function availableTimes(): array
+    /**
+     * Every day of the visible month, flagged as past/closed so the calendar can disable them.
+     */
+    private function calendarDays(): array
     {
-        if (!$this->resourceIds || !$this->durationHours) {
+        $month = Carbon::createFromFormat('Y-m', $this->calendarMonth, 'Europe/Warsaw')->startOfMonth();
+        $today = now('Europe/Warsaw')->startOfDay();
+        $hours = $this->company->getCompanyHours();
+        $days = [];
+
+        for ($date = $month->copy(); $date->month === $month->month; $date->addDay()) {
+            $dayKey = strtolower($date->format('D'));
+
+            $days[] = [
+                'date' => $date->format('Y-m-d'),
+                'day' => $date->day,
+                'weekday' => $date->dayOfWeekIso,
+                'isPast' => $date->lt($today),
+                'isClosed' => $hours[$dayKey]['closed'] ?? false,
+            ];
+        }
+
+        return $days;
+    }
+
+    /**
+     * All free slots on the selected date, instead of just the next few sequential ones.
+     */
+    private function availableTimesForSelectedDate(): array
+    {
+        if (!$this->selectedDate || !$this->resourceIds || !$this->durationHours) {
             return [];
         }
 
+        $date = Carbon::createFromFormat('Y-m-d', $this->selectedDate, 'Europe/Warsaw')->startOfDay();
+        $dayKey = strtolower($date->format('D'));
+        $dayHours = $this->company->getCompanyHours()[$dayKey] ?? ['closed' => true];
+
+        if ($dayHours['closed'] ?? false) {
+            return [];
+        }
+
+        $openTime = Carbon::parse($dayHours['open'] ?? '00:00');
+        $closeTime = Carbon::parse($dayHours['close'] ?? '00:00');
+        $duration = (int) $this->durationHours;
+        $now = now('Europe/Warsaw');
+
+        $candidate = $date->copy()->setTime($openTime->hour, $openTime->minute);
+        $dayClose = $date->copy()->setTime($closeTime->hour, $closeTime->minute);
+
         $times = [];
-        $after = null;
-        for ($index = 0; $index < $this->availabilityOffset + 5; $index++) {
-            $nextStart = $this->findNextAvailableStart($this->resourceIds, (int) $this->durationHours, $after);
-            if (!$nextStart) {
-                break;
-            }
-            $times[] = $nextStart;
-            $after = Carbon::createFromFormat('Y-m-d\\TH:i', $nextStart, 'Europe/Warsaw');
-        }
+        while ($candidate->copy()->addHours($duration)->lte($dayClose)) {
+            $end = $candidate->copy()->addHours($duration);
 
-        return array_slice($times, $this->availabilityOffset, 5);
-    }
-
-    private function findNextAvailableStart(array $resourceIds, int $durationHours, ?Carbon $after = null): string
-    {
-        if ($after) {
-            $candidate = $after->copy()->addMinutes(30);
-
-            if ($candidate->minute > 0) {
-                $candidate->addHour()->startOfHour();
-            }
-        } else {
-            $candidate = now('Europe/Warsaw')->addMinutes(30)->startOfHour();
-        }
-        $hours = $this->company->getCompanyHours();
-
-        for ($slot = 0; $slot < 24 * 90 * 2; $slot++) {
-            $dayKey = strtolower($candidate->format('D'));
-            $dayHours = $hours[$dayKey] ?? ['closed' => true];
-            $end = $candidate->copy()->addHours($durationHours);
-
-            if (!($dayHours['closed'] ?? false)
-                && $candidate->format('H:i') >= ($dayHours['open'] ?? '00:00')
-                && $end->format('H:i') <= ($dayHours['close'] ?? '00:00')
-                && $this->resourcesAreAvailableAt($resourceIds, $candidate, $end)) {
-                return $candidate->format('Y-m-d\\TH:i');
+            if ($candidate->gt($now) && $this->resourcesAreAvailableAt($this->resourceIds, $candidate, $end)) {
+                $times[] = $candidate->format('Y-m-d\\TH:i');
             }
 
             $candidate->addMinutes(30);
         }
 
-        return now('Europe/Warsaw')->addDay()->format('Y-m-d\\TH:i');
+        return $times;
     }
 
     private function resourcesAreAvailableAt(array $resourceIds, Carbon $start, Carbon $end): bool
     {
-        foreach (Resource::whereIn('id', $resourceIds)->get() as $resource) {
-            if (!$resource->isAvailableAt($start, $end) || !$this->isAvailable($resource->id, $start, $end)) {
+        foreach ($resourceIds as $resourceId) {
+            if (!$this->isAvailable($resourceId, $start, $end)) {
                 return false;
             }
         }

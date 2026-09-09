@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Company\User;
 
 use App\Models\Company;
+use App\Models\CompanyUser;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -19,6 +20,13 @@ class Index extends Component
     public string $lastName = '';
     public string $email = '';
     public string $password = '';
+
+    public bool $showScheduleModal = false;
+    public ?int $scheduleUserId = null;
+    public array $scheduleWorkingHours = [];
+    public array $scheduleUnavailablePeriods = [];
+    public string $scheduleTimeOffStart = '';
+    public string $scheduleTimeOffEnd = '';
 
     public function mount(Company $company): void
     {
@@ -84,6 +92,65 @@ class Index extends Component
         $this->showCreateModal = false;
         $this->reset('firstName', 'lastName', 'email', 'password');
         session()->flash('success', 'User has been created and assigned to the company.');
+    }
+
+    public function openScheduleModal(int $userId): void
+    {
+        $this->authorize('manage', $this->company);
+        $this->resetErrorBag();
+
+        $companyUser = $this->companyUser($userId);
+        $this->scheduleUserId = $userId;
+        $this->scheduleWorkingHours = $companyUser->getWorkingHours();
+        $this->scheduleUnavailablePeriods = $companyUser->unavailable_periods ?? [];
+        $this->scheduleTimeOffStart = '';
+        $this->scheduleTimeOffEnd = '';
+        $this->showScheduleModal = true;
+    }
+
+    public function removeUnavailablePeriod(int $index): void
+    {
+        unset($this->scheduleUnavailablePeriods[$index]);
+        $this->scheduleUnavailablePeriods = array_values($this->scheduleUnavailablePeriods);
+    }
+
+    public function saveSchedule(): void
+    {
+        $this->authorize('manage', $this->company);
+
+        $this->validate([
+            'scheduleWorkingHours.*.open' => 'nullable|date_format:H:i',
+            'scheduleWorkingHours.*.close' => 'nullable|date_format:H:i',
+            'scheduleWorkingHours.*.closed' => 'boolean',
+            'scheduleTimeOffStart' => 'nullable|date_format:Y-m-d',
+            'scheduleTimeOffEnd' => 'nullable|date_format:Y-m-d|after_or_equal:scheduleTimeOffStart',
+        ]);
+
+        if (($this->scheduleTimeOffStart && !$this->scheduleTimeOffEnd) || (!$this->scheduleTimeOffStart && $this->scheduleTimeOffEnd)) {
+            $this->addError('scheduleTimeOffEnd', 'Set both dates for a time-off period.');
+            return;
+        }
+
+        if ($this->scheduleTimeOffStart && $this->scheduleTimeOffEnd) {
+            $this->scheduleUnavailablePeriods[] = ['start' => $this->scheduleTimeOffStart, 'end' => $this->scheduleTimeOffEnd];
+        }
+
+        $companyUser = $this->companyUser($this->scheduleUserId);
+        $companyUser->update([
+            'working_hours' => $this->scheduleWorkingHours,
+            'unavailable_periods' => $this->scheduleUnavailablePeriods,
+        ]);
+
+        $this->showScheduleModal = false;
+        $this->reset('scheduleUserId', 'scheduleWorkingHours', 'scheduleUnavailablePeriods', 'scheduleTimeOffStart', 'scheduleTimeOffEnd');
+        session()->flash('success', 'Working hours have been updated.');
+    }
+
+    private function companyUser(int $userId): CompanyUser
+    {
+        return CompanyUser::where('company_id', $this->company->id)
+            ->where('user_id', $userId)
+            ->firstOrFail();
     }
 
     public function render()

@@ -4,8 +4,8 @@ namespace Tests\Feature\Livewire\Admin\Company;
 
 use App\Livewire\Admin\Company\MyTasks\Index;
 use App\Models\Company;
+use App\Models\CompanyUser;
 use App\Models\Reservation;
-use App\Models\Resource;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,18 +26,9 @@ class MyTasksTest extends TestCase
         $company->users()->attach($worker, ['owner' => false]);
         $company->users()->attach($otherWorker, ['owner' => false]);
 
-        $workerResource = Resource::factory()->create([
-            'company_id' => $company->id,
-            'type' => 'person',
-            'assigned_user_id' => $worker->id,
-            'name' => 'Pan Mechanik',
-        ]);
-        $otherResource = Resource::factory()->create([
-            'company_id' => $company->id,
-            'type' => 'person',
-            'assigned_user_id' => $otherWorker->id,
-            'name' => 'Other Worker',
-        ]);
+        $workerCompanyUser = CompanyUser::where('company_id', $company->id)->where('user_id', $worker->id)->firstOrFail();
+        $otherCompanyUser = CompanyUser::where('company_id', $company->id)->where('user_id', $otherWorker->id)->firstOrFail();
+
         $service = Service::create([
             'company_id' => $company->id,
             'name' => 'Usługa testowa',
@@ -50,7 +41,7 @@ class MyTasksTest extends TestCase
         Reservation::create([
             'company_id' => $company->id,
             'service_id' => $service->id,
-            'resource_id' => $workerResource->id,
+            'company_user_id' => $workerCompanyUser->id,
             'client_name' => 'Worker client',
             'client_email' => 'client1@example.test',
             'start_time' => now()->addHour(),
@@ -60,7 +51,7 @@ class MyTasksTest extends TestCase
         Reservation::create([
             'company_id' => $company->id,
             'service_id' => $service->id,
-            'resource_id' => $otherResource->id,
+            'company_user_id' => $otherCompanyUser->id,
             'client_name' => 'Other client',
             'client_email' => 'client2@example.test',
             'start_time' => now()->addHour(),
@@ -73,6 +64,6 @@ class MyTasksTest extends TestCase
         Livewire::test(Index::class, ['company' => $company])
             ->assertSee('Worker client')
             ->assertDontSee('Other client')
-            ->assertSee('Pan Mechanik');
+            ->assertSee($worker->name);
     }
 }

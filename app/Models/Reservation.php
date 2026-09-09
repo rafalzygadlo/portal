@@ -15,7 +15,7 @@ class Reservation extends Model
     protected $fillable = [
         'company_id',
         'service_id',
-        'resource_id',
+        'company_user_id',
         'user_id',
         'client_name',
         'client_email',
@@ -59,9 +59,12 @@ class Reservation extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function resource(): BelongsTo
+    /**
+     * The employee (company_user) performing this reservation, if any.
+     */
+    public function companyUser(): BelongsTo
     {
-        return $this->belongsTo(Resource::class);
+        return $this->belongsTo(CompanyUser::class);
     }
 
     /**

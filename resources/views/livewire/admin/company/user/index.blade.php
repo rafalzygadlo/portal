@@ -91,6 +91,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
                     <th scope="col">Added</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -104,13 +105,68 @@
                             </span>
                         </td>
                         <td>{{ $user->pivot->created_at?->format('d.m.Y H:i') ?? '-' }}</td>
+                        <td class="text-end">
+                            <button type="button" wire:click="openScheduleModal({{ $user->id }})" class="btn btn-sm btn-outline-secondary">Working hours</button>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center text-muted py-4">No users assigned yet.</td>
+                        <td colspan="5" class="text-center text-muted py-4">No users assigned yet.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
+
+    @if ($showScheduleModal)
+        <div class="modal-backdrop fade show"></div>
+        <div class="modal d-block" tabindex="-1" role="dialog" style="background: rgba(0, 0, 0, 0.45);">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title h5">Working hours &amp; days off</h2>
+                        <button type="button" class="btn-close" wire:click="$set('showScheduleModal', false)" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Working hours</label>
+                            @foreach ($scheduleWorkingHours as $day => $hours)
+                                <div class="row g-2 align-items-center mb-2">
+                                    <div class="col-3 text-capitalize small">{{ $day }}</div>
+                                    <div class="col-4">
+                                        <input type="time" wire:model="scheduleWorkingHours.{{ $day }}.open" class="form-control form-control-sm" @disabled($hours['closed'] ?? false)>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="time" wire:model="scheduleWorkingHours.{{ $day }}.close" class="form-control form-control-sm" @disabled($hours['closed'] ?? false)>
+                                    </div>
+                                    <div class="col-1">
+                                        <input type="checkbox" wire:model="scheduleWorkingHours.{{ $day }}.closed" class="form-check-input" title="Day off">
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="mb-0">
+                            <label class="form-label">Time off</label>
+                            @foreach ($scheduleUnavailablePeriods as $index => $period)
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <span class="small">{{ $period['start'] }} to {{ $period['end'] }}</span>
+                                    <button type="button" wire:click="removeUnavailablePeriod({{ $index }})" class="btn btn-sm btn-outline-danger">Remove</button>
+                                </div>
+                            @endforeach
+                            <div class="row g-2">
+                                <div class="col-5"><input type="date" wire:model="scheduleTimeOffStart" class="form-control form-control-sm"></div>
+                                <div class="col-5"><input type="date" wire:model="scheduleTimeOffEnd" class="form-control form-control-sm"></div>
+                                <div class="col-2"><span class="form-text">Add on save</span></div>
+                            </div>
+                            @error('scheduleTimeOffEnd') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="$set('showScheduleModal', false)">Cancel</button>
+                        <button type="button" class="btn btn-primary" wire:click="saveSchedule">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

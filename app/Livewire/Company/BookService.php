@@ -3,8 +3,8 @@
 namespace App\Livewire\Company;
 
 use App\Models\Company;
+use App\Models\CompanyUser;
 use App\Models\Reservation;
-use App\Models\Resource;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -14,18 +14,20 @@ class BookService extends Component
     public int $step = 1;
     public string $serviceId = '';
     public array $serviceIds = [];
-    public string $resourceId = '';
+    public string $companyUserId = '';
+    public string $selectedDate = '';
     public string $startTime = '';
-    public int $availabilityOffset = 0;
+    public string $calendarMonth = '';
 
     public function mount(Company $company): void
     {
         $this->company = $company;
+        $this->calendarMonth = now('Europe/Warsaw')->format('Y-m');
 
         if (auth()->check() && ($draft = session()->pull($this->draftKey()))) {
             $this->serviceIds = $draft['service_ids'] ?? [$draft['service_id']];
             $this->serviceId = (string) $this->serviceIds[0];
-            $this->resourceId = $draft['resource_id'];
+            $this->companyUserId = $draft['company_user_id'];
             $this->startTime = $draft['start_time'];
             $this->step = 3;
         }
@@ -41,9 +43,9 @@ class BookService extends Component
         }
         $this->serviceIds = array_map('intval', $this->serviceIds);
         $this->serviceId = $this->serviceIds ? (string) $this->serviceIds[0] : '';
-        $this->resourceId = '';
+        $this->companyUserId = '';
+        $this->selectedDate = '';
         $this->startTime = '';
-        $this->availabilityOffset = 0;
     }
 
     public function continueServices(): void
@@ -53,16 +55,35 @@ class BookService extends Component
         $this->step = 2;
     }
 
-    public function selectPerson(int $resourceId, string $suggestedStart): void
+    public function selectPerson(int $companyUserId, string $suggestedStart): void
     {
-        $this->resourceId = (string) $resourceId;
-        $this->startTime = $suggestedStart;
-        $this->availabilityOffset = 0;
+        $this->companyUserId = (string) $companyUserId;
+        $this->selectedDate = substr($suggestedStart, 0, 10);
+        $this->startTime = '';
     }
 
-    public function shiftAvailableTimes(int $direction): void
+    public function selectDate(string $date): void
     {
-        $this->availabilityOffset = max(0, $this->availabilityOffset + $direction);
+        $this->selectedDate = $date;
+        $this->startTime = '';
+    }
+
+    public function previousMonth(): void
+    {
+        $current = Carbon::createFromFormat('Y-m', $this->calendarMonth, 'Europe/Warsaw')->startOfMonth();
+        $previous = $current->copy()->subMonth();
+
+        if ($previous->lt(now('Europe/Warsaw')->startOfMonth())) {
+            return;
+        }
+
+        $this->calendarMonth = $previous->format('Y-m');
+    }
+
+    public function nextMonth(): void
+    {
+        $current = Carbon::createFromFormat('Y-m', $this->calendarMonth, 'Europe/Warsaw')->startOfMonth();
+        $this->calendarMonth = $current->copy()->addMonth()->format('Y-m');
     }
 
     public function selectTime(string $startTime): void
@@ -73,11 +94,10 @@ class BookService extends Component
     public function nextAvailable(): void
     {
         $this->validate([
-            'resourceId' => 'required|integer',
+            'companyUserId' => 'required|integer',
         ]);
 
-        $service = $this->services()->whereKey($this->serviceId)->firstOrFail();
-        $person = Resource::findOrFail($this->resourceId);
+        $person = CompanyUser::findOrFail($this->companyUserId);
         $after = $this->startTime ? $this->startDate() : null;
 
         $nextStart = $this->findNextAvailableStart($person, $this->totalDuration(), $after);
@@ -93,10 +113,10 @@ class BookService extends Component
     public function previousAvailable(): void
     {
         $this->validate([
-            'resourceId' => 'required|integer',
+            'companyUserId' => 'required|integer',
         ]);
 
-        $person = Resource::findOrFail($this->resourceId);
+        $person = CompanyUser::findOrFail($this->companyUserId);
         $before = $this->startTime ? $this->startDate() : now('Europe/Warsaw');
         $previousStart = $this->findPreviousAvailableStart($person, $this->totalDuration(), $before);
 
@@ -113,19 +133,17 @@ class BookService extends Component
         $this->validate([
             'serviceIds' => 'required|array|min:1',
             'serviceIds.*' => 'integer',
-            'resourceId' => 'required|integer',
+            'companyUserId' => 'required|integer',
             'startTime' => 'required|date_format:Y-m-d\\TH:i',
         ]);
 
         $service = $this->services()->whereKey($this->serviceId)->first();
-        $person = $this->peopleForSelectedServices()->whereKey($this->resourceId)->first();
+        $person = $this->peopleForSelectedServices()->whereKey($this->companyUserId)->first();
 
         if (!$service || !$person) {
-            $this->addError('resourceId', 'Choose a person assigned to this service.');
+            $this->addError('companyUserId', 'Choose a person assigned to this service.');
             return;
         }
-
-        $person = Resource::findOrFail($person->id);
 
         $start = $this->startDate();
         $end = $start->copy()->addMinutes($this->totalDuration());
@@ -143,7 +161,7 @@ class BookService extends Component
             return;
         }
 
-        if (!$this->isAvailable($person->id, $start, $end) || !$person->isAvailableAt($start, $end)) {
+        if (!$this->isAvailable($person->id, $start, $end)) {
             $this->addError('startTime', 'This person is already booked at the selected time.');
             return;
         }
@@ -151,7 +169,7 @@ class BookService extends Component
         if (!auth()->check()) {
             session()->put($this->draftKey(), [
                 'service_ids' => $this->serviceIds,
-                'resource_id' => $this->resourceId,
+                'company_user_id' => $this->companyUserId,
                 'start_time' => $this->startTime,
             ]);
 
@@ -169,8 +187,7 @@ class BookService extends Component
         }
 
         $service = $this->services()->whereKey($this->serviceId)->firstOrFail();
-        $person = $this->peopleForSelectedServices()->whereKey($this->resourceId)->firstOrFail();
-        $person = Resource::findOrFail($person->id);
+        $person = $this->peopleForSelectedServices()->whereKey($this->companyUserId)->firstOrFail();
         $start = $this->startDate();
         $end = $start->copy()->addMinutes($this->totalDuration());
 
@@ -183,7 +200,7 @@ class BookService extends Component
         $reservation = Reservation::create([
             'company_id' => $this->company->id,
             'service_id' => $service->id,
-            'resource_id' => $person->id,
+            'company_user_id' => $person->id,
             'user_id' => auth()->id(),
             'client_name' => auth()->user()->name,
             'client_email' => auth()->user()->email,
@@ -205,7 +222,8 @@ class BookService extends Component
             'selectedService' => $this->serviceId ? $this->services()->whereKey($this->serviceId)->first() : null,
             'selectedServices' => $this->selectedServices(),
             'availablePeople' => $this->availablePeople(),
-            'availableTimes' => $this->availableTimes(),
+            'calendarDays' => $this->calendarDays(),
+            'availableTimes' => $this->availableTimesForSelectedDate(),
         ])->layout('layouts.company', ['company' => $this->company]);
     }
 
@@ -214,17 +232,12 @@ class BookService extends Component
         return $this->company->services()->where('is_active', true);
     }
 
-    private function peopleForService(int $serviceId)
-    {
-        return $this->company->resources()
-            ->where('type', 'person')
-            ->where('is_active', true)
-            ->whereHas('services', fn ($query) => $query->whereKey($serviceId));
-    }
-
+    /**
+     * Employees (company_user records) able to perform every currently selected service.
+     */
     private function peopleForSelectedServices()
     {
-        $query = $this->company->resources()->where('type', 'person')->where('is_active', true);
+        $query = CompanyUser::where('company_id', $this->company->id);
 
         foreach ($this->serviceIds as $serviceId) {
             $query->whereHas('services', fn ($services) => $services->whereKey($serviceId));
@@ -254,45 +267,84 @@ class BookService extends Component
             return [];
         }
 
-        return $this->peopleForSelectedServices()->get()->map(function ($person) {
-            $resource = Resource::find($person->id);
-
+        return $this->peopleForSelectedServices()->with('user')->get()->map(function (CompanyUser $companyUser) {
             return [
-                'resource' => $resource,
-                'nextStart' => $this->findNextAvailableStart($resource, $this->totalDuration()),
+                'companyUser' => $companyUser,
+                'nextStart' => $this->findNextAvailableStart($companyUser, $this->totalDuration()),
             ];
         })->all();
     }
 
-    private function availableTimes(): array
+    /**
+     * Every day of the visible month, flagged as past/closed so the calendar can disable them.
+     */
+    private function calendarDays(): array
     {
-        if (!$this->resourceId || !$this->serviceId) {
-            return [];
+        $month = Carbon::createFromFormat('Y-m', $this->calendarMonth, 'Europe/Warsaw')->startOfMonth();
+        $today = now('Europe/Warsaw')->startOfDay();
+        $hours = $this->company->getCompanyHours();
+        $days = [];
+
+        for ($date = $month->copy(); $date->month === $month->month; $date->addDay()) {
+            $dayKey = strtolower($date->format('D'));
+
+            $days[] = [
+                'date' => $date->format('Y-m-d'),
+                'day' => $date->day,
+                'weekday' => $date->dayOfWeekIso,
+                'isPast' => $date->lt($today),
+                'isClosed' => $hours[$dayKey]['closed'] ?? false,
+            ];
         }
 
-        $resource = Resource::find($this->resourceId);
-        if (!$resource) {
-            return [];
-        }
-
-        $times = [];
-        $after = null;
-        $duration = $this->totalDuration();
-
-        for ($index = 0; $index < $this->availabilityOffset + 5; $index++) {
-            $nextStart = $this->findNextAvailableStart($resource, $duration, $after);
-            if (!$nextStart) {
-                break;
-            }
-
-            $times[] = $nextStart;
-            $after = Carbon::createFromFormat('Y-m-d\\TH:i', $nextStart, 'Europe/Warsaw');
-        }
-
-        return array_slice($times, $this->availabilityOffset, 5);
+        return $days;
     }
 
-    private function findNextAvailableStart(Resource $resource, int $durationMinutes, ?Carbon $after = null): ?string
+    /**
+     * All free slots on the selected date for the selected person, instead of just the next 5 sequential ones.
+     */
+    private function availableTimesForSelectedDate(): array
+    {
+        if (!$this->selectedDate || !$this->companyUserId || !$this->serviceId) {
+            return [];
+        }
+
+        $person = CompanyUser::find($this->companyUserId);
+        if (!$person) {
+            return [];
+        }
+
+        $date = Carbon::createFromFormat('Y-m-d', $this->selectedDate, 'Europe/Warsaw')->startOfDay();
+        $dayKey = strtolower($date->format('D'));
+        $dayHours = $this->company->getCompanyHours()[$dayKey] ?? ['closed' => true];
+
+        if ($dayHours['closed'] ?? false) {
+            return [];
+        }
+
+        $openTime = Carbon::parse($dayHours['open'] ?? '00:00');
+        $closeTime = Carbon::parse($dayHours['close'] ?? '00:00');
+        $duration = $this->totalDuration();
+        $now = now('Europe/Warsaw');
+
+        $candidate = $date->copy()->setTime($openTime->hour, $openTime->minute);
+        $dayClose = $date->copy()->setTime($closeTime->hour, $closeTime->minute);
+
+        $times = [];
+        while ($candidate->copy()->addMinutes($duration)->lte($dayClose)) {
+            $end = $candidate->copy()->addMinutes($duration);
+
+            if ($candidate->gt($now) && $person->isAvailableAt($candidate, $end) && $this->isAvailable($person->id, $candidate, $end)) {
+                $times[] = $candidate->format('Y-m-d\\TH:i');
+            }
+
+            $candidate->addMinutes(30);
+        }
+
+        return $times;
+    }
+
+    private function findNextAvailableStart(CompanyUser $person, int $durationMinutes, ?Carbon $after = null): ?string
     {
         $candidate = $after
             ? $this->nextSlotAfter($after)
@@ -307,8 +359,8 @@ class BookService extends Component
             if (!($dayHours['closed'] ?? false)
                 && $candidate->format('H:i') >= ($dayHours['open'] ?? '00:00')
                 && $end->format('H:i') <= ($dayHours['close'] ?? '00:00')
-                && $resource->isAvailableAt($candidate, $end)
-                && $this->isAvailable($resource->id, $candidate, $end)) {
+                && $person->isAvailableAt($candidate, $end)
+                && $this->isAvailable($person->id, $candidate, $end)) {
                 return $candidate->format('Y-m-d\\TH:i');
             }
 
@@ -318,7 +370,7 @@ class BookService extends Component
         return null;
     }
 
-    private function findPreviousAvailableStart(Resource $resource, int $durationMinutes, Carbon $before): ?string
+    private function findPreviousAvailableStart(CompanyUser $person, int $durationMinutes, Carbon $before): ?string
     {
         $candidate = $this->previousSlotBefore($before);
         $hours = $this->company->getCompanyHours();
@@ -333,8 +385,8 @@ class BookService extends Component
                 && !($dayHours['closed'] ?? false)
                 && $candidate->format('H:i') >= ($dayHours['open'] ?? '00:00')
                 && $end->format('H:i') <= ($dayHours['close'] ?? '00:00')
-                && $resource->isAvailableAt($candidate, $end)
-                && $this->isAvailable($resource->id, $candidate, $end)) {
+                && $person->isAvailableAt($candidate, $end)
+                && $this->isAvailable($person->id, $candidate, $end)) {
                 return $candidate->format('Y-m-d\\TH:i');
             }
 
@@ -370,9 +422,9 @@ class BookService extends Component
         return Carbon::createFromFormat('Y-m-d\\TH:i', $this->startTime, 'Europe/Warsaw');
     }
 
-    private function isAvailable(int $resourceId, Carbon $start, Carbon $end): bool
+    private function isAvailable(int $companyUserId, Carbon $start, Carbon $end): bool
     {
-        return !Reservation::where('resource_id', $resourceId)
+        return !Reservation::where('company_user_id', $companyUserId)
             ->where('status', '!=', 'cancelled')
             ->where('start_time', '<', $end)
             ->where('end_time', '>', $start)

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Company;
+use App\Models\CompanyUser;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Reservation;
@@ -71,11 +72,18 @@ class CompanySeeder extends Seeder
             // Update owner's current_company_id
             //$owner->update(['current_company_id' => $company->id, 'user_type' => 'company_owner']);
 
-            // Add resources (e.g., staff, equipment)
-            $resources = Resource::factory(3)->create([
+            // Add resources (e.g., equipment, facilities)
+            Resource::factory(3)->create([
                 'company_id' => $company->id,
-                'type' => fake()->randomElement(['person', 'equipment'])
+                'type' => fake()->randomElement(['facility', 'equipment']),
             ]);
+
+            // Add employees able to perform services
+            $employeeCompanyUsers = collect();
+            foreach (User::factory(3)->create() as $employee) {
+                $company->users()->attach($employee->id, ['owner' => false]);
+                $employeeCompanyUsers->push(CompanyUser::where('company_id', $company->id)->where('user_id', $employee->id)->firstOrFail());
+            }
 
             // Create services for company
             $createdServices = collect();
@@ -92,11 +100,11 @@ class CompanySeeder extends Seeder
                 $createdServices->push($service);
             }
 
-            // Assign services to resources (many-to-many relation)
+            // Assign services each employee is able to perform (many-to-many relation)
             if ($createdServices->isNotEmpty()) {
-                foreach ($resources as $resource) {
+                foreach ($employeeCompanyUsers as $companyUser) {
                     $servicesToAttach = $createdServices->random(rand(1, $createdServices->count()))->pluck('id');
-                    $resource->services()->attach($servicesToAttach);
+                    $companyUser->services()->attach($servicesToAttach);
                 }
             }
 
@@ -105,6 +113,9 @@ class CompanySeeder extends Seeder
                 if ($createdServices->isEmpty()) continue;
 
                 $service = $createdServices->random();
+                $qualifiedCompanyUsers = $employeeCompanyUsers->filter(
+                    fn (CompanyUser $companyUser) => $companyUser->services()->whereKey($service->id)->exists()
+                );
                 $startTime = now()->addDays(fake()->numberBetween(1, 30))
                     ->setHour(fake()->numberBetween(9, 17))
                     ->setMinute(0);
@@ -112,6 +123,7 @@ class CompanySeeder extends Seeder
                 Reservation::create([
                     'company_id' => $company->id,
                     'service_id' => $service->id,
+                    'company_user_id' => $qualifiedCompanyUsers->isNotEmpty() ? $qualifiedCompanyUsers->random()->id : null,
                     'user_id' => null, // set to null; can be replaced with the authenticated client ID
                     'client_name' => fake()->name(),
                     'client_email' => fake()->email(),

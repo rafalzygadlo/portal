@@ -38,11 +38,11 @@ class Service extends Model
     }
 
     /**
-     * Resources that can provide this service.
+     * The employees (company_user records) able to perform this service.
      */
-    public function resources(): BelongsToMany
+    public function companyUsers(): BelongsToMany
     {
-        return $this->belongsToMany(Resource::class, 'resource_service');
+        return $this->belongsToMany(CompanyUser::class, 'company_user_service', 'service_id', 'company_user_id');
     }
 
     /**
