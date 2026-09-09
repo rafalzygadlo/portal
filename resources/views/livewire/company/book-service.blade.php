@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
         <div>
             <h1 class="h3 fw-bold mb-1">Book a service</h1>
-            <p class="text-muted mb-0">Choose a service, a person and a convenient time.</p>
+            <p class="text-muted mb-0">Choose a service and a convenient time.</p>
         </div>
         <a href="{{ route('company.domain', ['company' => $company]) }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-2"></i>Back</a>
     </div>
@@ -51,45 +51,64 @@
         <div class="card border-0 shadow-sm"><div class="card-body p-4">
             <h2 class="h5 mb-2">Selected services</h2>
             <p class="text-muted mb-4">{{ $selectedServices->pluck('name')->join(', ') }}</p>
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Choose a person</label>
-                <div class="row g-2">
-                    @forelse ($availablePeople as $personOption)
-                        @if ($personOption['nextStart'])
-                            <div class="col-md-6">
-                                <button type="button" wire:click="selectPerson({{ $personOption['companyUser']->id }}, '{{ $personOption['nextStart'] }}')" class="btn {{ $companyUserId == $personOption['companyUser']->id ? 'btn-primary' : 'btn-outline-primary' }} w-100 text-start">
-                                    <span class="d-block fw-semibold">{{ $personOption['companyUser']->user->name }}</span>
-                                    <span class="small">First available: {{ \Carbon\Carbon::createFromFormat('Y-m-d\\TH:i', $personOption['nextStart'])->locale('pl')->translatedFormat('l, j F Y, H:i') }}</span>
-                                </button>
-                            </div>
-                        @endif
-                    @empty
-                        <div class="col-12"><div class="alert alert-secondary">No people are assigned to this service.</div></div>
-                    @endforelse
-                </div>
-                @error('companyUserId') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
+
             <div class="mb-3">
                 <label class="form-label fw-semibold">Choose a day</label>
-                @include('livewire.company.partials.calendar')
+                <div class="d-flex align-items-center gap-3">
+                    <button type="button" wire:click="previousDay" class="btn btn-sm btn-light border rounded-circle" style="width: 2.5rem; height: 2.5rem;">
+                        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    <div class="text-center flex-grow-1">
+                        <span class="fw-bold text-capitalize d-block">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $selectedDate, 'Europe/Warsaw')->locale('pl')->translatedFormat('l, j F Y') }}</span>
+                        <span class="text-muted small">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $selectedDate, 'Europe/Warsaw')->locale('pl')->translatedFormat('Y') }}</span>
+                    </div>
+                    <button type="button" wire:click="nextDay" class="btn btn-sm btn-light border rounded-circle" style="width: 2.5rem; height: 2.5rem;">
+                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Choose a person <span class="text-muted fw-normal">(optional)</span></label>
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="button" wire:click="clearPerson" class="btn btn-sm rounded-pill px-3 {{ $companyUserId === '' ? 'btn-primary' : 'btn-outline-primary' }}">
+                        Anyone
+                    </button>
+                    @forelse ($availablePeople as $personOption)
+                        <button type="button" wire:click="selectPerson({{ $personOption['companyUser']->id }})" class="btn btn-sm rounded-pill px-3 {{ $companyUserId == $personOption['companyUser']->id ? 'btn-primary' : 'btn-outline-primary' }}">
+                            {{ $personOption['companyUser']->display_name }}
+                        </button>
+                    @empty
+                        <div class="text-muted small">No people are assigned to this service.</div>
+                    @endforelse
+                </div>
+                @error('companyUserId') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+            </div>
+
             <div class="mb-3">
                 <label class="form-label fw-semibold">Choose an available time</label>
                 <div class="d-flex flex-wrap gap-2">
-                    @forelse ($availableTimes as $availableTime)
-                        @php($availableDate = \Carbon\Carbon::createFromFormat('Y-m-d\\TH:i', $availableTime)->locale('pl'))
-                        <button type="button" wire:click="selectTime('{{ $availableTime }}')" class="btn btn-sm rounded-pill {{ $startTime === $availableTime ? 'btn-primary' : 'btn-outline-primary' }} px-3">
-                            {{ $availableDate->format('H:i') }}
+                    @forelse ($availableTimes as $slot)
+                        @php($slotDate = \Carbon\Carbon::createFromFormat('Y-m-d\\TH:i', $slot['time'])->locale('pl'))
+                        <button type="button" wire:click="selectTime('{{ $slot['time'] }}')" class="btn btn-sm rounded-pill {{ $startTime === $slot['time'] ? 'btn-primary' : 'btn-outline-primary' }} px-3" title="{{ collect($slot['people'])->pluck('display_name')->join(', ') }}">
+                            {{ $slotDate->format('H:i') }}
                         </button>
                     @empty
-                        <div class="text-muted border rounded p-3 text-center w-100">{{ $selectedDate ? 'No available times on this day.' : 'Choose a day to see available times.' }}</div>
+                        <div class="text-muted border rounded p-3 text-center w-100">
+                            {{ $selectedDate ? 'No available times on this day.' : 'Choose a day to see available times.' }}
+                        </div>
                     @endforelse
                 </div>
                 @error('startTime') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
             </div>
-            <div class="d-flex justify-content-between mt-4">
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
                 <button type="button" wire:click="$set('step', 1)" class="btn btn-outline-secondary">Back</button>
-                <button type="button" wire:click="continueBooking" class="btn btn-primary">Continue</button>
+                <div class="d-flex gap-2">
+                    <button type="button" wire:click="previousAvailable" class="btn btn-outline-secondary">Previous free</button>
+                    <button type="button" wire:click="nextAvailable" class="btn btn-outline-secondary">Next free</button>
+                    <button type="button" wire:click="continueBooking" class="btn btn-primary">Continue</button>
+                </div>
             </div>
         </div></div>
     @elseif ($step === 3)
@@ -97,7 +116,7 @@
             <h2 class="h5 mb-4">Booking summary</h2>
             <dl class="row mb-0">
                 <dt class="col-sm-4">Services</dt><dd class="col-sm-8">{{ $selectedServices->pluck('name')->join(', ') }}</dd>
-                <dt class="col-sm-4">Person</dt><dd class="col-sm-8">{{ $selectedService->companyUsers()->whereKey($companyUserId)->first()->user->name }}</dd>
+                <dt class="col-sm-4">Person</dt><dd class="col-sm-8">{{ $selectedService->companyUsers()->whereKey($companyUserId)->first()->display_name }}</dd>
                 <dt class="col-sm-4">Start</dt><dd class="col-sm-8">{{ \Carbon\Carbon::createFromFormat('Y-m-d\\TH:i', $startTime)->locale('pl')->translatedFormat('l, j F Y, H:i') }}</dd>
                 <dt class="col-sm-4">Account</dt><dd class="col-sm-8">{{ auth()->user()->email }}</dd>
             </dl>

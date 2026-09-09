@@ -151,4 +151,11 @@
     <script src="{{ asset('/js/bootstrap.bundle.min.js') }}"></script>
     @livewireScripts
 </body>
+
+
+<pre>
+APP_URL: {{ config('app.url') }}
+Route login: {{ route('login') }}
+URL::to('/login'): {{ url('/login') }}
+</pre>
 </html>

@@ -16,12 +16,11 @@ if (empty($domain))
 }
 
 
-include base_path('routes/web/main.php');
+
 
 //subdomain routes
 Route::domain('{company:subdomain}.' . $domain)
-    ->scopeBindings()
     ->group(base_path('routes/web/subdomain.php'));
 
 
-
+include base_path('routes/web/main.php');

@@ -200,7 +200,7 @@ class CompanyBookingTest extends TestCase
             ->assertHasErrors('startTime');
     }
 
-    public function test_book_service_exposes_five_available_times_and_allows_selecting_one(): void
+    public function test_book_service_exposes_available_times_for_selected_date_and_allows_selecting_one(): void
     {
         $company = Company::factory()->create(['company_hours' => $this->companyHours()]);
         $service = Service::create(['company_id' => $company->id, 'name' => 'Meeting', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
@@ -210,10 +210,61 @@ class CompanyBookingTest extends TestCase
             ->set('serviceIds', [$service->id])
             ->set('serviceId', (string) $service->id)
             ->set('companyUserId', (string) $person->id)
-            ->call('selectDate', '2026-09-04')
+            ->set('selectedDate', '2026-09-04')
             ->assertViewHas('availableTimes', fn (array $times) => count($times) > 0)
             ->call('selectTime', '2026-09-04T10:00')
             ->assertSet('startTime', '2026-09-04T10:00');
+    }
+    public function test_book_service_auto_assigns_a_person_when_none_is_selected(): void
+    {
+        $company = Company::factory()->create(['company_hours' => $this->companyHours()]);
+        $service = Service::create(['company_id' => $company->id, 'name' => 'Meeting', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
+        $person = $this->makeQualifiedPerson($company, [$service->id], ['working_hours' => $this->companyHours()]);
+
+        Livewire::test(BookService::class, ['company' => $company])
+            ->set('serviceIds', [$service->id])
+            ->set('serviceId', (string) $service->id)
+            ->set('selectedDate', '2026-09-04')
+            ->call('selectTime', '2026-09-04T10:00')
+            ->assertSet('startTime', '2026-09-04T10:00')
+            ->assertSet('companyUserId', (string) $person->id);
+    }
+
+    public function test_book_service_skips_closed_today_and_starts_on_next_open_day(): void
+    {
+        $hours = $this->companyHours();
+        $hours['fri']['closed'] = true; // today (2026-09-04) is Friday and closed
+        $company = Company::factory()->create(['company_hours' => $hours]);
+        $service = Service::create(['company_id' => $company->id, 'name' => 'Meeting', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
+        $this->makeQualifiedPerson($company, [$service->id], ['working_hours' => $hours]);
+
+        Livewire::test(BookService::class, ['company' => $company])
+            ->assertSet('selectedDate', '2026-09-05'); // Saturday is the next open day
+    }
+
+    public function test_book_service_next_day_skips_closed_days(): void
+    {
+        $hours = $this->companyHours();
+        $hours['sat']['closed'] = true; // Saturday closed
+        $company = Company::factory()->create(['company_hours' => $hours]);
+        $service = Service::create(['company_id' => $company->id, 'name' => 'Meeting', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
+        $this->makeQualifiedPerson($company, [$service->id], ['working_hours' => $hours]);
+
+        Livewire::test(BookService::class, ['company' => $company])
+            ->set('selectedDate', '2026-09-04') // Friday
+            ->call('nextDay')
+            ->assertSet('selectedDate', '2026-09-07'); // Saturday and Sunday closed, so Monday
+    }
+
+    public function test_book_service_skips_today_when_already_past_closing_time(): void
+    {
+        Carbon::setTestNow(Carbon::parse('2026-09-04 18:00:00', 'Europe/Warsaw')); // Friday 18:00, company closes at 17:00
+        $company = Company::factory()->create(['company_hours' => $this->companyHours()]);
+        $service = Service::create(['company_id' => $company->id, 'name' => 'Meeting', 'duration' => 60, 'buffer' => 0, 'price' => 0, 'is_active' => true]);
+        $this->makeQualifiedPerson($company, [$service->id], ['working_hours' => $this->companyHours()]);
+
+        Livewire::test(BookService::class, ['company' => $company])
+            ->assertSet('selectedDate', '2026-09-05'); // Saturday is the next open day
     }
 
     public function test_equipment_booking_can_include_multiple_items_and_calculates_total_price(): void

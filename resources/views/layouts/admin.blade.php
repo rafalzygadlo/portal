@@ -31,6 +31,9 @@
 
                 <ul class="navbar-nav ms-auto">
                     @auth
+                        <li class="nav-item me-2 d-flex align-items-center">
+                            <livewire:admin.company.notifications :company="$company" />
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
@@ -61,5 +64,26 @@
 
     @livewireScripts
     <script src="{{ asset('/js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        document.addEventListener('livewire:init', () => {
+            const initTooltips = () => {
+                document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+                    if (!el._bsTooltip) {
+                        new bootstrap.Tooltip(el);
+                    }
+                });
+            };
+
+            initTooltips();
+            Livewire.hook('morph.updated', ({ el }) => initTooltips());
+        });
+    </script>
 </body>
+
+<pre>
+APP_URL: {{ config('app.url') }}
+Route login: {{ route('login') }}
+URL::to('/login'): {{ url('/login') }}
+</pre>
+
 </html>

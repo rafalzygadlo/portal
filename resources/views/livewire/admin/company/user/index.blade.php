@@ -88,16 +88,24 @@
             <thead class="table-light">
                 <tr>
                     <th scope="col">Name</th>
+                    <th scope="col">Display name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
                     <th scope="col">Added</th>
-                    <th scope="col"></th>
+                    <th scope="col" class="text-end">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($users as $user)
                     <tr>
                         <td class="fw-semibold">{{ $user->name }}</td>
+                        <td>
+                            @if ($user->pivot->display_name)
+                                <span class="badge bg-primary-subtle text-primary">{{ $user->pivot->display_name }}</span>
+                            @else
+                                <span class="text-muted">—</span>
+                            @endif
+                        </td>
                         <td>{{ $user->email }}</td>
                         <td>
                             <span class="badge {{ $user->pivot->owner ? 'bg-primary' : 'bg-secondary' }}">
@@ -106,67 +114,80 @@
                         </td>
                         <td>{{ $user->pivot->created_at?->format('d.m.Y H:i') ?? '-' }}</td>
                         <td class="text-end">
-                            <button type="button" wire:click="openScheduleModal({{ $user->id }})" class="btn btn-sm btn-outline-secondary">Working hours</button>
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item"
+                                            wire:click="openEditModal({{ $user->id }})"
+                                        >
+                                            Edit name
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item"
+                                            wire:click="$dispatch('openFreeDays', [{{ $user->id }}])"
+                                        >
+                                            Free days
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item"
+                                            wire:click="$dispatch('openWorkingHours', [{{ $user->id }}])"
+                                        >
+                                            Working hours
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">No users assigned yet.</td>
+                        <td colspan="6" class="text-center text-muted py-4">No users assigned yet.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 
-    @if ($showScheduleModal)
+    @if ($showEditModal)
         <div class="modal-backdrop fade show"></div>
         <div class="modal d-block" tabindex="-1" role="dialog" style="background: rgba(0, 0, 0, 0.45);">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title h5">Working hours &amp; days off</h2>
-                        <button type="button" class="btn-close" wire:click="$set('showScheduleModal', false)" aria-label="Close"></button>
+                        <h2 class="modal-title h5">Edit display name</h2>
+                        <button type="button" class="btn-close" wire:click="$set('showEditModal', false)" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Working hours</label>
-                            @foreach ($scheduleWorkingHours as $day => $hours)
-                                <div class="row g-2 align-items-center mb-2">
-                                    <div class="col-3 text-capitalize small">{{ $day }}</div>
-                                    <div class="col-4">
-                                        <input type="time" wire:model="scheduleWorkingHours.{{ $day }}.open" class="form-control form-control-sm" @disabled($hours['closed'] ?? false)>
-                                    </div>
-                                    <div class="col-4">
-                                        <input type="time" wire:model="scheduleWorkingHours.{{ $day }}.close" class="form-control form-control-sm" @disabled($hours['closed'] ?? false)>
-                                    </div>
-                                    <div class="col-1">
-                                        <input type="checkbox" wire:model="scheduleWorkingHours.{{ $day }}.closed" class="form-check-input" title="Day off">
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="mb-0">
-                            <label class="form-label">Time off</label>
-                            @foreach ($scheduleUnavailablePeriods as $index => $period)
-                                <div class="d-flex align-items-center gap-2 mb-2">
-                                    <span class="small">{{ $period['start'] }} to {{ $period['end'] }}</span>
-                                    <button type="button" wire:click="removeUnavailablePeriod({{ $index }})" class="btn btn-sm btn-outline-danger">Remove</button>
-                                </div>
-                            @endforeach
-                            <div class="row g-2">
-                                <div class="col-5"><input type="date" wire:model="scheduleTimeOffStart" class="form-control form-control-sm"></div>
-                                <div class="col-5"><input type="date" wire:model="scheduleTimeOffEnd" class="form-control form-control-sm"></div>
-                                <div class="col-2"><span class="form-text">Add on save</span></div>
-                            </div>
-                            @error('scheduleTimeOffEnd') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
-                        </div>
+                        <label for="edit-display-name" class="form-label">Display name</label>
+                        <input id="edit-display-name" type="text" wire:model="editDisplayName" class="form-control" placeholder="e.g. John the Barber">
+                        <div class="form-text">Leave empty to use the user's real name.</div>
+                        @error('editDisplayName') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" wire:click="$set('showScheduleModal', false)">Cancel</button>
-                        <button type="button" class="btn btn-primary" wire:click="saveSchedule">Save</button>
+                        <button type="button" class="btn btn-secondary" wire:click="$set('showEditModal', false)">Cancel</button>
+                        <button type="button" class="btn btn-primary" wire:click="saveDisplayName">Save</button>
                     </div>
                 </div>
             </div>
         </div>
     @endif
+
+    <livewire:admin.company.user.free-days :company="$company" />
+    <livewire:admin.company.user.working-hours :company="$company" />
 </div>

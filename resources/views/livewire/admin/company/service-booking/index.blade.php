@@ -15,7 +15,7 @@
                     <select id="resource-filter" wire:model.live="companyUserFilter" class="form-select">
                         <option value="">All employees</option>
                         @foreach ($people as $person)
-                            <option value="{{ $person->id }}">{{ $person->user->name }}</option>
+                            <option value="{{ $person->id }}">{{ $person->display_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -62,7 +62,7 @@
                         <td class="fw-semibold">{{ $reservation->services->pluck('name')->join(', ') ?: $reservation->service?->name }}</td>
                         <td>
                             @if ($reservation->companyUser)
-                                <span class="fw-semibold">{{ $reservation->companyUser->user->name }}</span>
+                                <span class="fw-semibold">{{ $reservation->companyUser->display_name }}</span>
                             @else
                                 <span class="text-muted">No person assigned</span>
                             @endif

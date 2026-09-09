@@ -47,19 +47,11 @@
                                 <input type="number" wire:model="price" step="0.01" min="0" class="form-control">
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Employees who provide this service</label>
-                                @forelse ($people as $person)
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{ $person->id }}" wire:model="userIds" id="person-{{ $person->id }}">
-                                        <label class="form-check-label" for="person-{{ $person->id }}">{{ $person->name }}</label>
-                                    </div>
-                                @empty
-                                    <div class="form-text">Add an employee to the company first.</div>
-                                @endforelse
+                            <div class="alert alert-info small mb-3">
+                                <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
+                                You can assign employees to this service later using the <strong>Assign</strong> button on the services list.
                             </div>
 
-                            
                             <div class="d-flex justify-content-end gap-2">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <button type="button" wire:click="close" class="btn btn-secondary">Cancel</button>

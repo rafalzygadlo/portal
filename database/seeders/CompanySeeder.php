@@ -45,9 +45,6 @@ class CompanySeeder extends Seeder
                 'address' => fake()->address(),
                 'phone' => fake()->phoneNumber(),
                 'is_claimed' => fake()->boolean(30), // 30% chance of being claimed
-                //'website' => 'https://' . Str::slug($companyData['name']) . config('app.company_domain'),
-                //'latitude' => fake()->latitude(51.5, 52.5),
-                //'longitude' => fake()->longitude(20.5, 21.5),
                 'company_hours' => [
                     'mon' => ['open' => '09:00', 'close' => '18:00', 'closed' => false],
                     'tue' => ['open' => '09:00', 'close' => '18:00', 'closed' => false],
@@ -57,7 +54,6 @@ class CompanySeeder extends Seeder
                     'sat' => ['open' => '10:00', 'close' => '16:00', 'closed' => false],
                     'sun' => ['closed' => true],
                 ],
-                
             ]);
 
             if ($companyCategories->count() > 0) {
@@ -69,20 +65,32 @@ class CompanySeeder extends Seeder
             // Assign owner to company
             $company->users()->attach($owner->id, ['owner' => true]);
 
-            // Update owner's current_company_id
-            //$owner->update(['current_company_id' => $company->id, 'user_type' => 'company_owner']);
-
             // Add resources (e.g., equipment, facilities)
             Resource::factory(3)->create([
                 'company_id' => $company->id,
                 'type' => fake()->randomElement(['facility', 'equipment']),
             ]);
 
-            // Add employees able to perform services
+            // Add 5-10 employees able to perform services
             $employeeCompanyUsers = collect();
-            foreach (User::factory(3)->create() as $employee) {
+            $employeeCount = rand(5, 10);
+            foreach (User::factory($employeeCount)->create() as $employee) {
                 $company->users()->attach($employee->id, ['owner' => false]);
-                $employeeCompanyUsers->push(CompanyUser::where('company_id', $company->id)->where('user_id', $employee->id)->firstOrFail());
+                $companyUser = CompanyUser::where('company_id', $company->id)->where('user_id', $employee->id)->firstOrFail();
+
+                // Give ~60% of employees a custom display name
+                if (fake()->boolean(60)) {
+                    $companyUser->update([
+                        'display_name' => fake()->randomElement([
+                            $employee->first_name . ' the Pro',
+                            'Master ' . $employee->first_name,
+                            $employee->first_name . ' ' . fake()->randomElement(['Expert', 'Specialist', 'Senior', 'Junior']),
+                            fake()->firstName() . ' ' . fake()->lastName(),
+                        ]),
+                    ]);
+                }
+
+                $employeeCompanyUsers->push($companyUser);
             }
 
             // Create services for company
@@ -108,17 +116,52 @@ class CompanySeeder extends Seeder
                 }
             }
 
-            // Create reservations for the company
-            for ($i = 0; $i < 8; $i++) {
-                if ($createdServices->isEmpty()) continue;
+            // Create many reservations for the company (30-60 per company)
+            $reservationCount = rand(30, 60);
+            $statuses = ['pending', 'confirmed', 'completed', 'cancelled'];
+            $companyHours = $company->getCompanyHours();
+
+            for ($i = 0; $i < $reservationCount; $i++) {
+                if ($createdServices->isEmpty()) {
+                    continue;
+                }
 
                 $service = $createdServices->random();
                 $qualifiedCompanyUsers = $employeeCompanyUsers->filter(
                     fn (CompanyUser $companyUser) => $companyUser->services()->whereKey($service->id)->exists()
                 );
-                $startTime = now()->addDays(fake()->numberBetween(1, 30))
-                    ->setHour(fake()->numberBetween(9, 17))
-                    ->setMinute(0);
+
+                // Pick a random day within the next 30 days that is open
+                $dayOffset = fake()->numberBetween(0, 30);
+                $startTime = now()->addDays($dayOffset)->startOfDay();
+
+                // Find an open day
+                $daysChecked = 0;
+                while ($daysChecked < 30) {
+                    $dayKey = strtolower($startTime->format('D'));
+                    $dayHours = $companyHours[$dayKey] ?? ['closed' => true];
+                    if (!($dayHours['closed'] ?? false)) {
+                        break;
+                    }
+                    $startTime->addDay();
+                    $daysChecked++;
+                }
+
+                // Random time within opening hours
+                $dayKey = strtolower($startTime->format('D'));
+                $dayHours = $companyHours[$dayKey] ?? ['open' => '09:00', 'close' => '18:00'];
+                $openHour = (int) substr($dayHours['open'] ?? '09:00', 0, 2);
+                $closeHour = (int) substr($dayHours['close'] ?? '18:00', 0, 2);
+                $startHour = fake()->numberBetween($openHour, max($openHour, $closeHour - 1));
+                $startTime->setHour($startHour)->setMinute(fake()->randomElement([0, 30]));
+
+                // Ensure end time fits within closing hours
+                $endTime = $startTime->copy()->addMinutes($service->duration + $service->buffer);
+                $endHour = (int) $endTime->format('H');
+                if ($endHour > $closeHour) {
+                    $startTime->setHour($closeHour - 1)->setMinute(0);
+                    $endTime = $startTime->copy()->addMinutes($service->duration + $service->buffer);
+                }
 
                 Reservation::create([
                     'company_id' => $company->id,
@@ -129,14 +172,11 @@ class CompanySeeder extends Seeder
                     'client_email' => fake()->email(),
                     'client_phone' => fake()->phoneNumber(),
                     'start_time' => $startTime,
-                    'end_time' => $startTime->copy()->addMinutes($service->duration),
+                    'end_time' => $endTime,
                     'notes' => fake()->randomElement([null, 'Special requests', 'First visit']),
-                    'status' => fake()->randomElement(['pending', 'confirmed', 'completed']),
+                    'status' => fake()->randomElement($statuses),
                 ]);
             }
         }
     }
 }
-
-
-

@@ -38,6 +38,7 @@
                     <th scope="col">Duration</th>
                     <th scope="col">Price</th>
                     <th scope="col">Break</th>
+                    <th scope="col">Assigned</th>
                     <th scope="col">Status</th>
                     <th scope="col" class="text-end">Actions</th>
                 </tr>
@@ -51,6 +52,18 @@
                         <td>{{ $service->price ? number_format($service->price, 2) . ' PLN' : '-' }}</td>
                         <td>{{ $service->buffer }} min</td>
                         <td>
+                            @php($assignedPeople = $service->companyUsers()->with('user')->get())
+                            @if ($assignedPeople->isNotEmpty())
+                                <div class="d-flex flex-wrap gap-1">
+                                    @foreach ($assignedPeople as $assignedPerson)
+                                        <span class="badge bg-primary-subtle text-primary">{{ $assignedPerson->display_name }}</span>
+                                    @endforeach
+                                </div>
+                            @else
+                                <span class="text-muted small">No one assigned</span>
+                            @endif
+                        </td>
+                        <td>
                             @if ($service->trashed())
                                 <span class="badge bg-danger">Deleted</span>
                             @else
@@ -60,49 +73,83 @@
                             @endif
                         </td>
                         <td class="text-end">
-                            @if ($service->trashed())
+                            <div class="dropdown">
                                 <button
+                                    class="btn btn-sm btn-outline-secondary dropdown-toggle"
                                     type="button"
-                                    wire:click="restore({{ $service->id }})"
-                                    class="btn btn-sm btn-outline-success me-1 px-2 py-1"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
                                 >
-                                    Restore
+                                    Actions
                                 </button>
-                                <button
-                                    type="button"
-                                    wire:click="forceDelete({{ $service->id }})"
-                                    class="btn btn-sm btn-outline-danger px-2 py-1"
-                                    wire:confirm="Permanently delete this service?"
-                                >
-                                    Delete
-                                </button>
-                            @else
-                                <button
-                                    wire:click="toggleActive({{ $service->id }})"
-                                    class="btn btn-sm {{ $service->is_active ? 'btn-success' : 'btn-outline-secondary' }} me-1 px-2 py-1"
-                                >
-                                    {{ $service->is_active ? 'Deactivate' : 'Activate' }}
-                                </button>
-                                <button
-                                    wire:click="$dispatch('open', [{{ $service->id }}])"
-                                    class="btn btn-sm btn-outline-primary me-1 px-2 py-1"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    type="button"
-                                    wire:click="delete({{ $service->id }})"
-                                    class="btn btn-sm btn-outline-danger px-2 py-1"
-                                    wire:confirm="Are you sure you want to delete this service?"
-                                >
-                                    Delete
-                                </button>
-                            @endif
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    @if ($service->trashed())
+                                        <li>
+                                            <button
+                                                type="button"
+                                                class="dropdown-item text-success"
+                                                wire:click="restore({{ $service->id }})"
+                                            >
+                                                Restore
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                type="button"
+                                                class="dropdown-item text-danger"
+                                                wire:click="forceDelete({{ $service->id }})"
+                                                wire:confirm="Permanently delete this service?"
+                                            >
+                                                Delete permanently
+                                            </button>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <button
+                                                type="button"
+                                                class="dropdown-item"
+                                                wire:click="toggleActive({{ $service->id }})"
+                                            >
+                                                {{ $service->is_active ? 'Deactivate' : 'Activate' }}
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                type="button"
+                                                class="dropdown-item"
+                                                wire:click="$dispatch('open', [{{ $service->id }}])"
+                                            >
+                                                Edit
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                type="button"
+                                                class="dropdown-item"
+                                                wire:click="$dispatch('openAssign', [{{ $service->id }}])"
+                                            >
+                                                Assign employees
+                                            </button>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <button
+                                                type="button"
+                                                class="dropdown-item text-danger"
+                                                wire:click="delete({{ $service->id }})"
+                                                wire:confirm="Are you sure you want to delete this service?"
+                                            >
+                                                Delete
+                                            </button>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center text-muted py-4">
+                        <td colspan="8" class="text-center text-muted py-4">
                             @if ($showDeleted)
                                 No deleted services found.
                             @else
@@ -116,4 +163,5 @@
     </div>
 
     <livewire:admin.company.service.create :company="$company" />
+    <livewire:admin.company.service.assign :company="$company" />
 </div>

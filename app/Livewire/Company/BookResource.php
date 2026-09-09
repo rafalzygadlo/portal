@@ -5,11 +5,13 @@ namespace App\Livewire\Company;
 use App\Models\Company;
 use App\Models\Resource;
 use App\Models\ResourceBooking;
+use App\Traits\NotifiesCompanyUsers;
 use Carbon\Carbon;
 use Livewire\Component;
 
 class BookResource extends Component
 {
+    use NotifiesCompanyUsers;
     public Company $company;
     public int $step = 1;
     public array $resourceIds = [];
@@ -140,7 +142,7 @@ class BookResource extends Component
             return;
         }
 
-        ResourceBooking::create([
+        $booking = ResourceBooking::create([
             'company_id' => $this->company->id,
             'resource_id' => $this->resourceIds[0],
             'resource_ids' => $this->resourceIds,
@@ -152,6 +154,15 @@ class BookResource extends Component
             'status' => 'pending',
             'total_price' => $this->totalPrice(),
         ]);
+
+        $resourceNames = Resource::whereIn('id', $this->resourceIds)->pluck('name')->implode(', ');
+
+        $this->notifyCompanyUsers(
+            'resource_booking',
+            "Nowa rezerwacja sprzętu: {$resourceNames} od {$booking->client_name} ({$start->format('d.m.Y H:i')})",
+            $booking->id,
+            'ResourceBooking'
+        );
 
         session()->forget($this->draftKey());
         session()->flash('success', 'Your booking request has been sent.');
@@ -246,9 +257,16 @@ class BookResource extends Component
             return [];
         }
 
-        $date = Carbon::createFromFormat('Y-m-d', $this->selectedDate, 'Europe/Warsaw')->startOfDay();
+        $date = Carbon::createFromFormat(
+            'Y-m-d',
+            $this->selectedDate,
+            'Europe/Warsaw'
+        )->startOfDay();
+
         $dayKey = strtolower($date->format('D'));
-        $dayHours = $this->company->getCompanyHours()[$dayKey] ?? ['closed' => true];
+
+        $dayHours = $this->company->getCompanyHours()[$dayKey]
+            ?? ['closed' => true];
 
         if ($dayHours['closed'] ?? false) {
             return [];
@@ -256,18 +274,40 @@ class BookResource extends Component
 
         $openTime = Carbon::parse($dayHours['open'] ?? '00:00');
         $closeTime = Carbon::parse($dayHours['close'] ?? '00:00');
+
         $duration = (int) $this->durationHours;
         $now = now('Europe/Warsaw');
 
-        $candidate = $date->copy()->setTime($openTime->hour, $openTime->minute);
-        $dayClose = $date->copy()->setTime($closeTime->hour, $closeTime->minute);
+        $candidate = $date->copy()->setTime(
+            $openTime->hour,
+            $openTime->minute
+        );
+
+        $dayClose = $date->copy()->setTime(
+            $closeTime->hour,
+            $closeTime->minute
+        );
 
         $times = [];
-        while ($candidate->copy()->addHours($duration)->lte($dayClose)) {
-            $end = $candidate->copy()->addHours($duration);
 
-            if ($candidate->gt($now) && $this->resourcesAreAvailableAt($this->resourceIds, $candidate, $end)) {
-                $times[] = $candidate->format('Y-m-d\\TH:i');
+        // Godzina rozpoczęcia musi mieścić się w godzinach pracy.
+        while ($candidate->lte($dayClose)) {
+
+            // Nie pokazuj godzin, które już minęły.
+            if ($candidate->gt($now)) {
+
+                // Wypożyczenie może przechodzić przez północ.
+                $end = $candidate->copy()->addHours($duration);
+
+                if (
+                    $this->resourcesAreAvailableAt(
+                        $this->resourceIds,
+                        $candidate,
+                        $end
+                    )
+                ) {
+                    $times[] = $candidate->format('Y-m-d\TH:i');
+                }
             }
 
             $candidate->addMinutes(30);
@@ -275,7 +315,6 @@ class BookResource extends Component
 
         return $times;
     }
-
     private function resourcesAreAvailableAt(array $resourceIds, Carbon $start, Carbon $end): bool
     {
         foreach ($resourceIds as $resourceId) {

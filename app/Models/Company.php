@@ -66,7 +66,7 @@ class Company extends Model
     {
         return $this->belongsToMany(User::class, 'company_user')
                 ->using(CompanyUser::class)
-                ->withPivot(['owner', 'working_hours', 'unavailable_periods'])
+                ->withPivot(['owner', 'display_name', 'working_hours', 'unavailable_periods'])
                 ->withTimestamps();
     }
 

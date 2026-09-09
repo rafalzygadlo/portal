@@ -17,6 +17,7 @@ class CompanyUser extends Pivot
         'company_id',
         'user_id',
         'owner',
+        'display_name',
         'working_hours',
         'unavailable_periods',
     ];
@@ -45,6 +46,11 @@ class CompanyUser extends Pivot
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'company_user_service', 'company_user_id', 'service_id');
+    }
+
+    public function getDisplayNameAttribute(): string
+    {
+        return ($this->attributes['display_name'] ?? '') ?: $this->user->name;
     }
 
     public function getWorkingHours(): array

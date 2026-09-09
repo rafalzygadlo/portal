@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('display_name')->nullable();
             $table->boolean('owner')->default(false);
             $table->json('working_hours')->nullable();
             $table->json('unavailable_periods')->nullable();

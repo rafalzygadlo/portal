@@ -21,12 +21,9 @@ class Index extends Component
     public string $email = '';
     public string $password = '';
 
-    public bool $showScheduleModal = false;
-    public ?int $scheduleUserId = null;
-    public array $scheduleWorkingHours = [];
-    public array $scheduleUnavailablePeriods = [];
-    public string $scheduleTimeOffStart = '';
-    public string $scheduleTimeOffEnd = '';
+    public bool $showEditModal = false;
+    public ?int $editUserId = null;
+    public string $editDisplayName = '';
 
     public function mount(Company $company): void
     {
@@ -94,56 +91,33 @@ class Index extends Component
         session()->flash('success', 'User has been created and assigned to the company.');
     }
 
-    public function openScheduleModal(int $userId): void
+    public function openEditModal(int $userId): void
     {
         $this->authorize('manage', $this->company);
         $this->resetErrorBag();
 
         $companyUser = $this->companyUser($userId);
-        $this->scheduleUserId = $userId;
-        $this->scheduleWorkingHours = $companyUser->getWorkingHours();
-        $this->scheduleUnavailablePeriods = $companyUser->unavailable_periods ?? [];
-        $this->scheduleTimeOffStart = '';
-        $this->scheduleTimeOffEnd = '';
-        $this->showScheduleModal = true;
+        $this->editUserId = $userId;
+        $this->editDisplayName = $companyUser->getRawOriginal('display_name') ?? '';
+        $this->showEditModal = true;
     }
 
-    public function removeUnavailablePeriod(int $index): void
-    {
-        unset($this->scheduleUnavailablePeriods[$index]);
-        $this->scheduleUnavailablePeriods = array_values($this->scheduleUnavailablePeriods);
-    }
-
-    public function saveSchedule(): void
+    public function saveDisplayName(): void
     {
         $this->authorize('manage', $this->company);
 
         $this->validate([
-            'scheduleWorkingHours.*.open' => 'nullable|date_format:H:i',
-            'scheduleWorkingHours.*.close' => 'nullable|date_format:H:i',
-            'scheduleWorkingHours.*.closed' => 'boolean',
-            'scheduleTimeOffStart' => 'nullable|date_format:Y-m-d',
-            'scheduleTimeOffEnd' => 'nullable|date_format:Y-m-d|after_or_equal:scheduleTimeOffStart',
+            'editDisplayName' => 'nullable|string|max:255',
         ]);
 
-        if (($this->scheduleTimeOffStart && !$this->scheduleTimeOffEnd) || (!$this->scheduleTimeOffStart && $this->scheduleTimeOffEnd)) {
-            $this->addError('scheduleTimeOffEnd', 'Set both dates for a time-off period.');
-            return;
-        }
-
-        if ($this->scheduleTimeOffStart && $this->scheduleTimeOffEnd) {
-            $this->scheduleUnavailablePeriods[] = ['start' => $this->scheduleTimeOffStart, 'end' => $this->scheduleTimeOffEnd];
-        }
-
-        $companyUser = $this->companyUser($this->scheduleUserId);
+        $companyUser = $this->companyUser($this->editUserId);
         $companyUser->update([
-            'working_hours' => $this->scheduleWorkingHours,
-            'unavailable_periods' => $this->scheduleUnavailablePeriods,
+            'display_name' => $this->editDisplayName ?: null,
         ]);
 
-        $this->showScheduleModal = false;
-        $this->reset('scheduleUserId', 'scheduleWorkingHours', 'scheduleUnavailablePeriods', 'scheduleTimeOffStart', 'scheduleTimeOffEnd');
-        session()->flash('success', 'Working hours have been updated.');
+        $this->showEditModal = false;
+        $this->reset('editUserId', 'editDisplayName');
+        session()->flash('success', 'Display name has been updated.');
     }
 
     private function companyUser(int $userId): CompanyUser

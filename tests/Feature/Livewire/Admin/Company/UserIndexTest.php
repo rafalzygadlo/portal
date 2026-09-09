@@ -111,4 +111,52 @@ class UserIndexTest extends TestCase
             ->call('attachUser')
             ->assertHasErrors(['attachEmail' => ['Sorry, user does not exist.']]);
     }
+
+    public function test_company_admin_can_set_a_display_name_for_a_user(): void
+    {
+        $owner = User::factory()->create();
+        $employee = User::factory()->create(['first_name' => 'Jan', 'last_name' => 'Kowalski']);
+        $company = Company::factory()->create();
+        $company->users()->attach($owner, ['owner' => true]);
+        $company->users()->attach($employee, ['owner' => false]);
+
+        $this->actingAs($owner);
+
+        Livewire::test(Index::class, ['company' => $company])
+            ->call('openEditModal', $employee->id)
+            ->assertSet('editDisplayName', '')
+            ->set('editDisplayName', 'Jan the Mechanic')
+            ->call('saveDisplayName')
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseHas('company_user', [
+            'company_id' => $company->id,
+            'user_id' => $employee->id,
+            'display_name' => 'Jan the Mechanic',
+        ]);
+    }
+
+    public function test_company_admin_can_clear_a_display_name(): void
+    {
+        $owner = User::factory()->create();
+        $employee = User::factory()->create(['first_name' => 'Jan', 'last_name' => 'Kowalski']);
+        $company = Company::factory()->create();
+        $company->users()->attach($owner, ['owner' => true]);
+        $company->users()->attach($employee, ['owner' => false, 'display_name' => 'Jan the Mechanic']);
+
+        $this->actingAs($owner);
+
+        Livewire::test(Index::class, ['company' => $company])
+            ->call('openEditModal', $employee->id)
+            ->assertSet('editDisplayName', 'Jan the Mechanic')
+            ->set('editDisplayName', '')
+            ->call('saveDisplayName')
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseHas('company_user', [
+            'company_id' => $company->id,
+            'user_id' => $employee->id,
+            'display_name' => null,
+        ]);
+    }
 }
