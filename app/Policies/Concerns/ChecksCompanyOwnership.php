@@ -7,6 +7,7 @@ use App\Models\User;
 
 trait ChecksCompanyOwnership
 {
+    
     protected function userBelongsToCompany(User $user, ?Company $company): bool
     {
         if (!$company) {
@@ -18,7 +19,7 @@ trait ChecksCompanyOwnership
         }
 
         if ($company->relationLoaded('users')) {
-            return $company->users->contains(fn (User $member) => (int) $member->id === (int) $user->id);
+            return $company->users->contains(fn(User $member) => (int) $member->id === (int) $user->id);
         }
 
         return $company->users()->whereKey($user->id)->exists();
@@ -35,7 +36,7 @@ trait ChecksCompanyOwnership
         }
 
         if ($company->relationLoaded('owners')) {
-            return $company->owners->contains(fn (User $owner) => (int) $owner->id === (int) $user->id);
+            return $company->owners->contains(fn(User $owner) => (int) $owner->id === (int) $user->id);
         }
 
         return $company->owners()->whereKey($user->id)->exists();

@@ -10,24 +10,17 @@ use App\Policies\Concerns\ChecksCompanyOwnership;
 class ResourcePolicy
 {
     use ChecksCompanyOwnership;
-
     public function update(User $user, Resource $resource): bool
     {
-        return $this->isResourceOwner($user, $resource)
-            || $this->userOwnsCompany($user, $this->resolveCompany($resource));
+        return $this->userOwnsCompany($user, $this->resolveCompany($resource));
     }
 
     public function delete(User $user, Resource $resource): bool
     {
-        return $this->isResourceOwner($user, $resource)
-            || $this->userOwnsCompany($user, $this->resolveCompany($resource));
+        return $this->userOwnsCompany($user, $this->resolveCompany($resource));
     }
 
-    private function isResourceOwner(User $user, Resource $resource): bool
-    {
-        return !empty($resource->user_id) && (int) $user->id === (int) $resource->user_id;
-    }
-
+    
     private function resolveCompany(Resource $resource): ?Company
     {
         if ($resource->relationLoaded('company')) {
