@@ -16,6 +16,7 @@ class Index extends Component
 
     public function mount($company)
     {
+        $this->authorize('update', $company);
         $this->company = $company;
     }
 

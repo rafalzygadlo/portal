@@ -11,8 +11,14 @@ class ServicePolicy
 {
     use ChecksCompanyOwnership;
 
+    public function view(User $user, Service $service): bool
+    {
+        dd($user);
+        return $this->userOwnsCompany($user, $this->resolveCompany($service));
+    }
     public function update(User $user, Service $service): bool
     {
+
         return $this->userOwnsCompany($user, $this->resolveCompany($service));
     }
 

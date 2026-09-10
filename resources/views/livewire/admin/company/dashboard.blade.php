@@ -5,7 +5,7 @@
             <p class="text-muted mb-0">Reservations management panel</p>
         </div>
 
-        @can('update', $company)
+       
             <a href="{{ route('admin.company.subscription', ['company' => $company]) }}" class="d-flex align-items-center gap-3 text-decoration-none border rounded-3 px-3 py-2 bg-light">
                 <div class="text-end">
                     <span class="d-block text-muted small">Current plan</span>
@@ -13,7 +13,7 @@
                 </div>
                 <i class="bi bi-arrow-up-right text-primary" aria-hidden="true"></i>
             </a>
-        @endcan
+        
     </div>
 
     <div class="mb-3">
@@ -33,7 +33,7 @@
                 </div>
             </a>
         </div>
-        @can('update', $company)
+        
         <div class="col">
             <a href="{{ route('admin.company.services',['company' => $company]) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow">
                 <div class="d-flex align-items-center mb-3">
@@ -90,7 +90,7 @@
                 </div>
             </a>
         </div>
-        @endcan
+        
         <div class="col">
             {{-- 
             <a href="{{ route('dashboard.company', ['company' => $company, 'tab' => 'reservations']) }}" class="btn btn-light border rounded-4 w-100 h-100 p-4 text-start shadow">

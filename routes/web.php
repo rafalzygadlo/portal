@@ -15,12 +15,8 @@ if (empty($domain))
     throw new \Exception('SYSTEM ERROR: The DOMAIN_NAME value in .env is empty. Configure it so subdomains work correctly.');
 }
 
-
-
-
-//subdomain routes
 Route::domain('{company:subdomain}.' . $domain)
     ->group(base_path('routes/web/subdomain.php'));
 
-
-include base_path('routes/web/main.php');
+Route::domain($domain)
+    ->group(base_path('routes/web/main.php'));

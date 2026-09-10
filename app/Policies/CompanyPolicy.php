@@ -30,11 +30,4 @@ class CompanyPolicy
         return $this->userOwnsCompany($user, $company);
     }
 
-    /**
-     * Whether the user can view reservations.
-     */
-    public function viewReservations(User $user, Company $company): bool
-    {
-        return $this->userOwnsCompany($user, $company);
-    }
 }

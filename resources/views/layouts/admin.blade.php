@@ -40,13 +40,12 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('user.profile') }}">{{ __('profile.link') }}</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                <a class="dropdown-item" href="{{ route('logout.subdomain',['company' => $company]) }}"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('global.logout') }}
                                 </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                <form id="logout-form" action="{{ route('logout.subdomain', ['company' => $company]) }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
                             </div>
@@ -79,11 +78,5 @@
         });
     </script>
 </body>
-
-<pre>
-APP_URL: {{ config('app.url') }}
-Route login: {{ route('login') }}
-URL::to('/login'): {{ url('/login') }}
-</pre>
 
 </html>
