@@ -60,6 +60,9 @@ class Comments extends Component
 
     public function render()
     {
+          return '<div class="alert alert-warning">Moze dodamy tu komentarze zobaczymy</div>';
+        return view();    
+    
         $comments = $this->model->comments()->withTrashed()
             ->whereNull('parent_id')
             ->with(['user', 'replies' => function ($query) {
@@ -67,8 +70,7 @@ class Comments extends Component
             }])
             ->latest()
             ->get();
-        //dd($comments);    
-
+        
         return view('livewire.comments', [
             'comments' => $comments,
             'replyingTo' => $this->replyToId ? Comment::find($this->replyToId) : null,

@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Image extends Model
 {
+
+    public const VARIANT_SMALL = 'small';
+    public const VARIANT_THUMB = 'thumb';
+
     protected $table = 'images';
     protected $fillable = ['path', 'imageable_id', 'imageable_type'];
 
@@ -15,14 +19,17 @@ class Image extends Model
         return $this->morphTo();
     }
 
-    public function getThumbnailPath()
+    public function getPath(): string
     {
-        $filename = basename($this->path); // wyciąga samą nazwę pliku, np. 'zdjecie.jpg'
-        return 'offers/' . $this->imageable_id . '/thumbnails/' . $filename;
+        return $this->path;
     }
-    public function getSmallPath()
+    public function getThumbPath(): string
     {
-        return 'small/' . $this->path;
+        return dirname($this->path) . '/' . self::VARIANT_THUMB . '/' . basename($this->path);
+    }
 
+    public function getSmallPath(): string
+    {
+        return dirname($this->path) . '/' . self::VARIANT_SMALL . '/' . basename($this->path);
     }
 }

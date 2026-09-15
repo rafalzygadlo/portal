@@ -170,7 +170,6 @@
 
     <!-- Comments -->
     <div class="mb-5">
-        <h3 class="h2 fw-bold mb-4">Comments i opinie</h3>
         <livewire:comments :model="$company" />
     </div>
 </div>

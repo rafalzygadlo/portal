@@ -14,7 +14,7 @@
         @if (!empty($item->images))
 
             @if($item->images->isNotEmpty())
-                <img loading="lazy" src="{{ asset('storage/' . $item->images->skip(0)->first()->getThumbnailPath()) }}"
+                <img loading="lazy" src="{{ asset('storage/' . $item->images->skip(0)->first()->getThumbPath()) }}"
                     class="justify-content-center align-items-center  w-100" alt="{{ $item->title }}">
             @else
                 <div

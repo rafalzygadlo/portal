@@ -20,22 +20,15 @@
                    <livewire:gallery :images="$offer->images"/>
                     
                     <div class="offer-content py-3">
-                        <h4 class="fw-semibold mb-3 border-start border-primary border-4 ps-3">Opis oferty</h4>
-                        <div class="fs-5 text-secondary lh-base">
+                        <h4 class="fw-semibold mb-3 border-start border-primary  ps-3">Opis oferty</h4>
+                        <div class="  lh-base">
                             {!! nl2br($offer->content) !!}
                         </div>
                     </div>
 
-
-
                 </div>
             </div>
 
-            <div class="d-flex gap-2">
-                <a href="{{ route('offers.index') }}" class="btn btn-light border px-4 py-2">
-                    <i class="bi bi-arrow-left me-2"></i>Wróć do listy
-                </a>
-            </div>
         </div>
 
         {{-- Prawa kolumna: Sidebar --}}

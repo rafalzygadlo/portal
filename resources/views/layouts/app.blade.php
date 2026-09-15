@@ -152,10 +152,4 @@
     @livewireScripts
 </body>
 
-
-<pre>
-APP_URL: {{ config('app.url') }}
-Route login: {{ route('login') }}
-URL::to('/login'): {{ url('/login') }}
-</pre>
 </html>

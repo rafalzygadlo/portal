@@ -49,11 +49,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer bg-light border-top-0 p-4">
-                     <a href="/" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-arrow-left"></i> Powrót do listy
-                    </a>
-                </div>
+               
             </div>
         </div>
     </div>

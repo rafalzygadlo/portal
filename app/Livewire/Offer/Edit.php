@@ -5,7 +5,7 @@ namespace App\Livewire\Offer;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Offer;
-use App\Services\OfferImageService;
+use App\Services\ImageService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -54,7 +54,7 @@ class Edit extends Component
     }
 
 
-    public function save(OfferImageService $imageService)
+    public function save(ImageService $imageService)
     {
 
         $this->validate();
@@ -81,8 +81,7 @@ class Edit extends Component
             $image = $this->offer->images()->find($imageId);
             if ($image) 
             {
-                Storage::disk('public')->delete($image->path);
-                $image->delete();
+                $imageService->deleteImage($image);
             }
         }
 
@@ -94,7 +93,6 @@ class Edit extends Component
 
         session()->flash('status', 'Oferta została zaktualizowana!');
 
-      
     }
 
     public function render()

@@ -46,12 +46,8 @@
                                 <i class="bi bi-person"></i> {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('user.profile') }}">Moje rezerwacje</a></li>
                                 <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <form action="{{ route('logout') }}" method="POST">
+                                    <form action="{{ route('logout.subdomain', ['company' => $company]) }}" method="POST">
                                         @csrf
                                         <button class="dropdown-item text-danger">Wyloguj</button>
                                     </form>

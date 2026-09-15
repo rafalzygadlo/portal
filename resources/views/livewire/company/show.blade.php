@@ -66,11 +66,7 @@
                         <livewire:comments :model="$company" />
                     </div>
                 </div>
-                <div class="card-footer bg-light border-0 p-4">
-                     <a href="{{ route('company.index') }}" class="btn btn-light border shadow-sm px-4">
-                        <i class="bi bi-arrow-left me-2"></i> Powrót do katalogu
-                    </a>
-                </div>
+              
             </div>
         </div>
     </div>

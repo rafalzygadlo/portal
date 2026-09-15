@@ -7,7 +7,7 @@ use App\Models\Offer;
 use App\Models\Category;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
-use App\Services\OfferImageService;
+use App\Services\ImageService;
 use App\Services\ImageAnalysisService;
 
 class Create extends Component
@@ -33,7 +33,7 @@ class Create extends Component
         ];
     }
 
-    public function save(OfferImageService $imageService)
+    public function save(ImageService $imageService)
     {
         $this->validate();
 

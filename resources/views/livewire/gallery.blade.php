@@ -44,7 +44,7 @@
                         class="ratio ratio-1x1 position-relative shadow-sm rounded border @if($index == $this->currentIndex) border-primary border-3 @else border-light @endif"
                         style="cursor: pointer;">
 
-                        <img loading="lazy" src="{{ asset('storage/' . $image->getThumbnailPath()) }}"
+                        <img loading="lazy" src="{{ asset('storage/' . $image->getThumbPath()) }}"
                             class="img-fluid rounded hover-opacity" alt="{{ $image->title }}" style="object-fit: cover;">
 
                     </div>

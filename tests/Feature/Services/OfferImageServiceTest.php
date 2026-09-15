@@ -3,13 +3,13 @@
 namespace Tests\Feature\Services;
 
 use App\Models\Offer;
-use App\Services\OfferImageService;
+use App\Services\ImageService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class OfferImageServiceTest extends TestCase
+class ImageServiceTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -25,7 +25,7 @@ class OfferImageServiceTest extends TestCase
             'title' => 'Nowoczesny Dom w Bolesławcu'
         ]);
 
-        $service = new OfferImageService();
+        $service = new ImageService();
         
         // Tworzymy fejkowe zdjęcia do testu
         $photos = [
