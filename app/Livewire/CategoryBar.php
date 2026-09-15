@@ -27,14 +27,14 @@ class CategoryBar extends Component
     {
 
         if (!$this->currentCategory) {
-            return Category::whereNull('parent_id')->withCount('children')->get();
+            return Category::whereNull('parent_id')->withCount('children')->orderBy('name')->get();
         }
 
-        $subCategories = Category::where('parent_id', $this->currentCategory->id)->withCount('children')->get();
+        $subCategories = Category::where('parent_id', $this->currentCategory->id)->withCount('children')->orderBy('name')->get();
 
         return $subCategories->isNotEmpty() 
             ? $subCategories 
-            : Category::where('parent_id', $this->currentCategory->parent_id)->withCount('children')->get();
+            : Category::where('parent_id', $this->currentCategory->parent_id)->withCount('children')->orderBy('name')->get();
     }
 
 

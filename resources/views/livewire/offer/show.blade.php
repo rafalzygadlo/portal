@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <h1 class="fw-bold h2">{{ $offer->title }}</h1>
 
-                   <livewire:gallery :images="$offer->images"/>
+                   <livewire:gallery.viewer :images="$offer->images"/>
                     
                     <div class="offer-content py-3">
                         <h4 class="fw-semibold mb-3 border-start border-primary  ps-3">Opis oferty</h4>

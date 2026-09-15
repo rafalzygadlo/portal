@@ -30,8 +30,8 @@ public function processAndAttach(Model $model, array $photos): void
 
         $directory = "{$modelType}/{$modelId}";
 
-        $smallDirectory = "{$directory}/small";
-        $thumbnailsDirectory = "{$directory}/thumbnails";
+        $smallDirectory = "{$directory}/" . Image::VARIANT_SMALL;
+        $thumbnailsDirectory = "{$directory}/" . Image::VARIANT_THUMB;
 
         $image = $manager->decodePath($photo['realPath']);
 

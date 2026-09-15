@@ -1,4 +1,3 @@
-
 <div class="col-12 px-1 px-md-3">
 
     {{-- NAGŁÓWEK --}}
@@ -18,7 +17,7 @@
     {{-- STATUS --}}
     @if (session('status'))
         <div class="alert alert-success border-0 rounded-4 shadow-sm p-3 mb-4 d-flex align-items-center gap-2"
-             style="background-color: #e6f4ea; color: #137333;">
+            style="background-color: #e6f4ea; color: #137333;">
 
             <i class="bi bi-check-circle-fill fs-5"></i>
 
@@ -31,11 +30,8 @@
 
 
     {{-- BREADCRUMB --}}
-    <livewire:breadcrumb
-        selectEvent="offer-category-selected"
-        :category="$currentCategory"
-        :key="'bc-'.$categorySlug"
-    />
+    <livewire:breadcrumb selectEvent="offer-category-selected" :category="$currentCategory"
+        :key="'bc-' . $categorySlug" />
 
 
     {{-- KATEGORIE --}}
@@ -43,17 +39,14 @@
 
         <details class="border-top border-bottom py-3" open>
 
-            <summary
-                class="d-flex align-items-center justify-content-between gap-2 fw-bold text-dark"
-                style="cursor:pointer; list-style:none;"
-            >
+            <summary class="d-flex align-items-center justify-content-between gap-2 fw-bold text-dark"
+                style="cursor:pointer; list-style:none;">
 
                 <span class="d-flex align-items-center gap-2">
 
                     <span
                         class="d-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary"
-                        style="width:34px;height:34px;"
-                    >
+                        style="width:34px;height:34px;">
                         <i class="bi bi-grid"></i>
                     </span>
 
@@ -77,12 +70,8 @@
 
             <div class="pt-3">
 
-                <livewire:category-bar
-                    orientation="horizontal"
-                    selectEvent="offer-category-selected"
-                    :currentCategory="$currentCategory"
-                    :key="'side-'.$categorySlug"
-                />
+                <livewire:category-bar orientation="horizontal" selectEvent="offer-category-selected"
+                    :currentCategory="$currentCategory" :key="'side-' . $categorySlug" />
 
             </div>
 
@@ -96,35 +85,23 @@
 
         @forelse ($offers as $offer)
 
-            <article
-                wire:key="offer-{{ $offer->id }}"
-                class="row g-3 py-3 border-bottom"
-            >
+            <article wire:key="offer-{{ $offer->id }}" class="row g-3 py-3 border-bottom">
 
                 {{-- ZDJĘCIE --}}
                 <div class="col-4 col-sm-3 col-md-3 col-lg-2">
 
-                    <a
-                        href="{{ route('offer.show', $offer) }}"
-                        class="d-block text-decoration-none"
-                    >
+                    <a href="{{ route('offer.show', $offer) }}" class="d-block text-decoration-none">
 
                         @if($offer->images->isNotEmpty())
 
-                            <img
-                                loading="lazy"
-                                src="{{ asset('storage/' . $offer->images->first()->getThumbPath()) }}"
-                                class="img-fluid rounded object-fit-cover w-100"
-                                style="aspect-ratio: 4 / 3;"
-                                alt="{{ $offer->title }}"
-                            >
+                            <img loading="lazy" src="{{ asset('storage/' . $offer->images->first()->getThumbPath()) }}"
+                                class="img-fluid rounded object-fit-cover w-100" style="aspect-ratio: 4 / 3;"
+                                alt="{{ $offer->title }}">
 
                         @else
 
-                            <div
-                                class="bg-light rounded d-flex align-items-center justify-content-center w-100"
-                                style="aspect-ratio: 4 / 3;"
-                            >
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center w-100"
+                                style="aspect-ratio: 4 / 3;">
                                 <i class="bi bi-image fs-2 text-muted"></i>
                             </div>
 
@@ -174,10 +151,7 @@
                             {{-- TYTUŁ --}}
                             <h3 class="h5 mb-2">
 
-                                <a
-                                    href="{{ route('offer.show', $offer) }}"
-                                    class="text-decoration-none text-dark"
-                                >
+                                <a href="{{ route('offer.show', $offer) }}" class="text-decoration-none text-dark">
                                     {{ Str::limit($offer->title, 90) }}
                                 </a>
 
@@ -240,12 +214,13 @@
 
 
                         {{-- ULUBIONE --}}
-                        <div class="flex-shrink-0">
-
-                            <livewire:favorite
-                                :model="$offer"
-                                :key="'favorite-offer-'.$offer->id"
-                            />
+                        <div class="d-flex">
+                            <div class="mb-2">
+                            <livewire:promote :model="$offer" :key="'promote-offer-' . $offer->id" />
+                            </div>
+                            <div class="mb-2">
+                            <livewire:favorite :model="$offer" :key="'favorite-offer-' . $offer->id" />
+                            </div>
 
                         </div>
 
@@ -289,15 +264,9 @@
 
         <div class="text-center py-4">
 
-            <div
-                wire:loading.remove
-                wire:target="loadMore"
-            >
+            <div wire:loading.remove wire:target="loadMore">
 
-                <button
-                    wire:click="loadMore"
-                    class="btn btn-outline-primary px-5 rounded-pill fw-bold"
-                >
+                <button wire:click="loadMore" class="btn btn-outline-primary px-5 rounded-pill fw-bold">
 
                     <i class="bi bi-plus-circle me-2"></i>
 
@@ -308,15 +277,9 @@
             </div>
 
 
-            <div
-                wire:loading
-                wire:target="loadMore"
-            >
+            <div wire:loading wire:target="loadMore">
 
-                <div
-                    class="spinner-border text-primary"
-                    role="status"
-                >
+                <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">
                         Ładowanie...
                     </span>

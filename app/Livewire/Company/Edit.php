@@ -14,6 +14,8 @@ class Edit extends Component
     public string $name = '';
     public string $description = '';
 
+    public array $categories = [];
+
     public string $subdomain = '';
 
     public function mount(Company $company)
@@ -24,6 +26,7 @@ class Edit extends Component
         $this->name = $company->name;
         $this->description = $company->description ?? '';
         $this->subdomain = $company->subdomain ?? '';
+        $this->categories = $company->categories()->pluck('id')->toArray();
     }
 
     public function save()

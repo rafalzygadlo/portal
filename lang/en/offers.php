@@ -8,6 +8,5 @@ return [
     'photos' => 'Photos',
     'uploading_previews' => 'Uploading previews...',
     'cancel' => 'Cancel',
-    'add_offer' => 'Add Offer',
     'saving' => 'Saving...',
 ];

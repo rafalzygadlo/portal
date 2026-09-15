@@ -12,10 +12,12 @@ class Create extends Component
 {
     public string $name = '';
     public string $subdomain = '';
-
+    public array $categories = [];
     protected array $rules = [
         'name' => 'required|min:3|max:255',
         'subdomain' => 'required|min:3|max:50|alpha_dash|unique:companies,subdomain',
+        'categories' => 'required|array',
+        'categories.*' => 'required|exists:categories,id',
     ];
    
     public function updatedName(string $value): void
@@ -34,6 +36,10 @@ class Create extends Component
         ]);
 
         $company->users()->attach(Auth::id(), ['owner' => true]);
+        $company->categories()->attach($this->categories);
+
+
+
         session()->flash('status', 'Biznes został dodany!');
 
         $this->reset(['name', 'subdomain']);

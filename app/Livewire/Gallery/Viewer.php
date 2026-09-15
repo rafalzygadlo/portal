@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Gallery;
 
 use Livewire\Component;
 
-class Gallery extends Component
+class Viewer extends Component
 {
     public $images;
     public $activeImage;
@@ -47,6 +47,6 @@ class Gallery extends Component
 
     public function render()
     {
-        return view('livewire.gallery');
+        return view('livewire.gallery.viewer');
     }
 }

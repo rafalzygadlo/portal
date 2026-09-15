@@ -19,7 +19,7 @@ class Edit extends Component
     public Offer $offer;
     public string $title = '';
     public string $content = '';
-    public array $categories = [1,2];
+    public array $categories = [];
     public array $allPhotos;
     public array $initialData = [];
 

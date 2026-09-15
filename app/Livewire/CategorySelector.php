@@ -78,7 +78,7 @@ class CategorySelector extends Component
     public function render()
     {
         return view('livewire.category-selector', [
-            'categories' => Category::where('parent_id', $this->parentId)->get()
+            'categories' => Category::where('parent_id', $this->parentId)->orderBy('name')->get()
         ]);
     }
 }

@@ -51,7 +51,7 @@
                                 <div wire:loading wire:target="photos" class="text-primary small mb-2">
                                     <div class="spinner-border spinner-border-sm me-2" role="status"></div>Przesyłanie zdjęć...
                                 </div>
-                                <livewire:upload.gallery
+                                <livewire:gallery.uploader
                                     wire:model="photos"
                                     inputId="article-photos-create"
                                     field="photos"

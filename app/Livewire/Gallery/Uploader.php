@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Gallery;
 
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -8,7 +8,7 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\Modelable;
 use Illuminate\Support\Facades\Storage;
 
-class Upload extends Component
+class Uploader extends Component
 {
     use WithFileUploads;
 
@@ -112,7 +112,7 @@ class Upload extends Component
 
     public function render()
     {
-        return view('livewire.upload.gallery', [
+        return view('livewire.gallery.uploader', [
             'fileCount' => count($this->allPhotos)
         ]);
     }

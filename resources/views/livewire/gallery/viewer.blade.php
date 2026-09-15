@@ -39,7 +39,7 @@
         </div>
         <div class="d-flex flex-nowrap overflow-x-auto gap-2 pb-3 custom-scrollbar">
             @foreach($images as $index => $image)
-                <div style="flex: 0 0 120px;" wire:key="thumb-{{ $image->id }}">
+                <div style="flex: 0 0 100px;" wire:key="thumb-{{ $image->id }}">
                     <div wire:click="$set('currentIndex', {{ $index }})" role="button"
                         class="ratio ratio-1x1 position-relative shadow-sm rounded border @if($index == $this->currentIndex) border-primary border-3 @else border-light @endif"
                         style="cursor: pointer;">

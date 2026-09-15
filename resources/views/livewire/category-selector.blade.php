@@ -19,10 +19,9 @@
                 {{-- Leaf category - selectable item --}}
                 <label wire:click.prevent="selectCategory({{ $category->id }})" class="list-group-item list-group-item-action d-flex align-items-center" style="cursor: pointer;">
                     <input 
-                        type="checkbox" 
+                        type="checkbox"
                         class="form-check-input me-2" 
                         @if(in_array($category->id, $value)) checked @endif
-                        tabindex="-1"
                         readonly
                     >
                     {{ $category->name }}

@@ -14,6 +14,25 @@ class Favorite extends Component
 
     public function mount()
     {
+        if(session()->has('favorite_redirect')) {
+            
+            $data =session()->pull('favorite_redirect');
+            $modelId = $data['model_id'] ?? null;
+            $modelName = $data['model_name'] ?? null;
+            $model = $modelName::Find($modelId);
+            if ($model->isFavoritedBy(Auth::id())) 
+            {
+                $model->favorites()->where('user_id', Auth::id())->delete();
+            } 
+            else 
+            {
+                $model->favorites()->create(['user_id' => Auth::id()]);
+            }
+
+            $this->dispatch('showToast', message: $model->isFavoritedBy(Auth::id()) ? 'Dodano do ulubionych!' : 'Usunięto z ulubionych!');
+            
+            
+        }
         $this->loadFavoriteState();
     }
 
@@ -21,8 +40,17 @@ class Favorite extends Component
     {
         if (!Auth::check()) 
         {
-            session(['url.intended' => request()->url()]);
-            return $this->redirect(route('login'), navigate: true);
+            //dd($this->model);
+               session()->put('favorite_redirect', [
+                'model_id' => $this->model->id,
+                'model_name' => get_class($this->model),
+                //'start_time' => $this->startTime,
+            ]);
+            
+            
+
+            return redirect()->guest(route('login'));
+            
         }
 
         if ($this->model->isFavoritedBy(Auth::id())) 

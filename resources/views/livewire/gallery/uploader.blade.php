@@ -16,9 +16,9 @@
     @endif
 
         @foreach($allPhotos as $index => $photo)
-            <div class="col-6 col-sm-4 col-md-3" wire:key="{{ $photo['id'] }}">
+            <div class="col-2 col-sm-5 col-md-2" wire:key="{{ $photo['id'] }}">
                 <div class="position-relative border rounded overflow-hidden" style="aspect-ratio: 1;">
-                    <img src="{{ $photo['previewPath'] }}" class="img-fluid w-100 h-100">
+                    <img src="{{ $photo['previewPath'] }}" class="img-fluid w-1001 h-1001">
                     
                     <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" wire:click="removePhoto({{ $index }})">
                         <i class="bi bi-x-lg"></i>
@@ -37,7 +37,7 @@
 
 
         @if($fileCount < $maxPhotos)
-            <div class="col-6 col-sm-4 col-md-3">
+            <div class="col-2 col-sm-5 col-md-2">
                 <label for="input-id" class="d-flex align-items-center justify-content-center border border-2 border-dashed rounded h-100 cursor-pointer" style="aspect-ratio: 1; cursor: pointer;">
                     <div class="text-center">
                         <i class="bi bi-plus-lg fs-2"></i>

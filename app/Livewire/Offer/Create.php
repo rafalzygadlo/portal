@@ -22,6 +22,16 @@ class Create extends Component
     
     public array $allPhotos = [];
 
+
+    public function updatedTitle()
+    {
+        $this->resetErrorBag('title');
+    }
+
+    public function updatedContent()
+    {
+        $this->resetErrorBag('content');    
+    }
   
     public function rules()
     {
