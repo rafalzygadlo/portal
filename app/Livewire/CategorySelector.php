@@ -16,7 +16,24 @@ class CategorySelector extends Component
 
     // Properties to replace computed ones
     public Collection $selectedCategoriesCollection;
+    
     public ?Category $currentCategoryModel = null;
+
+    public string $categorySearch = '';
+
+    public function getCategorySearchResultsProperty()
+    {
+        //if (strlen(trim($this->categorySearch)) < 2) {
+        //    return collect();
+        //}
+
+        return Category::query()
+    ->where('name', 'like', '%' . trim($this->categorySearch) . '%')
+    ->whereDoesntHave('children')
+    ->orderBy('name')
+    ->limit(10)
+    ->get();
+    }
 
     public function mount()
     {
