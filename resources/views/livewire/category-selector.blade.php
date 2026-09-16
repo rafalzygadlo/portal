@@ -1,146 +1,188 @@
-<div class="position-relative">
+<div>
 
-{{--
-    <div class="input-group">
-        <span class="input-group-text">
-            <i class="bi bi-search"></i>
-        </span>
+    {{-- ========================================= --}}
+    {{-- KATEGORIE + STRZAŁKI --}}
+    {{-- ========================================= --}}
 
-        <input
-            type="text"
-            class="form-control"
-            placeholder="Wpisz kategorię..."
-            wire:model.live.debounce.300ms="categorySearch"
+    <div class="position-relative">
+
+        {{-- LEWO --}}
+        <button
+            type="button"
+            class="btn btn-light shadow-sm position-absolute start-0 top-50 translate-middle-y"
+            style="z-index: 10;"
+            onclick="document.getElementById('category-scroll').scrollBy({
+                left: -300,
+                behavior: 'smooth'
+            })"
         >
-    </div>
+            <i class="bi bi-chevron-left"></i>
+        </button>
 
 
-    @if($this->categorySearchResults->isNotEmpty())
+        {{-- PASEK KATEGORII --}}
+        <div
+            id="category-scroll"
+            class="category-scroll d-flex align-items-center flex-nowrap gap-2 overflow-auto px-5"
+        >
 
-        <div class="list-group position-absolute w-100 shadow-sm"
-             style="z-index: 1000;">
-
-            @foreach($this->categorySearchResults as $category)
+            {{-- POWRÓT --}}
+            @if($this->currentCategoryModel)
 
                 <button
                     type="button"
-                    class="list-group-item list-group-item-action"
-                    wire:click="selectCategory({{ $category->id }})"
+                    wire:click="goBack"
+                    class="category-item d-flex align-items-center gap-2 py-2 px-3
+                           small fw-bold text-muted bg-light rounded-3 border-0
+                           flex-shrink-0 text-nowrap"
                 >
-                    <i class="bi bi-folder me-2"></i>
-                    {{ $category->name }}
+                    <i class="bi bi-arrow-left-short fs-5"></i>
+                    <span>Powrót</span>
                 </button>
+
+            @endif
+
+
+            {{-- KATEGORIE --}}
+            @foreach($categories as $category)
+
+                @if($category->children()->exists())
+
+                    {{-- MA PODKATEGORIE --}}
+                    <button
+                        type="button"
+                        wire:click="selectCategory({{ $category->id }})"
+                        class="category-item d-flex align-items-center gap-2
+                               px-3 py-2 border rounded-3 flex-shrink-0
+                               text-nowrap text-dark bg-white border-light-subtle"
+                    >
+                        <span>{{ $category->name }}</span>
+
+                        <i class="bi bi-chevron-right opacity-50"></i>
+                    </button>
+
+                @else
+
+                    {{-- KATEGORIA KOŃCOWA --}}
+                    <label
+                        wire:click.prevent="selectCategory({{ $category->id }})"
+                        class="category-item d-flex align-items-center gap-2
+                               px-3 py-2 border rounded-3 flex-shrink-0
+                               text-nowrap text-dark bg-white border-light-subtle"
+                        style="cursor: pointer;"
+                    >
+
+                        <input
+                            type="checkbox"
+                            class="form-check-input m-0"
+                            @checked(in_array($category->id, $value))
+                            readonly
+                        >
+
+                        <span>{{ $category->name }}</span>
+
+                    </label>
+
+                @endif
+
+            @endforeach
+
+        </div>
+
+
+        {{-- PRAWO --}}
+        <button
+            type="button"
+            class="btn btn-light shadow-sm position-absolute end-0 top-50 translate-middle-y"
+            style="z-index: 10;"
+            onclick="document.getElementById('category-scroll').scrollBy({
+                left: 300,
+                behavior: 'smooth'
+            })"
+        >
+            <i class="bi bi-chevron-right"></i>
+        </button>
+
+    </div>
+
+
+    {{-- ========================================= --}}
+    {{-- WYBRANE KATEGORIE --}}
+    {{-- ========================================= --}}
+
+    @if($this->selectedCategoriesCollection->isNotEmpty())
+
+        <div class="mt-3">
+
+            {{-- DANE DO FORMULARZA --}}
+            @foreach($selectedCategoriesCollection as $selected)
+
+                <input
+                    type="hidden"
+                    name="categories[]"
+                    value="{{ $selected->id }}"
+                >
+
+            @endforeach
+
+
+            {{-- BADGE --}}
+            @foreach($selectedCategoriesCollection as $selected)
+
+                <span class="badge text-bg-primary me-1 mb-1">
+
+                    {{ $selected->name }}
+
+                    <button
+                        type="button"
+                        wire:click="selectCategory({{ $selected->id }})"
+                        class="btn-close btn-close-white ms-1"
+                        style="font-size: .6em;"
+                        aria-label="Usuń"
+                    ></button>
+
+                </span>
 
             @endforeach
 
         </div>
 
     @endif
---}}
 
 
-    {{-- STRZAŁKA LEWO --}}
-    <button
-        type="button"
-        class="btn btn-light shadow-sm position-absolute start-0 top-50 translate-middle-y"
-        style="z-index: 10;"
-        onclick="document.getElementById('category-scroll').scrollBy({
-            left: -300,
-            behavior: 'smooth'
-        })"
-    >
-        <i class="bi bi-chevron-left"></i>
-    </button>
+    {{-- ========================================= --}}
+    {{-- CSS --}}
+    {{-- ========================================= --}}
 
-
-    {{-- KATEGORIE --}}
-    <div
-        id="category-scroll"
-        class="d-flex flex-row flex-nowrap gap-2 overflow-auto px-5 category-scroll"
-        style="scroll-behavior: smooth;"
-    >
-
-        {{-- POWRÓT --}}
-        @if($this->currentCategoryModel)
-
-            <button
-                type="button"
-                wire:click="goBack"
-                class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 small fw-bold text-muted bg-light rounded-3 border-0 flex-shrink-0 text-nowrap"
-            >
-                <i class="bi bi-arrow-left-short fs-5"></i>
-                <span>Powrót</span>
-            </button>
-
-        @endif
-
-
-        {{-- KATEGORIE --}}
-        @foreach($categories as $category)
-
-            @if($category->children()->exists())
-
-                {{-- Kategoria posiada podkategorie --}}
-                <button
-                    type="button"
-                    wire:click="selectCategory({{ $category->id }})"
-                    class="d-flex align-items-center gap-2 text-decoration-none px-3 py-2 border rounded-3 flex-shrink-0 text-nowrap text-dark bg-white border-light-subtle"
-                >
-                    <span>{{ $category->name }}</span>
-
-                    <i class="bi bi-chevron-right opacity-50"></i>
-                </button>
-
-            @else
-
-                {{-- Kategoria końcowa --}}
-                <label
-                    wire:click.prevent="selectCategory({{ $category->id }})"
-                    class="d-flex align-items-center gap-2 text-decoration-none px-3 py-2 border rounded-3 flex-shrink-0 text-nowrap text-dark bg-white border-light-subtle"
-                    style="cursor: pointer;"
-                >
-
-                    <input
-                        type="checkbox"
-                        class="form-check-input m-0"
-                        @if(in_array($category->id, $value)) checked @endif
-                        readonly
-                    >
-
-                    <span>{{ $category->name }}</span>
-
-                </label>
-
-            @endif
-
-        @endforeach
-
-    </div>
-
-
-    {{-- STRZAŁKA PRAWO --}}
-    <button
-        type="button"
-        class="btn btn-light shadow-sm position-absolute end-0 top-50 translate-middle-y"
-        style="z-index: 10;"
-        onclick="document.getElementById('category-scroll').scrollBy({
-            left: 300,
-            behavior: 'smooth'
-        })"
-    >
-        <i class="bi bi-chevron-right"></i>
-    </button>
-
-
-    {{-- UKRYCIE SCROLLBARA --}}
     <style>
+        /*
+         * Pasek kategorii:
+         * - jedna linia
+         * - możliwość przewijania
+         * - scrollbar niewidoczny
+         */
         .category-scroll {
+            width: 100%;
+            height: 52px;
+
             scrollbar-width: none;
             -ms-overflow-style: none;
+
+            scroll-behavior: smooth;
         }
 
         .category-scroll::-webkit-scrollbar {
             display: none;
+        }
+
+
+        /*
+         * Nie pozwalamy elementom kategorii
+         * zmniejszać się przy małej szerokości.
+         */
+        .category-item {
+            flex-shrink: 0;
+            white-space: nowrap;
         }
     </style>
 
