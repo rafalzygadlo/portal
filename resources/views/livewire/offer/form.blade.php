@@ -64,7 +64,7 @@
 
                         <div class="mb-4">
                             <label for="content" class="form-label fw-semibold">{{ __('offers.content') }} <span class="text-danger">*</span></label>
-                            <textarea class="form-control @error('content') is-invalid @enderror" id="content" rows="8" wire:model.live="content" placeholder="Opisz szczegółowo swój przedmiot lub usługę..."></textarea>
+                            <textarea class="form-control form-control-lg @error('content') is-invalid @enderror" id="content" rows="8" wire:model.live="content" placeholder="Opisz szczegółowo swój przedmiot lub usługę..."></textarea>
                             @error('content') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                         </div>
 

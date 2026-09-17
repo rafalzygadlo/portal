@@ -43,7 +43,7 @@
                             <label for="description" class="form-label fw-semibold">
                                 Opis <span class="text-danger">*</span>
                             </label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" 
+                            <textarea class="form-control form-control-lg @error('description') is-invalid @enderror" 
                                       id="description" rows="6" wire:model.defer="description" 
                                       placeholder="Wpisz treść opisu..."></textarea>
                             @error('description') 
