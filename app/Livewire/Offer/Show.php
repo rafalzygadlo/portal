@@ -10,23 +10,17 @@ class Show extends Component
 {
     public Offer $offer;
 
+    public $currentCategory;
+
+    public $categorySlug;
     public function mount(Offer $offer)
     {
-        // Jeśli model jest wstrzyknięty przez Route Model Binding, 
-        // doładowujemy tylko brakujące relacje
         $this->offer = $offer;
         $this->offer->loadMissing(['categories.parent', 'user', 'images']);
+        $this->currentCategory = $this->offer->categories->first();
+        $this->categorySlug = $this->currentCategory?->slug;
     }
 
-    #[Computed]
-    public function breadcrumb()
-    {
-        if ($this->offer->categories->isNotEmpty()) {
-            return $this->offer->categories->first()->getBreadcrumbs();
-        }
-        
-        return collect(); // Zwróć pustą kolekcję, jeśli nie ma kategorii
-    }
 
     public function render()
     {

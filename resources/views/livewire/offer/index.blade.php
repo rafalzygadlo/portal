@@ -30,8 +30,7 @@
 
 
     {{-- BREADCRUMB --}}
-    <livewire:breadcrumb selectEvent="offer-category-selected" :category="$currentCategory"
-        :key="'bc-' . $categorySlug" />
+    <livewire:breadcrumb module="offers" :category="$currentCategory" :key="'bc-' . $categorySlug" />
 
 
     {{-- KATEGORIE --}}
@@ -70,8 +69,7 @@
 
             <div class="pt-3">
 
-                <livewire:category-bar orientation="horizontal" selectEvent="offer-category-selected"
-                    :currentCategory="$currentCategory" :key="'side-' . $categorySlug" />
+                <livewire:category-bar orientation="horizontal" module="offers" :currentCategory="$currentCategory" :key="'side-' . $categorySlug" />
 
             </div>
 

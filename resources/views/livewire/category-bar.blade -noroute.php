@@ -28,8 +28,8 @@
             @endphp
 
             <a
-                href="{{ route($module.'.index', ['categorySlug' => $parentSlug]) }}"
-                {{-- wire:click.prevent="$dispatch('{{ $selectEvent }}', @js($parentSlug))" --}}
+                href="#"
+                wire:click.prevent="$dispatch('{{ $selectEvent }}', @js($parentSlug))"
                 class="d-flex align-items-center gap-2 text-decoration-none py-2 px-3 small fw-bold text-muted bg-light rounded-3 flex-shrink-0 text-nowrap"
             >
                 <i class="bi bi-arrow-left-short fs-5"></i>
@@ -46,9 +46,8 @@
             @endphp
 
             <a
-                href="{{ route($module.'.index', ['categorySlug' => $item->slug]) }}"
-                wire:navigate
-                {{-- wire:click.prevent="$dispatch('{{ $selectEvent }}','{{ $item->slug }}')" --}}
+                href="#"
+                wire:click.prevent="$dispatch('{{ $selectEvent }}','{{ $item->slug }}')"
                 class="
                     d-flex
                     align-items-center

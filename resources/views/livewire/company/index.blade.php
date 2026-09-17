@@ -20,7 +20,7 @@
     @endif
 
     <!-- NOWOCZESNY, MINIMALISTYCZNY BREADCRUMB (Bez tła, czysta przestrzeń) -->
-    <livewire:breadcrumb selectEvent="company-category-selected" :category="$currentCategory" :key="'bc-'.$categorySlug" />
+    <livewire:breadcrumb module="companies" :category="$currentCategory" :key="'bc-'.$categorySlug" />
 
     <!-- Pole wyszukiwania -->
     <div class="my-4">
@@ -45,7 +45,7 @@
                     </span>
                 </summary>
                 <div class="pt-3">
-                    <livewire:category-bar orientation="horizontal" selectEvent="company-category-selected" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
+                    <livewire:category-bar orientation="horizontal" module="companies" :currentCategory="$currentCategory" :key="'side-'.$categorySlug" />
                 </div>
             </details>
         </aside>

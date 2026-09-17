@@ -8,9 +8,9 @@ use App\Models\Category;
 class CategoryBar extends Component
 {
 
-    public $currentCategory;
-
-    public string $selectEvent;
+    public  $currentCategory;
+    public string $module;
+    //public string $selectEvent;
     public string $orientation = 'vertical';
 
 

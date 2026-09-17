@@ -1,13 +1,8 @@
 <div class="col">
     <div class="row justify-content-center">
         <div class="col-lg-12">
-            <nav aria-label="breadcrumb" class="mb-4">
-                <ol class="breadcrumb small">
-                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('company.index') }}" class="text-decoration-none">Company directory</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($company->name, 30) }}</li>
-                </ol>
-            </nav>
+           
+            <livewire:breadcrumb module="companies" :category="$currentCategory" />
 
             <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
                 <div class="card-body p-4 p-md-5">
@@ -16,9 +11,11 @@
                         @if($company->categories->isNotEmpty())
                             <div class="d-flex flex-wrap gap-1">
                                 @foreach($company->categories as $category)
+                                <a href="{{ route('companies.index', $category->slug) }}" class="text-decoration-none">
                                     <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-10 rounded-pill px-3 py-2">
                                         {{ $category->name }}
                                     </span>
+                                </a>
                                 @endforeach
                             </div>
                         @endif

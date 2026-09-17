@@ -70,7 +70,7 @@ use Illuminate\Support\Str;
         Route::get('/article/{article:slug}', \App\Livewire\Article\Show::class)->name('article.show');
     }
     // Company routes
-    Route::get('/companies/{categorySlug?}', \App\Livewire\Company\Index::class)->name('company.index');
+    Route::get('/companies/{categorySlug?}', \App\Livewire\Company\Index::class)->name('companies.index');
     Route::get('/company/{company:subdomain}', \App\Livewire\Company\Show::class)->name('company.show');
 
     Route::get('/page/{page}', \App\Livewire\Page::class)
@@ -81,7 +81,7 @@ use Illuminate\Support\Str;
     Route::get('/todo/{todo:slug}', App\Livewire\Todo\Show::class)->name('todo.show');
 
     // Offers
-    Route::get('/offers', \App\Livewire\Offer\Index::class)->name('offers.index');
+    Route::get('/offers/{categorySlug?}', \App\Livewire\Offer\Index::class)->name('offers.index');
     Route::get('/offer/{offer:slug}', \App\Livewire\Offer\Show::class)->name('offer.show');
 
     // Polls
