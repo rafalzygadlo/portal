@@ -83,11 +83,7 @@ class CategorySeeder extends Seeder
 
             'Praca' => [
                 'Oferty pracy',
-                'Praca dodatkowa',
-                'Praca zdalna',
-                'Praca sezonowa',
-                'Praktyki i staże',
-                'Usługi pracy',
+                'Szukam pracy',
             ],
 
             'Nieruchomości' => [
@@ -122,7 +118,6 @@ class CategorySeeder extends Seeder
                 'Odzież męska',
                 'Odzież dziecięca',
                 'Obuwie',
-                'Torebki i plecaki',
                 'Biżuteria i zegarki',
                 'Akcesoria',
             ],
@@ -154,15 +149,6 @@ class CategorySeeder extends Seeder
                 'Zwierzęta gospodarskie',
                 'Płody rolne',
                 'Materiały rolnicze',
-            ],
-
-            'Zwierzęta' => [
-                'Psy',
-                'Koty',
-                'Ptaki',
-                'Ryby',
-                'Akcesoria dla zwierząt',
-                'Usługi dla zwierząt',
             ],
 
             'Przemysł i Firmy' => [
