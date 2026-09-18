@@ -67,7 +67,7 @@
                         <!-- SEKCJA 3: OPIS -->
                         <div class="mb-4">
                             <label for="description" class="form-label fw-semibold">Description <span class="text-danger">*</span></label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" id="description" wire:model.defer="description" rows="8" placeholder="Napisz czym zajmuje się Twoja firma..."></textarea>
+                            <textarea class="form-control form-control-lg @error('description') is-invalid @enderror" id="description" wire:model.defer="description" rows="8" placeholder="Napisz czym zajmuje się Twoja firma..."></textarea>
                             @error('description') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                         </div>
 

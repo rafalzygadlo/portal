@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
     
         $this->command->info('Creating users...');
         
-        \App\Models\User::create([
+        $user = \App\Models\User::create([
             'first_name' => ' Demo',
             'last_name' => 'User',
             'email' => 'demo@example.com',
@@ -28,7 +28,13 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
+        $company = \App\Models\Company::create([
+            'name' => 'maxkod',
+            'subdomain' => 'maxkod',
+        ]);
         
+        $company->users()->attach($user,['owner'=> true]);
+
         $this->command->getOutput()->progressStart($usersCount);
 
         $usersData = [];

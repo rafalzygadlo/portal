@@ -14,7 +14,6 @@ use Illuminate\Support\Str;
     Route::get('/', \App\Livewire\Company\Domain::class)->name('company.domain');
     Route::get('/book-equipment', \App\Livewire\Company\BookResource::class)->name('company.booking.equipment');
     Route::get('/book-service', \App\Livewire\Company\BookService::class)->name('company.booking.services');
-        
     
     Route::middleware('guest')->group(function () 
     {
@@ -44,5 +43,7 @@ use Illuminate\Support\Str;
         // ->can('update,company');
         //Route::get('/resources/create', \App\Livewire\Admin\Company\Resource\Create::class)->name('admin.company.resources.create')->can('update,company');
         // Reservations routes
+        Route::get('/modules', \App\Livewire\Admin\Company\Modules::class)
+            ->name('admin.company.modules');
 
     });

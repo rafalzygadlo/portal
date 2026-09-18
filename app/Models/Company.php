@@ -124,6 +124,20 @@ class Company extends Model
         return $this->hasMany(ResourceBooking::class);
     }
 
+    public function modules(): HasMany
+    {
+        return $this->hasMany(CompanyModule::class);
+    }
+
+    public function hasModule(string $slug): bool
+    {
+        return $this->modules()
+            ->where('module', $slug)
+            ->where('active', true)
+            ->exists();
+    }
+
+
     /**
      * Shift of company hours for a given day (0 = Monday).
      */
@@ -143,7 +157,7 @@ class Company extends Model
             'wed' => ['open' => '09:00', 'close' => '17:00', 'closed' => false],
             'thu' => ['open' => '09:00', 'close' => '17:00', 'closed' => false],
             'fri' => ['open' => '09:00', 'close' => '17:00', 'closed' => false],
-            'sat' => ['open' => '10:00', 'close' => '14:00', 'closed' => false],
+            'sat' => ['closed' => true],
             'sun' => ['closed' => true],
         ];
     }
