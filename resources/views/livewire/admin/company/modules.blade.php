@@ -1,4 +1,4 @@
-<div class="py-4">
+<div class="col">
 
     {{-- Nagłówek --}}
     <div class="mb-4">

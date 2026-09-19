@@ -27,7 +27,7 @@
 
                 <button
                     type="button"
-                    class="btn btn-sm px-3 {{ !$showDeleted ? 'btn-primary' : 'btn-light' }}"
+                    class="btn  px-3 {{ !$showDeleted ? 'btn-primary' : 'btn-light' }}"
                     wire:click="$set('showDeleted', false)"
                 >
                     <i class="bi bi-check-circle me-1" aria-hidden="true"></i>

@@ -16,7 +16,7 @@ if (empty($domain))
 }
 
 Route::domain('{company:subdomain}.' . $domain)
-    ->group(base_path('routes/web/subdomain.php'));
+    ->group(base_path('routes/web/company.php'));
 
 Route::domain($domain)
     ->group(base_path('routes/web/main.php'));

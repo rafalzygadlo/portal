@@ -88,7 +88,7 @@
 
         <!-- MAIN CONTENT -->
         <main >
-            <div class="container-fluid bg-light py-4 px-lg-5">
+            <div class="container-fluid bg-light px-lg-5">
                 {{ $slot }}
             </div>
         </main>

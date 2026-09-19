@@ -1,4 +1,4 @@
-<div class="container py-4">
+<div class="container">
     <div class="card border-0 shadow-sm">
         <div class="card-header bg-white border-bottom">
             <div class="d-flex justify-content-between align-items-center">
