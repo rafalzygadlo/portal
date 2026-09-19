@@ -3,6 +3,7 @@
 namespace App\Modules;
 
 use App\Models\Company;
+use App\Modules\Crm\CrmModule;
 use App\Modules\Parking\ParkingModule;
 
 class ModuleManager
@@ -11,6 +12,7 @@ class ModuleManager
     {
         return [
             ParkingModule::class,
+            CrmModule::class,
         ];
     }
 

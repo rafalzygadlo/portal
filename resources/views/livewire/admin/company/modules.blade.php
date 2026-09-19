@@ -1,114 +1,173 @@
-<div class="space-y-6">
-    <div>
-        <h1 class="text-2xl font-semibold">Moduły</h1>
-        <p class="text-gray-500">
+<div class="py-4">
+
+    {{-- Nagłówek --}}
+    <div class="mb-4">
+        <h1 class="h2 fw-semibold mb-1">Moduły</h1>
+        <p class="text-muted mb-0">
             Wybierz funkcje, które chcesz mieć w swojej firmie.
         </p>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    {{-- Lista modułów --}}
+    <div class="row g-4">
+
         @foreach ($modules as $module)
+
             @php
                 $active = $company->hasModule($module->slug());
             @endphp
 
-            <div class="rounded-xl border bg-white p-5 shadow-sm">
-                <div class="flex items-start justify-between gap-4">
-                    <div>
-                        <div class="text-2xl">
-                            {{ $module->icon() }}
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="card h-100 shadow-sm">
+
+                    <div class="card-body d-flex flex-column">
+
+                        <div class="d-flex justify-content-between gap-3">
+
+                            <div>
+
+                                <div class="fs-2 mb-2">
+                                    {{ $module->icon() }}
+                                </div>
+
+                                <h2 class="h5 fw-semibold mb-2">
+                                    {{ $module->name() }}
+                                </h2>
+
+                                <p class="text-muted small mb-0">
+                                    {{ $module->description() }}
+                                </p>
+                                <div class="fw-semibold">
+    {{ number_format($module->price() / 100, 2, ',', ' ') }} zł
+    <span class="text-muted fw-normal small">/ miesiąc</span>
+</div>
+                            </div>
+
+                            <div class="flex-shrink-0">
+
+                                @if ($active)
+
+                                    <span class="badge text-bg-success">
+                                        Aktywny
+                                    </span>
+
+                                @else
+
+                                    <span class="badge text-bg-secondary">
+                                        Nieaktywny
+                                    </span>
+
+                                @endif
+
+                            </div>
+
                         </div>
 
-                        <h2 class="mt-2 text-lg font-semibold">
-                            {{ $module->name() }}
+                        <div class="mt-auto pt-4">
+
+                            @if ($active)
+
+                                <a href="#" class="btn btn-dark">
+                                    Otwórz
+                                </a>
+
+                            @else
+
+                                            <button type="button" wire:click="toggleModule('{{ $module->slug() }}')" class="btn {{ in_array($module->slug(), $cart, true)
+                                ? 'btn-primary'
+                                : 'btn-outline-secondary' }}">
+                                                {{ in_array($module->slug(), $cart, true)
+                                ? 'W koszyku'
+                                : 'Dodaj do koszyka' }}
+                                            </button>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        @endforeach
+
+    </div>
+
+
+    {{-- Koszyk --}}
+    @if (count($cartItems) > 0)
+
+        <div class="card shadow-sm mt-5">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <h2 class="h5 fw-semibold mb-1">
+                            Koszyk
                         </h2>
 
-                        <p class="mt-1 text-sm text-gray-500">
-                            {{ $module->description() }}
+                        <p class="text-muted small mb-0">
+                            Wybrane moduły
                         </p>
                     </div>
 
-                    @if ($active)
-                        <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                            Aktywny
-                        </span>
-                    @else
-                        <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
-                            Nieaktywny
-                        </span>
-                    @endif
+                    <div class="text-end">
+
+                        <div class="fs-4 fw-semibold">
+                            {{ number_format($this->cartTotal() / 100, 2, ',', ' ') }} zł
+                        </div>
+
+                        <div class="text-muted small">
+                            miesięcznie
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="mt-5">
-                    @if ($active)
-                        <a href="#" class="inline-flex rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white">
-                            Otwórz
-                        </a>
-                    @else
-                                <button type="button" wire:click="toggleModule('{{ $module->slug() }}')" class="inline-flex rounded-lg px-4 py-2 text-sm font-medium
-                        {{ in_array($module->slug(), $cart, true)
-                            ? 'bg-blue-600 text-white'
-                            : 'border bg-white text-gray-700' }}">
-                                    {{ in_array($module->slug(), $cart, true)
-                            ? 'W koszyku'
-                            : 'Dodaj do koszyka' }}
-                                </button>
-                    @endif
+
+                {{-- Produkty w koszyku --}}
+                <div class="mt-4">
+
+                    @foreach ($cartItems as $module)
+
+                        <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+
+                            <span class="small">
+                                {{ $module->icon() }}
+                                {{ $module->name() }}
+                                
+                            </span>
+
+                            <span class="small">
+                                {{ number_format($module->price() / 100, 2, ',', ' ') }} zł / mies.
+                            </span>
+
+                        </div>
+
+                    @endforeach
+
                 </div>
+
+
+                {{-- Zamówienie --}}
+                <div class="mt-4">
+
+                    <button type="button" class="btn btn-primary w-100" wire:click="checkout">
+                        Przejdź do zamówienia
+                    </button>
+
+                </div>
+
             </div>
-        @endforeach
-    </div>
 
-@if (count($cartItems) > 0)
-    <div class="rounded-xl border bg-white p-5 shadow-sm">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="text-lg font-semibold">
-                    Koszyk
-                </h2>
-
-                <p class="text-sm text-gray-500">
-                    Wybrane moduły
-                </p>
-            </div>
-
-            <div class="text-right">
-                <div class="text-xl font-semibold">
-                    {{ number_format($this->cartTotal() / 100, 2, ',', ' ') }} zł
-                </div>
-
-                <div class="text-sm text-gray-500">
-                    miesięcznie
-                </div>
-            </div>
         </div>
 
-        <div class="mt-4 space-y-2">
-            @foreach ($cartItems as $module)
-                <div class="flex items-center justify-between text-sm">
-                    <span>
-                        {{ $module->icon() }}
-                        {{ $module->name() }}
-                    </span>
-
-                    <span>
-                        {{ number_format($module->price() / 100, 2, ',', ' ') }} zł / mies.
-                    </span>
-                </div>
-            @endforeach
-        </div>
-
-        <div class="mt-5">
-          <button
-    type="button"
-    wire:click="checkout"
-    class="w-full rounded-lg bg-gray-900 px-4 py-3 text-sm font-medium text-white"
->
-    Przejdź do zamówienia
-</button>
-        </div>
-    </div>
-@endif
-
+    @endif
 
 </div>
